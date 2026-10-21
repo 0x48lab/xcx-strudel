@@ -11,7 +11,7 @@
     "version": "node ./scripts/version-build.mjs && git add dist",
     "demo": "node ./scripts/make-demo.mjs && node ./scripts/make-samples.mjs",
     "tutorial": "node ./scripts/make-tutorial.mjs",
-    "tutorial:shots": "node ./scripts/shoot-tutorial.mjs"
+    "tutorial:shots": "node ./scripts/shoot-tutorial.mjs && node ./scripts/stamp-images.mjs"
   },
   "devDependencies": {
     "@babel/core": "^7.28.0",
