@@ -120,6 +120,9 @@ code {
 nav ol { columns: 2; column-gap: 32px; margin: 0; padding-left: 1.4em; }
 @media (max-width: 640px) { nav ol { columns: 1; } }
 nav a { color: inherit; }
+nav li.column-item { list-style: none; }
+.column { border-style: dashed; }
+.column h2 .num { background: var(--purple); }
 table { border-collapse: collapse; width: 100%; margin: 8px 0; }
 th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; vertical-align: top; }
 th { background: var(--code-bg); }
@@ -172,7 +175,8 @@ footer a { color: inherit; }
             <li><a href="#step8">ふつうレベル:ミニ記法・効果・音階</a></li>
             <li><a href="#step9">リストと リズムで 曲を 書こう</a></li>
             <li><a href="#step10">マスターレベル:アシッドと トランスゲート</a></li>
-            <li><a href="#step11">応用編:EDM・トランスの 音づくり</a></li>
+            <li class="column-item"><a href="#code">コラム:ブロックを Strudel の コードに しよう</a></li>
+            <li value="11"><a href="#step11">応用編:EDM・トランスの 音づくり</a></li>
             <li><a href="#step12">応用編2:ジャズ・ソウルの 和音</a></li>
         </ol>
         <p>どのステップも「このステップを ひらく」を おすと、できあがりの 作品が ひらくよ。ブロックを さわって、音を かえてみよう。</p>
@@ -358,12 +362,6 @@ footer a { color: inherit; }
             <li>「<b>〜に効果〜を〜</b>」:こもらせる(lpf)、エコー(room)、ディレイ など。ベースは「こもらせる 600」で やわらかい 音に しているよ。</li>
             <li>「<b>音階〜の〜番目</b>」:音階の 何番目の 音かを 数字で 書く。ヨナ抜き長音階なら、どの 数字でも きれいに 聞こえるよ。音色の「piano」は、本物の ピアノの 音を 自動で 読みこむよ。</li>
         </ul>
-        <h3>Strudel の コードに する</h3>
-        <div class="row">
-            <figure><img src="tutorial/step8-2.png" width="356" height="106" alt="cキーで、全部のトラックのStrudelコードを言う" loading="lazy"></figure>
-            <figure><img src="tutorial/step8-3.png" width="243" height="106" alt="oキーで、全部のトラックをstrudel.ccで開く" loading="lazy"></figure>
-        </div>
-        <p>くんだ ブロックは、本物の Strudel の コードに できるよ。「<b>全部のトラックを strudel.cc で開く</b>」を つかうと、<a href="https://strudel.cc/" target="_blank" rel="noopener">strudel.cc</a> で 同じ 曲が 鳴るよ。ブロックの つぎは、コードに チャレンジだ。</p>
         <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/step8.sb3" target="_blank" rel="noopener">このステップを ひらく</a></div>
     </section>
 
@@ -451,6 +449,40 @@ footer a { color: inherit; }
         </div>
     </section>
 
+    <section class="card column" id="code">
+        <h2><span class="num">コラム</span>ブロックを Strudel の コードに しよう</h2>
+        <p>ここまで くんできた ブロックは、ぜんぶ 本物の <a href="https://strudel.cc/" target="_blank" rel="noopener">Strudel</a> の コードに できるよ。応用編では、ブロックの となりに「Strudel では」として コードも のせているので、さきに 読みかたを 知っておこう。</p>
+        <div class="row">
+            <figure><img src="tutorial/step10-2.png" width="356" height="106" alt="cキーで、全部のトラックのStrudelコードを言う" loading="lazy"></figure>
+            <figure><img src="tutorial/step10-3.png" width="243" height="106" alt="oキーで、全部のトラックをstrudel.ccで開く" loading="lazy"></figure>
+        </div>
+        <ul>
+            <li>「<b>全部のトラックのStrudelコード</b>」:いま 鳴っている トラックを コードに して かえすよ。ブロックを クリックするだけでも 見られるよ。</li>
+            <li>「<b>全部のトラックを strudel.cc で開く</b>」:strudel.cc が ひらいて、同じ 曲が コードで 鳴るよ。</li>
+        </ul>
+        <p>ステップ10の 作品で、はたを おしてから c キー、o キーを おしてみよう。</p>
+        <h3>ブロックと コードの 対応</h3>
+        <table>
+            <tr><th>ブロック</th><th>Strudel の コード</th></tr>
+            <tr><td>〜をトラック〜で鳴らす</td><td><code>$: …</code>(1行に 1トラック)</td></tr>
+            <tr><td>テンポを〜BPMにする</td><td><code>setcpm(…)</code>(1分間の サイクル数)</td></tr>
+            <tr><td>ミニ記法の音 / ミニ記法の音階</td><td><code>s("bd sd")</code> / <code>note("c3 e3")</code></td></tr>
+            <tr><td>リストの中身を 1サイクルに1つずつ ならべる</td><td><code>"&lt;[項目1] [項目2] …&gt;"</code></td></tr>
+            <tr><td>〜を音色〜で</td><td><code>.s("piano")</code></td></tr>
+            <tr><td>〜に効果〜を〜</td><td><code>.lpf(600)</code> <code>.room(.5)</code> など</td></tr>
+            <tr><td>〜をリズム〜で刻む</td><td><code>.struct("x ~ x x")</code></td></tr>
+            <tr><td>〜をドラムマシン〜で</td><td><code>.bank("RolandTR909")</code></td></tr>
+        </table>
+        <h3>strudel.cc の つかいかた</h3>
+        <ul>
+            <li>コードを 書きかえたら <b>Ctrl+Enter</b> で 鳴らしなおす。<b>Ctrl+.</b> で 止まるよ。</li>
+            <li>数字は 1つずつ かえて、そのたびに 聞いてみよう。</li>
+            <li>トラックの 行の さいごに <code>.hush()</code> を つけると、その トラックだけ 消せるよ。</li>
+            <li>トランスゲートは この 拡張機能の ブロックなので、コードでは 同じ 動きを する 関数(<code>fillGaps</code>)が いっしょに 書き出されるよ。スプライトの 音は strudel.cc では 鳴らないよ。</li>
+        </ul>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/step10.sb3" target="_blank" rel="noopener">ステップ10の 作品を ひらく</a></div>
+    </section>
+
     <section class="card" id="step11">
         <h2><span class="num">11</span>応用編:EDM・トランスの 音づくり</h2>
         <p>クラブで 流れる EDM や トランスは、いくつかの「部品」を かさねて できているよ。キーを 1つずつ おして 部品を ふやしながら、それぞれの 音が どんな やくわりか、耳で たしかめよう。テンポは 140 BPM だよ。</p>
@@ -531,7 +563,7 @@ s("white*16").hpf(saw.range(300, 9000).slow(4)).gain(saw.range(0, .4).slow(4))</
         <figure><img src="tutorial/step11-10.png" width="197" height="106" alt="0キーで、すべてのトラックを止める" loading="lazy"></figure>
 
         <h3>つぎは コードで</h3>
-        <p>部品を ぜんぶ 鳴らしてから「全部のトラックを strudel.cc で開く」ブロック(ステップ8)を つかうと、この 曲が そのまま Strudel の コードに なるよ。コードの 数字を 1つずつ かえて、Ctrl+Enter で 鳴らしてみよう。部品の 行の さいごに <code>.hush()</code> を つけると、その 部品だけ 消せるよ。</p>
+        <p>部品を ぜんぶ 鳴らしてから「全部のトラックを strudel.cc で開く」ブロック(コラム)を つかうと、この 曲が そのまま Strudel の コードに なるよ。コードの 数字を 1つずつ かえて、Ctrl+Enter で 鳴らしてみよう。部品の 行の さいごに <code>.hush()</code> を つけると、その 部品だけ 消せるよ。</p>
         <div class="buttons">
             <a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/step11.sb3" target="_blank" rel="noopener">応用編を ひらく</a>
             <a class="button secondary" href="https://strudel.cc/" target="_blank" rel="noopener">strudel.cc</a>

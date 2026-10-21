@@ -151,10 +151,6 @@ const STEPS = {
             SYNTH: ['synth', 'piano']
         }));
         b.stack([flagAt(b, 24), level(b, '2'), tempo(b, 100), beat, bass, tune]);
-        const say = b.say('', 4);
-        b.put(say, 'MESSAGE', b.strudel('strudelCode'));
-        b.stack([b.whenKey('c', [24, 380]), say]);
-        b.stack([b.whenKey('o', [24, 500]), b.strudel('openStrudel')]);
     },
     // 9. standard level: write a song in lists, and play chords on a rhythm
     step9: b => {
@@ -208,6 +204,11 @@ const STEPS = {
         }));
         b.stack([flagAt(b, 24), level(b, '3'), tempo(b, 138), kick, hats, acid, pad,
             b.strudel('showViz', {}, {VIZ: 'spectrum'})]);
+        // the column before the advanced lessons: blocks to Strudel code
+        const say = b.say('', 4);
+        b.put(say, 'MESSAGE', b.strudel('strudelCode'));
+        b.stack([b.whenKey('c', [24, 460]), say]);
+        b.stack([b.whenKey('o', [24, 580]), b.strudel('openStrudel')]);
     },
     // 11. advanced: sounds of EDM and trance in lists, a part on each key
     step11: b => {
