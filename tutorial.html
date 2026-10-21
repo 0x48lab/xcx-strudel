@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strudel for Xcratch チュートリアル</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<meta name="description" content="Strudel for Xcratch のチュートリアル。ブロックをくみたてて、ビートやメロディをつくろう。">
+<style>
+:root {
+    --bg: #f9f9fb;
+    --card: #ffffff;
+    --text: #2b2d42;
+    --muted: #5c6075;
+    --accent: #0fbd8c;
+    --accent-dark: #0b9a72;
+    --purple: #855cd6;
+    --border: #e1e3ea;
+    --code-bg: #f1f2f6;
+    --try-bg: #fff6d9;
+    --try-border: #ffcf4d;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #16171d;
+        --card: #1f2029;
+        --text: #eceef5;
+        --muted: #a9adbf;
+        --border: #33354a;
+        --code-bg: #2a2c3a;
+        --try-bg: #3a3320;
+        --try-border: #8a6d1f;
+    }
+}
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Hiragino Sans", "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.8;
+}
+header {
+    background: linear-gradient(135deg, var(--purple), #4c97ff);
+    color: #fff;
+    padding: 32px 16px 28px;
+    text-align: center;
+}
+header h1 { margin: 0; font-size: clamp(26px, 5.5vw, 40px); }
+header p { margin: 8px auto 0; max-width: 640px; font-size: 17px; }
+header a { color: #fff; }
+main { max-width: 960px; margin: 0 auto; padding: 24px 16px 48px; }
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+h2 { margin: 0 0 12px; font-size: 22px; line-height: 1.5; }
+h2 .num {
+    display: inline-block;
+    min-width: 36px;
+    margin-right: 8px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    text-align: center;
+}
+h3 { margin: 20px 0 8px; font-size: 18px; }
+p { margin: 8px 0; }
+figure { margin: 12px 0; }
+figure img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #fff;
+}
+figcaption { color: var(--muted); font-size: 14px; margin-top: 4px; }
+.row { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+.row figure { margin: 0; }
+.side { display: grid; grid-template-columns: 240px 1fr; gap: 24px; align-items: start; }
+@media (max-width: 640px) {
+    .side { grid-template-columns: 1fr; }
+    .side figure img { max-width: 240px; }
+    /* wide scripts keep their size and scroll sideways, so that the blocks can be read */
+    figure { overflow-x: auto; }
+    figure img { max-width: none; }
+}
+code {
+    padding: 2px 6px;
+    border-radius: 6px;
+    background: var(--code-bg);
+    font-size: 0.95em;
+}
+.try {
+    margin: 16px 0 0;
+    padding: 12px 16px;
+    border: 2px dashed var(--try-border);
+    border-radius: 12px;
+    background: var(--try-bg);
+}
+.try strong { display: block; }
+.try ul { margin: 4px 0 0; padding-left: 1.4em; }
+.buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+.button {
+    display: inline-block;
+    padding: 8px 18px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+}
+.button:hover { background: var(--accent-dark); }
+.button.secondary { background: transparent; color: var(--text); border: 2px solid var(--border); }
+nav ol { columns: 2; column-gap: 32px; margin: 0; padding-left: 1.4em; }
+@media (max-width: 640px) { nav ol { columns: 1; } }
+nav a { color: inherit; }
+table { border-collapse: collapse; width: 100%; margin: 8px 0; }
+th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { background: var(--code-bg); }
+.url {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px 12px;
+    background: var(--code-bg);
+    border-radius: 8px;
+}
+footer { text-align: center; color: var(--muted); font-size: 14px; padding: 0 16px 32px; }
+footer a { color: inherit; }
+</style>
+</head>
+<body>
+<header>
+    <img src="icon.svg" alt="" width="64" height="64" style="display:block;margin:0 auto 8px">
+    <h1>チュートリアル</h1>
+    <p>ブロックを くみたてて、ビートや メロディを つくろう。<br>
+    <a href="./">Strudel for Xcratch</a> の つかいかたを 1つずつ せつめいするよ。</p>
+</header>
+<main>
+    <nav class="card" aria-label="もくじ">
+        <h2>もくじ</h2>
+        <ol start="0">
+            <li><a href="#setup">じゅんび:拡張機能を 入れる</a></li>
+            <li><a href="#step1">音を 1つ 鳴らそう</a></li>
+            <li><a href="#step2">順番に ならべよう</a></li>
+            <li><a href="#step3">トラックを かさねよう</a></li>
+            <li><a href="#step4">メロディを つくろう</a></li>
+            <li><a href="#step5">キーで 曲を かえよう</a></li>
+            <li><a href="#step6">音を 目で 見よう</a></li>
+            <li><a href="#step7">ねこを おどらせよう</a></li>
+            <li><a href="#step8">ふつうレベル:ミニ記法・効果・音階</a></li>
+            <li><a href="#step9">マスターレベル:アシッドと トランスゲート</a></li>
+        </ol>
+        <p>どのステップも「このステップを ひらく」を おすと、できあがりの 作品が ひらくよ。ブロックを さわって、音を かえてみよう。</p>
+    </nav>
+
+    <section class="card" id="setup">
+        <h2><span class="num">0</span>じゅんび:拡張機能を 入れる</h2>
+        <p>ステップの 作品から はじめるときは、拡張機能は もう 入っているので この じゅんびは いらないよ。じぶんで 1から つくるときに やってね。</p>
+        <ol>
+            <li><a href="https://xcratch.github.io/editor" target="_blank" rel="noopener">Xcratch エディター</a>を ひらく。</li>
+            <li>左下の「拡張機能を追加」ボタンを おす。
+                <figure><img src="tutorial/setup-1.png" width="640" height="482" alt="エディターの左下にある、拡張機能を追加するボタン" loading="lazy"></figure>
+            </li>
+            <li>いちばん はじめの「拡張機能を読み込む」を えらぶ。
+                <figure><img src="tutorial/setup-2.png" width="636" height="564" alt="拡張機能の一覧の、拡張機能を読み込むカード" loading="lazy"></figure>
+            </li>
+            <li>つぎの URL を 入れて「OK」を おす。
+                <code class="url">https://0x48lab.github.io/xcx-strudel/dist/strudel.mjs</code>
+                <figure><img src="tutorial/setup-3.png" width="495" height="163" alt="拡張機能の URL を入れる画面" loading="lazy"></figure>
+            </li>
+        </ol>
+        <div class="side">
+            <figure><img src="tutorial/palette.png" width="311" height="900" alt="ストゥルーデルのブロックの一覧" loading="lazy"></figure>
+            <div>
+                <p>左に「ストゥルーデル」が ふえたら せいこう。うずまきの マークが ついた みどりの ブロックが ならぶよ。</p>
+                <p>さいしょは「はじめて」レベルの ブロックだけが 出ているよ。いちばん 上の ブロックで「ふつう」「マスター」に すると、ブロックが ふえるよ。</p>
+                <p>ブロックを ひらがなに したいときは、上の「設定」→「言語」で「にほんご」を えらんでね。</p>
+                <p>音が 出ないときは、ステージの みどりの はたを もう一度 おしてみてね。ブラウザは、画面を さわるまで 音を 出さない きまりが あるんだ。</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="card" id="step1">
+        <h2><span class="num">1</span>音を 1つ 鳴らそう</h2>
+        <figure><img src="tutorial/step1-1.png" width="291" height="106" alt="みどりの旗が押されたとき、バスドラムをトラック1で鳴らす" loading="lazy"></figure>
+        <p>「<b>〜をトラック〜で鳴らす</b>」が いちばん 大事な ブロック。みどりの はたを おすと、バスドラムが「ドン、ドン…」と ずっと くりかえし 鳴るよ。止めるときは 赤い ボタン。</p>
+        <p>▼ を おすと、ほかの 音を えらべるよ。ドラムの 音と、ドレミの 音と「休み」が あるよ。</p>
+        <figure><img src="tutorial/menu-sound.png" width="325" height="383" alt="音をえらぶメニュー。バスドラム、スネア、ハイハットなど" loading="lazy"></figure>
+        <div class="try">
+            <strong>やってみよう</strong>
+            <ul>
+                <li>スネアや 手拍子に かえてみよう。鳴らしたまま かえても いいよ。</li>
+                <li>「ド」を えらぶと、どんな 音が するかな?</li>
+            </ul>
+        </div>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/step1.sb3" target="_blank" rel="noopener">このステップを ひらく</a></div>
+    </section>
+
+    <section class="card" id="step2">
+        <h2><span class="num">2</span>順番に ならべよう</h2>
+        <figure><img src="tutorial/step2-1.png" width="577" height="144" alt="テンポを110にして、順番に バスドラム 休み スネア 休み をトラック ドラム で鳴らす" loading="lazy"></figure>
+        <p>「<b>順番に</b>」ブロックを「鳴らす」の ▼ の ところに はめこむと、4つの 音が じゅんばんに 鳴るよ。「ドン・ッ・タン・ッ」の ビートの できあがり。</p>
+        <h3>サイクルって なに?</h3>
+        <p>Strudel では、くりかえしの ひとまとまりを「<b>サイクル</b>」と よぶよ。「順番に」に 入れた 音は、1サイクルの 中に ぴったり おさまるように ならぶ。だから 4つなら 4等分、8つなら 8等分に なるよ。はやさを かえたいときは「テンポを〜BPMにする」を つかってね。</p>
+        <p>トラックの 名前(ここでは「ドラム」)は、じぶんで すきに つけていいよ。</p>
+        <div class="try">
+            <strong>やってみよう</strong>
+            <ul>
+                <li>「休み」を ハイハットに かえると、どう かわるかな?</li>
+                <li>テンポを 80 や 140 に してみよう。</li>
+            </ul>
+        </div>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/step2.sb3" target="_blank" rel="noopener">このステップを ひらく</a></div>
+    </section>
+
+    <section class="card" id="step3">
+        <h2><span class="num">3</span>トラックを かさねよう</h2>
+        <figure><img src="tutorial/step3-1.png" width="577" height="182" alt="ドラムのトラックに加えて、ハイハットを8回くりかえすトラック" loading="lazy"></figure>
+        <p>「鳴らす」ブロックを もう1つ つなげて、<b>ちがう トラック名</b>を つけると、2つの 音が いっしょに 鳴るよ。バンドで 楽器が ふえていく かんじだね。</p>
+        <p>「<b>〜を〜回くりかえす</b>」は、1サイクルの 中で 同じ 音を なんども 鳴らす ブロック。ハイハットを 8回 きざむと、ぐっと ノリが よくなるよ。</p>
+        <p>同じ トラック名で もう一度 鳴らすと、前の 音と <b>入れかわる</b>よ。これは つぎの ステップ5で つかうよ。</p>
+        <div class="try">
+            <strong>やってみよう</strong>
+            <ul>
+                <li>くりかえす回数を 16 や 3 に してみよう。</li>
+                <li>「同時に」ブロックで、バスドラムと シンバルを いっしょに 鳴らしてみよう。</li>
+            </ul>
+        </div>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/step3.sb3" target="_blank" rel="noopener">このステップを ひらく</a></div>
+    </section>
+
+    <section class="card" id="step4">
+        <h2><span class="num">4</span>メロディを つくろう</h2>
+        <figure><a href="tutorial/step4-1.png" target="_blank" rel="noopener"><img src="tutorial/step4-1.png" width="1126" height="230" alt="交互に、順番に ド ミ ソ 高いド と、順番に ラ ソ ミ レ を、音色 すっきり音 で鳴らす" loading="lazy"></a><figcaption>おすと 大きく 見られるよ</figcaption></figure>
+        <p>3つめの トラック「メロディ」を ふやしたよ。ブロックが いれこに なっているので、内がわから 見ていこう。</p>
+        <ol>
+            <li>「順番に ド ミ ソ 高いド」と「順番に ラ ソ ミ レ」で、2つの フレーズを つくる。</li>
+            <li>「<b>交互に</b>」に 2つを 入れると、1サイクルごとに こうたいで 鳴るよ。</li>
+            <li>「<b>〜を音色〜で</b>」で、音の しゅるい(ねいろ)を えらぶ。すっきり音、ギザギザ音、ピコピコ音、やわらかい音 などが あるよ。</li>
+        </ol>
+        <div class="try">
+            <strong>やってみよう</strong>
+            <ul>
+                <li>音色を「ギザギザ音」や「ピコピコ音」に かえてみよう。</li>
+                <li>ドレミを かえて、じぶんの メロディを つくろう。</li>
+            </ul>
+        </div>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/step4.sb3" target="_blank" rel="noopener">このステップを ひらく</a></div>
+    </section>
+
+    <section class="card" id="step5">
+        <h2><span class="num">5</span>キーで 曲を かえよう</h2>
+        <figure><img src="tutorial/step5-1.png" width="577" height="182" alt="はたでドラムとハイハットを鳴らす" loading="lazy"></figure>
+        <div class="row">
+            <figure><img src="tutorial/step5-2.png" width="620" height="106" alt="スペースキーで、ドラムのトラックを バスドラム バスドラム スネア 手拍子 にかえる" loading="lazy"></figure>
+            <figure><img src="tutorial/step5-3.png" width="233" height="106" alt="sキーで、ハイハットのトラックを止める" loading="lazy"></figure>
+            <figure><img src="tutorial/step5-4.png" width="197" height="106" alt="0キーで、すべてのトラックを止める" loading="lazy"></figure>
+        </div>
+        <p>演奏しながら 曲を かえるのが、Strudel の いちばん 楽しい ところ。これを「<b>ライブコーディング</b>」と いうよ。</p>
+        <ul>
+            <li><b>スペースキー</b>:「ドラム」トラックに ちがう リズムを 鳴らす。同じ トラック名なので、前の リズムと 入れかわるよ。</li>
+            <li><b>s キー</b>:「トラック〜を止める」で ハイハットだけ 止める。</li>
+            <li><b>0 キー</b>:「すべてのトラックを止める」。</li>
+        </ul>
+        <p>入れかわるのは、<b>つぎの サイクルの はじめ</b>。だから いつ キーを おしても、リズムが ずれないよ。</p>
+        <p>キーを つかうときは、さいしょに ステージを 1回 クリックしてね。</p>
+        <div class="try">
+            <strong>やってみよう</strong>
+            <ul>
+                <li>キーを ふやして、リズムを 3しゅるい 切りかえられるように しよう。</li>
+            </ul>
+        </div>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/step5.sb3" target="_blank" rel="noopener">このステップを ひらく</a></div>
+    </section>
+
+    <section class="card" id="step6">
+        <h2><span class="num">6</span>音を 目で 見よう</h2>
+        <figure><a href="tutorial/step6-1.png" target="_blank" rel="noopener"><img src="tutorial/step6-1.png" width="1126" height="268" alt="3つのトラックを鳴らして、ピアノロールを表示する" loading="lazy"></a><figcaption>おすと 大きく 見られるよ</figcaption></figure>
+        <div class="row">
+            <figure><img src="tutorial/step6-2.png" width="231" height="106" alt="1キーでオシロスコープを表示する" loading="lazy"></figure>
+            <figure><img src="tutorial/step6-3.png" width="220" height="106" alt="2キーでスペクトラムを表示する" loading="lazy"></figure>
+            <figure><img src="tutorial/step6-4.png" width="167" height="106" alt="3キーで音の絵を隠す" loading="lazy"></figure>
+        </div>
+        <p>「<b>〜を表示する</b>」で、鳴っている 音を ステージに 絵で 出せるよ。</p>
+        <div class="row">
+            <figure><img src="tutorial/stage-pianoroll.png" width="280" height="210" alt="ピアノロール" loading="lazy"><figcaption>ピアノロール:どの 音が いつ 鳴るか</figcaption></figure>
+            <figure><img src="tutorial/stage-scope.png" width="280" height="210" alt="オシロスコープ" loading="lazy"><figcaption>オシロスコープ:音の 波の かたち</figcaption></figure>
+            <figure><img src="tutorial/stage-spectrum.png" width="280" height="210" alt="スペクトラム" loading="lazy"><figcaption>スペクトラム:ひくい音〜高い音の 大きさ</figcaption></figure>
+        </div>
+        <p>ピアノロールは、まんなかの たての 線の ところが「いま」。上に あるほど 高い 音だよ。音の 絵は スプライトの うしろに 出るので、ねこも ちゃんと 見えるよ。</p>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/step6.sb3" target="_blank" rel="noopener">このステップを ひらく</a></div>
+    </section>
+
+    <section class="card" id="step7">
+        <h2><span class="num">7</span>ねこを おどらせよう</h2>
+        <div class="row">
+            <figure><img src="tutorial/step7-2.png" width="148" height="101" alt="拍がきたとき、次のコスチュームにする" loading="lazy"></figure>
+            <figure><img src="tutorial/step7-3.png" width="221" height="166" alt="バスドラムが鳴ったとき、大きさを120%にして0.1秒待ち、100%にもどす" loading="lazy"></figure>
+        </div>
+        <p>音に あわせて スプライトを うごかす ブロックが あるよ。</p>
+        <ul>
+            <li>「<b>拍がきたとき</b>」:はくごとに 動く。コスチュームを かえると、ねこが 足ぶみするよ。</li>
+            <li>「<b>〜が鳴ったとき</b>」:えらんだ ドラムが 鳴るたびに 動く。バスドラムで ジャンプ、スネアで 色を かえる、なども できるよ。</li>
+        </ul>
+        <p>いつもの Scratch の ブロックと 組みあわせられるのが、この 拡張機能の いいところ。</p>
+        <div class="try">
+            <strong>やってみよう</strong>
+            <ul>
+                <li>スネアが 鳴ったら「色の効果を 25 ずつ変える」に してみよう。</li>
+                <li>「拍」や「サイクル」の 値を つかって、ねこを 動かしてみよう。</li>
+            </ul>
+        </div>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/step7.sb3" target="_blank" rel="noopener">このステップを ひらく</a></div>
+    </section>
+
+    <section class="card" id="step8">
+        <h2><span class="num">8</span>ふつうレベル:ミニ記法・効果・音階</h2>
+        <figure><a href="tutorial/step8-1.png" target="_blank" rel="noopener"><img src="tutorial/step8-1.png" width="955" height="274" alt="ふつうのブロックを表示して、ミニ記法のドラム、効果のついたベース、音階のメロディを鳴らす" loading="lazy"></a><figcaption>おすと 大きく 見られるよ</figcaption></figure>
+        <p>いちばん 上の ブロックを「<b>ふつう</b>」に すると、ブロックが ふえるよ。</p>
+        <h3>ミニ記法</h3>
+        <p>「ミニ記法の音」は、Strudel と 同じ 書きかたで 音を ならべる ブロック。この 作品の ドラムは <code>bd*2 [~ sd] &lt;hh oh&gt; sd</code>、ベースは <code>&lt;c2 a1 f1 g1&gt;*2</code> だよ(ブロックの 中では 長い 文字は「…」で 省略されて 見えるよ)。</p>
+        <table>
+            <tr><th>書きかた</th><th>いみ</th><th>れい</th></tr>
+            <tr><td><code>bd sd</code></td><td>スペースで くぎると 順番に 鳴る</td><td><code>bd hh sd hh</code></td></tr>
+            <tr><td><code>~</code></td><td>休み</td><td><code>bd ~ sd ~</code></td></tr>
+            <tr><td><code>*2</code></td><td>その音を 2回に ふやす</td><td><code>hh*8</code></td></tr>
+            <tr><td><code>[ ]</code></td><td>1つ分の 時間に つめこむ</td><td><code>bd [sd sd]</code></td></tr>
+            <tr><td><code>&lt; &gt;</code></td><td>サイクルごとに 1つずつ こうたい</td><td><code>&lt;bd cp&gt;</code></td></tr>
+            <tr><td><code>,</code></td><td>同時に 鳴らす</td><td><code>bd*4, hh*8</code></td></tr>
+        </table>
+        <h3>効果と 音階</h3>
+        <ul>
+            <li>「<b>〜に効果〜を〜</b>」:こもらせる(lpf)、エコー(room)、ディレイ など。ベースは「こもらせる 600」で やわらかい 音に しているよ。</li>
+            <li>「<b>音階〜の〜番目</b>」:音階の 何番目の 音かを 数字で 書く。ヨナ抜き長音階なら、どの 数字でも きれいに 聞こえるよ。音色の「piano」は、本物の ピアノの 音を 自動で 読みこむよ。</li>
+        </ul>
+        <h3>Strudel の コードに する</h3>
+        <div class="row">
+            <figure><img src="tutorial/step8-2.png" width="356" height="106" alt="cキーで、全部のトラックのStrudelコードを言う" loading="lazy"></figure>
+            <figure><img src="tutorial/step8-3.png" width="243" height="106" alt="oキーで、全部のトラックをstrudel.ccで開く" loading="lazy"></figure>
+        </div>
+        <p>くんだ ブロックは、本物の Strudel の コードに できるよ。「<b>全部のトラックを strudel.cc で開く</b>」を つかうと、<a href="https://strudel.cc/" target="_blank" rel="noopener">strudel.cc</a> で 同じ 曲が 鳴るよ。ブロックの つぎは、コードに チャレンジだ。</p>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/step8.sb3" target="_blank" rel="noopener">このステップを ひらく</a></div>
+    </section>
+
+    <section class="card" id="step9">
+        <h2><span class="num">9</span>マスターレベル:アシッドと トランスゲート</h2>
+        <figure><a href="tutorial/step9-1.png" target="_blank" rel="noopener"><img src="tutorial/step9-1.png" width="1153" height="360" alt="マスターのブロックで、ドラムマシン、ゆれる値、アシッド、トランスゲートを使う" loading="lazy"></a><figcaption>おすと 大きく 見られるよ</figcaption></figure>
+        <p>「<b>マスター</b>」に すると、クラブミュージックで つかう わざが つかえるよ。</p>
+        <ul>
+            <li>「<b>〜を〜拍に〜回ちらす</b>」:8拍に 5回、のように 音を できるだけ 均等に ちらす(ユークリッドリズム)。世界中の 民族音楽に 出てくる リズムだよ。</li>
+            <li>「<b>〜をドラムマシン〜で</b>」:TR-909 などの 有名な ドラムマシンの 音に する。</li>
+            <li>「<b>ゆれる値</b>」:数字の かわりに 入れると、値が 波のように ゆれる。ここでは ハイハットが 左右に ゆれるよ。</li>
+            <li>「<b>アシッドな音にする</b>」:ビヨビヨした ベースの 音(TB-303 ふう)。</li>
+            <li>「<b>トランスゲートで刻む</b>」:のばした 和音を 細かく 刻む。「リズム」の 数字を かえると、刻みかたが かわるよ。</li>
+        </ul>
+        <div class="try">
+            <strong>やってみよう</strong>
+            <ul>
+                <li>「回ちらす」の 数を 3 や 7 に してみよう。</li>
+                <li>トランスゲートの「リズム」を 0〜20 で かえて、すきな 刻みを さがそう。</li>
+            </ul>
+        </div>
+        <div class="buttons">
+            <a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/step9.sb3" target="_blank" rel="noopener">このステップを ひらく</a>
+            <a class="button secondary" href="./">サンプル作品で あそぶ</a>
+        </div>
+    </section>
+</main>
+<footer>
+    <p><a href="./">Strudel for Xcratch</a> — <a href="https://github.com/0x48lab/xcx-strudel/blob/main/LICENSE">AGPL-3.0</a>.
+    This extension bundles <a href="https://strudel.cc/">Strudel</a> (AGPL-3.0).</p>
+</footer>
+</body>
+</html>

@@ -9,7 +9,9 @@
     "watch": "rollup -c ./scripts/rollup.config.mjs --watch",
     "test": "vitest run",
     "version": "node ./scripts/version-build.mjs && git add dist",
-    "demo": "node ./scripts/make-demo.mjs && node ./scripts/make-samples.mjs"
+    "demo": "node ./scripts/make-demo.mjs && node ./scripts/make-samples.mjs",
+    "tutorial": "node ./scripts/make-tutorial.mjs",
+    "tutorial:shots": "node ./scripts/shoot-tutorial.mjs"
   },
   "devDependencies": {
     "@babel/core": "^7.28.0",
@@ -37,6 +39,7 @@
     "fs-extra": "^11.3.0",
     "jest": "^30.0.5",
     "jszip": "3.10.1",
+    "playwright-core": "^1.57.0",
     "rollup": "^4.46.1",
     "rollup-plugin-polyfill-node": "^0.13.0",
     "vitest": "^3.2.4"

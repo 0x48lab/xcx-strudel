@@ -9,6 +9,7 @@ Available in English, Japanese and Japanese (Hiragana).
 ## デモ / Demo
 
 - https://0x48lab.github.io/xcx-strudel/ — ブラウザですぐ遊べます(緑の旗を押してください)
+- [チュートリアル / Tutorial](https://0x48lab.github.io/xcx-strudel/tutorial.html) — スクリーンショット付きで 9 ステップ(日本語)
 - サンプル作品(エディタでブロックを見る)
   - [はじめて: ビートと おどる ねこ](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/demo.sb3)
   - [ふつう: おんかいで メロディ](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/melody.sb3) — スペース・↑・↓・R キーでメロディが変わる
@@ -68,6 +69,9 @@ npm run setup-dev   # links scratch-vm sources from ../scratch-editor
 npm run build       # dist/strudel.mjs
 npm run watch
 npm test            # vitest
+npm run demo        # projects/*.sb3
+npm run tutorial    # projects/tutorial/*.sb3
+npm run tutorial:shots  # tutorial/*.png by the Xcratch editor in headless Chromium (npx playwright-core install chromium)
 ```
 
 The local editor is used for debugging, because a page on `xcratch.github.io` needs the Chrome permission for local network access to load an extension from `localhost`.
