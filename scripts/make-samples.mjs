@@ -225,35 +225,36 @@ const makeSoulPop = async () => {
         PATTERN: ['block', pattern], VALUE: ['text', value]
     }, {EFFECT: name});
     const tone = (pattern, synth) => b.strudel('tone', {PATTERN: ['block', pattern], SYNTH: ['synth', synth]});
+    const listMini = (name, how) => b.strudel('listMini', {}, {LISTNAME: name, HOW: how});
     // notes from a list, a bar in each cycle
-    const listNotes = name => b.strudel('miniNote', {
-        CODE: ['blockOnText', b.strudel('listMini', {}, {LISTNAME: name, HOW: 'cycle'})]
-    });
+    const listNotes = name => b.strudel('miniNote', {CODE: ['blockOnText', listMini(name, 'cycle')]});
     const piano = b.list('ピアノのコード', SOUL.piano);
+    const rhythm = b.list('ピアノのリズム', PIANO_RHYTHM);
     const bass = b.list('ベース', SOUL.bass);
     const melody = b.list('メロディ', SOUL.melody);
-    const tr808 = code => b.strudel('drumMachine', {
-        PATTERN: ['block', b.strudel('miniSound', {CODE: ['text', code]})], MACHINE: ['machine', 'RolandTR808']
-    });
+    const drums = b.list('ドラム', SOUL.drums);
     const tracks = [
         ['1', 'ピアノ', () => tone(b.strudel('rhythm', {
-            PATTERN: ['block', listNotes(piano)], RHYTHM: ['text', PIANO_RHYTHM]
+            PATTERN: ['block', listNotes(piano)], RHYTHM: ['blockOnText', listMini(rhythm, 'seq')]
         }), 'piano')],
         ['2', 'ベース', () => effect(tone(listNotes(bass), 'sawtooth'), 'lpf', '350')],
-        ['3', 'ドラム', () => tr808(SOUL.drums)],
-        ['4', 'ハイハット', () => effect(tr808(SOUL.hats), 'gain', '.5')],
-        ['5', 'メロディ', () => effect(effect(tone(listNotes(melody), 'triangle'), 'room', '.4'), 'delay', '.2')]
+        ['3', 'ドラム', () => effect(b.strudel('drumMachine', {
+            PATTERN: ['block', b.strudel('miniSound', {CODE: ['blockOnText', listMini(drums, 'stack')]})],
+            MACHINE: ['machine', 'RolandTR808']
+        }), 'gain', '.8')],
+        ['4', 'メロディ', () => effect(effect(tone(listNotes(melody), 'triangle'), 'room', '.4'), 'delay', '.2')]
     ];
 
     const flag = b.block('event_whenflagclicked', {top: [24, 24]});
-    const hint = b.say('1〜5 キーで パートを ひとつずつ とめて、スペースで ぜんぶ もどるよ。', 6);
+    const hint = b.say('1〜4 キーで パートを ひとつずつ とめて、スペースで ぜんぶ もどるよ。', 6);
     b.stack([flag, b.strudel('setBpm', {BPM: ['number', 92]}), b.strudel('showViz', {}, {VIZ: 'pianoroll'}),
         b.broadcast('えんそう'), hint]);
     b.comment(flag, 'ジャズや ソウルの 和音を つかった ピアノ ポップ。\n' +
         '| FM7 | Em7 A7 | Dm7 G7 | Cmaj9 C9 |\n| FM7 | Fm6 | Em7 E♭dim7 | Dm7 G7sus4 |\n' +
         'ベースが 根音(ルート)を ひくので、ピアノは 根音を はぶいた 和音を ひいているよ。\n' +
         '1拍を 3つに わけた「シャッフル」の リズムで はねているよ。\n' +
-        '和音・ベース・メロディは「変数」の リストに 1小節ずつ 入っているよ。', 1100, 24);
+        '和音・ベース・メロディは「変数」の リストに 1小節ずつ、\n' +
+        'ピアノの リズムは 1拍ずつ、ドラムは 楽器ごとに 1行ずつ 入っているよ。', 1100, 24);
     b.stack([b.whenReceive('えんそう', [24, 280]), ...tracks.map(([, track, make]) => play(b, track, make()))]);
     b.stack([b.whenKey('space', [24, 760]), b.broadcast('えんそう')]);
     tracks.forEach(([key, track], i) => {

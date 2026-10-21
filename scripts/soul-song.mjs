@@ -25,7 +25,8 @@ export const PROGRESSION = [
 
 /**
  * Lists of the song, an item for each bar. A beat is three triplets of a shuffle.
- * The piano list has only chords, and the rhythm block plays them on PIANO_RHYTHM.
+ * The piano list has only chords, and the rhythm block plays them on PIANO_RHYTHM, a beat in each item.
+ * The drum list has a line of each drum, which are played together.
  */
 export const SOUL = {
     piano: PROGRESSION.map(bar => bar.map(name => CHORD[name]).join(' ')),
@@ -49,7 +50,10 @@ export const SOUL = {
         '[b4 ~ ~] [~ ~ d5] [c5 ~ ~] [a4 ~ ~]',
         '[d5 ~ ~] [~ ~ ~] [~ ~ ~] [~ ~ g4]'
     ],
-    drums: '[bd ~ ~] [sd ~ bd] [~ ~ bd] [sd ~ ~]',
-    hats: '[hh ~ hh]*4'
+    drums: [
+        '[bd ~ ~] [~ ~ bd] [~ ~ bd] [~ ~ ~]',
+        '[~ ~ ~] [sd ~ ~] [~ ~ ~] [sd ~ ~]',
+        '[hh ~ hh]*4'
+    ]
 };
-export const PIANO_RHYTHM = '[x ~ ~] [~ ~ x] [x ~ x] [~ ~ ~]';
+export const PIANO_RHYTHM = ['x ~ ~', '~ ~ x', 'x ~ x', '~ ~ ~'];

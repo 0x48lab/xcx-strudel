@@ -312,9 +312,9 @@ footer a { color: inherit; }
         </div>
         <p>「<b>〜を表示する</b>」で、鳴っている 音を ステージに 絵で 出せるよ。</p>
         <div class="row">
-            <figure><img src="tutorial/stage-pianoroll.png" width="280" height="210" alt="ピアノロール" loading="lazy"><figcaption>ピアノロール:どの 音が いつ 鳴るか</figcaption></figure>
-            <figure><img src="tutorial/stage-scope.png" width="280" height="210" alt="オシロスコープ" loading="lazy"><figcaption>オシロスコープ:音の 波の かたち</figcaption></figure>
-            <figure><img src="tutorial/stage-spectrum.png" width="280" height="210" alt="スペクトラム" loading="lazy"><figcaption>スペクトラム:ひくい音〜高い音の 大きさ</figcaption></figure>
+            <figure><img src="tutorial/stage-pianoroll.png" width="480" height="360" alt="ピアノロール" loading="lazy"><figcaption>ピアノロール:どの 音が いつ 鳴るか</figcaption></figure>
+            <figure><img src="tutorial/stage-scope.png" width="480" height="360" alt="オシロスコープ" loading="lazy"><figcaption>オシロスコープ:音の 波の かたち</figcaption></figure>
+            <figure><img src="tutorial/stage-spectrum.png" width="480" height="360" alt="スペクトラム" loading="lazy"><figcaption>スペクトラム:ひくい音〜高い音の 大きさ</figcaption></figure>
         </div>
         <p>ピアノロールは、まんなかの たての 線の ところが「いま」。上に あるほど 高い 音だよ。音の 絵は スプライトの うしろに 出るので、ねこも ちゃんと 見えるよ。</p>
         <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/step6.sb3" target="_blank" rel="noopener">このステップを ひらく</a></div>
@@ -374,7 +374,7 @@ footer a { color: inherit; }
         <div class="side">
             <figure><img src="tutorial/make-list.png" width="251" height="440" alt="変数のカテゴリーにある、リストを作るボタン" loading="lazy"></figure>
             <div>
-                <p>「変数」の カテゴリーで「<b>リストを作る</b>」を おして、名前を つけるよ。この 作品には「コード」「ベース」「メロディ」の 3つの リストが もう 入っているよ。</p>
+                <p>「変数」の カテゴリーで「<b>リストを作る</b>」を おして、名前を つけるよ。この 作品には「コード」「ベース」「メロディ」「リズム」「ドラム」の 5つの リストが もう 入っているよ。</p>
                 <p>リストの 名前の よこの チェックを 入れると、ステージに リストが 出るよ。項目を クリックすると 書きかえられて、下の「+」で 項目を ふやせるよ。</p>
                 <p>1つの 項目には、1小節ぶんの ミニ記法を 書くよ。和音は <code>[f3,a3,c4]</code> のように、いっしょに 鳴らす 音を <code>,</code> で ならべて <code>[ ]</code> で かこむよ。</p>
             </div>
@@ -387,26 +387,38 @@ footer a { color: inherit; }
         <p>「<b>リスト [ ] の中身を [ ] ならべる</b>」ブロックを、「ミニ記法の音階」の 文字の ところに はめこむよ。リストの 項目が つながって、1つの ミニ記法に なるんだ。</p>
         <table>
             <tr><th>▼ で えらぶ ならべかた</th><th>できる ミニ記法</th><th>つかいどころ</th></tr>
-            <tr><td>1サイクルに1つずつ</td><td><code>&lt;[項目1] [項目2] …&gt;</code></td><td>1項目を 1小節に する(コード進行・メロディ)</td></tr>
-            <tr><td>1サイクルの中に順番に</td><td><code>[項目1] [項目2] …</code></td><td>1小節を 項目の 数で 分けて ならべる</td></tr>
-            <tr><td>ぜんぶ同時に</td><td><code>[項目1], [項目2], …</code></td><td>項目を ぜんぶ かさねて 鳴らす</td></tr>
+            <tr><td>1サイクルに1つずつ</td><td><code>&lt;[項目1] [項目2] …&gt;</code></td><td><b>1項目 = 1小節</b>。リスト「コード」「ベース」「メロディ」</td></tr>
+            <tr><td>1サイクルの中に順番に</td><td><code>[項目1] [項目2] …</code></td><td><b>1項目 = 1拍</b>。リスト「リズム」</td></tr>
+            <tr><td>ぜんぶ同時に</td><td><code>[項目1], [項目2], …</code></td><td><b>1項目 = 1つの 楽器</b>。リスト「ドラム」</td></tr>
         </table>
         <p>1 キーを おすと、和音が 1小節ずつ「ジャーン」と のびて 鳴るよ。キーを おす 前に、ステージの <b>リストの 外</b>を クリックしてね(リストの 中を クリックすると、キーが リストの 書きかえに なっちゃうよ)。</p>
 
         <h3>3. リズムで 刻む</h3>
-        <figure class="wide"><img src="tutorial/step9-3.png" width="1140" height="122" alt="2キーで、リストの和音をリズム [x ~] [~ x] [x x] [~ x] で刻み、音色pianoで鳴らす" loading="lazy"></figure>
+        <figure class="wide"><img src="tutorial/step9-3.png" width="1463" height="122" alt="2キーで、リストの和音をリズム [x ~] [~ x] [x x] [~ x] で刻み、音色pianoで鳴らす" loading="lazy"></figure>
         <p>「<b>〜をリズム [ ] で刻む</b>」ブロックは、<code>x</code> の ところだけ 音を 鳴らすよ。<code>~</code> は 休み。和音は そのままで、リズムだけ つけられるんだ。</p>
-        <p>この 作品の リズムは <code>[x ~] [~ x] [x x] [~ x]</code>。<code>[ ]</code> 1つが 1拍で、1拍を 2つに 分けているよ。2 キーで ピアノが 入れかわって、はずむように なるよ。</p>
-        <p class="try-inline">いじってみよう:リズムを <code>x*4</code> や <code>[~ x]*4</code> に かえてみよう。和音は 同じでも、曲の かんじが がらっと かわるよ。</p>
+        <p>リズムも リストに 入っているよ。リスト「リズム」の 項目は <code>x ~</code>、<code>~ x</code>、<code>x x</code>、<code>~ x</code> の 4つ。「<b>1サイクルの中に順番に</b>」ならべると、<b>1項目が 1拍</b>に なるよ。1拍を 2つに 分けて「タン・ウン」「ウン・タン」と 書いているんだ。2 キーで ピアノが 入れかわって、はずむように なるよ。</p>
+        <table>
+            <tr><th>拍</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+            <tr><td>リスト「リズム」</td><td><code>x ~</code></td><td><code>~ x</code></td><td><code>x x</code></td><td><code>~ x</code></td></tr>
+        </table>
+        <p class="try-inline">いじってみよう:4つの 項目を ぜんぶ <code>x</code> に すると 4分音符、<code>~ x</code> に すると 裏打ちに なるよ。和音は 同じでも、曲の かんじが がらっと かわるよ。</p>
         <p class="label">Strudel では</p>
         <pre><code>note("&lt;[[f3,a3,c4]] [[g3,b3,d4]] [[e3,g3,b3]] [[a3,c4,e4]]&gt;")
-  .struct("[x ~] [~ x] [x x] [~ x]").s("piano")</code></pre>
+  .struct("[x ~] [~ x] [x x] [~ x]").s("piano")
+s("[bd [~ bd] ~ ~], [~ ~ sd ~], [hh*8]")</code></pre>
 
         <h3>4. ベース・メロディ・ドラムを かさねる</h3>
         <figure class="wide"><img src="tutorial/step9-4.png" width="1250" height="122" alt="3キーで、リスト ベース をギザギザ音で、こもらせる400にしてトラック ベースで鳴らす" loading="lazy"></figure>
         <figure class="wide"><img src="tutorial/step9-5.png" width="1249" height="122" alt="4キーで、リスト メロディ をすっきり音で、ひびき.3にしてトラック メロディで鳴らす" loading="lazy"></figure>
-        <figure><img src="tutorial/step9-6.png" width="437" height="106" alt="5キーで、ミニ記法のドラムを鳴らす" loading="lazy"></figure>
+        <figure><img src="tutorial/step9-6.png" width="701" height="112" alt="5キーで、ミニ記法のドラムを鳴らす" loading="lazy"></figure>
         <p>ベースと メロディも、それぞれ リストに 1小節ずつ 入っているよ。3・4・5 キーで かさねていこう。0 キーで ぜんぶ 止まるよ。</p>
+        <p>ドラムは「<b>ぜんぶ同時に</b>」ならべるよ。リスト「ドラム」は <b>1項目が 1つの 楽器の 行</b>。ドラムマシンの 画面のように、楽器ごとに リズムを 書いて かさねるんだ。</p>
+        <table>
+            <tr><th>楽器</th><th>リスト「ドラム」の 項目</th></tr>
+            <tr><td>バスドラム</td><td><code>bd [~ bd] ~ ~</code></td></tr>
+            <tr><td>スネア</td><td><code>~ ~ sd ~</code></td></tr>
+            <tr><td>ハイハット</td><td><code>hh*8</code></td></tr>
+        </table>
         <table>
             <tr><th>小節</th><th>コード</th><th>ベース</th><th>メロディ</th></tr>
             <tr><td>1</td><td><code>[f3,a3,c4]</code></td><td><code>f2 [~ f2] f2 [~ f2]</code></td><td><code>[c5 d5] [e5 ~] [d5 c5] [a4 ~]</code></td></tr>
@@ -419,6 +431,7 @@ footer a { color: inherit; }
             <strong>やってみよう</strong>
             <ul>
                 <li>リスト「コード」の 2番目と 3番目を 入れかえてみよう。</li>
+                <li>リスト「ドラム」に <code>~ cp ~ cp</code> を たして、手拍子を かさねよう。</li>
                 <li>リスト「メロディ」に 項目を 4つ たして、8小節の メロディに しよう(コードと ベースは 4小節で くりかえすよ)。</li>
             </ul>
         </div>
@@ -589,16 +602,22 @@ s("white*16").hpf(saw.range(300, 9000).slow(4)).gain(saw.range(0, .4).slow(4))</
         <p>ピアノは <b>根音(ルート)</b>を はぶいているよ。根音は ベースが ひくので、ピアノは ひびきの 色を つける 音だけを ひいているんだ。</p>
 
         <h3>シャッフルの リズム</h3>
-        <figure class="wide"><img src="tutorial/step12-2.png" width="1144" height="122" alt="1キーで、リスト コード をリズム [x ~ ~] [~ ~ x] [x ~ x] [~ ~ ~] で刻み、音色pianoでトラック ピアノで鳴らす" loading="lazy"></figure>
-        <p>この 曲は 1拍を <b>3つ</b>に 分けているよ。ピアノの リズムは <code>[x ~ ~] [~ ~ x] [x ~ x] [~ ~ ~]</code>、ハイハットは <code>[hh ~ hh]*4</code>。「タッ・タ」と はねる <b>シャッフル</b>に なるよ。ベースと メロディの リストも、1拍を 3つに 分けて 書いているよ。</p>
+        <figure class="wide"><img src="tutorial/step12-2.png" width="1463" height="122" alt="1キーで、リスト コード をリズム [x ~ ~] [~ ~ x] [x ~ x] [~ ~ ~] で刻み、音色pianoでトラック ピアノで鳴らす" loading="lazy"></figure>
+        <p>この 曲は 1拍を <b>3つ</b>に 分けているよ。「タッ・タ」と はねる <b>シャッフル</b>だよ。ステップ9と 同じように、リズムも ドラムも リストに 入っているよ。</p>
+        <table>
+            <tr><th>リスト</th><th>ならべかた</th><th>項目</th></tr>
+            <tr><td>リズム</td><td>1サイクルの中に順番に(1項目 = 1拍)</td><td><code>x ~ ~</code> <code>~ ~ x</code> <code>x ~ x</code> <code>~ ~ ~</code></td></tr>
+            <tr><td>ドラム</td><td>ぜんぶ同時に(1項目 = 1つの 楽器)</td><td><code>[bd ~ ~] [~ ~ bd] [~ ~ bd] [~ ~ ~]</code><br><code>[~ ~ ~] [sd ~ ~] [~ ~ ~] [sd ~ ~]</code><br><code>[hh ~ hh]*4</code></td></tr>
+        </table>
+        <p>ベースと メロディの リストも、1拍を 3つに 分けて 書いているよ。</p>
         <figure class="wide"><img src="tutorial/step12-3.png" width="1250" height="122" alt="2キーで、リスト ベース をギザギザ音で、こもらせる350にしてトラック ベースで鳴らす" loading="lazy"></figure>
         <figure class="wide"><img src="tutorial/step12-4.png" width="1249" height="122" alt="3キーで、リスト メロディ をすっきり音で、ひびき.4にしてトラック メロディで鳴らす" loading="lazy"></figure>
-        <figure class="wide"><img src="tutorial/step12-5.png" width="950" height="160" alt="4キーで、ドラムとハイハットをドラムマシンRolandTR808で鳴らす" loading="lazy"></figure>
+        <figure class="wide"><img src="tutorial/step12-5.png" width="1212" height="122" alt="4キーで、ドラムとハイハットをドラムマシンRolandTR808で鳴らす" loading="lazy"></figure>
         <div class="try">
             <strong>やってみよう</strong>
             <ul>
                 <li>リスト「コード」の 6番目 <code>[f3,ab3,c4,d4]</code>(Fm6)を <code>[f3,a3,c4,e4]</code>(FM7)に かえて、聞きくらべよう。ほろにがさが きえるよ。</li>
-                <li>ピアノの リズムを ステップ9の <code>[x ~] [~ x] [x x] [~ x]</code> に すると、はねなく なるよ。</li>
+                <li>リスト「リズム」を ステップ9と 同じ <code>x ~</code> <code>~ x</code> <code>x x</code> <code>~ x</code> に すると、はねなく なるよ。</li>
             </ul>
         </div>
         <div class="buttons">

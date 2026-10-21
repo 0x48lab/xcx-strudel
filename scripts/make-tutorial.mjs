@@ -79,9 +79,10 @@ const effect = (b, pattern, name, value) => b.strudel('effect', {
 /**
  * @param {Blocks} b - builder
  * @param {string} name - list name
- * @returns {string} - block ID of the list block, a bar in each cycle
+ * @param {string} [how] - 'cycle' (a bar in each item), 'seq' (in order in a cycle) or 'stack' (together)
+ * @returns {string} - block ID of the list block
  */
-const listMini = (b, name) => b.strudel('listMini', {}, {LISTNAME: name, HOW: 'cycle'});
+const listMini = (b, name, how = 'cycle') => b.strudel('listMini', {}, {LISTNAME: name, HOW: how});
 
 /**
  * @param {Blocks} b - builder
@@ -157,15 +158,17 @@ const STEPS = {
         const chords = b.list('コード', ['[f3,a3,c4]', '[g3,b3,d4]', '[e3,g3,b3]', '[a3,c4,e4]']);
         const bass = b.list('ベース', ['f2 [~ f2] f2 [~ f2]', 'g2 [~ g2] g2 [~ g2]', 'e2 [~ e2] e2 [~ e2]', 'a2 [~ a2] a2 [~ a2]']);
         const melody = b.list('メロディ', ['[c5 d5] [e5 ~] [d5 c5] [a4 ~]', '[b4 c5] [d5 ~] [g4 ~] ~', '[e5 d5] [b4 ~] [g4 b4] [d5 ~]', '[c5 ~] [b4 a4] a4 ~']);
+        const rhythm = b.list('リズム', ['x ~', '~ x', 'x x', '~ x']);
+        const drums = b.list('ドラム', ['bd [~ bd] ~ ~', '~ ~ sd ~', 'hh*8']);
         b.listMonitor(chords, [5, 5, 200, 150]);
         const parts = [
             ['1', [play(b, 'ピアノ', tone(b, listNotes(b, chords), 'piano'))]],
             ['2', [play(b, 'ピアノ', tone(b, b.strudel('rhythm', {
-                PATTERN: ['block', listNotes(b, chords)], RHYTHM: ['text', '[x ~] [~ x] [x x] [~ x]']
+                PATTERN: ['block', listNotes(b, chords)], RHYTHM: ['blockOnText', listMini(b, rhythm, 'seq')]
             }), 'piano'))]],
             ['3', [play(b, 'ベース', effect(b, tone(b, listNotes(b, bass), 'sawtooth'), 'lpf', '400'))]],
             ['4', [play(b, 'メロディ', effect(b, tone(b, listNotes(b, melody), 'triangle'), 'room', '.3'))]],
-            ['5', [play(b, 'ドラム', b.strudel('miniSound', {CODE: ['text', 'bd [~ bd] sd ~, hh*8']}))]],
+            ['5', [play(b, 'ドラム', b.strudel('miniSound', {CODE: ['blockOnText', listMini(b, drums, 'stack')]}))]],
             ['0', [b.strudel('stopAll')]]
         ];
         const flag = flagAt(b, 24);
@@ -262,23 +265,22 @@ const STEPS = {
     },
     // 12. advanced: jazzy chords of soul and pop, in lists
     step12: b => {
-        const tr808 = code => b.strudel('drumMachine', {
-            PATTERN: ['block', b.strudel('miniSound', {CODE: ['text', code]})], MACHINE: ['machine', 'RolandTR808']
-        });
         const chords = b.list('コード', SOUL.piano);
+        const rhythm = b.list('リズム', PIANO_RHYTHM);
         const bass = b.list('ベース', SOUL.bass);
         const melody = b.list('メロディ', SOUL.melody);
+        const drums = b.list('ドラム', SOUL.drums);
         b.listMonitor(chords, [5, 5, 300, 220]);
         const parts = [
             ['1', [play(b, 'ピアノ', tone(b, b.strudel('rhythm', {
-                PATTERN: ['block', listNotes(b, chords)], RHYTHM: ['text', PIANO_RHYTHM]
+                PATTERN: ['block', listNotes(b, chords)], RHYTHM: ['blockOnText', listMini(b, rhythm, 'seq')]
             }), 'piano'))]],
             ['2', [play(b, 'ベース', effect(b, tone(b, listNotes(b, bass), 'sawtooth'), 'lpf', '350'))]],
             ['3', [play(b, 'メロディ', effect(b, tone(b, listNotes(b, melody), 'triangle'), 'room', '.4'))]],
-            ['4', [
-                play(b, 'ドラム', tr808(SOUL.drums)),
-                play(b, 'ハイハット', effect(b, tr808(SOUL.hats), 'gain', '.5'))
-            ]],
+            ['4', [play(b, 'ドラム', effect(b, b.strudel('drumMachine', {
+                PATTERN: ['block', b.strudel('miniSound', {CODE: ['blockOnText', listMini(b, drums, 'stack')]})],
+                MACHINE: ['machine', 'RolandTR808']
+            }), 'gain', '.8'))]],
             ['0', [b.strudel('stopAll')]]
         ];
         const flag = flagAt(b, 24);
