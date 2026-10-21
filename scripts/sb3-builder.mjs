@@ -5,6 +5,39 @@ import JSZip from 'jszip';
 /** URL of the extension which projects load. */
 export const EXTENSION_URL = 'https://0x48lab.github.io/xcx-strudel/dist/strudel.mjs';
 
+/** Language of the projects: 'en' with the --en option, otherwise 'ja'. */
+export const LANG = process.argv.includes('--en') ? 'en' : 'ja';
+
+const JAPANESE = /[\u3040-\u30ff\u3400-\u9fff\uff01-\uff5e]/;
+
+/**
+ * Translate the Japanese texts of a project, such as track names, comments and list names.
+ * IDs made from names, such as l_<list name>, are translated in the same way.
+ * @param {*} value - part of the project
+ * @param {object} words - Japanese text to English text
+ * @param {Set<string>} missing - Japanese texts which are not in the words
+ * @returns {*} - translated value
+ */
+const translate = (value, words, missing) => {
+    if (typeof value === 'string') {
+        if (!JAPANESE.test(value)) return value;
+        const prefix = /^[lm]_/.test(value) ? value.slice(0, 2) : '';
+        const text = value.slice(prefix.length);
+        if (Object.prototype.hasOwnProperty.call(words, text)) return prefix + words[text];
+        missing.add(text);
+        return value;
+    }
+    if (Array.isArray(value)) return value.map(v => translate(v, words, missing));
+    if (value && typeof value === 'object') {
+        const result = {};
+        Object.entries(value).forEach(([k, v]) => {
+            result[translate(k, words, missing)] = translate(v, words, missing);
+        });
+        return result;
+    }
+    return value;
+};
+
 const ASSETS = path.resolve(path.dirname(new URL(import.meta.url).pathname), 'demo-assets');
 
 /**
@@ -332,10 +365,23 @@ export const writeProject = async (cat, output, agent = 'xcx-strudel') => {
         extensionURLs: [['strudel', EXTENSION_URL]],
         meta: {semver: '3.0.0', vm: '0.2.0', agent}
     };
+    let json = project;
+    if (LANG === 'en') {
+        // English projects are put in en/ next to the Japanese ones
+        const {WORDS} = await import('./words-en.mjs');
+        const missing = new Set();
+        json = translate(project, WORDS, missing);
+        if (missing.size && process.env.XCX_LIST_MISSING) {
+            missing.forEach(m => console.log(JSON.stringify(m)));
+        } else if (missing.size) {
+            throw new Error(`no English for ${output}:\n${Array.from(missing).map(m => JSON.stringify(m)).join('\n')}`);
+        }
+        output = path.join(path.dirname(output), 'en', path.basename(output));
+    }
     // a fixed date makes the same file from the same project
     const date = new Date('2026-01-01T00:00:00Z');
     const zip = new JSZip();
-    zip.file('project.json', JSON.stringify(project), {date});
+    zip.file('project.json', JSON.stringify(json), {date});
     fs.readdirSync(ASSETS).forEach(file => zip.file(file, fs.readFileSync(path.join(ASSETS, file)), {date}));
     fs.ensureDirSync(path.dirname(output));
     fs.writeFileSync(output, await zip.generateAsync({type: 'nodebuffer', compression: 'DEFLATE'}));

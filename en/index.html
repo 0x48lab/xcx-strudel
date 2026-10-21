@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strudel for Xcratch</title>
+<link rel="icon" href="../icon.svg" type="image/svg+xml">
+<link rel="alternate" hreflang="ja" href="https://0x48lab.github.io/xcx-strudel/">
+<link rel="alternate" hreflang="en" href="https://0x48lab.github.io/xcx-strudel/en/">
+<meta name="description" content="Pattern music of Strudel with Scratch blocks. An Xcratch extension for kids and everyone.">
+<style>
+:root {
+    --bg: #f9f9fb;
+    --card: #ffffff;
+    --text: #2b2d42;
+    --muted: #5c6075;
+    --accent: #0fbd8c;
+    --accent-dark: #0b9a72;
+    --purple: #855cd6;
+    --border: #e1e3ea;
+    --code-bg: #f1f2f6;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #16171d;
+        --card: #1f2029;
+        --text: #eceef5;
+        --muted: #a9adbf;
+        --border: #33354a;
+        --code-bg: #2a2c3a;
+    }
+}
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Hiragino Sans", "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.7;
+}
+header {
+    background: linear-gradient(135deg, var(--purple), #4c97ff);
+    color: #fff;
+    padding: 40px 16px 32px;
+    text-align: center;
+}
+header h1 { margin: 0; font-size: clamp(28px, 6vw, 44px); letter-spacing: 0.02em; }
+.lang { max-width: 960px; margin: -24px auto 8px !important; text-align: right; font-size: 15px; }
+.lang a { color: #fff; font-weight: bold; }
+header p { margin: 8px auto 0; max-width: 640px; font-size: 17px; opacity: 0.95; }
+main { max-width: 960px; margin: 0 auto; padding: 24px 16px 48px; }
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+h2 { margin: 0 0 12px; font-size: 22px; }
+.player {
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    aspect-ratio: 480 / 410;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: #000;
+}
+.player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.hint { text-align: center; color: var(--muted); margin: 12px 0 0; }
+.tabs { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+.tab {
+    border: 2px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    border-radius: 12px;
+    padding: 8px 16px;
+    font: inherit;
+    font-weight: bold;
+    line-height: 1.4;
+    cursor: pointer;
+}
+.tab small { font-weight: normal; color: var(--muted); }
+.tab[aria-selected="true"] { border-color: var(--accent); background: var(--accent); color: #fff; }
+.tab[aria-selected="true"] small { color: #fff; }
+.buttons { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 16px; }
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+}
+.button:hover { background: var(--accent-dark); }
+.header-buttons { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 16px; }
+.button.light { background: #fff; color: var(--purple); }
+.button.light:hover { background: #f1ecff; }
+.button.secondary { background: transparent; color: var(--text); border: 2px solid var(--border); }
+ol { padding-left: 1.4em; margin: 0; }
+li { margin: 4px 0; }
+.url {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+    margin: 8px 0 0;
+}
+.url code {
+    flex: 1;
+    min-width: 0;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px 12px;
+    background: var(--code-bg);
+    border-radius: 8px;
+    font-size: 14px;
+}
+.url button {
+    border: 0;
+    border-radius: 8px;
+    padding: 0 16px;
+    background: var(--purple);
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+}
+.level-how { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin: 12px 0; }
+.level-how img { max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 10px; background: #fff; }
+.level-how p { flex: 1; min-width: 240px; margin: 0; }
+.level-table { width: 100%; border-collapse: collapse; margin: 8px 0 12px; }
+.level-table th, .level-table td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+.level-table th { background: var(--code-bg); }
+.level-table td:first-child { font-weight: bold; white-space: nowrap; }
+.level-table td:last-child { white-space: nowrap; }
+.level-table a { color: inherit; }
+.en { color: var(--muted); font-size: 15px; }
+footer { text-align: center; color: var(--muted); font-size: 14px; padding: 0 16px 32px; }
+footer a { color: inherit; }
+</style>
+</head>
+<body>
+<header>
+    <p class="lang"><a href="../">日本語</a></p>
+    <img src="../icon.svg" alt="" width="72" height="72" style="display:block;margin:0 auto 8px">
+    <h1>Strudel for Xcratch</h1>
+    <p>Build beats and melodies with blocks.<br>
+    The pattern music of <a href="https://strudel.cc/" style="color:#fff">Strudel</a>, with Scratch blocks.</p>
+    <p class="header-buttons">
+        <a class="button" href="tutorial.html">Start the tutorial</a>
+        <a class="button light" href="https://xcratch.github.io/editor/?extension=https://0x48lab.github.io/xcx-strudel/dist/strudel.mjs" target="_blank" rel="noopener">New project</a>
+    </p>
+</header>
+<main>
+    <section class="card">
+        <h2>Play the samples</h2>
+        <div class="tabs" role="tablist">
+            <button type="button" class="tab" role="tab" aria-selected="true" data-sample="demo">Beginner<br><small>A beat and a dancing cat</small></button>
+            <button type="button" class="tab" role="tab" aria-selected="false" data-sample="melody">Normal<br><small>A melody on a scale</small></button>
+            <button type="button" class="tab" role="tab" aria-selected="false" data-sample="soulpop">Normal<br><small>Soul piano pop</small></button>
+            <button type="button" class="tab" role="tab" aria-selected="false" data-sample="trance">Master<br><small>DJ trance</small></button>
+            <button type="button" class="tab" role="tab" aria-selected="false" data-sample="acidgate">Master<br><small>Acid and trance gate</small></button>
+        </div>
+        <div class="player">
+            <iframe
+                id="player"
+                src="https://xcratch.github.io/editor/player#https://0x48lab.github.io/xcx-strudel/projects/en/demo.sb3"
+                title="A sample of Strudel for Xcratch"
+                allow="autoplay"
+                loading="lazy"></iframe>
+        </div>
+        <p class="hint" id="hint">Click the green flag ▶ to play. The cat dances to the rhythm.</p>
+        <div class="buttons">
+            <a class="button" id="open-editor" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/en/demo.sb3" target="_blank" rel="noopener">See and remix the blocks</a>
+            <a class="button secondary" href="https://github.com/0x48lab/xcx-strudel" target="_blank" rel="noopener">GitHub</a>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>Use it in your project</h2>
+        <p>This button opens a new project with the extension.</p>
+        <div class="buttons" style="justify-content:flex-start;margin:0 0 16px">
+            <a class="button" href="https://xcratch.github.io/editor/?extension=https://0x48lab.github.io/xcx-strudel/dist/strudel.mjs" target="_blank" rel="noopener">New project</a>
+        </div>
+        <p>To add it to a project you are working on:</p>
+        <ol>
+            <li><a href="https://xcratch.github.io/editor" target="_blank" rel="noopener">Open the Xcratch editor</a></li>
+            <li>Click the "Add Extension" button at the bottom left</li>
+            <li>Choose "Extension Loader"</li>
+            <li>Enter this URL and click "OK"</li>
+        </ol>
+        <div class="url">
+            <code id="ext-url">https://0x48lab.github.io/xcx-strudel/dist/strudel.mjs</code>
+            <button type="button" id="copy">Copy</button>
+        </div>
+        </section>
+
+    <section class="card">
+        <h2>Three levels of blocks</h2>
+        <p>Only a few blocks are shown at first. Show more blocks as you get used to them.</p>
+        <div class="level-how">
+            <img src="../tutorial/en/level-block.png?v=76e975fc" width="253" height="63" alt="The block: show blocks for beginner">
+            <p>Choose "normal" or "master" with ▼ of the top block of "Strudel" and click the block. When you open a project, the level changes to the one the project uses.</p>
+        </div>
+        <table class="level-table">
+            <tr><th>Level</th><th>What you can do</th><th>Steps</th></tr>
+            <tr><td>Beginner</td><td>Choose sounds with ▼, put them in order and layer them. Move sprites with the music</td><td><a href="tutorial.html#step1">1〜7</a></td></tr>
+            <tr><td>Normal</td><td>Write songs with mini-notation, lists, rhythms, effects, scales and your own voice</td><td><a href="tutorial.html#step8">8〜11</a></td></tr>
+            <tr><td>Master</td><td>Tricks of club music: acid, trance gate, pumping and more</td><td><a href="tutorial.html#step12">12〜13</a></td></tr>
+        </table>
+        <p class="en">The blocks are in English, Japanese and Japanese (Hiragana). The editor shows them in its language.</p>
+    </section>
+</main>
+<footer>
+    <p>Strudel for Xcratch — <a href="https://github.com/0x48lab/xcx-strudel/blob/main/LICENSE">AGPL-3.0</a>.
+    This extension bundles <a href="https://strudel.cc/">Strudel</a> (AGPL-3.0).
+    Samples loaded on request are listed in the <a href="https://github.com/0x48lab/xcx-strudel#readme">README</a>.</p>
+</footer>
+<script>
+var BASE = 'https://0x48lab.github.io/xcx-strudel/projects/en/';
+var HINTS = {
+    demo: 'Click the green flag ▶ to play. The cat dances to the rhythm.',
+    melody: 'After the flag ▶, click the stage and press space, up, down and R. The melody changes.',
+    trance: 'After the flag ▶, click the stage and add parts with keys 1-5. Q-T stop them, 0 stops everything.',
+    soulpop: 'Piano pop with chords of jazz and soul. After the flag ▶, click the stage, stop parts with keys 1-4 and bring them back with space. The chords are explained in a comment in the editor.',
+    acidgate: 'A song with an acid bass and a trance gate. An unofficial work inspired by the sounds of strudel-scripts by Switch Angel (not related to Switch Angel).'
+};
+document.querySelectorAll('.tab').forEach(function (tab) {
+    tab.addEventListener('click', function () {
+        var name = tab.getAttribute('data-sample');
+        document.querySelectorAll('.tab').forEach(function (t) { t.setAttribute('aria-selected', t === tab ? 'true' : 'false'); });
+        document.getElementById('player').src = 'https://xcratch.github.io/editor/player#' + BASE + name + '.sb3';
+        document.getElementById('open-editor').href = 'https://xcratch.github.io/editor/#' + BASE + name + '.sb3';
+        document.getElementById('hint').textContent = HINTS[name];
+    });
+});
+document.getElementById('copy').addEventListener('click', function () {
+    var button = this;
+    var text = document.getElementById('ext-url').textContent;
+    var done = function () {
+        button.textContent = 'Copied';
+        setTimeout(function () { button.textContent = 'Copy'; }, 1500);
+    };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, function () {});
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strudel for Xcratch Tutorial</title>
+<link rel="icon" href="../icon.svg" type="image/svg+xml">
+<link rel="alternate" hreflang="ja" href="https://0x48lab.github.io/xcx-strudel/tutorial.html">
+<link rel="alternate" hreflang="en" href="https://0x48lab.github.io/xcx-strudel/en/tutorial.html">
+<meta name="description" content="Tutorial of Strudel for Xcratch. Build beats and melodies with blocks.">
+<style>
+:root {
+    --bg: #f9f9fb;
+    --card: #ffffff;
+    --text: #2b2d42;
+    --muted: #5c6075;
+    --accent: #0fbd8c;
+    --accent-dark: #0b9a72;
+    --purple: #855cd6;
+    --border: #e1e3ea;
+    --code-bg: #f1f2f6;
+    --try-bg: #fff6d9;
+    --try-border: #ffcf4d;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #16171d;
+        --card: #1f2029;
+        --text: #eceef5;
+        --muted: #a9adbf;
+        --border: #33354a;
+        --code-bg: #2a2c3a;
+        --try-bg: #3a3320;
+        --try-border: #8a6d1f;
+    }
+}
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Hiragino Sans", "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.8;
+}
+header {
+    background: linear-gradient(135deg, var(--purple), #4c97ff);
+    color: #fff;
+    padding: 32px 16px 28px;
+    text-align: center;
+}
+header h1 { margin: 0; font-size: clamp(26px, 5.5vw, 40px); }
+header p { margin: 8px auto 0; max-width: 640px; font-size: 17px; }
+header a { color: #fff; }
+.lang { max-width: 960px; margin: -24px auto 8px !important; text-align: right; font-size: 15px; }
+.lang a { color: #fff; font-weight: bold; }
+main { max-width: 960px; margin: 0 auto; padding: 24px 16px 48px; }
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+h2 { margin: 0 0 12px; font-size: 22px; line-height: 1.5; }
+h2 .num {
+    display: inline-block;
+    min-width: 36px;
+    margin-right: 8px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    text-align: center;
+}
+h3 { margin: 20px 0 8px; font-size: 18px; }
+p { margin: 8px 0; }
+figure { margin: 12px 0; }
+figure img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #fff;
+}
+figcaption { color: var(--muted); font-size: 14px; margin-top: 4px; }
+.row { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+.row figure { margin: 0; }
+.side { display: grid; grid-template-columns: 240px 1fr; gap: 24px; align-items: start; }
+@media (max-width: 640px) {
+    .side { grid-template-columns: 1fr; }
+    .side figure img { max-width: 240px; }
+    /* wide scripts keep their size and scroll sideways, so that the blocks can be read */
+    figure { overflow-x: auto; }
+    figure img { max-width: none; }
+}
+code {
+    padding: 2px 6px;
+    border-radius: 6px;
+    background: var(--code-bg);
+    font-size: 0.95em;
+}
+.try {
+    margin: 16px 0 0;
+    padding: 12px 16px;
+    border: 2px dashed var(--try-border);
+    border-radius: 12px;
+    background: var(--try-bg);
+}
+.try strong { display: block; }
+.try ul { margin: 4px 0 0; padding-left: 1.4em; }
+.buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+.button {
+    display: inline-block;
+    padding: 8px 18px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+}
+.button:hover { background: var(--accent-dark); }
+.button.secondary { background: transparent; color: var(--text); border: 2px solid var(--border); }
+nav ol { columns: 2; column-gap: 32px; margin: 0; padding-left: 1.4em; }
+@media (max-width: 640px) { nav ol { columns: 1; } }
+nav a { color: inherit; }
+nav li.column-item { list-style: none; }
+.column { border-style: dashed; }
+.column h2 .num { background: var(--purple); }
+table { border-collapse: collapse; width: 100%; margin: 8px 0; }
+th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { background: var(--code-bg); }
+.url {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px 12px;
+    background: var(--code-bg);
+    border-radius: 8px;
+}
+pre {
+    margin: 4px 0 12px;
+    padding: 10px 12px;
+    overflow-x: auto;
+    border-radius: 8px;
+    background: var(--code-bg);
+    font-size: 14px;
+    line-height: 1.6;
+}
+pre code { padding: 0; background: none; }
+.label { margin: 8px 0 0; color: var(--muted); font-size: 14px; font-weight: bold; }
+.note { color: var(--muted); font-size: 15px; }
+.try-inline { padding: 8px 12px; border-left: 4px solid var(--try-border); background: var(--try-bg); border-radius: 0 8px 8px 0; }
+.wide { overflow-x: auto; }
+.wide img { max-width: none; }
+footer { text-align: center; color: var(--muted); font-size: 14px; padding: 0 16px 32px; }
+footer a { color: inherit; }
+</style>
+</head>
+<body>
+<header>
+    <p class="lang"><a href="../tutorial.html" data-keep-hash>日本語</a></p>
+    <img src="../icon.svg" alt="" width="64" height="64" style="display:block;margin:0 auto 8px">
+    <h1>Tutorial</h1>
+    <p>Build beats and melodies with blocks.<br>
+    Learn <a href="./">Strudel for Xcratch</a> step by step.</p>
+</header>
+<main>
+    <nav class="card" aria-label="Contents">
+        <h2>Contents</h2>
+        <ol start="0">
+            <li><a href="#setup">Get ready: add the extension</a></li>
+            <li><a href="#step1">Play a sound</a></li>
+            <li><a href="#step2">Sounds in order</a></li>
+            <li><a href="#step3">Layer tracks</a></li>
+            <li><a href="#step4">Make a melody</a></li>
+            <li><a href="#step5">Change the song with keys</a></li>
+            <li><a href="#step6">See the sound</a></li>
+            <li><a href="#step7">Make the cat dance</a></li>
+            <li><a href="#step8">Normal level: mini-notation, effects and scales</a></li>
+            <li><a href="#step9">Write a song with lists and rhythms</a></li>
+            <li><a href="#step10">Make a beat with your voice</a></li>
+            <li><a href="#step11">Chords of jazz and soul</a></li>
+            <li><a href="#step12">Master level: acid and trance gate</a></li>
+            <li class="column-item"><a href="#code">Column: turn blocks into Strudel code</a></li>
+            <li value="13"><a href="#step13">Advanced: sounds of EDM and trance</a></li>
+        </ol>
+        <p>"Open this step" in each step opens the finished project. Touch the blocks and change the sounds.</p>
+    </nav>
+
+    <section class="card" id="setup">
+        <h2><span class="num">0</span>Get ready: add the extension</h2>
+        <p>The project of each step already has the extension, so you do not need this when you start from a step.</p>
+        <p>To make your own project from scratch, this button is the easiest. It opens a new project with the extension.</p>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/?extension=https://0x48lab.github.io/xcx-strudel/dist/strudel.mjs" target="_blank" rel="noopener">New project</a></div>
+        <p>To add the extension to a project you are working on, load it like this.</p>
+        <ol>
+            <li>Open the <a href="https://xcratch.github.io/editor" target="_blank" rel="noopener">Xcratch editor</a>.</li>
+            <li>Click the "Add Extension" button at the bottom left.<figure><img src="../tutorial/en/setup-1.png?v=2667c1a5" width="640" height="482" alt="The Add Extension button at the bottom left of the editor" loading="lazy"></figure></li>
+            <li>Choose "Extension Loader", the first card.<figure><img src="../tutorial/en/setup-2.png?v=a3c88caf" width="636" height="533" alt="The Extension Loader card in the list of extensions" loading="lazy"></figure></li>
+            <li>Enter this URL and click "OK".
+                <code class="url">https://0x48lab.github.io/xcx-strudel/dist/strudel.mjs</code>
+                <figure><img src="../tutorial/en/setup-3.png?v=db6e193c" width="495" height="163" alt="The dialog to enter the URL of the extension" loading="lazy"></figure></li>
+        </ol>
+        <div class="side">
+            <figure><img src="../tutorial/en/palette.png?v=b8832199" width="311" height="900" alt="The blocks of Strudel" loading="lazy"></figure>
+            <div>
+                <p>When "Strudel" appears on the left, you are ready. The green blocks with the swirl are the blocks of this extension.</p>
+                <p>At first only the "beginner" blocks are shown. Choose "normal" or "master" in the top block to show more blocks.</p>
+                <p>If you hear nothing, click the green flag again. Browsers do not play sound until you touch the page.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="card" id="step1">
+        <h2><span class="num">1</span>Play a sound</h2>
+        <figure><img src="../tutorial/en/step1-1.png?v=08b9984f" width="255" height="106" alt="When the green flag is clicked, play bass drum on track 1" loading="lazy"></figure>
+        <p>"<b>play [ ] on track [ ]</b>" is the most important block. Click the green flag, and the bass drum plays "boom, boom..." again and again. Click the red button to stop.</p>
+        <p>Click ▼ to choose another sound: drums, the notes C to high C, and "rest".</p>
+        <figure><img src="../tutorial/en/menu-sound.png?v=6e6a928f" width="255" height="383" alt="The menu of sounds: bass drum, snare, hi-hat and more" loading="lazy"></figure>
+        <div class="try"><strong>Try it</strong><ul><li>Change it to snare or clap. You can change it while it plays.</li><li>What does "C" sound like?</li></ul></div>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step1.sb3" target="_blank" rel="noopener">Open this step</a></div>
+    </section>
+
+    <section class="card" id="step2">
+        <h2><span class="num">2</span>Sounds in order</h2>
+        <figure><img src="../tutorial/en/step2-1.png?v=f09064aa" width="536" height="144" alt="Set tempo to 110, and play in order bass drum, rest, snare, rest on track drums" loading="lazy"></figure>
+        <p>Put the "<b>in order</b>" block into the ▼ of "play", and four sounds play one after another: "boom, -, tap, -". That is a beat.</p>
+        <h3>What is a cycle?</h3>
+        <p>In Strudel a loop is called a "<b>cycle</b>". The sounds of "in order" fit exactly into one cycle: four sounds share it in four, eight sounds in eight. Use "set tempo to [ ] BPM" to change the speed.</p>
+        <p>You can name the track (here "drums") as you like.</p>
+        <div class="try"><strong>Try it</strong><ul><li>Change a "rest" to hi-hat. What happens?</li><li>Set the tempo to 80 or 140.</li></ul></div>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step2.sb3" target="_blank" rel="noopener">Open this step</a></div>
+    </section>
+
+    <section class="card" id="step3">
+        <h2><span class="num">3</span>Layer tracks</h2>
+        <figure><img src="../tutorial/en/step3-1.png?v=720289f4" width="536" height="182" alt="Play the drums track, and a hats track with hi-hat repeated 8 times" loading="lazy"></figure>
+        <p>Add another "play" block with <b>another track name</b>, and the two play together, like instruments joining a band.</p>
+        <p>"<b>repeat [ ] [ ] times</b>" plays the same sound many times in a cycle. Eight hi-hats make the beat groove.</p>
+        <p>Playing again on <b>the same track name replaces</b> the old pattern. You will use this in step 5.</p>
+        <div class="try"><strong>Try it</strong><ul><li>Repeat 16 or 3 times.</li><li>Use "together" to play bass drum and crash at the same time.</li></ul></div>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step3.sb3" target="_blank" rel="noopener">Open this step</a></div>
+    </section>
+
+    <section class="card" id="step4">
+        <h2><span class="num">4</span>Make a melody</h2>
+        <figure class="wide"><a href="../tutorial/en/step4-1.png?v=87669c55" target="_blank" rel="noopener"><img src="../tutorial/en/step4-1.png?v=87669c55" width="1021" height="230" alt="Take turns between in order C E G high C and in order A G E D, with tone triangle" loading="lazy"></a><figcaption>Click to see it larger</figcaption></figure>
+        <p>A third track "melody" is added. The blocks are nested, so read them from the inside.</p>
+        <ol>
+            <li>"in order C E G high C" and "in order A G E D" make two phrases.</li>
+            <li>"<b>take turns</b>" plays them one after another, a phrase in each cycle.</li>
+            <li>"<b>[ ] with tone [ ]</b>" chooses the kind of sound: triangle, sawtooth, square, sine and more.</li>
+        </ol>
+        <div class="try"><strong>Try it</strong><ul><li>Change the tone to sawtooth or square.</li><li>Change the notes and make your own melody.</li></ul></div>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step4.sb3" target="_blank" rel="noopener">Open this step</a></div>
+    </section>
+
+    <section class="card" id="step5">
+        <h2><span class="num">5</span>Change the song with keys</h2>
+        <figure><img src="../tutorial/en/step5-1.png?v=720289f4" width="536" height="182" alt="The green flag plays drums and hats" loading="lazy"></figure>
+        <div class="row">
+            <figure><img src="../tutorial/en/step5-2.png?v=47693bc2" width="573" height="106" alt="Space plays bass drum, bass drum, snare, clap on track drums" loading="lazy"></figure>
+            <figure><img src="../tutorial/en/step5-3.png?v=e3d1217e" width="162" height="106" alt="Key s stops track hats" loading="lazy"></figure>
+            <figure><img src="../tutorial/en/step5-4.png?v=b6a96273" width="163" height="106" alt="Key 0 stops all tracks" loading="lazy"></figure>
+        </div>
+        <p>Changing the music while it plays is the most fun part of Strudel. It is called <b>live coding</b>.</p>
+        <ul>
+            <li><b>Space</b>: plays another rhythm on the "drums" track. The track name is the same, so it replaces the old rhythm.</li>
+            <li><b>s</b>: "stop track [ ]" stops only the hats.</li>
+            <li><b>0</b>: "stop all tracks".</li>
+        </ul>
+        <p>The change happens <b>at the start of the next cycle</b>, so the rhythm never slips, whenever you press a key.</p>
+        <p>Click the stage once before you use keys.</p>
+        <div class="try"><strong>Try it</strong><ul><li>Add keys so that you can switch between three rhythms.</li></ul></div>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step5.sb3" target="_blank" rel="noopener">Open this step</a></div>
+    </section>
+
+    <section class="card" id="step6">
+        <h2><span class="num">6</span>See the sound</h2>
+        <figure class="wide"><a href="../tutorial/en/step6-1.png?v=9c2d0c1c" target="_blank" rel="noopener"><img src="../tutorial/en/step6-1.png?v=9c2d0c1c" width="1021" height="268" alt="Play three tracks and show the piano roll" loading="lazy"></a><figcaption>Click to see it larger</figcaption></figure>
+        <div class="row">
+            <figure><img src="../tutorial/en/step6-2.png?v=c0ccaa37" width="192" height="106" alt="Key 1 shows the oscilloscope" loading="lazy"></figure>
+            <figure><img src="../tutorial/en/step6-3.png?v=f0ffe90a" width="176" height="106" alt="Key 2 shows the spectrum" loading="lazy"></figure>
+            <figure><img src="../tutorial/en/step6-4.png?v=4f00209d" width="193" height="106" alt="Key 3 hides the picture of sound" loading="lazy"></figure>
+        </div>
+        <p>"<b>show [ ]</b>" draws the sound on the stage.</p>
+        <div class="row">
+            <figure><img src="../tutorial/en/stage-pianoroll.png?v=96e57506" width="280" height="210" alt="Piano roll" loading="lazy"><figcaption>Piano roll: which note plays when</figcaption></figure>
+            <figure><img src="../tutorial/en/stage-scope.png?v=150fc39d" width="280" height="210" alt="Oscilloscope" loading="lazy"><figcaption>Oscilloscope: the shape of the wave</figcaption></figure>
+            <figure><img src="../tutorial/en/stage-spectrum.png?v=181da464" width="280" height="210" alt="Spectrum" loading="lazy"><figcaption>Spectrum: how loud low to high sounds are</figcaption></figure>
+        </div>
+        <p>In the piano roll, the vertical line in the middle is "now". Higher notes are drawn higher. The picture is drawn behind the sprites, so you can still see the cat.</p>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step6.sb3" target="_blank" rel="noopener">Open this step</a></div>
+    </section>
+
+    <section class="card" id="step7">
+        <h2><span class="num">7</span>Make the cat dance</h2>
+        <div class="row">
+            <figure><img src="../tutorial/en/step7-2.png?v=52a21b02" width="166" height="101" alt="When a beat comes, next costume" loading="lazy"></figure>
+            <figure><img src="../tutorial/en/step7-3.png?v=8598f4cf" width="224" height="166" alt="When bass drum sounds, set size to 120%, wait 0.1 seconds, set size to 100%" loading="lazy"></figure>
+        </div>
+        <p>These blocks move sprites with the music.</p>
+        <ul>
+            <li>"<b>when a beat comes</b>": runs on every beat. With "next costume" the cat steps to the beat.</li>
+            <li>"<b>when [ ] sounds</b>": runs each time the chosen drum plays. Jump on the bass drum, change the color on the snare...</li>
+        </ul>
+        <p>They work with all the usual Scratch blocks.</p>
+        <div class="try"><strong>Try it</strong><ul><li>When the snare sounds, "change color effect by 25".</li><li>Use the "beat" and "cycle" values to move the cat.</li></ul></div>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step7.sb3" target="_blank" rel="noopener">Open this step</a></div>
+    </section>
+
+    <section class="card" id="step8">
+        <h2><span class="num">8</span>Normal level: mini-notation, effects and scales</h2>
+        <figure><a href="../tutorial/en/step8-1.png?v=4d777e55" target="_blank" rel="noopener"><img src="../tutorial/en/step8-1.png?v=4d777e55" width="856" height="274" alt="Show normal blocks, and play drums in mini-notation, a bass with an effect and a melody on a scale" loading="lazy"></a><figcaption>Click to see it larger</figcaption></figure>
+        <p>Choose "<b>normal</b>" in the top block to show more blocks.</p>
+        <h3>Mini-notation</h3>
+        <p>"sounds in mini-notation" writes sounds just like Strudel. The drums here are <code>bd*2 [~ sd] &lt;hh oh&gt; sd</code> and the bass is <code>&lt;c2 a1 f1 g1&gt;*2</code> (long texts are cut with "…" in the block).</p>
+        <table>
+            <tr><th>Write</th><th>Meaning</th><th>Example</th></tr>
+            <tr><td><code>bd sd</code></td><td>sounds separated by spaces play in order</td><td><code>bd hh sd hh</code></td></tr>
+            <tr><td><code>~</code></td><td>rest</td><td><code>bd ~ sd ~</code></td></tr>
+            <tr><td><code>*2</code></td><td>play it twice</td><td><code>hh*8</code></td></tr>
+            <tr><td><code>[ ]</code></td><td>fit into the time of one</td><td><code>bd [sd sd]</code></td></tr>
+            <tr><td><code>&lt; &gt;</code></td><td>one in each cycle, taking turns</td><td><code>&lt;bd cp&gt;</code></td></tr>
+            <tr><td><code>,</code></td><td>play at the same time</td><td><code>bd*4, hh*8</code></td></tr>
+        </table>
+        <h3>Effects and scales</h3>
+        <ul>
+            <li>"<b>[ ] with effect [ ] [ ]</b>": muffle (lpf), echo in a room (room), delay and more. The bass is muffled at 600 to sound soft.</li>
+            <li>"<b>steps [ ] of scale [ ] [ ]</b>": write notes as step numbers of a scale. On the major pentatonic scale, any number sounds nice. The "piano" tone loads real piano sounds automatically.</li>
+        </ul>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step8.sb3" target="_blank" rel="noopener">Open this step</a></div>
+    </section>
+
+    <section class="card" id="step9">
+        <h2><span class="num">9</span>Write a song with lists and rhythms</h2>
+        <p>Long chord progressions and melodies are hard to read in one line of mini-notation. Write them in Scratch <b>lists</b>, <b>a bar in each item</b>, and join them with a block. The rest of the tutorial writes songs with lists.</p>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step9.sb3" target="_blank" rel="noopener">Open this step</a></div>
+        <h3>1. Make a list</h3>
+        <div class="side">
+            <figure><img src="../tutorial/en/make-list.png?v=4e61fdbb" width="251" height="440" alt="The Make a List button in Variables" loading="lazy"></figure>
+            <div>
+                <p>Click "<b>Make a List</b>" in "Variables" and give it a name. This project already has five lists: "chords", "bass", "melody", "rhythm" and "drums".</p>
+                <p>Check the box next to a list to show it on the stage. Click an item to change it, and "+" to add one.</p>
+                <p>Write one bar of mini-notation in each item. A chord is written like <code>[f3,a3,c4]</code>: the notes to play together, separated by <code>,</code> and put in <code>[ ]</code>.</p>
+            </div>
+        </div>
+        <figure><img src="../tutorial/en/stage-list.png?v=bc908705" width="482" height="362" alt="The list chords on the stage, a chord in each item" loading="lazy"></figure>
+        <p>These chords, F, G, Em and Am, are a progression which is used very often in pop music.</p>
+        <h3>2. Play a list</h3>
+        <figure><img src="../tutorial/en/step9-2.png?v=e9864b6d" width="829" height="117" alt="Key 1 plays notes in mini-notation from items of list chords, one in each cycle, with tone piano" loading="lazy"></figure>
+        <p>Put "<b>items of list [ ] [ ]</b>" into the text of "notes in mini-notation". The items are joined into one mini-notation.</p>
+        <table>
+            <tr><th>Choose with ▼</th><th>Mini-notation</th><th>Use</th></tr>
+            <tr><td>one in each cycle</td><td><code>&lt;[item1] [item2] …&gt;</code></td><td><b>an item = a bar</b>: lists "chords", "bass", "melody"</td></tr>
+            <tr><td>in order in a cycle</td><td><code>[item1] [item2] …</code></td><td><b>an item = a beat</b>: list "rhythm"</td></tr>
+            <tr><td>all together</td><td><code>[item1], [item2], …</code></td><td><b>an item = a drum</b>: list "drums"</td></tr>
+        </table>
+        <p>Press 1 and the chords ring, a bar each. Before pressing keys, click the stage <b>outside the list</b> (keys typed after clicking in the list change the list).</p>
+        <h3>3. Play on a rhythm</h3>
+        <figure class="wide"><img src="../tutorial/en/step9-3.png?v=fc62b553" width="1276" height="122" alt="Key 2 plays the chords in the rhythm of list rhythm, in order in a cycle, with tone piano" loading="lazy"></figure>
+        <p>"<b>play [ ] in rhythm [ ]</b>" plays only on <code>x</code>; <code>~</code> is a rest. The chords stay the same and get a rhythm.</p>
+        <p>The rhythm is in a list too. The items of "rhythm" are <code>x ~</code>, <code>~ x</code>, <code>x x</code> and <code>~ x</code>. "<b>in order in a cycle</b>" makes <b>each item a beat</b>, each beat cut in two. Key 2 replaces the piano and it starts to bounce.</p>
+        <table>
+            <tr><th>Beat</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+            <tr><td>list "rhythm"</td><td><code>x ~</code></td><td><code>~ x</code></td><td><code>x x</code></td><td><code>~ x</code></td></tr>
+        </table>
+        <p class="try-inline">Try it: make all four items <code>x</code> for quarter notes, or <code>~ x</code> for off-beats. The chords are the same, but the feel changes a lot.</p>
+        <p class="label">In Strudel</p><pre><code>note("&lt;[[f3,a3,c4]] [[g3,b3,d4]] [[e3,g3,b3]] [[a3,c4,e4]]&gt;")
+  .struct("[x ~] [~ x] [x x] [~ x]").s("piano")
+s("[bd [~ bd] ~ ~], [~ ~ sd ~], [hh*8]")</code></pre>
+        <h3>4. Add bass, melody and drums</h3>
+        <figure class="wide"><img src="../tutorial/en/step9-4.png?v=e5a32471" width="1067" height="122" alt="Key 3 plays list bass with tone sawtooth, muffled at 400" loading="lazy"></figure>
+        <figure class="wide"><img src="../tutorial/en/step9-5.png?v=4920352f" width="1134" height="122" alt="Key 4 plays list melody with tone triangle and room .3" loading="lazy"></figure>
+        <figure><img src="../tutorial/en/step9-6.png?v=8bdc1015" width="643" height="112" alt="Key 5 plays sounds in mini-notation from list drums, all together" loading="lazy"></figure>
+        <p>Bass and melody are in lists too, a bar in each item. Add them with keys 3, 4 and 5. Key 0 stops everything.</p>
+        <p>The drums are "<b>all together</b>": in the list "drums", <b>each item is a line for one drum</b>, like the screen of a drum machine.</p>
+        <table>
+            <tr><th>Drum</th><th>Item of "drums"</th></tr>
+            <tr><td>bass drum</td><td><code>bd [~ bd] ~ ~</code></td></tr>
+            <tr><td>snare</td><td><code>~ ~ sd ~</code></td></tr>
+            <tr><td>hi-hat</td><td><code>hh*8</code></td></tr>
+        </table>
+        <table>
+            <tr><th>Bar</th><th>chords</th><th>bass</th><th>melody</th></tr>
+            <tr><td>1</td><td><code>[f3,a3,c4]</code></td><td><code>f2 [~ f2] f2 [~ f2]</code></td><td><code>[c5 d5] [e5 ~] [d5 c5] [a4 ~]</code></td></tr>
+            <tr><td>2</td><td><code>[g3,b3,d4]</code></td><td><code>g2 [~ g2] g2 [~ g2]</code></td><td><code>[b4 c5] [d5 ~] [g4 ~] ~</code></td></tr>
+            <tr><td>3</td><td><code>[e3,g3,b3]</code></td><td><code>e2 [~ e2] e2 [~ e2]</code></td><td><code>[e5 d5] [b4 ~] [g4 b4] [d5 ~]</code></td></tr>
+            <tr><td>4</td><td><code>[a3,c4,e4]</code></td><td><code>a2 [~ a2] a2 [~ a2]</code></td><td><code>[c5 ~] [b4 a4] a4 ~</code></td></tr>
+        </table>
+        <p>Read across: the notes of the same bar are in one row. A melody sounds nice when it uses the notes of the chord of its bar.</p>
+        <div class="try"><strong>Try it</strong><ul><li>Swap the second and third items of "chords".</li><li>Add <code>~ cp ~ cp</code> to "drums" for claps.</li><li>Add four items to "melody" for an eight-bar melody (chords and bass repeat every four bars).</li></ul></div>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step9.sb3" target="_blank" rel="noopener">Open this step</a></div>
+    </section>
+
+    <section class="card" id="step10">
+        <h2><span class="num">10</span>Make a beat with your voice</h2>
+        <p>A voice you record in Scratch, or a sound which comes with Scratch, can be an instrument of Strudel. A beat made of your own voice is a lot of fun.</p>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step10.sb3" target="_blank" rel="noopener">Open this step</a></div>
+        <h3>1. Record your voice</h3>
+        <div class="side">
+            <figure><img src="../tutorial/en/record.png?v=516d7c76" width="460" height="368" alt="Hover on Choose a Sound at the bottom left of the Sounds tab to find Record" loading="lazy"></figure>
+            <div>
+                <ol>
+                    <li>Open the "<b>Sounds</b>" tab at the top.</li>
+                    <li>Hover on "Choose a Sound" at the bottom left, and click the <b>microphone</b> (Record).</li>
+                    <li>If the browser asks to use the microphone, click "Allow".</li>
+                    <li>Click the red "Record" button and speak. Stop, listen with "Play", and click "Save".</li>
+                </ol>
+                <p><b>Short sounds</b> like "boom", "pah" and "tss" work best. The recording is added to the list of sounds with a name like "recording1". This project has the cat's "Meow" at first.</p>
+            </div>
+        </div>
+        <h3>2. Play the voice</h3>
+        <figure><img src="../tutorial/en/step10-2.png?v=fb10f62c" width="366" height="106" alt="Key 1 plays sprite sound Meow on track voice" loading="lazy"></figure>
+        <p>Choose a sound with ▼ of "<b>sprite sound [ ]</b>". Your recordings appear there. This block fits into the ▼ of "play" and "in order", just like a drum.</p>
+        <h3>3. Repeat and shorten</h3>
+        <figure><img src="../tutorial/en/step10-3.png?v=1442ef45" width="759" height="117" alt="Key 2 repeats the sprite sound 4 times with length .5" loading="lazy"></figure>
+        <p>"repeat 4 times" plays it four times in a cycle. If the voice is long and overlaps, cut it with "<b>length (clip)</b>".</p>
+        <h3>4. Change the pitch</h3>
+        <figure class="wide"><img src="../tutorial/en/step10-4.png?v=51ddfa0d" width="1000" height="122" alt="Key 3 adds the effect speed 1 1.5 2 -1 to the repeated voice" loading="lazy"></figure>
+        <p>The "<b>speed</b>" effect changes the pitch. <code>1 1.5 2 -1</code> gives the four voices these pitches in turn.</p>
+        <table>
+            <tr><th>speed</th><th>What happens?</th></tr>
+            <tr><td><code>1</code></td><td>the voice as it is</td></tr>
+            <tr><td><code>2</code></td><td>an octave higher, and faster</td></tr>
+            <tr><td><code>0.5</code></td><td>an octave lower, and slower</td></tr>
+            <tr><td><code>-1</code></td><td>backwards</td></tr>
+        </table>
+        <h3>5. Mix it with drums</h3>
+        <figure><img src="../tutorial/en/step10-5.png?v=04a57379" width="789" height="112" alt="Key 4 plays in order bass drum, sprite sound, snare, sprite sound on track beat" loading="lazy"></figure>
+        <p>"sprite sound" also fits into "in order": "boom, meow, tap, meow".</p>
+        <figure><img src="../tutorial/en/step10-6.png?v=d2b5737e" width="876" height="117" alt="Key 5 plays the sprite sound with speed <1 .5> and room .8" loading="lazy"></figure>
+        <p>Key 5 changes the pitch every bar and adds reverb. Key 0 stops everything.</p>
+        <div class="try"><strong>Try it</strong><ul><li>Record your voice and choose it in every "sprite sound".</li><li>Record "boom", "pah" and "tss" and use them instead of bass drum, snare and hi-hat.</li><li>At the master level, "cut each sound of [ ] into [ ]" chops a long voice into small pieces.</li></ul></div>
+        <p class="note">Recordings live only in the browser, so they do not play in strudel.cc. When you save the project, the recordings are saved with it.</p>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step10.sb3" target="_blank" rel="noopener">Open this step</a></div>
+    </section>
+
+    <section class="card" id="step11">
+        <h2><span class="num">11</span>Chords of jazz and soul</h2>
+        <p>An original song with chords of jazz and soul, which you hear in stylish pop (the same song as the sample "Soul piano pop"). Chords, bass and melody are in lists, a bar in each item.</p>
+        <figure><img src="../tutorial/en/step11-1.png?v=82ebd1e9" width="245" height="176" alt="The green flag shows normal blocks and sets tempo to 92" loading="lazy"></figure>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step11.sb3" target="_blank" rel="noopener">Open this step</a></div>
+        <h3>The secret of the chords</h3>
+        <p>The progression is <b>| FM7 | Em7 A7 | Dm7 G7 | Cmaj9 C9 | FM7 | Fm6 | Em7 E♭dim7 | Dm7 G7sus4 |</b>. Compare it with the simple progression of step 9 (F, G, Em, Am).</p>
+        <table>
+            <tr><th>Bar</th><th>Trick</th><th>Listen for</th></tr>
+            <tr><td>all</td><td><b>sevenths and ninths</b> (M7, m7, 9)</td><td>one or two notes added to plain triads make them stylish</td></tr>
+            <tr><td>2</td><td>Em7 → <b>A7</b></td><td>A7 has C♯, which is not a white key of C major, so it sounds a little sad</td></tr>
+            <tr><td>3</td><td>Dm7 → G7 (<b>two-five</b>)</td><td>the basic move of jazz; it wants to go home to the next chord</td></tr>
+            <tr><td>6</td><td><b>Fm6</b></td><td>the bright F turns into a dark Fm: bittersweet</td></tr>
+            <tr><td>7</td><td>Em7 → <b>E♭dim7</b> → Dm7</td><td>the bass walks down by half steps: E, E♭, D</td></tr>
+        </table>
+        <p>The piano leaves out the <b>roots</b>. The bass plays them, so the piano plays only the notes which give the color.</p>
+        <h3>The shuffle</h3>
+        <figure class="wide"><img src="../tutorial/en/step11-2.png?v=b8452f8b" width="1276" height="122" alt="Key 1 plays list chords in the rhythm of list rhythm with tone piano" loading="lazy"></figure>
+        <p>This song cuts a beat into <b>three</b>, so it bounces: a <b>shuffle</b>. As in step 9, the rhythm and the drums are lists.</p>
+        <table>
+            <tr><th>List</th><th>How</th><th>Items</th></tr>
+            <tr><td>rhythm</td><td>in order in a cycle (an item = a beat)</td><td><code>x ~ ~</code> <code>~ ~ x</code> <code>x ~ x</code> <code>~ ~ ~</code></td></tr>
+            <tr><td>drums</td><td>all together (an item = a drum)</td><td><code>[bd ~ ~] [~ ~ bd] [~ ~ bd] [~ ~ ~]</code><br><code>[~ ~ ~] [sd ~ ~] [~ ~ ~] [sd ~ ~]</code><br><code>[hh ~ hh]*4</code></td></tr>
+        </table>
+        <p>The bass and melody lists also cut a beat into three.</p>
+        <figure class="wide"><img src="../tutorial/en/step11-3.png?v=c2d56c10" width="1067" height="122" alt="Key 2 plays list bass with tone sawtooth, muffled at 350" loading="lazy"></figure>
+        <figure class="wide"><img src="../tutorial/en/step11-4.png?v=ab6c1f3e" width="1134" height="122" alt="Key 3 plays list melody with tone triangle and room .4" loading="lazy"></figure>
+        <figure class="wide"><img src="../tutorial/en/step11-5.png?v=6e7744ba" width="1131" height="122" alt="Key 4 plays list drums all together on drum machine RolandTR808" loading="lazy"></figure>
+        <div class="try"><strong>Try it</strong><ul><li>Change the sixth chord <code>[f3,ab3,c4,d4]</code> (Fm6) to <code>[f3,a3,c4,e4]</code> (FM7) and compare. The bittersweet feeling is gone.</li><li>Change the list "rhythm" to <code>x ~</code> <code>~ x</code> <code>x x</code> <code>~ x</code> like step 9, and it stops bouncing.</li></ul></div>
+        <div class="buttons">
+            <a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step11.sb3" target="_blank" rel="noopener">Open this step</a>
+            <a class="button secondary" href="./">Play the samples</a>
+        </div>
+    </section>
+
+    <section class="card" id="step12">
+        <h2><span class="num">12</span>Master level: acid and trance gate</h2>
+        <figure class="wide"><a href="../tutorial/en/step12-1.png?v=91c851d9" target="_blank" rel="noopener"><img src="../tutorial/en/step12-1.png?v=91c851d9" width="1024" height="360" alt="Master blocks: drum machine, wave, acid and trance gate" loading="lazy"></a><figcaption>Click to see it larger</figcaption></figure>
+        <p>Choose "<b>master</b>" to use the tricks of club music.</p>
+        <ul>
+            <li>"<b>spread [ ] of [ ] over [ ] steps</b>": spreads, say, 5 hits over 8 steps as evenly as possible (a Euclidean rhythm). These rhythms are found in music all over the world.</li>
+            <li>"<b>[ ] on drum machine [ ]</b>": the sounds of famous drum machines such as the TR-909.</li>
+            <li>"<b>wave</b>": put it where a number goes, and the value moves like a wave. Here the hi-hats move left and right.</li>
+            <li>"<b>make [ ] acid</b>": the squelchy bass of the TB-303.</li>
+            <li>"<b>trance gate</b>": chops long chords into short pieces. Change "rhythm" to change the chopping.</li>
+        </ul>
+        <div class="try"><strong>Try it</strong><ul><li>Spread 3 or 7 hits.</li><li>Change "rhythm" of the trance gate from 0 to 20 to find one you like.</li></ul></div>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step12.sb3" target="_blank" rel="noopener">Open this step</a></div>
+    </section>
+
+    <section class="card column" id="code">
+        <h2><span class="num">Column</span>Turn blocks into Strudel code</h2>
+        <p>Everything you build with these blocks can become real <a href="https://strudel.cc/" target="_blank" rel="noopener">Strudel</a> code. The advanced lesson shows the code next to the blocks as "In Strudel", so learn how to read it first.</p>
+        <div class="row">
+            <figure><img src="../tutorial/en/step12-2.png?v=3ae332a1" width="339" height="106" alt="Key c says the Strudel code of all tracks" loading="lazy"></figure>
+            <figure><img src="../tutorial/en/step12-3.png?v=807581d5" width="206" height="106" alt="Key o opens all tracks in strudel.cc" loading="lazy"></figure>
+        </div>
+        <ul>
+            <li>"<b>Strudel code of all tracks</b>": the playing tracks as code. Click the block to see it.</li>
+            <li>"<b>open all tracks in strudel.cc</b>": strudel.cc opens and plays the same song as code.</li>
+        </ul>
+        <p>In the project of step 12, click the green flag and press c and o.</p>
+        <h3>Blocks and code</h3>
+        <table>
+            <tr><th>Block</th><th>Strudel code</th></tr>
+            <tr><td>play [ ] on track [ ]</td><td><code>$: …</code> (a line for each track)</td></tr>
+            <tr><td>set tempo to [ ] BPM</td><td><code>setcpm(…)</code> (cycles per minute)</td></tr>
+            <tr><td>sounds / notes in mini-notation</td><td><code>s("bd sd")</code> / <code>note("c3 e3")</code></td></tr>
+            <tr><td>items of list [ ] one in each cycle</td><td><code>"&lt;[item1] [item2] …&gt;"</code></td></tr>
+            <tr><td>[ ] with tone [ ]</td><td><code>.s("piano")</code></td></tr>
+            <tr><td>[ ] with effect [ ] [ ]</td><td><code>.lpf(600)</code> <code>.room(.5)</code> and more</td></tr>
+            <tr><td>play [ ] in rhythm [ ]</td><td><code>.struct("x ~ x x")</code></td></tr>
+            <tr><td>[ ] on drum machine [ ]</td><td><code>.bank("RolandTR909")</code></td></tr>
+        </table>
+        <h3>Using strudel.cc</h3>
+        <ul>
+            <li>After changing the code, press <b>Ctrl+Enter</b> to play it again. <b>Ctrl+.</b> stops.</li>
+            <li>Change one number at a time and listen each time.</li>
+            <li>Add <code>.hush()</code> at the end of a track to mute only that track.</li>
+            <li>The trance gate is a block of this extension, so the code also has a function which does the same (<code>fillGaps</code>). Sprite sounds do not play in strudel.cc.</li>
+        </ul>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step12.sb3" target="_blank" rel="noopener">Open the project of step 12</a></div>
+    </section>
+
+    <section class="card" id="step13">
+        <h2><span class="num">13</span>Advanced: sounds of EDM and trance</h2>
+        <p>EDM and trance are made of several "parts". Press the keys one by one to add parts, and listen to what each one does. The tempo is 140 BPM.</p>
+        <figure><img src="../tutorial/en/step13-1.png?v=c14ac3a0" width="245" height="214" alt="The green flag shows master blocks, sets tempo to 140 and shows the spectrum" loading="lazy"></figure>
+        <table>
+            <tr><th>Key</th><th>Part</th><th>Key</th><th>Part</th></tr>
+            <tr><td>1</td><td>kick</td><td>5</td><td>lead</td></tr>
+            <tr><td>2</td><td>off-beat bass</td><td>6</td><td>build-up (snare + riser)</td></tr>
+            <tr><td>3</td><td>pad with a trance gate</td><td>Space</td><td>drop (stop the build-up)</td></tr>
+            <tr><td>4</td><td>arpeggio pluck</td><td>7</td><td>pumping (1 goes back)</td></tr>
+        </table>
+        <p>Key 0 stops everything. Each part starts at the beginning of the next cycle.</p>
+        <p>As in step 9, the music is in lists, a bar in each item.</p>
+        <table>
+            <tr><th>List</th><th>Items (a bar each)</th><th>Used by</th></tr>
+            <tr><td>chords</td><td><code>[a3,c4,e4,a4]</code> <code>[f3,a3,c4,f4]</code> <code>[c4,e4,g4,c5]</code> <code>[g3,b3,d4,g4]</code></td><td>pad and pluck (two parts share one list)</td></tr>
+            <tr><td>bass</td><td><code>[~ a1]*4</code> <code>[~ f1]*4</code> <code>[~ c2]*4</code> <code>[~ g1]*4</code></td><td>off-beat bass</td></tr>
+            <tr><td>lead</td><td><code>[7 ~ 9 11] [12 11 ~ 9]</code> and more, 4 bars</td><td>lead (scale steps)</td></tr>
+            <tr><td>build-up</td><td><code>sd*4</code> <code>sd*8</code> <code>sd*16</code> <code>sd*32</code></td><td>snare</td></tr>
+        </table>
+        <p>Change the list "chords", and the pad and the pluck change together.</p>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step13.sb3" target="_blank" rel="noopener">Open the advanced lesson</a></div>
+
+        <h3>1. Kick: four on the floor</h3>
+        <figure><img src="../tutorial/en/step13-2.png?v=34a4e191" width="640" height="112" alt="Key 1 plays bd*4 on drum machine RolandTR909 on track kick" loading="lazy"></figure>
+        <p>Four kicks a bar: "boom, boom, boom, boom". This is the heart of dance music. The TR-909 is a famous drum machine of house and techno.</p>
+        <p class="label">In Strudel</p><pre><code>s("bd*4").bank("RolandTR909")</code></pre>
+
+        <h3>2. Off-beat bass</h3>
+        <figure class="wide"><img src="../tutorial/en/step13-3.png?v=9cd9d36c" width="1067" height="122" alt="Key 2 plays list bass with tone sawtooth, muffled at 500" loading="lazy"></figure>
+        <p><code>[~ a1]*4</code> in the list "bass" is "rest, A" four times. It plays only <b>between the kicks (off-beats)</b>, so it bounces with the kick without bumping into it. "muffle 500" cuts the high sounds and keeps the low end.</p>
+        <p class="label">In Strudel</p><pre><code>note("&lt;[~ a1]*4 [~ f1]*4 [~ c2]*4 [~ g1]*4&gt;").s("sawtooth").lpf(500)</code></pre>
+        <p class="try-inline">Try it: change <code>[~ a1]*4</code> to <code>[~ a1 a1 a1]*4</code> for the "rolling bass" of trance.</p>
+
+        <h3>3. Pad with a trance gate</h3>
+        <figure class="wide"><img src="../tutorial/en/step13-4.png?v=9610b7eb" width="1458" height="128" alt="Key 3 plays list chords with tone supersaw, chopped by the trance gate, with room" loading="lazy"></figure>
+        <p>The <b>chords</b> of the list "chords" are held with "supersaw" (many sawtooth waves together) and chopped by the trance gate. "room" makes it sound like a big hall.</p>
+        <p class="label">In Strudel</p><pre><code>note("&lt;[a3,c4,e4,a4] [f3,a3,c4,f4] [c4,e4,g4,c5] [g3,b3,d4,g4]&gt;").s("supersaw")
+  .trancegate(.8, 45, 1).room(.6)</code></pre>
+        <p class="note">The trance gate is a block of this extension. When you open the code in strudel.cc, it becomes Strudel functions which do the same (struct and fillGaps).</p>
+
+        <h3>4. Arpeggio pluck</h3>
+        <figure class="wide"><img src="../tutorial/en/step13-5.png?v=75b07607" width="1598" height="133" alt="Key 4 plays the notes of list chords one by one, with tone square, length .3 and delay .4" loading="lazy"></figure>
+        <p>Playing the notes of a chord one by one is an <b>arpeggio</b>. It uses the same list "chords" as the pad. "length .3" makes the notes short like a plucked string, and "delay" repeats them later so they sparkle.</p>
+        <p class="label">In Strudel</p><pre><code>note("&lt;[a3,c4,e4,a4] [f3,a3,c4,f4] [c4,e4,g4,c5] [g3,b3,d4,g4]&gt;")
+  .arp("0 1 2 3 2 1 2 3").s("square").clip(.3).delay(.4)</code></pre>
+
+        <h3>5. Thick lead</h3>
+        <figure class="wide"><img src="../tutorial/en/step13-6.png?v=40fe6c74" width="1683" height="133" alt="Key 5 plays the scale steps of list lead with supersaw, an octave higher on top, thickness 7 and room .8" loading="lazy"></figure>
+        <p>Three tricks make the melody stand out.</p>
+        <ul>
+            <li><b>thickness (unison) 7</b>: seven sawtooth waves, each a little off in pitch. Like a choir, many voices sound thick.</li>
+            <li><b>an octave higher on top</b>: the same melody also plays higher, so it shines.</li>
+            <li><b>a big room</b>: it spreads far.</li>
+        </ul>
+        <p class="label">In Strudel</p><pre><code>n("&lt;[7 ~ 9 11] [12 11 ~ 9] [11 ~ 9 7] [8 ~ 9 6]&gt;*2").scale("A3:minor")
+  .s("supersaw").superimpose(x =&gt; x.transpose(12)).unison(7).room(.8)</code></pre>
+        <p class="try-inline">Try it: compare thickness 1 and 7 to hear what "thick" means. Try "detune" and "stereo spread (spread)" too.</p>
+
+        <h3>6. Build-up and drop</h3>
+        <figure class="wide"><img src="../tutorial/en/step13-7.png?v=e8521062" width="1557" height="171" alt="Key 6 plays the snare of list build-up getting louder, and noise with a rising thin filter on track riser" loading="lazy"></figure>
+        <p>The part which lifts the mood before the chorus is the <b>build-up</b>.</p>
+        <ul>
+            <li><b>snare</b>: the list "build-up" goes <code>sd*4</code> → <code>sd*8</code> → <code>sd*16</code> → <code>sd*32</code>, twice as fast every bar. "wave rising" makes it louder.</li>
+            <li><b>riser</b>: "<b>noise</b>" is a hiss. Raising "thin (hpf)" from 300 to 9000 cuts the low sounds and makes a rising "whoosh".</li>
+        </ul>
+        <figure><img src="../tutorial/en/step13-8.png?v=47cecdee" width="187" height="144" alt="Space stops the tracks snare and riser" loading="lazy"></figure>
+        <p>At the peak, press Space! The build-up stops and the other parts hit: the <b>drop</b>. The waves go around once in 4 cycles, so press it when they reach the top.</p>
+        <p class="label">In Strudel</p><pre><code>s("&lt;sd*4 sd*8 sd*16 sd*32&gt;").bank("RolandTR909").gain(saw.range(.3, 1).slow(4))
+s("white*16").hpf(saw.range(300, 9000).slow(4)).gain(saw.range(0, .4).slow(4))</code></pre>
+
+        <h3>7. Pumping</h3>
+        <figure class="wide"><img src="../tutorial/en/step13-9.png?v=7c58c368" width="969" height="117" alt="Key 7 plays bd*4, ducking the other tracks with depth 0.85, on track kick" loading="lazy"></figure>
+        <p>The biggest secret of EDM. On each kick, <b>all the other tracks get quieter for a moment</b> and come back, so the whole sound breathes. Producers call it "sidechain".</p>
+        <p>The track name is the same "kick", so 7 replaces the plain kick. Press 1 and 7 a few times and compare. "depth" goes from 0 (no ducking) to 1 (the most).</p>
+        <p class="label">In Strudel</p><pre><code>s("bd*4").bank("RolandTR909").orbit(2).duckorbit(1).duckattack(.2).duckdepth(.85)</code></pre>
+        <p class="note">Strudel sends sounds through "orbits". Normal sounds go through orbit 1. The kick goes through orbit 2 and ducks orbit 1.</p>
+        <figure><img src="../tutorial/en/step13-10.png?v=b6a96273" width="163" height="106" alt="Key 0 stops all tracks" loading="lazy"></figure>
+
+        <h3>Next: code</h3>
+        <p>Play all parts and use "open all tracks in strudel.cc" (see the column) to turn this song into Strudel code. Change one number at a time and press Ctrl+Enter. Add <code>.hush()</code> at the end of a part to mute it.</p>
+        <div class="buttons">
+            <a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step13.sb3" target="_blank" rel="noopener">Open the advanced lesson</a>
+            <a class="button secondary" href="https://strudel.cc/" target="_blank" rel="noopener">strudel.cc</a>
+        </div>
+    </section>
+</main>
+<footer>
+    <p><a href="./">Strudel for Xcratch</a> — <a href="https://github.com/0x48lab/xcx-strudel/blob/main/LICENSE">AGPL-3.0</a>.
+    This extension bundles <a href="https://strudel.cc/">Strudel</a> (AGPL-3.0).</p>
+</footer>
+<script>
+document.querySelectorAll('[data-keep-hash]').forEach(function (a) {
+    a.addEventListener('click', function () { a.href = a.href.split('#')[0] + location.hash; });
+});
+</script>
+</body>
+</html>

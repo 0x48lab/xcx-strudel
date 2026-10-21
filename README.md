@@ -9,6 +9,7 @@ Available in English, Japanese and Japanese (Hiragana).
 ## デモ / Demo
 
 - https://0x48lab.github.io/xcx-strudel/ — ブラウザですぐ遊べます(緑の旗を押してください)
+- English: https://0x48lab.github.io/xcx-strudel/en/ (tutorial: https://0x48lab.github.io/xcx-strudel/en/tutorial.html)
 - [新規プロジェクト / New project](https://xcratch.github.io/editor/?extension=https://0x48lab.github.io/xcx-strudel/dist/strudel.mjs) — 拡張機能が入った状態で Xcratch エディターが開きます
 - [チュートリアル / Tutorial](https://0x48lab.github.io/xcx-strudel/tutorial.html) — スクリーンショット付きの 13 ステップ。リストとリズムで曲を書く、自分の声をビートにする、EDM・トランスの音作り、ジャズ・ソウルの和音まで(日本語)
 - サンプル作品(エディタでブロックを見る)
@@ -74,8 +75,8 @@ npm run setup-dev   # links scratch-vm sources from ../scratch-editor
 npm run build       # dist/strudel.mjs
 npm run watch
 npm test            # vitest
-npm run demo        # projects/*.sb3
-npm run tutorial    # projects/tutorial/*.sb3
+npm run demo        # projects/*.sb3 and projects/en/*.sb3 (English)
+npm run tutorial    # projects/tutorial/*.sb3 and projects/tutorial/en/*.sb3
 npm run tutorial:shots  # tutorial/*.png by the Xcratch editor in headless Chromium (npx playwright-core install chromium)
 ```
 

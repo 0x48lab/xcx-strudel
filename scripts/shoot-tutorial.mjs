@@ -10,7 +10,31 @@ import fs from 'fs-extra';
 import {chromium} from 'playwright-core';
 
 const ROOT = process.cwd();
-const OUT = path.resolve(ROOT, 'tutorial');
+/** English screenshots of the English projects with the --en option, in tutorial/en. */
+const EN = process.argv.includes('--en');
+const OUT = path.resolve(ROOT, EN ? 'tutorial/en' : 'tutorial');
+const PROJECTS = EN ? 'projects/tutorial/en' : 'projects/tutorial';
+
+/** Texts of the editor which the screenshots look for. */
+const UI = EN ? {
+    locale: 'en-US',
+    loader: 'Extension Loader',
+    category: 'Strudel',
+    variables: /^Variables$/,
+    makeList: 'Make a List',
+    sounds: 'Sounds',
+    chooseSound: 'Choose a Sound',
+    record: 'Record'
+} : {
+    locale: 'ja-JP',
+    loader: '拡張機能を読み込む',
+    category: 'ストゥルーデル',
+    variables: /^変数$/,
+    makeList: 'リストを作る',
+    sounds: '音',
+    chooseSound: ' 音を選ぶ',
+    record: '録音する'
+};
 const SITE = 'https://0x48lab.github.io/xcx-strudel/';
 const EDITOR = 'https://xcratch.github.io/editor/';
 const STEPS = 13;
@@ -31,7 +55,7 @@ const MIME = {'.mjs': 'text/javascript', '.js': 'text/javascript', '.sb3': 'appl
 
 const launch = async () => {
     const browser = await chromium.launch({args: ['--autoplay-policy=no-user-gesture-required']});
-    const page = await browser.newPage({viewport: {width: 3800, height: 1300}, deviceScaleFactor: 2, locale: 'ja-JP'});
+    const page = await browser.newPage({viewport: {width: 3800, height: 1300}, deviceScaleFactor: 2, locale: UI.locale});
     // serve this repository instead of GitHub Pages
     await page.route(`${SITE}**`, route => {
         const file = path.join(ROOT, new URL(route.request().url()).pathname.replace('/xcx-strudel/', ''));
@@ -49,7 +73,7 @@ const launch = async () => {
 const open = async (page, project) => {
     // a change of the hash only does not load the editor again
     await page.goto('about:blank');
-    await page.goto(`${EDITOR}#${SITE}projects/tutorial/${project}.sb3`, {waitUntil: 'domcontentloaded'});
+    await page.goto(`${EDITOR}#${SITE}${PROJECTS}/${project}.sb3`, {waitUntil: 'domcontentloaded'});
     await page.waitForFunction(() => window.Blockly && Blockly.getMainWorkspace() &&
         Blockly.getMainWorkspace().getTopBlocks().length > 0, null, {timeout: 60000});
     await page.waitForTimeout(2500);
@@ -159,9 +183,9 @@ const shootLists = async page => {
     const stage = await rectOf(page, '[class*="stage_stage_"]');
     await page.screenshot({path: path.join(OUT, 'stage-list.png'), clip: stage});
     console.log('  stage-list.png');
-    await page.locator('.scratchCategoryMenuItemLabel', {hasText: /^変数$/}).first().click();
+    await page.locator('.scratchCategoryMenuItemLabel', {hasText: UI.variables}).first().click();
     await page.waitForTimeout(1500);
-    const button = await page.locator('.blocklyFlyoutButton', {hasText: 'リストを作る'}).first().boundingBox();
+    const button = await page.locator('.blocklyFlyoutButton', {hasText: UI.makeList}).first().boundingBox();
     await ringRect(page, button);
     const flyout = await rectOf(page, '.blocklyFlyout');
     await shot(page, {x: flyout.x + PAD, y: button.y - 60, width: flyout.width - (PAD * 2), height: 420}, 'make-list');
@@ -172,12 +196,12 @@ const shootLists = async page => {
 const shootRecord = async page => {
     console.log('record');
     await open(page, 'step10');
-    await page.getByRole('tab', {name: '音', exact: true}).click();
+    await page.getByRole('tab', {name: UI.sounds, exact: true}).click();
     await page.waitForTimeout(1500);
-    const main = page.locator('[class*="action-menu_main-button"][aria-label=" 音を選ぶ"]').first();
+    const main = page.locator(`[class*="action-menu_main-button"][aria-label="${UI.chooseSound}"]`).first();
     await main.hover();
     await page.waitForTimeout(1200);
-    await ringRect(page, await page.locator('[aria-label="録音する"]').first().boundingBox());
+    await ringRect(page, await page.locator(`[aria-label="${UI.record}"]`).first().boundingBox());
     const button = await main.boundingBox();
     await shot(page, {x: PAD, y: button.y - 300, width: 440, height: 300 + button.height}, 'record');
     await page.$eval('#tutorial-ring', el => el.remove());
@@ -196,7 +220,7 @@ const shootSetup = async page => {
 
     await page.click('[class*="extension-button"]');
     await page.waitForTimeout(2000);
-    const tile = page.getByText('拡張機能を読み込む', {exact: true}).first();
+    const tile = page.getByText(UI.loader, {exact: true}).first();
     const item = tile.locator('xpath=ancestor::*[contains(@class, "library-item_library-item_")][1]');
     await item.evaluate(el => {
         el.style.outline = '6px solid #ff4d6d';
@@ -224,7 +248,7 @@ const shootSetup = async page => {
 const shootPalette = async page => {
     console.log('palette');
     await open(page, 'step1');
-    await page.getByText('ストゥルーデル', {exact: true}).first().click();
+    await page.getByText(UI.category, {exact: true}).first().click();
     await page.waitForTimeout(1500);
     const toolbox = await rectOf(page, '.blocklyToolboxDiv');
     const flyout = await rectOf(page, '.blocklyFlyout');

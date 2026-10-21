@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Strudel for Xcratch チュートリアル</title>
 <link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="alternate" hreflang="ja" href="https://0x48lab.github.io/xcx-strudel/tutorial.html">
+<link rel="alternate" hreflang="en" href="https://0x48lab.github.io/xcx-strudel/en/tutorial.html">
 <meta name="description" content="Strudel for Xcratch のチュートリアル。ブロックをくみたてて、ビートやメロディをつくろう。">
 <style>
 :root {
@@ -49,6 +51,8 @@ header {
 header h1 { margin: 0; font-size: clamp(26px, 5.5vw, 40px); }
 header p { margin: 8px auto 0; max-width: 640px; font-size: 17px; }
 header a { color: #fff; }
+.lang { max-width: 960px; margin: -24px auto 8px !important; text-align: right; font-size: 15px; }
+.lang a { color: #fff; font-weight: bold; }
 main { max-width: 960px; margin: 0 auto; padding: 24px 16px 48px; }
 .card {
     background: var(--card);
@@ -155,6 +159,7 @@ footer a { color: inherit; }
 </head>
 <body>
 <header>
+    <p class="lang"><a href="en/tutorial.html" data-keep-hash>English</a></p>
     <img src="icon.svg" alt="" width="64" height="64" style="display:block;margin:0 auto 8px">
     <h1>チュートリアル</h1>
     <p>ブロックを くみたてて、ビートや メロディを つくろう。<br>
@@ -689,5 +694,10 @@ s("white*16").hpf(saw.range(300, 9000).slow(4)).gain(saw.range(0, .4).slow(4))</
     <p><a href="./">Strudel for Xcratch</a> — <a href="https://github.com/0x48lab/xcx-strudel/blob/main/LICENSE">AGPL-3.0</a>.
     This extension bundles <a href="https://strudel.cc/">Strudel</a> (AGPL-3.0).</p>
 </footer>
+<script>
+document.querySelectorAll('[data-keep-hash]').forEach(function (a) {
+    a.addEventListener('click', function () { a.href = a.href.split('#')[0] + location.hash; });
+});
+</script>
 </body>
 </html>
