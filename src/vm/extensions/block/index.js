@@ -13,12 +13,15 @@ import {
     miniNode,
     signalArg,
     silenceNode,
+    soundsOf,
     toCode,
+    usesMethod,
     toNode
 } from '../../../core/ast.js';
 import {Engine} from '../../../core/engine.js';
 import {SpriteSounds} from '../../../core/sprite-sounds.js';
-import {loadBank} from '../../../core/sample-banks.js';
+import {FILL_GAPS_CODE} from '../../../core/fill.js';
+import {banksFor, loadBank} from '../../../core/sample-banks.js';
 import {LAYER, StageLayer} from '../../../viz/layer.js';
 import {VIEW, pianorollDrawer} from '../../../viz/pianoroll.js';
 import {scopeDrawer} from '../../../viz/scope.js';
@@ -167,6 +170,12 @@ class ExtensionBlocks {
         this.spriteSounds = new SpriteSounds();
         /** Strudel code of each track which is playing. */
         this.trackCodes = new Map();
+        /** Tracks which use the trance gate, whose code needs fillGaps. */
+        this.trackFills = new Set();
+        /** The latest play request of each track, to drop older requests which finish loading later. */
+        this.playTokens = new Map();
+        /** Loader of sample maps, which tests can replace. */
+        this.loadBank = loadBank;
         /** Blocks above this level are hidden in the palette. */
         this.level = LEVEL.BEGINNER;
 
@@ -293,21 +302,42 @@ class ExtensionBlocks {
         const track = Cast.toString(args.TRACK);
         const code = toCode(n);
         this.trackCodes.set(track, code);
+        if (usesMethod(n, 'trancegate')) this.trackFills.add(track);
+        else this.trackFills.delete(track);
+        const token = {};
+        this.playTokens.set(track, token);
         this.connectHats();
-        return this.engine.play(track, pattern)
+        // load the sample maps which the pattern needs, such as drum machines or the piano
+        const {names, bank} = soundsOf(n);
+        const loads = banksFor(names, bank).map(b => this.loadBank(b).catch(e => console.warn('[strudel]', e)));
+        // stopping while loading cancels the play
+        const generation = this.engine.generation;
+        return Promise.all(loads)
+            .then(() => {
+                // a stop, or a newer play of the same track, came while loading
+                if (generation !== this.engine.generation || this.playTokens.get(track) !== token) return;
+                return this.engine.play(track, pattern);
+            })
             .catch(e => {
-                if (this.trackCodes.get(track) === code) this.trackCodes.delete(track);
+                if (this.playTokens.get(track) === token) {
+                    this.trackCodes.delete(track);
+                    this.trackFills.delete(track);
+                }
                 console.warn('[strudel]', e);
             });
     }
 
     stopTrack (args) {
         this.trackCodes.delete(Cast.toString(args.TRACK));
+        this.trackFills.delete(Cast.toString(args.TRACK));
+        this.playTokens.delete(Cast.toString(args.TRACK));
         if (this._engine) this._engine.stopTrack(Cast.toString(args.TRACK));
     }
 
     stopAll () {
         this.trackCodes.clear();
+        this.trackFills.clear();
+        this.playTokens.clear();
         if (this._engine) this._engine.stopAll();
     }
 
@@ -407,14 +437,14 @@ class ExtensionBlocks {
     }
 
     acid (args) {
-        // a TB-303 like sound: a sawtooth through a resonant low pass filter with an envelope
+        // a TB-303 like sound: a sawtooth through a low pass filter which opens and closes on each note
         const amount = clamp(args.AMOUNT, 0, 1);
         let n = methodNode(args.PATTERN, 's', ['sawtooth']);
         n = methodNode(n, 'lpf', [100]);
-        n = methodNode(n, 'lpenv', [Math.round(amount * 8 * 100) / 100]);
-        n = methodNode(n, 'lpq', [12]);
-        n = methodNode(n, 'lpd', [0.15]);
-        return methodNode(n, 'lps', [0.2]);
+        n = methodNode(n, 'lpenv', [Math.round(amount * 9 * 1000) / 1000]);
+        n = methodNode(n, 'lps', [0.2]);
+        n = methodNode(n, 'lpd', [0.12]);
+        return methodNode(n, 'lpq', [2]);
     }
 
     trancegate (args) {
@@ -462,7 +492,7 @@ class ExtensionBlocks {
     }
 
     loadSamples (args) {
-        return loadBank(Cast.toString(args.BANK)).catch(e => console.warn('[strudel]', e));
+        return this.loadBank(Cast.toString(args.BANK)).catch(e => console.warn('[strudel]', e));
     }
 
     reverse (args) {
@@ -547,6 +577,10 @@ class ExtensionBlocks {
         this.trackCodes.forEach((code, track) => {
             lines.push(`// track ${commentText(track)}`, `$: ${code}`);
         });
+        if (Array.from(this.trackCodes.keys()).some(track => this.trackFills.has(track))) {
+            // the trance gate block uses this function, which is not in Strudel
+            lines.splice(1, 0, '// fillGaps: stretch each sound to the next one (for the trance gate)', FILL_GAPS_CODE);
+        }
         if (lines.some(line => line.includes('scratch_'))) {
             lines.unshift('// sounds of sprites (scratch_...) can not be played on strudel.cc');
         }

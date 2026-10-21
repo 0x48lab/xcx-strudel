@@ -529,6 +529,10 @@ export const EFFECTS = {
     sustain: [0, 1],
     delaytime: [0, 2],
     delayfeedback: [0, 0.95],
+    lpq: [0, 30],
+    lpenv: [-16, 16],
+    lpd: [0, 2],
+    lps: [0, 1],
     vowel: null
 };
 
@@ -548,6 +552,10 @@ const EFFECT_ITEMS = [
     ['sustain', 'sustain'],
     ['delaytime', 'delay time'],
     ['delayfeedback', 'delay feedback'],
+    ['lpq', 'filter resonance (lpq)'],
+    ['lpenv', 'filter movement (lpenv)'],
+    ['lpd', 'filter decay (lpd)'],
+    ['lps', 'filter sustain (lps)'],
     ['vowel', 'vowel']
 ];
 

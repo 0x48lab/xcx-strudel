@@ -142,7 +142,11 @@
     "strudel.menu.effect.sustain": "sustain",
     "strudel.menu.effect.delaytime": "delay time",
     "strudel.menu.effect.delayfeedback": "delay feedback",
-    "strudel.menu.synth.supersaw": "supersaw"
+    "strudel.menu.synth.supersaw": "supersaw",
+    "strudel.menu.effect.lpq": "filter resonance (lpq)",
+    "strudel.menu.effect.lpenv": "filter movement (lpenv)",
+    "strudel.menu.effect.lpd": "filter decay (lpd)",
+    "strudel.menu.effect.lps": "filter sustain (lps)"
   },
   "ja": {
     "strudel.name": "ストゥルーデル",
@@ -287,7 +291,11 @@
     "strudel.menu.effect.sustain": "持続 (sustain)",
     "strudel.menu.effect.delaytime": "やまびこの間隔 (delaytime)",
     "strudel.menu.effect.delayfeedback": "やまびこの繰り返し (delayfeedback)",
-    "strudel.menu.synth.supersaw": "分厚いギザギザ音 (supersaw)"
+    "strudel.menu.synth.supersaw": "分厚いギザギザ音 (supersaw)",
+    "strudel.menu.effect.lpq": "フィルターの共鳴 (lpq)",
+    "strudel.menu.effect.lpenv": "フィルターの動き (lpenv)",
+    "strudel.menu.effect.lpd": "フィルターの減衰 (lpd)",
+    "strudel.menu.effect.lps": "フィルターの持続 (lps)"
   },
   "ja-Hira": {
     "strudel.name": "すとぅるーでる",
@@ -432,6 +440,10 @@
     "strudel.menu.effect.sustain": "のこる おおきさ (sustain)",
     "strudel.menu.effect.delaytime": "やまびこの かんかく (delaytime)",
     "strudel.menu.effect.delayfeedback": "やまびこの くりかえし (delayfeedback)",
-    "strudel.menu.synth.supersaw": "ぶあつい ギザギザ おと"
+    "strudel.menu.synth.supersaw": "ぶあつい ギザギザ おと",
+    "strudel.menu.effect.lpq": "フィルターの ひびき (lpq)",
+    "strudel.menu.effect.lpenv": "フィルターの うごき (lpenv)",
+    "strudel.menu.effect.lpd": "フィルターの へりかた (lpd)",
+    "strudel.menu.effect.lps": "フィルターの のこりかた (lps)"
   }
 }

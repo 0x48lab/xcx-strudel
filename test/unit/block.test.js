@@ -485,8 +485,9 @@ describe('add, superimpose, acid and trance gate blocks', () => {
         ['addNotes', {PATTERN: 'c4', VALUE: '<0 3>'}, 'note("c4").add(note("<0 3>"))'],
         ['addNotes', {PATTERN: 'c4', VALUE: '99'}, 'note("c4").add(note(48))'],
         ['superimpose', {PATTERN: 'c4', TRANSFORM: 'up7'}, 'note("c4").superimpose(x => x.transpose(7))'],
-        ['acid', {PATTERN: 'c4', AMOUNT: 0.5}, 'note("c4").s("sawtooth").lpf(100).lpenv(4).lpq(12).lpd(0.15).lps(0.2)'],
-        ['trancegate', {PATTERN: 'c4', DENSITY: 2, SEED: 3.4, LENGTH: 0}, 'note("c4").struct(rand.mul(1.5).round().seg(16).rib(3, 1)).clip(0.7)'],
+        ['acid', {PATTERN: 'c4', AMOUNT: 0.5}, 'note("c4").s("sawtooth").lpf(100).lpenv(4.5).lps(0.2).lpd(0.12).lpq(2)'],
+        ['effect', {PATTERN: 'c4', EFFECT: 'lpq', VALUE: '99'}, 'note("c4").lpq(30)'],
+        ['trancegate', {PATTERN: 'c4', DENSITY: 2, SEED: 3.4, LENGTH: 0}, 'note("c4").struct(rand.mul(1.5).round().seg(16).rib(3, 1)).fillGaps().clip(0.7)'],
         ['effect', {PATTERN: 'c4', EFFECT: 'delayfeedback', VALUE: '3'}, 'note("c4").delayfeedback(0.95)'],
         ['effect', {PATTERN: 'c4', EFFECT: 'clip', VALUE: '.5'}, 'note("c4").clip(".5")']
     ])('%s %j', (opcode, args, code) => {
@@ -513,5 +514,110 @@ describe('add, superimpose, acid and trance gate blocks', () => {
         e.engine.play = vi.fn(() => Promise.resolve());
         await e.playTrack({PATTERN: e.addNotes({PATTERN: 'bd', VALUE: '1'}), TRACK: '1'});
         expect(e.engine.play).not.toHaveBeenCalled();
+    });
+});
+
+describe('sample maps are loaded when a pattern needs them', () => {
+    const make = () => {
+        const ext = new blockClass(makeRuntime());
+        ext.engine.play = vi.fn(() => Promise.resolve());
+        ext.loadBank = vi.fn(() => Promise.resolve());
+        return ext;
+    };
+
+    test.each([
+        ['a drum machine', e => e.drumMachine({PATTERN: 'bd sd', MACHINE: 'RolandTR909'}), ['drums']],
+        ['the piano tone', e => e.tone({PATTERN: 'c4', SYNTH: 'piano'}), ['piano']],
+        ['Dirt-Samples', e => e.miniSound({CODE: 'casio:1 jazz'}), ['dirt']],
+        ['VCSL', e => e.miniSound({CODE: 'marimba kalimba'}), ['vcsl']],
+        ['built-in sounds only', e => e.tone({PATTERN: e.miniSound({CODE: 'bd hh'}), SYNTH: 'sawtooth'}), []],
+        ['notes', e => e.miniNote({CODE: 'c4 e4'}), []]
+    ])('%s', async (_, make1, banks) => {
+        const ext = make();
+        await ext.playTrack({PATTERN: make1(ext), TRACK: '1'});
+        expect(ext.loadBank.mock.calls.map(c => c[0]).sort()).toEqual(banks);
+        expect(ext.engine.play).toHaveBeenCalled();
+    });
+
+    test('a failed load still plays', async () => {
+        const ext = make();
+        ext.loadBank = vi.fn(() => Promise.reject(new Error('offline')));
+        await ext.playTrack({PATTERN: ext.tone({PATTERN: 'c4', SYNTH: 'piano'}), TRACK: '1'});
+        expect(ext.engine.play).toHaveBeenCalled();
+    });
+
+    test('stopping while loading cancels the play', async () => {
+        const ext = make();
+        let finish;
+        ext.loadBank = vi.fn(() => new Promise(resolve => {
+            finish = resolve;
+        }));
+        const playing = ext.playTrack({PATTERN: ext.tone({PATTERN: 'c4', SYNTH: 'piano'}), TRACK: '1'});
+        ext.stopAll();
+        finish();
+        await playing;
+        expect(ext.engine.play).not.toHaveBeenCalled();
+    });
+});
+
+describe('exported code with the trance gate', () => {
+    test('defines fillGaps first', async () => {
+        const ext = new blockClass(makeRuntime());
+        ext.engine.play = vi.fn(() => Promise.resolve());
+        ext.loadBank = vi.fn(() => Promise.resolve());
+        await ext.playTrack({PATTERN: ext.trancegate({PATTERN: 'c4', DENSITY: 0.5, SEED: 1, LENGTH: 1}), TRACK: 'pad'});
+        const lines = ext.strudelCode().split('\n');
+        expect(lines[2].startsWith("register('fillGaps'")).toBe(true);
+        expect(lines[lines.length - 1]).toContain('.fillGaps().clip(0.7)');
+    });
+
+    test('does not define fillGaps without the trance gate', async () => {
+        const ext = new blockClass(makeRuntime());
+        ext.engine.play = vi.fn(() => Promise.resolve());
+        await ext.playTrack({PATTERN: 'bd', TRACK: '1'});
+        expect(ext.strudelCode()).not.toContain('fillGaps');
+    });
+});
+
+describe('races while loading samples', () => {
+    const make = () => {
+        const ext = new blockClass(makeRuntime());
+        ext.engine.play = vi.fn(() => Promise.resolve());
+        return ext;
+    };
+
+    test('stopping the track while loading cancels the play', async () => {
+        const ext = make();
+        let finish;
+        ext.loadBank = vi.fn(() => new Promise(resolve => {
+            finish = resolve;
+        }));
+        const playing = ext.playTrack({PATTERN: ext.tone({PATTERN: 'c4', SYNTH: 'piano'}), TRACK: 'p'});
+        ext.stopTrack({TRACK: 'p'});
+        finish();
+        await playing;
+        expect(ext.engine.play).not.toHaveBeenCalled();
+    });
+
+    test('a later play of the same track wins over a slower load', async () => {
+        const ext = make();
+        let finishSlow;
+        ext.loadBank = vi.fn(() => new Promise(resolve => {
+            finishSlow = resolve;
+        }));
+        const slow = ext.playTrack({PATTERN: ext.tone({PATTERN: 'c4', SYNTH: 'piano'}), TRACK: 'p'});
+        ext.loadBank = vi.fn(() => Promise.resolve());
+        await ext.playTrack({PATTERN: 'bd', TRACK: 'p'});
+        finishSlow();
+        await slow;
+        expect(ext.engine.play).toHaveBeenCalledTimes(1);
+        expect(ext.strudelCode()).toContain('$: s("bd")');
+    });
+
+    test('the definition of fillGaps is added only for the trance gate', async () => {
+        const ext = make();
+        await ext.playTrack({PATTERN: ext.miniNote({CODE: 'c4'}), TRACK: '1'});
+        await ext.playTrack({PATTERN: ext.miniSound({CODE: 'a).fillGaps()'}), TRACK: '2'});
+        expect(ext.strudelCode()).not.toContain("register('fillGaps'");
     });
 });

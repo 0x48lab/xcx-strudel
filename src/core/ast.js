@@ -2,6 +2,7 @@ import {cat, n as nControl, note, perlin, rand, s, saw, seq, silence, sine, squa
 import {mini, mini2ast} from '@strudel/mini';
 // registers Pattern.prototype.scale and transpose
 import '@strudel/tonal';
+import {fillGaps} from './fill.js';
 
 /**
  * Pattern AST built by blocks.
@@ -96,7 +97,7 @@ const METHODS = {
     sustain: [value(0, 1)],
     delaytime: [value(0, 2)],
     delayfeedback: [value(0, 0.95)],
-    lpenv: [value(-8, 8)],
+    lpenv: [value(-16, 16)],
     lpq: [value(0, 30)],
     lpd: [value(0, 2)],
     lps: [value(0, 1)],
@@ -275,6 +276,44 @@ export const toNode = v => {
 };
 
 /**
+ * @param {object} n - node
+ * @param {string} fn - method name
+ * @returns {boolean} - true if the pattern uses the method
+ */
+export const usesMethod = (n, fn) => {
+    if (n.type === 'method') return n.fn === fn || usesMethod(n.target, fn);
+    if (n.type === 'call') return n.args.some(a => usesMethod(a, fn));
+    return false;
+};
+
+/**
+ * Sound names and the use of drum machines in a pattern, to load the samples which it needs.
+ * @param {object} n - node
+ * @param {object} [found] - result to add to
+ * @returns {{names: Set<string>, bank: boolean}} - sound names in lower case, and true if .bank() is used
+ */
+export const soundsOf = (n, found = {names: new Set(), bank: false}) => {
+    switch (n.type) {
+    case 'mini':
+        if ((n.control || classify(n.code)) === 's') {
+            (n.code.match(/[A-Za-z][\w]*/g) || []).forEach(word => found.names.add(word.toLowerCase()));
+        }
+        break;
+    case 'call':
+        n.args.forEach(a => soundsOf(a, found));
+        break;
+    case 'method':
+        soundsOf(n.target, found);
+        if (n.fn === 's' && typeof n.args[0] === 'string') found.names.add(n.args[0].toLowerCase());
+        if (n.fn === 'bank') found.bank = true;
+        break;
+    default:
+        break;
+    }
+    return found;
+};
+
+/**
  * Use notes and numbers of a pattern as steps of a scale, for the scale block.
  * @param {object} n - node
  * @returns {object} - node whose numbers are steps (n)
@@ -389,7 +428,9 @@ export const toCode = n => {
             return `${toCode(n.target)}.add(${addControl(n.target)}(${argCode(n.args[0])}))`;
         }
         if (n.fn === 'trancegate') {
-            return `${toCode(n.target)}.struct(${gateCode(...n.args)}).clip(0.7)`;
+            // fillGaps is not in Strudel, so exported code has its definition (FILL_GAPS_CODE)
+            return `${toCode(n.target)}.struct(${gateCode(...n.args)})` +
+                '.fillGaps().clip(0.7)';
         }
         return `${toCode(n.target)}.${n.fn}(${n.args.map(argCode).join(', ')})`;
     default:
@@ -631,7 +672,7 @@ const compileNode = n => {
         const args = checkArgs(n.fn, n.args);
         const target = compileNode(n.target);
         if (n.fn === 'add') return target.add(CONTROLS[addControl(n.target)](args[0]));
-        if (n.fn === 'trancegate') return target.struct(gatePattern(...args)).clip(0.7);
+        if (n.fn === 'trancegate') return fillGaps(target.struct(gatePattern(...args))).clip(0.7);
         return target[n.fn](...args);
     }
     default:

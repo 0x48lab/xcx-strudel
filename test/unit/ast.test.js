@@ -2,6 +2,7 @@ import * as core from '@strudel/core';
 import * as miniModule from '@strudel/mini';
 import * as tonal from '@strudel/tonal';
 import {evaluate} from '@strudel/transpiler';
+import {FILL_GAPS_CODE, fillGaps} from '../../src/core/fill.js';
 import {
     callNode,
     classify,
@@ -22,6 +23,8 @@ const events = (pattern, cycles = 4) => pattern.queryArc(0, cycles)
 
 beforeAll(async () => {
     await core.evalScope(core, miniModule, tonal);
+    // exported code with the trance gate defines fillGaps first
+    await evaluate(FILL_GAPS_CODE);
 });
 
 /**
@@ -449,7 +452,7 @@ describe('add, superimpose, trancegate and more effects', () => {
 
     test('a trance gate is written with Strudel functions only', async () => {
         const n = methodNode(methodNode(miniNode('c3', 'note'), 's', ['supersaw']), 'trancegate', [0.5, 3, 1]);
-        expect(toCode(n)).toBe('note("c3").s("supersaw").struct(rand.mul(1).round().seg(16).rib(3, 1)).clip(0.7)');
+        expect(toCode(n)).toBe('note("c3").s("supersaw").struct(rand.mul(1).round().seg(16).rib(3, 1)).fillGaps().clip(0.7)');
         await expectSameAsStrudel(n);
     });
 
@@ -484,5 +487,43 @@ describe('polymeter steps and other estimates', () => {
     test('add finds the notes in a stack which starts with drums', () => {
         const n = methodNode(callNode('stack', [miniNode('bd', 's'), miniNode('c3', 'note')]), 'add', [12]);
         expect(toCode(n)).toBe('stack(s("bd"), note("c3")).add(note(12))');
+    });
+});
+
+describe('fillGaps', () => {
+    const spans = pattern => pattern.queryArc(0, 2).filter(h => h.hasOnset())
+        .map(h => [h.whole.begin.valueOf(), h.whole.end.valueOf()])
+        .sort((a, b) => a[0] - b[0]);
+
+    test('each sound reaches the next one', () => {
+        expect(spans(fillGaps(core.s(miniModule.mini('bd ~ ~ sd'))))).toEqual([[0, 0.75], [0.75, 1], [1, 1.75], [1.75, 2]]);
+    });
+
+    test('a chord stays together', () => {
+        const values = fillGaps(core.note(miniModule.mini('[c3,e3] ~ g3 ~'))).queryArc(0, 1)
+            .filter(h => h.hasOnset())
+            .map(h => [h.whole.begin.valueOf(), h.whole.end.valueOf()]);
+        expect(values).toEqual([[0, 0.5], [0, 0.5], [0.5, 1]]);
+    });
+
+    test('a query in the middle of a sound returns its part', () => {
+        const haps = fillGaps(core.s(miniModule.mini('bd ~ ~ ~'))).queryArc(0.5, 0.75);
+        expect(haps.map(h => [h.whole.begin.valueOf(), h.whole.end.valueOf(), h.part.begin.valueOf()]))
+            .toEqual([[0, 1, 0.5]]);
+    });
+
+    test('the code version gives the same events', async () => {
+        const {pattern} = await evaluate('s("bd ~ hh [~ sd]").fillGaps()');
+        expect(spans(pattern)).toEqual(spans(fillGaps(core.s(miniModule.mini('bd ~ hh [~ sd]')))));
+    });
+});
+
+describe('fillGaps performance', () => {
+    test('many events are filled quickly', () => {
+        const pattern = fillGaps(core.s(miniModule.mini('[bd*64]!64')));
+        const start = Date.now();
+        const haps = pattern.queryArc(0, 1);
+        expect(haps.length).toBe(4096);
+        expect(Date.now() - start).toBeLessThan(2000);
     });
 });

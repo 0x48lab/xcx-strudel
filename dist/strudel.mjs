@@ -19,7 +19,7 @@ var translations$1 = {
 }
 };
 
-var version$1 = "0.1.0";
+var version$1 = "0.2.0";
 
 /**
  * This is an extension for Xcratch.
@@ -907,7 +907,11 @@ var en$1 = {
 	"strudel.menu.effect.sustain": "sustain",
 	"strudel.menu.effect.delaytime": "delay time",
 	"strudel.menu.effect.delayfeedback": "delay feedback",
-	"strudel.menu.synth.supersaw": "supersaw"
+	"strudel.menu.synth.supersaw": "supersaw",
+	"strudel.menu.effect.lpq": "filter resonance (lpq)",
+	"strudel.menu.effect.lpenv": "filter movement (lpenv)",
+	"strudel.menu.effect.lpd": "filter decay (lpd)",
+	"strudel.menu.effect.lps": "filter sustain (lps)"
 };
 var ja$1 = {
 	"strudel.name": "ストゥルーデル",
@@ -1052,7 +1056,11 @@ var ja$1 = {
 	"strudel.menu.effect.sustain": "持続 (sustain)",
 	"strudel.menu.effect.delaytime": "やまびこの間隔 (delaytime)",
 	"strudel.menu.effect.delayfeedback": "やまびこの繰り返し (delayfeedback)",
-	"strudel.menu.synth.supersaw": "分厚いギザギザ音 (supersaw)"
+	"strudel.menu.synth.supersaw": "分厚いギザギザ音 (supersaw)",
+	"strudel.menu.effect.lpq": "フィルターの共鳴 (lpq)",
+	"strudel.menu.effect.lpenv": "フィルターの動き (lpenv)",
+	"strudel.menu.effect.lpd": "フィルターの減衰 (lpd)",
+	"strudel.menu.effect.lps": "フィルターの持続 (lps)"
 };
 var translations = {
 	en: en$1,
@@ -1200,7 +1208,11 @@ var translations = {
 	"strudel.menu.effect.sustain": "のこる おおきさ (sustain)",
 	"strudel.menu.effect.delaytime": "やまびこの かんかく (delaytime)",
 	"strudel.menu.effect.delayfeedback": "やまびこの くりかえし (delayfeedback)",
-	"strudel.menu.synth.supersaw": "ぶあつい ギザギザ おと"
+	"strudel.menu.synth.supersaw": "ぶあつい ギザギザ おと",
+	"strudel.menu.effect.lpq": "フィルターの ひびき (lpq)",
+	"strudel.menu.effect.lpenv": "フィルターの うごき (lpenv)",
+	"strudel.menu.effect.lpd": "フィルターの へりかた (lpd)",
+	"strudel.menu.effect.lps": "フィルターの のこりかた (lps)"
 }
 };
 
@@ -6849,9 +6861,13 @@ var EFFECTS = {
   sustain: [0, 1],
   delaytime: [0, 2],
   delayfeedback: [0, 0.95],
+  lpq: [0, 30],
+  lpenv: [-16, 16],
+  lpd: [0, 2],
+  lps: [0, 1],
   vowel: null
 };
-var EFFECT_ITEMS = [['lpf', 'muffle (lpf)'], ['hpf', 'thin (hpf)'], ['room', 'echo in a room (room)'], ['delay', 'delay'], ['gain', 'volume (gain)'], ['pan', 'left-right (pan)'], ['crush', 'crush'], ['speed', 'speed'], ['attack', 'fade in (attack)'], ['release', 'fade out (release)'], ['clip', 'length (clip)'], ['decay', 'decay'], ['sustain', 'sustain'], ['delaytime', 'delay time'], ['delayfeedback', 'delay feedback'], ['vowel', 'vowel']];
+var EFFECT_ITEMS = [['lpf', 'muffle (lpf)'], ['hpf', 'thin (hpf)'], ['room', 'echo in a room (room)'], ['delay', 'delay'], ['gain', 'volume (gain)'], ['pan', 'left-right (pan)'], ['crush', 'crush'], ['speed', 'speed'], ['attack', 'fade in (attack)'], ['release', 'fade out (release)'], ['clip', 'length (clip)'], ['decay', 'decay'], ['sustain', 'sustain'], ['delaytime', 'delay time'], ['delayfeedback', 'delay feedback'], ['lpq', 'filter resonance (lpq)'], ['lpenv', 'filter movement (lpenv)'], ['lpd', 'filter decay (lpd)'], ['lps', 'filter sustain (lps)'], ['vowel', 'vowel']];
 var BANK_ITEMS = [['drums', 'drum machines'], ['piano', 'piano'], ['dirt', 'Dirt-Samples (casio, jazz ...)'], ['vcsl', 'VCSL instruments']];
 var MACHINE_ITEMS = ['RolandTR909', 'RolandTR808', 'RolandTR707', 'LinnDrum', 'OberheimDMX', 'KorgMinipops', 'CasioRZ1', 'BossDR55'].map(function (m) {
   return [m, m];
@@ -15379,6 +15395,54 @@ q$1("ireal", g);
 q$1("ireal-ext", w);
 
 /**
+ * Stretch each event until the next event starts, so that a gated pattern sounds connected.
+ * Events are looked for one cycle before and after the query, so a gap longer than a cycle
+ * is not filled. Events without a whole, such as signals, are dropped.
+ * @param {Pattern} pat - pattern
+ * @returns {Pattern} - pattern whose events reach the next events
+ */
+var fillGaps = function fillGaps(pat) {
+  return new f(function (state) {
+    var span = state.span;
+    var around = state.setSpan(new B$1(span.begin.sub(1), span.end.add(1)));
+    var haps = pat.query(around).filter(function (hap) {
+      return hap.whole;
+    });
+    var onsets = haps.map(function (hap) {
+      return hap.whole.begin;
+    }).sort(function (a, b) {
+      return a.compare(b);
+    });
+    // the first onset at or after a time, by binary search
+    var nextOnset = function nextOnset(time) {
+      var low = 0;
+      var high = onsets.length;
+      while (low < high) {
+        var mid = low + high >> 1;
+        if (onsets[mid].lt(time)) low = mid + 1;else high = mid;
+      }
+      return onsets[low];
+    };
+    var result = [];
+    haps.forEach(function (hap) {
+      var next = nextOnset(hap.whole.end);
+      var end = next || hap.whole.end;
+      var begin = hap.part.begin.max(span.begin);
+      var partEnd = end.min(span.end);
+      if (begin.gte(partEnd)) return;
+      result.push(new S$2(new B$1(hap.whole.begin, end), new B$1(begin, partEnd), hap.value, hap.context));
+    });
+    return result;
+  });
+};
+
+/**
+ * The same function as Strudel code, which is put before exported code that uses it.
+ * It is a fixed text and has no user input.
+ */
+var FILL_GAPS_CODE = "register('fillGaps', (pat) => new Pattern((state) => {\n  const span = state.span;\n  const around = state.setSpan(new TimeSpan(span.begin.sub(1), span.end.add(1)));\n  const haps = pat.query(around).filter((hap) => hap.whole);\n  const onsets = haps.map((hap) => hap.whole.begin).sort((a, b) => a.compare(b));\n  const nextOnset = (time) => {\n    let low = 0;\n    let high = onsets.length;\n    while (low < high) {\n      const mid = (low + high) >> 1;\n      if (onsets[mid].lt(time)) low = mid + 1;\n      else high = mid;\n    }\n    return onsets[low];\n  };\n  const result = [];\n  haps.forEach((hap) => {\n    const next = nextOnset(hap.whole.end);\n    const end = next || hap.whole.end;\n    const begin = hap.part.begin.max(span.begin);\n    const partEnd = end.min(span.end);\n    if (begin.gte(partEnd)) return;\n    result.push(new Hap(new TimeSpan(hap.whole.begin, end), new TimeSpan(begin, partEnd), hap.value, hap.context));\n  });\n  return result;\n}))";
+
+/**
  * Pattern AST built by blocks.
  * Every node compiles to a Strudel Pattern and converts to Strudel code.
  *
@@ -15511,7 +15575,7 @@ var METHODS = {
   sustain: [value(0, 1)],
   delaytime: [value(0, 2)],
   delayfeedback: [value(0, 0.95)],
-  lpenv: [value(-8, 8)],
+  lpenv: [value(-16, 16)],
   lpq: [value(0, 30)],
   lpd: [value(0, 2)],
   lps: [value(0, 1)],
@@ -15753,10 +15817,43 @@ var toNode = function toNode(v) {
 };
 
 /**
- * Use notes and numbers of a pattern as steps of a scale, for the scale block.
  * @param {object} n - node
- * @returns {object} - node whose numbers are steps (n)
+ * @param {string} fn - method name
+ * @returns {boolean} - true if the pattern uses the method
  */
+var _usesMethod = function usesMethod(n, fn) {
+  if (n.type === 'method') return n.fn === fn || _usesMethod(n.target, fn);
+  if (n.type === 'call') return n.args.some(function (a) {
+    return _usesMethod(a, fn);
+  });
+  return false;
+};
+var _soundsOf = function soundsOf(n) {
+  var found = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
+    names: new Set(),
+    bank: false
+  };
+  switch (n.type) {
+    case 'mini':
+      if ((n.control || classify(n.code)) === 's') {
+        (n.code.match(/[A-Za-z][\w]*/g) || []).forEach(function (word) {
+          return found.names.add(word.toLowerCase());
+        });
+      }
+      break;
+    case 'call':
+      n.args.forEach(function (a) {
+        return _soundsOf(a, found);
+      });
+      break;
+    case 'method':
+      _soundsOf(n.target, found);
+      if (n.fn === 's' && typeof n.args[0] === 'string') found.names.add(n.args[0].toLowerCase());
+      if (n.fn === 'bank') found.bank = true;
+      break;
+  }
+  return found;
+};
 var _asSteps = function asSteps(n) {
   switch (n.type) {
     case 'mini':
@@ -15881,7 +15978,8 @@ var _toCode = function toCode(n) {
         return "".concat(_toCode(n.target), ".add(").concat(addControl(n.target), "(").concat(_argCode(n.args[0]), "))");
       }
       if (n.fn === 'trancegate') {
-        return "".concat(_toCode(n.target), ".struct(").concat(gateCode.apply(void 0, _toConsumableArray(n.args)), ").clip(0.7)");
+        // fillGaps is not in Strudel, so exported code has its definition (FILL_GAPS_CODE)
+        return "".concat(_toCode(n.target), ".struct(").concat(gateCode.apply(void 0, _toConsumableArray(n.args)), ")") + '.fillGaps().clip(0.7)';
       }
       return "".concat(_toCode(n.target), ".").concat(n.fn, "(").concat(n.args.map(_argCode).join(', '), ")");
     default:
@@ -16143,7 +16241,7 @@ var _compileNode = function compileNode(n) {
         var args = checkArgs(n.fn, n.args);
         var target = _compileNode(n.target);
         if (n.fn === 'add') return target.add(CONTROLS[addControl(n.target)](args[0]));
-        if (n.fn === 'trancegate') return target.struct(gatePattern.apply(void 0, _toConsumableArray(args))).clip(0.7);
+        if (n.fn === 'trancegate') return fillGaps(target.struct(gatePattern.apply(void 0, _toConsumableArray(args)))).clip(0.7);
         return target[n.fn].apply(target, _toConsumableArray(args));
       }
     default:
@@ -19526,6 +19624,32 @@ var BANKS = {
   dirt: 'Dirt-Samples.json',
   vcsl: 'vcsl.json'
 };
+
+/**
+ * Sound names in each sample map, to load the map when a pattern uses one of them.
+ * The drum machines are found by .bank(), so their names are not listed.
+ */
+var SOUNDS = {
+  piano: ['piano'],
+  dirt: ['casio', 'crow', 'insect', 'wind', 'jazz', 'metal', 'east', 'space', 'numbers'],
+  vcsl: ['ballwhistle', 'bassdrum1', 'bassdrum2', 'bongo', 'conga', 'darbuka', 'framedrum', 'snare_modern', 'snare_hi', 'snare_low', 'snare_rim', 'timpani', 'timpani_roll', 'timpani2', 'tom_mallet', 'tom_stick', 'tom_rim', 'tom2_mallet', 'tom2_stick', 'tom2_rim', 'recorder_alto_stacc', 'recorder_alto_vib', 'recorder_alto_sus', 'recorder_bass_stacc', 'recorder_bass_vib', 'recorder_bass_sus', 'recorder_soprano_stacc', 'recorder_soprano_sus', 'recorder_tenor_stacc', 'recorder_tenor_vib', 'recorder_tenor_sus', 'ocarina_small_stacc', 'ocarina_small', 'ocarina', 'ocarina_vib', 'pipeorgan_loud_pedal', 'pipeorgan_loud', 'pipeorgan_quiet_pedal', 'pipeorgan_quiet', 'organ_4inch', 'organ_8inch', 'organ_full', 'trainwhistle', 'harmonica', 'harmonica_soft', 'harmonica_vib', 'super64', 'super64_acc', 'super64_vib', 'siren', 'didgeridoo', 'saxello', 'saxello_stacc', 'saxello_vib', 'sax', 'sax_stacc', 'sax_vib', 'harp', 'folkharp', 'strumstick', 'dantranh', 'dantranh_tremolo', 'dantranh_vibrato', 'kawai', 'steinway', 'psaltery_pluck', 'psaltery_spiccato', 'psaltery_bow', 'clavisynth', 'fmpiano', 'piano1', 'wineglass', 'wineglass_slow', 'agogo', 'anvil', 'brakedrum', 'balafon_hard', 'balafon_soft', 'balafon', 'belltree', 'cabasa', 'cajon', 'clap', 'clash', 'clash2', 'clave', 'cowbell', 'fingercymbal', 'flexatone', 'gong', 'gong2', 'guiro', 'glockenspiel', 'handbells', 'handchimes', 'hihat', 'kalimba', 'kalimba2', 'kalimba3', 'kalimba4', 'kalimba5', 'marimba', 'marktrees', 'oceandrum', 'ratchet', 'shaker_large', 'shaker_small', 'slapstick', 'sleighbells', 'slitdrum', 'sus_cymbal', 'sus_cymbal2', 'tambourine', 'tambourine2', 'triangles', 'tubularbells', 'tubularbells2', 'vibraphone', 'vibraphone_soft', 'vibraphone_bowed', 'vibraslap', 'woodblock', 'xylophone_hard_pp', 'xylophone_hard_ff', 'xylophone_medium_ff', 'xylophone_medium_pp', 'xylophone_soft_pp', 'xylophone_soft_ff']
+};
+
+/**
+ * Sample maps which a pattern needs.
+ * @param {Set<string>} names - sound names in the pattern
+ * @param {boolean} usesBank - true if the pattern uses .bank()
+ * @returns {Array<string>} - keys of BANKS
+ */
+var banksFor = function banksFor(names, usesBank) {
+  var banks = Object.keys(SOUNDS).filter(function (bank) {
+    return SOUNDS[bank].some(function (name) {
+      return names.has(name);
+    });
+  });
+  if (usesBank) banks.push('drums');
+  return banks;
+};
 var loading = new Map();
 
 /**
@@ -19971,6 +20095,12 @@ var ExtensionBlocks = /*#__PURE__*/function () {
     this.spriteSounds = new SpriteSounds();
     /** Strudel code of each track which is playing. */
     this.trackCodes = new Map();
+    /** Tracks which use the trance gate, whose code needs fillGaps. */
+    this.trackFills = new Set();
+    /** The latest play request of each track, to drop older requests which finish loading later. */
+    this.playTokens = new Map();
+    /** Loader of sample maps, which tests can replace. */
+    this.loadBank = loadBank;
     /** Blocks above this level are hidden in the palette. */
     this.level = LEVEL.BEGINNER;
 
@@ -20134,9 +20264,30 @@ var ExtensionBlocks = /*#__PURE__*/function () {
       var track = Cast.toString(args.TRACK);
       var code = _toCode(n);
       this.trackCodes.set(track, code);
+      if (_usesMethod(n, 'trancegate')) this.trackFills.add(track);else this.trackFills.delete(track);
+      var token = {};
+      this.playTokens.set(track, token);
       this.connectHats();
-      return this.engine.play(track, pattern).catch(function (e) {
-        if (_this3.trackCodes.get(track) === code) _this3.trackCodes.delete(track);
+      // load the sample maps which the pattern needs, such as drum machines or the piano
+      var _soundsOf$1 = _soundsOf(n),
+        names = _soundsOf$1.names,
+        bank = _soundsOf$1.bank;
+      var loads = banksFor(names, bank).map(function (b) {
+        return _this3.loadBank(b).catch(function (e) {
+          return console.warn('[strudel]', e);
+        });
+      });
+      // stopping while loading cancels the play
+      var generation = this.engine.generation;
+      return Promise.all(loads).then(function () {
+        // a stop, or a newer play of the same track, came while loading
+        if (generation !== _this3.engine.generation || _this3.playTokens.get(track) !== token) return;
+        return _this3.engine.play(track, pattern);
+      }).catch(function (e) {
+        if (_this3.playTokens.get(track) === token) {
+          _this3.trackCodes.delete(track);
+          _this3.trackFills.delete(track);
+        }
         console.warn('[strudel]', e);
       });
     }
@@ -20144,12 +20295,16 @@ var ExtensionBlocks = /*#__PURE__*/function () {
     key: "stopTrack",
     value: function stopTrack(args) {
       this.trackCodes.delete(Cast.toString(args.TRACK));
+      this.trackFills.delete(Cast.toString(args.TRACK));
+      this.playTokens.delete(Cast.toString(args.TRACK));
       if (this._engine) this._engine.stopTrack(Cast.toString(args.TRACK));
     }
   }, {
     key: "stopAll",
     value: function stopAll() {
       this.trackCodes.clear();
+      this.trackFills.clear();
+      this.playTokens.clear();
       if (this._engine) this._engine.stopAll();
     }
   }, {
@@ -20277,14 +20432,14 @@ var ExtensionBlocks = /*#__PURE__*/function () {
   }, {
     key: "acid",
     value: function acid(args) {
-      // a TB-303 like sound: a sawtooth through a resonant low pass filter with an envelope
+      // a TB-303 like sound: a sawtooth through a low pass filter which opens and closes on each note
       var amount = clamp(args.AMOUNT, 0, 1);
       var n = methodNode(args.PATTERN, 's', ['sawtooth']);
       n = methodNode(n, 'lpf', [100]);
-      n = methodNode(n, 'lpenv', [Math.round(amount * 8 * 100) / 100]);
-      n = methodNode(n, 'lpq', [12]);
-      n = methodNode(n, 'lpd', [0.15]);
-      return methodNode(n, 'lps', [0.2]);
+      n = methodNode(n, 'lpenv', [Math.round(amount * 9 * 1000) / 1000]);
+      n = methodNode(n, 'lps', [0.2]);
+      n = methodNode(n, 'lpd', [0.12]);
+      return methodNode(n, 'lpq', [2]);
     }
   }, {
     key: "trancegate",
@@ -20335,7 +20490,7 @@ var ExtensionBlocks = /*#__PURE__*/function () {
   }, {
     key: "loadSamples",
     value: function loadSamples(args) {
-      return loadBank(Cast.toString(args.BANK)).catch(function (e) {
+      return this.loadBank(Cast.toString(args.BANK)).catch(function (e) {
         return console.warn('[strudel]', e);
       });
     }
@@ -20434,12 +20589,19 @@ var ExtensionBlocks = /*#__PURE__*/function () {
   }, {
     key: "strudelCode",
     value: function strudelCode() {
+      var _this5 = this;
       var engine = this._engine;
       var cpm = engine ? engine.bpm / engine.beatsPerCycle : 30;
       var lines = ["setcpm(".concat(Math.round(cpm * 1000) / 1000, ")")];
       this.trackCodes.forEach(function (code, track) {
         lines.push("// track ".concat(commentText(track)), "$: ".concat(code));
       });
+      if (Array.from(this.trackCodes.keys()).some(function (track) {
+        return _this5.trackFills.has(track);
+      })) {
+        // the trance gate block uses this function, which is not in Strudel
+        lines.splice(1, 0, '// fillGaps: stretch each sound to the next one (for the trance gate)', FILL_GAPS_CODE);
+      }
       if (lines.some(function (line) {
         return line.includes('scratch_');
       })) {
@@ -20461,19 +20623,19 @@ var ExtensionBlocks = /*#__PURE__*/function () {
   }, {
     key: "makeDrawer",
     value: function makeDrawer(kind) {
-      var _this5 = this;
+      var _this6 = this;
       if (kind === 'pianoroll' || kind === 'punchcard') {
         return pianorollDrawer(function () {
-          return _this5._engine && _this5._engine.scheduler.started ? _this5._engine.pattern : null;
+          return _this6._engine && _this6._engine.scheduler.started ? _this6._engine.pattern : null;
         }, function () {
-          return _this5._engine.now();
+          return _this6._engine.now();
         }, kind === 'punchcard' ? VIEW.PUNCHCARD : VIEW.PIANOROLL);
       }
       var makeDraw = kind === 'spectrum' ? spectrumDrawer : scopeDrawer;
       var analyser = null;
       var draw = null;
       return function (ctx, width, height) {
-        var current = _this5._engine && _this5._engine.analyser;
+        var current = _this6._engine && _this6._engine.analyser;
         if (!current) return;
         if (current !== analyser) {
           analyser = current;
