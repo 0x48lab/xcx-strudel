@@ -6,6 +6,12 @@
 Make pattern music like [Strudel](https://strudel.cc/) with Scratch blocks on [Xcratch](https://xcratch.github.io/).
 Available in English, Japanese and Japanese (Hiragana).
 
+## デモ / Demo
+
+- https://0x48lab.github.io/xcx-strudel/ — ブラウザですぐ遊べます(緑の旗を押してください)
+- [エディタでブロックを見る](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/demo.sb3)
+- デモ作品は `npm run demo` で `projects/demo.sb3` に作り直せます(「はじめて」レベルのブロックだけを使っています)
+
 ## できること / Features
 
 - ドラム・音・休みを「順番に」「同時に」「交互に」「くりかえす」で組み立てて、トラックごとに鳴らす

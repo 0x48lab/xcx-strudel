@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strudel for Xcratch</title>
+<meta name="description" content="Strudel のパターン音楽を Scratch のブロックで。小学生から使える Xcratch 拡張機能です。">
+<style>
+:root {
+    --bg: #f9f9fb;
+    --card: #ffffff;
+    --text: #2b2d42;
+    --muted: #5c6075;
+    --accent: #0fbd8c;
+    --accent-dark: #0b9a72;
+    --purple: #855cd6;
+    --border: #e1e3ea;
+    --code-bg: #f1f2f6;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #16171d;
+        --card: #1f2029;
+        --text: #eceef5;
+        --muted: #a9adbf;
+        --border: #33354a;
+        --code-bg: #2a2c3a;
+    }
+}
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Hiragino Sans", "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.7;
+}
+header {
+    background: linear-gradient(135deg, var(--purple), #4c97ff);
+    color: #fff;
+    padding: 40px 16px 32px;
+    text-align: center;
+}
+header h1 { margin: 0; font-size: clamp(28px, 6vw, 44px); letter-spacing: 0.02em; }
+header p { margin: 8px auto 0; max-width: 640px; font-size: 17px; opacity: 0.95; }
+main { max-width: 960px; margin: 0 auto; padding: 24px 16px 48px; }
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+h2 { margin: 0 0 12px; font-size: 22px; }
+.player {
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    aspect-ratio: 480 / 410;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: #000;
+}
+.player iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.hint { text-align: center; color: var(--muted); margin: 12px 0 0; }
+.buttons { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 16px; }
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+}
+.button:hover { background: var(--accent-dark); }
+.button.secondary { background: transparent; color: var(--text); border: 2px solid var(--border); }
+ol { padding-left: 1.4em; margin: 0; }
+li { margin: 4px 0; }
+.url {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+    margin: 8px 0 0;
+}
+.url code {
+    flex: 1;
+    min-width: 0;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px 12px;
+    background: var(--code-bg);
+    border-radius: 8px;
+    font-size: 14px;
+}
+.url button {
+    border: 0;
+    border-radius: 8px;
+    padding: 0 16px;
+    background: var(--purple);
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+}
+.levels { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.level { border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+.level h3 { margin: 0 0 6px; font-size: 18px; }
+.level p { margin: 0; color: var(--muted); font-size: 15px; }
+.en { color: var(--muted); font-size: 15px; }
+footer { text-align: center; color: var(--muted); font-size: 14px; padding: 0 16px 32px; }
+footer a { color: inherit; }
+</style>
+</head>
+<body>
+<header>
+    <h1>Strudel for Xcratch</h1>
+    <p>ブロックをくみたてて、ビートやメロディをつくろう。<br>
+    <a href="https://strudel.cc/" style="color:#fff">Strudel</a> のパターン音楽を、Scratch のブロックで。</p>
+</header>
+<main>
+    <section class="card">
+        <h2>デモであそぶ</h2>
+        <div class="player">
+            <iframe
+                src="https://xcratch.github.io/editor/player#https://0x48lab.github.io/xcx-strudel/projects/demo.sb3"
+                title="Strudel for Xcratch のデモ"
+                allow="autoplay"
+                loading="lazy"></iframe>
+        </div>
+        <p class="hint">みどりの はた ▶ を おすと おとが なります。ねこが リズムに あわせて おどるよ。</p>
+        <div class="buttons">
+            <a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/demo.sb3" target="_blank" rel="noopener">ブロックを見る・つくりかえる</a>
+            <a class="button secondary" href="https://github.com/0x48lab/xcx-strudel" target="_blank" rel="noopener">GitHub</a>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>じぶんの さくひんで つかう</h2>
+        <ol>
+            <li><a href="https://xcratch.github.io/editor" target="_blank" rel="noopener">Xcratch エディター</a>をひらく</li>
+            <li>左下の「拡張機能を追加」ボタンをおす</li>
+            <li>「拡張機能を読み込む」をえらぶ</li>
+            <li>つぎの URL を入れて「OK」をおす</li>
+        </ol>
+        <div class="url">
+            <code id="ext-url">https://0x48lab.github.io/xcx-strudel/dist/strudel.mjs</code>
+            <button type="button" id="copy">コピー</button>
+        </div>
+        <p class="en">Open the Xcratch editor, choose "Extension Loader" and enter the URL above.</p>
+    </section>
+
+    <section class="card">
+        <h2>3つの レベル</h2>
+        <div class="levels">
+            <div class="level">
+                <h3>はじめて</h3>
+                <p>ドラムやドレミを ▼ でえらんで、「じゅんばんに」「いっしょに」「くりかえす」でくみたてる。はくに あわせて スプライトを うごかせる。</p>
+            </div>
+            <div class="level">
+                <h3>ふつう</h3>
+                <p>エフェクト、音階、ミニ記法、スプライトの音、ピアノの音など。くんだパターンを Strudel のコードにして strudel.cc で ひらける。</p>
+            </div>
+            <div class="level">
+                <h3>マスター</h3>
+                <p>ゆれる値、ランダム、ユークリッドリズム、和音とアルペジオ、アシッド、トランスゲート、スペクトラム。</p>
+            </div>
+        </div>
+        <p class="en">English, Japanese and Japanese (Hiragana) are supported.</p>
+    </section>
+</main>
+<footer>
+    <p>Strudel for Xcratch — <a href="https://github.com/0x48lab/xcx-strudel/blob/main/LICENSE">AGPL-3.0</a>.
+    This extension bundles <a href="https://strudel.cc/">Strudel</a> (AGPL-3.0).
+    Samples loaded on request are listed in the <a href="https://github.com/0x48lab/xcx-strudel#readme">README</a>.</p>
+</footer>
+<script>
+document.getElementById('copy').addEventListener('click', function () {
+    var button = this;
+    var text = document.getElementById('ext-url').textContent;
+    var done = function () {
+        button.textContent = 'コピーしました';
+        setTimeout(function () { button.textContent = 'コピー'; }, 1500);
+    };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, function () {});
+});
+</script>
+</body>
+</html>
