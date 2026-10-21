@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Make the projects of the tutorial: projects/tutorial/step1.sb3 ... step12.sb3.
+ * Make the projects of the tutorial: projects/tutorial/step1.sb3 ... step13.sb3.
  * Each step is a small project which tutorial.html shows and links to.
  * Run: npm run tutorial
  */
@@ -178,8 +178,32 @@ const STEPS = {
             'ステージの リストを クリックすると、和音を 書きかえられるよ。', 900, 24);
         parts.forEach(([key, blocks], i) => b.stack([b.whenKey(key, [24, 260 + (i * 150)]), ...blocks]));
     },
-    // 10. master level: euclid, acid, trance gate and a wave
+    // 10. standard level: a recorded voice as an instrument
     step10: b => {
+        const voice = () => b.strudel('spriteSound', {SOUND: ['spriteSound', 'Meow']});
+        const parts = [
+            ['1', [play(b, 'こえ', voice())]],
+            ['2', [play(b, 'こえ', effect(b, b.strudel('repeat', {
+                PATTERN: ['block', voice()], TIMES: ['number', 4]
+            }), 'clip', '.5'))]],
+            ['3', [play(b, 'こえ', effect(b, effect(b, b.strudel('repeat', {
+                PATTERN: ['block', voice()], TIMES: ['number', 4]
+            }), 'clip', '.5'), 'speed', '1 1.5 2 -1'))]],
+            ['4', [play(b, 'ビート', b.strudel('sequence', {
+                A: ['sound', 'bd'], B: ['block', voice()], C: ['sound', 'sd'], D: ['block', voice()]
+            }))]],
+            ['5', [play(b, 'こえ', effect(b, effect(b, voice(), 'speed', '<1 .5>'), 'room', '.8'))]],
+            ['0', [b.strudel('stopAll')]]
+        ];
+        const flag = flagAt(b, 24);
+        b.stack([flag, level(b, '2'), tempo(b, 100),
+            b.say('「音」タブで 声を 録音して、▼ で えらんでね。1〜5 キーで ためそう、0 で とめる', 8)]);
+        b.comment(flag, 'さいしょは ねこの「Meow」が 入っているよ。\n' +
+            '「音」タブで 録音した 声を、「スプライトの音」の ▼ で えらぶと、じぶんの 声で 鳴るよ。', 900, 24);
+        parts.forEach(([key, blocks], i) => b.stack([b.whenKey(key, [24, 260 + (i * 150)]), ...blocks]));
+    },
+    // 11. master level: euclid, acid, trance gate and a wave
+    step11: b => {
         const kick = play(b, 'キック', b.strudel('drumMachine', {
             PATTERN: ['block', b.strudel('euclid', {
                 PULSES: ['number', 5], PATTERN: ['sound', 'bd'], STEPS: ['number', 8]
@@ -213,8 +237,8 @@ const STEPS = {
         b.stack([b.whenKey('c', [24, 460]), say]);
         b.stack([b.whenKey('o', [24, 580]), b.strudel('openStrudel')]);
     },
-    // 11. advanced: sounds of EDM and trance in lists, a part on each key
-    step11: b => {
+    // 12. advanced: sounds of EDM and trance in lists, a part on each key
+    step12: b => {
         const rising = (min, max) => ({wave: b.strudel('wave', {
             MIN: ['number', min], MAX: ['number', max], CYCLES: ['number', 4]
         }, {SHAPE: 'saw'})});
@@ -263,8 +287,8 @@ const STEPS = {
             '和音・ベース・リード・ビルドアップは リストに 1小節ずつ 入っているよ。', 900, 24);
         parts.forEach(([key, blocks], i) => b.stack([b.whenKey(key, [24, 260 + (i * 150)]), ...blocks]));
     },
-    // 12. advanced: jazzy chords of soul and pop, in lists
-    step12: b => {
+    // 13. advanced: jazzy chords of soul and pop, in lists
+    step13: b => {
         const chords = b.list('コード', SOUL.piano);
         const rhythm = b.list('リズム', PIANO_RHYTHM);
         const bass = b.list('ベース', SOUL.bass);

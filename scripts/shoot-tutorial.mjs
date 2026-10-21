@@ -13,7 +13,7 @@ const ROOT = process.cwd();
 const OUT = path.resolve(ROOT, 'tutorial');
 const SITE = 'https://0x48lab.github.io/xcx-strudel/';
 const EDITOR = 'https://xcratch.github.io/editor/';
-const STEPS = 12;
+const STEPS = 13;
 
 /** Space around a shot, in CSS pixels. */
 const PAD = 10;
@@ -168,6 +168,21 @@ const shootLists = async page => {
     await page.$eval('#tutorial-ring', el => el.remove());
 };
 
+/** Where to record a voice in the sound tab. */
+const shootRecord = async page => {
+    console.log('record');
+    await open(page, 'step10');
+    await page.getByRole('tab', {name: '音', exact: true}).click();
+    await page.waitForTimeout(1500);
+    const main = page.locator('[class*="action-menu_main-button"][aria-label=" 音を選ぶ"]').first();
+    await main.hover();
+    await page.waitForTimeout(1200);
+    await ringRect(page, await page.locator('[aria-label="録音する"]').first().boundingBox());
+    const button = await main.boundingBox();
+    await shot(page, {x: PAD, y: button.y - 300, width: 440, height: 300 + button.height}, 'record');
+    await page.$eval('#tutorial-ring', el => el.remove());
+};
+
 /** How to add the extension. */
 const shootSetup = async page => {
     console.log('setup');
@@ -269,6 +284,7 @@ try {
         await shootScripts(page, `step${step}`);
     }
     await shootLists(page);
+    await shootRecord(page);
     await shootViz(page);
 } finally {
     await browser.close();
