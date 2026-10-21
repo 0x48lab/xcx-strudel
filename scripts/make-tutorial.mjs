@@ -202,8 +202,35 @@ const STEPS = {
             '「音」タブで 録音した 声を、「スプライトの音」の ▼ で えらぶと、じぶんの 声で 鳴るよ。', 900, 24);
         parts.forEach(([key, blocks], i) => b.stack([b.whenKey(key, [24, 260 + (i * 150)]), ...blocks]));
     },
-    // 11. master level: euclid, acid, trance gate and a wave
+    // 11. normal level: jazzy chords of soul and pop, in lists
     step11: b => {
+        const chords = b.list('コード', SOUL.piano);
+        const rhythm = b.list('リズム', PIANO_RHYTHM);
+        const bass = b.list('ベース', SOUL.bass);
+        const melody = b.list('メロディ', SOUL.melody);
+        const drums = b.list('ドラム', SOUL.drums);
+        b.listMonitor(chords, [5, 5, 300, 220]);
+        const parts = [
+            ['1', [play(b, 'ピアノ', tone(b, b.strudel('rhythm', {
+                PATTERN: ['block', listNotes(b, chords)], RHYTHM: ['blockOnText', listMini(b, rhythm, 'seq')]
+            }), 'piano'))]],
+            ['2', [play(b, 'ベース', effect(b, tone(b, listNotes(b, bass), 'sawtooth'), 'lpf', '350'))]],
+            ['3', [play(b, 'メロディ', effect(b, tone(b, listNotes(b, melody), 'triangle'), 'room', '.4'))]],
+            ['4', [play(b, 'ドラム', effect(b, b.strudel('drumMachine', {
+                PATTERN: ['block', b.strudel('miniSound', {CODE: ['blockOnText', listMini(b, drums, 'stack')]})],
+                MACHINE: ['machine', 'RolandTR808']
+            }), 'gain', '.8'))]],
+            ['0', [b.strudel('stopAll')]]
+        ];
+        const flag = flagAt(b, 24);
+        b.stack([flag, level(b, '2'), tempo(b, 92),
+            b.say('1〜4 キーで パートを ふやそう。0 で とめる', 8)]);
+        b.comment(flag, 'ジャズや ソウルの 和音を つかった ピアノ ポップ。\n' +
+            '| FM7 | Em7 A7 | Dm7 G7 | Cmaj9 C9 |\n| FM7 | Fm6 | Em7 E♭dim7 | Dm7 G7sus4 |', 900, 24);
+        parts.forEach(([key, blocks], i) => b.stack([b.whenKey(key, [24, 260 + (i * 150)]), ...blocks]));
+    },
+    // 12. master level: euclid, acid, trance gate and a wave
+    step12: b => {
         const kick = play(b, 'キック', b.strudel('drumMachine', {
             PATTERN: ['block', b.strudel('euclid', {
                 PULSES: ['number', 5], PATTERN: ['sound', 'bd'], STEPS: ['number', 8]
@@ -237,8 +264,8 @@ const STEPS = {
         b.stack([b.whenKey('c', [24, 460]), say]);
         b.stack([b.whenKey('o', [24, 580]), b.strudel('openStrudel')]);
     },
-    // 12. advanced: sounds of EDM and trance in lists, a part on each key
-    step12: b => {
+    // 13. advanced: sounds of EDM and trance in lists, a part on each key
+    step13: b => {
         const rising = (min, max) => ({wave: b.strudel('wave', {
             MIN: ['number', min], MAX: ['number', max], CYCLES: ['number', 4]
         }, {SHAPE: 'saw'})});
@@ -285,33 +312,6 @@ const STEPS = {
             b.say('1〜6 キーで パートを ふやそう。7 で ポンピング、1 で もとの キック。スペースで ドロップ、0 で とめる', 8)]);
         b.comment(flag, 'EDM・トランスの 音づくり。\nキーを 1つずつ おして、パートの やくわりを 耳で たしかめよう。\n' +
             '和音・ベース・リード・ビルドアップは リストに 1小節ずつ 入っているよ。', 900, 24);
-        parts.forEach(([key, blocks], i) => b.stack([b.whenKey(key, [24, 260 + (i * 150)]), ...blocks]));
-    },
-    // 13. advanced: jazzy chords of soul and pop, in lists
-    step13: b => {
-        const chords = b.list('コード', SOUL.piano);
-        const rhythm = b.list('リズム', PIANO_RHYTHM);
-        const bass = b.list('ベース', SOUL.bass);
-        const melody = b.list('メロディ', SOUL.melody);
-        const drums = b.list('ドラム', SOUL.drums);
-        b.listMonitor(chords, [5, 5, 300, 220]);
-        const parts = [
-            ['1', [play(b, 'ピアノ', tone(b, b.strudel('rhythm', {
-                PATTERN: ['block', listNotes(b, chords)], RHYTHM: ['blockOnText', listMini(b, rhythm, 'seq')]
-            }), 'piano'))]],
-            ['2', [play(b, 'ベース', effect(b, tone(b, listNotes(b, bass), 'sawtooth'), 'lpf', '350'))]],
-            ['3', [play(b, 'メロディ', effect(b, tone(b, listNotes(b, melody), 'triangle'), 'room', '.4'))]],
-            ['4', [play(b, 'ドラム', effect(b, b.strudel('drumMachine', {
-                PATTERN: ['block', b.strudel('miniSound', {CODE: ['blockOnText', listMini(b, drums, 'stack')]})],
-                MACHINE: ['machine', 'RolandTR808']
-            }), 'gain', '.8'))]],
-            ['0', [b.strudel('stopAll')]]
-        ];
-        const flag = flagAt(b, 24);
-        b.stack([flag, level(b, '2'), tempo(b, 92),
-            b.say('1〜4 キーで パートを ふやそう。0 で とめる', 8)]);
-        b.comment(flag, 'ジャズや ソウルの 和音を つかった ピアノ ポップ。\n' +
-            '| FM7 | Em7 A7 | Dm7 G7 | Cmaj9 C9 |\n| FM7 | Fm6 | Em7 E♭dim7 | Dm7 G7sus4 |', 900, 24);
         parts.forEach(([key, blocks], i) => b.stack([b.whenKey(key, [24, 260 + (i * 150)]), ...blocks]));
     }
 };
