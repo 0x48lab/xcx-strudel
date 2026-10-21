@@ -216,7 +216,99 @@ const makeAcidGate = async () => {
     await writeProject(b, out('acidgate'), 'xcx-strudel make-samples');
 };
 
+// ---- soul pop: jazzy chords on the piano with a shuffle (standard level) ----
+
+/** Chords of the soul pop song. Rootless voicings, because the bass plays the roots. */
+const CHORD = {
+    FM7: '[f3,a3,c4,e4]',
+    Em7: '[e3,g3,b3,d4]',
+    A7: '[g3,a3,c#4,e4]',
+    Dm7: '[f3,a3,c4,d4]',
+    G7: '[f3,g3,b3,d4]',
+    Cmaj9: '[e3,g3,b3,d4]',
+    C9: '[e3,g3,bb3,d4]',
+    Fm6: '[f3,ab3,c4,d4]',
+    Ebdim7: '[eb3,gb3,a3,c4]',
+    G7sus4: '[f3,g3,c4,d4]'
+};
+
+/** Eight bars: | FM7 | Em7 A7 | Dm7 G7 | Cmaj9 C9 | FM7 | Fm6 | Em7 Ebdim7 | Dm7 G7sus4 | */
+const PROGRESSION = [
+    ['FM7'], ['Em7', 'A7'], ['Dm7', 'G7'], ['Cmaj9', 'C9'],
+    ['FM7'], ['Fm6'], ['Em7', 'Ebdim7'], ['Dm7', 'G7sus4']
+];
+
+/**
+ * Piano comping in a shuffle: a beat is three triplets.
+ * @param {Array<string>} bar - one or two chord names
+ * @returns {string} - mini-notation of the bar
+ */
+const comp = ([x, y = x]) => `[[${CHORD[x]} ~ ~] [~ ~ ${CHORD[x]}] [${y === x ? '~ ~' : `${CHORD[y]} ~`} ${CHORD[y]}] [~ ~ ~]]`;
+
+const SOUL = {
+    piano: `<${PROGRESSION.map(comp).join(' ')}>`,
+    bass: `<${[
+        '[f2 ~ ~] [~ ~ f2] [~ ~ c2] [e2 ~ ~]',
+        '[e2 ~ ~] [~ ~ e2] [a1 ~ ~] [~ ~ c#2]',
+        '[d2 ~ ~] [~ ~ d2] [g1 ~ ~] [~ ~ b1]',
+        '[c2 ~ ~] [~ ~ c2] [c2 ~ ~] [~ ~ e2]',
+        '[f2 ~ ~] [~ ~ f2] [~ ~ c2] [~ ~ f2]',
+        '[f2 ~ ~] [~ ~ f2] [~ ~ ab1] [~ ~ eb2]',
+        '[e2 ~ ~] [~ ~ e2] [eb2 ~ ~] [~ ~ eb2]',
+        '[d2 ~ ~] [~ ~ d2] [g1 ~ ~] [~ ~ g1]'
+    ].map(bar => `[${bar}]`).join(' ')}>`,
+    melody: `<${[
+        '[~ ~ e5] [g5 ~ e5] [d5 ~ c5] [~ ~ a4]',
+        '[g4 ~ ~] [~ ~ ~] [~ ~ e5] [d5 ~ c#5]',
+        '[d5 ~ ~] [~ ~ f5] [e5 ~ d5] [~ ~ b4]',
+        '[c5 ~ ~] [~ ~ ~] [~ ~ g4] [bb4 ~ c5]',
+        '[a5 ~ ~] [g5 ~ e5] [~ ~ c5] [d5 ~ e5]',
+        '[f5 ~ ~] [ab5 ~ f5] [~ ~ d5] [c5 ~ ~]',
+        '[b4 ~ ~] [~ ~ d5] [c5 ~ ~] [a4 ~ ~]',
+        '[d5 ~ ~] [~ ~ ~] [~ ~ ~] [~ ~ g4]'
+    ].map(bar => `[${bar}]`).join(' ')}>`,
+    drums: '[bd ~ ~] [sd ~ bd] [~ ~ bd] [sd ~ ~]',
+    hats: '[hh ~ hh]*4'
+};
+
+const makeSoulPop = async () => {
+    const b = new Blocks();
+    const effect = (pattern, name, value) => b.strudel('effect', {
+        PATTERN: ['block', pattern], VALUE: ['text', value]
+    }, {EFFECT: name});
+    const note = code => b.strudel('miniNote', {CODE: ['text', code]});
+    const tone = (pattern, synth) => b.strudel('tone', {PATTERN: ['block', pattern], SYNTH: ['synth', synth]});
+    const tr808 = code => b.strudel('drumMachine', {
+        PATTERN: ['block', b.strudel('miniSound', {CODE: ['text', code]})], MACHINE: ['machine', 'RolandTR808']
+    });
+    const tracks = [
+        ['1', 'ピアノ', () => tone(note(SOUL.piano), 'piano')],
+        ['2', 'ベース', () => effect(tone(note(SOUL.bass), 'sawtooth'), 'lpf', '350')],
+        ['3', 'ドラム', () => tr808(SOUL.drums)],
+        ['4', 'ハイハット', () => effect(tr808(SOUL.hats), 'gain', '.5')],
+        ['5', 'メロディ', () => effect(effect(tone(note(SOUL.melody), 'triangle'), 'room', '.4'), 'delay', '.2')]
+    ];
+
+    const flag = b.block('event_whenflagclicked', {top: [24, 24]});
+    const hint = b.say('1〜5 キーで パートを ひとつずつ とめて、スペースで ぜんぶ もどるよ。', 6);
+    b.stack([flag, b.strudel('setBpm', {BPM: ['number', 92]}), b.strudel('showViz', {}, {VIZ: 'pianoroll'}),
+        b.broadcast('えんそう'), hint]);
+    b.comment(flag, 'ジャズや ソウルの 和音を つかった ピアノ ポップ。\n' +
+        '| FM7 | Em7 A7 | Dm7 G7 | Cmaj9 C9 |\n| FM7 | Fm6 | Em7 E♭dim7 | Dm7 G7sus4 |\n' +
+        'ベースが 根音(ルート)を ひくので、ピアノは 根音を はぶいた 和音を ひいているよ。\n' +
+        '1拍を 3つに わけた「シャッフル」の リズムで はねているよ。', 1100, 24);
+    b.stack([b.whenReceive('えんそう', [24, 280]), ...tracks.map(([, track, make]) => play(b, track, make()))]);
+    b.stack([b.whenKey('space', [24, 640]), b.broadcast('えんそう')]);
+    tracks.forEach(([key, track], i) => {
+        onKey(b, key, [24, 760 + (i * 110)], [b.strudel('stopTrack', {TRACK: ['text', track]})]);
+    });
+    danceOnBeat(b, [24, 1340]);
+
+    await writeProject(b, out('soulpop'), 'xcx-strudel make-samples');
+};
+
 await makeMelody();
 await makeTrance();
 await makeAcidGate();
-console.log('made projects/melody.sb3, projects/trance.sb3 and projects/acidgate.sb3');
+await makeSoulPop();
+console.log('made projects/melody.sb3, projects/trance.sb3, projects/acidgate.sb3 and projects/soulpop.sb3');

@@ -14,6 +14,8 @@ export class Blocks {
     constructor () {
         this.blocks = {};
         this.comments = {};
+        /** Broadcast messages: ID to name. */
+        this.broadcasts = {};
         this.count = 0;
     }
 
@@ -150,6 +152,35 @@ export class Blocks {
         return id;
     }
 
+    /**
+     * @param {string} name - message name
+     * @returns {string} - broadcast ID
+     */
+    message (name) {
+        const id = `m_${name}`;
+        this.broadcasts[id] = name;
+        return id;
+    }
+
+    /**
+     * @param {string} name - message name
+     * @returns {string} - block ID of "broadcast"
+     */
+    broadcast (name) {
+        const id = this.block('event_broadcast');
+        this.blocks[id].inputs.BROADCAST_INPUT = [1, [11, name, this.message(name)]];
+        return id;
+    }
+
+    /**
+     * @param {string} name - message name
+     * @param {Array<number>} top - position
+     * @returns {string} - hat block ID
+     */
+    whenReceive (name, top) {
+        return this.block('event_whenbroadcastreceived', {top, fields: {BROADCAST_OPTION: [name, this.message(name)]}});
+    }
+
     comment (blockId, text, x, y) {
         this.comments[`c${Object.keys(this.comments).length + 1}`] = {
             blockId,
@@ -189,7 +220,7 @@ export const writeProject = async (cat, output, agent = 'xcx-strudel') => {
                 name: 'Stage',
                 variables: {},
                 lists: {},
-                broadcasts: {},
+                broadcasts: cat.broadcasts,
                 blocks: {},
                 comments: {},
                 currentCostume: 0,
