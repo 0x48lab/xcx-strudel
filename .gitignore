@@ -20,3 +20,6 @@ apm_modules/
 
 # comparison with Strudel examples. The tunes have their own licenses, so they are not published.
 test/compat/
+
+# macOS
+.DS_Store
