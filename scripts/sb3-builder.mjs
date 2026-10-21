@@ -100,6 +100,56 @@ export class Blocks {
         }
     }
 
+    /**
+     * A reporter or command of the extension with its inputs.
+     * @param {string} opcode - opcode without the extension ID
+     * @param {object} [inputs] - {name: [kind, value]}; kind is 'text', 'number' or a menu name.
+     *     A block ID as value (with kind 'block') puts that reporter over a sound dropdown,
+     *     and with kind 'blockOnText' over a text field.
+     * @param {object} [fields] - fields of the block, such as {EFFECT: 'lpf'}
+     * @returns {string} - block ID
+     */
+    strudel (opcode, inputs = {}, fields = {}) {
+        const fieldValues = {};
+        Object.entries(fields).forEach(([name, value]) => {
+            fieldValues[name] = [value, null];
+        });
+        const id = this.block(`strudel_${opcode}`, {fields: fieldValues});
+        Object.entries(inputs).forEach(([name, [kind, value]]) => {
+            if (kind === 'text') this.text(id, name, value);
+            else if (kind === 'number') this.number(id, name, value);
+            else if (kind === 'block') {
+                this.menu(id, name, 'sound', 'c4');
+                this.put(id, name, value);
+            } else if (kind === 'blockOnText') {
+                this.text(id, name, '');
+                this.put(id, name, value);
+            } else this.menu(id, name, kind, value);
+        });
+        return id;
+    }
+
+    /**
+     * @param {string} key - key name of Scratch, such as 'space' or '1'
+     * @param {Array<number>} top - position
+     * @returns {string} - hat block ID
+     */
+    whenKey (key, top) {
+        return this.block('event_whenkeypressed', {top, fields: {KEY_OPTION: [key, null]}});
+    }
+
+    /**
+     * @param {string} text - what the sprite says
+     * @param {number} secs - seconds
+     * @returns {string} - block ID
+     */
+    say (text, secs) {
+        const id = this.block('looks_sayforsecs');
+        this.text(id, 'MESSAGE', text);
+        this.number(id, 'SECS', secs);
+        return id;
+    }
+
     comment (blockId, text, x, y) {
         this.comments[`c${Object.keys(this.comments).length + 1}`] = {
             blockId,

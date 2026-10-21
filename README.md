@@ -9,8 +9,11 @@ Available in English, Japanese and Japanese (Hiragana).
 ## デモ / Demo
 
 - https://0x48lab.github.io/xcx-strudel/ — ブラウザですぐ遊べます(緑の旗を押してください)
-- [エディタでブロックを見る](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/demo.sb3)
-- デモ作品は `npm run demo` で `projects/demo.sb3` に作り直せます(「はじめて」レベルのブロックだけを使っています)
+- サンプル作品(エディタでブロックを見る)
+  - [はじめて: ビートと おどる ねこ](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/demo.sb3)
+  - [ふつう: おんかいで メロディ](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/melody.sb3) — スペース・↑・↓・R キーでメロディが変わる
+  - [マスター: DJ トランス](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/trance.sb3) — 1〜5 キーでパートを重ね、Q〜T で止める
+- サンプル作品は `npm run demo` で `projects/` に作り直せます
 
 ## できること / Features
 
