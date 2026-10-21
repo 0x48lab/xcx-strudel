@@ -172,6 +172,51 @@ const makeTrance = async () => {
     await writeProject(b, out('trance'), 'xcx-strudel make-samples');
 };
 
+// ---- acid and trance gate: one song with the acid and trance gate blocks (master level) ----
+const makeAcidGate = async () => {
+    const b = new Blocks();
+    const drums = code => b.strudel('drumMachine', {
+        PATTERN: ['block', b.strudel('miniSound', {CODE: ['text', code]})], MACHINE: ['machine', 'RolandTR909']
+    });
+    const tone = (pattern, synth) => b.strudel('tone', {PATTERN: ['block', pattern], SYNTH: ['synth', synth]});
+    const effect = (pattern, name, value) => b.strudel('effect', {
+        PATTERN: ['block', pattern], VALUE: ['text', value]
+    }, {EFFECT: name});
+
+    const flag = b.block('event_whenflagclicked', {top: [24, 24]});
+    const level = b.strudel('setLevel', {}, {LEVEL: '3'});
+    const tempo = b.strudel('setBpm', {BPM: ['number', 138]});
+    const kick = play(b, 'キック', drums('bd*4'));
+    const hats = play(b, 'ハイハット', drums('[~ hh]*4, [~ cp]*2'));
+    const acid = play(b, 'アシッド', b.strudel('acid', {
+        PATTERN: ['block', b.strudel('miniNote', {CODE: ['text', '<a1*16 a1*16 f1*16 g1*16>']})],
+        AMOUNT: ['number', 0.6]
+    }));
+    const pad = play(b, 'パッド', effect(b.strudel('trancegate', {
+        PATTERN: ['block', tone(b.strudel('miniNote', {
+            CODE: ['text', '<[a3,c4,e4] [f3,a3,c4] [c4,e4,g4] [g3,b3,d4]>']
+        }), 'supersaw')],
+        DENSITY: ['number', 0.8],
+        SEED: ['number', 45],
+        LENGTH: ['number', 1]
+    }), 'lpf', '1897'));
+    const lead = play(b, 'リード', effect(effect(b.strudel('transpose', {
+        PATTERN: ['block', tone(b.strudel('scaleNotes', {
+            STEPS: ['text', '<0 2 4 7 4 2 1 -1>*8'], ROOT: ['root', 'A'], SCALE: ['scale', 'minor']
+        }), 'triangle')],
+        SEMITONES: ['number', 24]
+    }), 'delay', '.4'), 'delayfeedback', '.25'));
+    const roll = b.strudel('showViz', {}, {VIZ: 'pianoroll'});
+    b.stack([flag, level, tempo, kick, hats, acid, pad, lead, roll]);
+    b.comment(flag, 'アシッドと トランスゲートの きょく。\n' +
+        'Switch Angel さんの strudel-scripts の おとづくりを さんこうにした、ひこうしきの さくひんです' +
+        '(ほんにんとは かんけいありません)。', 1100, 24);
+    danceOnBeat(b, [24, 760]);
+
+    await writeProject(b, out('acidgate'), 'xcx-strudel make-samples');
+};
+
 await makeMelody();
 await makeTrance();
-console.log('made projects/melody.sb3 and projects/trance.sb3');
+await makeAcidGate();
+console.log('made projects/melody.sb3, projects/trance.sb3 and projects/acidgate.sb3');

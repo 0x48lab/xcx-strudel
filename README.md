@@ -13,6 +13,7 @@ Available in English, Japanese and Japanese (Hiragana).
   - [はじめて: ビートと おどる ねこ](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/demo.sb3)
   - [ふつう: おんかいで メロディ](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/melody.sb3) — スペース・↑・↓・R キーでメロディが変わる
   - [マスター: DJ トランス](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/trance.sb3) — 1〜5 キーでパートを重ね、Q〜T で止める
+  - [マスター: アシッドとトランスゲート](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/acidgate.sb3) — [Switch Angel](https://github.com/switchangel) さんの [strudel-scripts](https://github.com/switchangel/strudel-scripts) の音作りを参考にした非公式の作品です(本人とは関係ありません)。コードは使わず、アシッドとトランスゲートのブロックで独自に再現しています
 - サンプル作品は `npm run demo` で `projects/` に作り直せます
 
 ## できること / Features
