@@ -9,6 +9,7 @@ Available in English, Japanese and Japanese (Hiragana).
 ## デモ / Demo
 
 - https://0x48lab.github.io/xcx-strudel/ — ブラウザですぐ遊べます(緑の旗を押してください)
+- [まっさらなエディター / Blank editor](https://xcratch.github.io/editor/?extension=https://0x48lab.github.io/xcx-strudel/dist/strudel.mjs) — 拡張機能が入った状態で Xcratch エディターが開きます
 - [チュートリアル / Tutorial](https://0x48lab.github.io/xcx-strudel/tutorial.html) — スクリーンショット付きの 12 ステップ。リストとリズムで曲を書く、EDM・トランスの音作り、ジャズ・ソウルの和音まで(日本語)
 - サンプル作品(エディタでブロックを見る)
   - [はじめて: ビートと おどる ねこ](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/demo.sb3)
