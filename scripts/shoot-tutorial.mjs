@@ -13,7 +13,7 @@ const ROOT = process.cwd();
 const OUT = path.resolve(ROOT, 'tutorial');
 const SITE = 'https://0x48lab.github.io/xcx-strudel/';
 const EDITOR = 'https://xcratch.github.io/editor/';
-const STEPS = 9;
+const STEPS = 10;
 
 /** Space around a shot, in CSS pixels. */
 const PAD = 10;
@@ -31,7 +31,7 @@ const MIME = {'.mjs': 'text/javascript', '.js': 'text/javascript', '.sb3': 'appl
 
 const launch = async () => {
     const browser = await chromium.launch({args: ['--autoplay-policy=no-user-gesture-required']});
-    const page = await browser.newPage({viewport: {width: 2600, height: 1300}, deviceScaleFactor: 2, locale: 'ja-JP'});
+    const page = await browser.newPage({viewport: {width: 3800, height: 1300}, deviceScaleFactor: 2, locale: 'ja-JP'});
     // serve this repository instead of GitHub Pages
     await page.route(`${SITE}**`, route => {
         const file = path.join(ROOT, new URL(route.request().url()).pathname.replace('/xcx-strudel/', ''));

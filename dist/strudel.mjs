@@ -19,7 +19,7 @@ var translations$1 = {
 }
 };
 
-var version$1 = "0.2.0";
+var version$1 = "0.3.0";
 
 /**
  * This is an extension for Xcratch.
@@ -911,7 +911,12 @@ var en$1 = {
 	"strudel.menu.effect.lpq": "filter resonance (lpq)",
 	"strudel.menu.effect.lpenv": "filter movement (lpenv)",
 	"strudel.menu.effect.lpd": "filter decay (lpd)",
-	"strudel.menu.effect.lps": "filter sustain (lps)"
+	"strudel.menu.effect.lps": "filter sustain (lps)",
+	"strudel.duck": "duck the other tracks on each sound of [PATTERN] depth [DEPTH]",
+	"strudel.menu.sound.white": "noise",
+	"strudel.menu.effect.unison": "thickness (unison)",
+	"strudel.menu.effect.detune": "detune",
+	"strudel.menu.effect.spread": "stereo spread (spread)"
 };
 var ja$1 = {
 	"strudel.name": "ストゥルーデル",
@@ -1060,7 +1065,12 @@ var ja$1 = {
 	"strudel.menu.effect.lpq": "フィルターの共鳴 (lpq)",
 	"strudel.menu.effect.lpenv": "フィルターの動き (lpenv)",
 	"strudel.menu.effect.lpd": "フィルターの減衰 (lpd)",
-	"strudel.menu.effect.lps": "フィルターの持続 (lps)"
+	"strudel.menu.effect.lps": "フィルターの持続 (lps)",
+	"strudel.duck": "[PATTERN] が鳴るたびに ほかのトラックを しぼませる 深さ [DEPTH]",
+	"strudel.menu.sound.white": "ノイズ",
+	"strudel.menu.effect.unison": "厚み (unison)",
+	"strudel.menu.effect.detune": "音のずれ (detune)",
+	"strudel.menu.effect.spread": "左右の広がり (spread)"
 };
 var translations = {
 	en: en$1,
@@ -1212,7 +1222,12 @@ var translations = {
 	"strudel.menu.effect.lpq": "フィルターの ひびき (lpq)",
 	"strudel.menu.effect.lpenv": "フィルターの うごき (lpenv)",
 	"strudel.menu.effect.lpd": "フィルターの へりかた (lpd)",
-	"strudel.menu.effect.lps": "フィルターの のこりかた (lps)"
+	"strudel.menu.effect.lps": "フィルターの のこりかた (lps)",
+	"strudel.duck": "[PATTERN] が なるたびに ほかの トラックを しぼませる ふかさ [DEPTH]",
+	"strudel.menu.sound.white": "ノイズ",
+	"strudel.menu.effect.unison": "あつみ (unison)",
+	"strudel.menu.effect.detune": "おとの ずれ (detune)",
+	"strudel.menu.effect.spread": "さゆうの ひろがり (spread)"
 }
 };
 
@@ -6701,6 +6716,22 @@ var BLOCKS = [{
     }
   }
 }, {
+  opcode: 'duck',
+  blockType: BlockType.REPORTER,
+  level: LEVEL.MASTER,
+  text: 'duck the other tracks on each sound of [PATTERN] depth [DEPTH]',
+  arguments: {
+    PATTERN: {
+      type: ArgumentType.STRING,
+      menu: 'sound',
+      defaultValue: 'bd'
+    },
+    DEPTH: {
+      type: ArgumentType.NUMBER,
+      defaultValue: 0.8
+    }
+  }
+}, {
   opcode: 'chop',
   blockType: BlockType.REPORTER,
   level: LEVEL.MASTER,
@@ -6836,7 +6867,7 @@ var BLOCKS = [{
 }];
 var DRUM_ITEMS = [['bd', 'bass drum'], ['sd', 'snare'], ['hh', 'hi-hat'], ['oh', 'open hi-hat'], ['cp', 'clap'], ['rim', 'rim'], ['lt', 'low tom'], ['mt', 'mid tom'], ['ht', 'high tom'], ['cr', 'crash']];
 var NOTE_ITEMS = [['c4', 'C'], ['d4', 'D'], ['e4', 'E'], ['f4', 'F'], ['g4', 'G'], ['a4', 'A'], ['b4', 'B'], ['c5', 'high C']];
-var REST_ITEMS = [['~', 'rest']];
+var REST_ITEMS = [['~', 'rest'], ['white', 'noise']];
 var SYNTH_ITEMS = [['sine', 'sine'], ['square', 'square'], ['sawtooth', 'sawtooth'], ['triangle', 'triangle'], ['supersaw', 'supersaw']];
 var LEVEL_ITEMS = [['1', 'beginner'], ['2', 'standard'], ['3', 'master']];
 var ROOT_ITEMS = [['C4', 'C'], ['D4', 'D'], ['E4', 'E'], ['F4', 'F'], ['G4', 'G'], ['A3', 'A'], ['B3', 'B']];
@@ -6865,9 +6896,12 @@ var EFFECTS = {
   lpenv: [-16, 16],
   lpd: [0, 2],
   lps: [0, 1],
+  unison: [1, 8],
+  detune: [0, 2],
+  spread: [0, 1],
   vowel: null
 };
-var EFFECT_ITEMS = [['lpf', 'muffle (lpf)'], ['hpf', 'thin (hpf)'], ['room', 'echo in a room (room)'], ['delay', 'delay'], ['gain', 'volume (gain)'], ['pan', 'left-right (pan)'], ['crush', 'crush'], ['speed', 'speed'], ['attack', 'fade in (attack)'], ['release', 'fade out (release)'], ['clip', 'length (clip)'], ['decay', 'decay'], ['sustain', 'sustain'], ['delaytime', 'delay time'], ['delayfeedback', 'delay feedback'], ['lpq', 'filter resonance (lpq)'], ['lpenv', 'filter movement (lpenv)'], ['lpd', 'filter decay (lpd)'], ['lps', 'filter sustain (lps)'], ['vowel', 'vowel']];
+var EFFECT_ITEMS = [['lpf', 'muffle (lpf)'], ['hpf', 'thin (hpf)'], ['room', 'echo in a room (room)'], ['delay', 'delay'], ['gain', 'volume (gain)'], ['pan', 'left-right (pan)'], ['crush', 'crush'], ['speed', 'speed'], ['attack', 'fade in (attack)'], ['release', 'fade out (release)'], ['clip', 'length (clip)'], ['decay', 'decay'], ['sustain', 'sustain'], ['delaytime', 'delay time'], ['delayfeedback', 'delay feedback'], ['lpq', 'filter resonance (lpq)'], ['lpenv', 'filter movement (lpenv)'], ['lpd', 'filter decay (lpd)'], ['lps', 'filter sustain (lps)'], ['unison', 'thickness (unison)'], ['detune', 'detune'], ['spread', 'stereo spread (spread)'], ['vowel', 'vowel']];
 var BANK_ITEMS = [['drums', 'drum machines'], ['piano', 'piano'], ['dirt', 'Dirt-Samples (casio, jazz ...)'], ['vcsl', 'VCSL instruments']];
 var MACHINE_ITEMS = ['RolandTR909', 'RolandTR808', 'RolandTR707', 'LinnDrum', 'OberheimDMX', 'KorgMinipops', 'CasioRZ1', 'BossDR55'].map(function (m) {
   return [m, m];
@@ -15515,6 +15549,13 @@ var value = function value(min, max) {
     max: max
   };
 };
+var integer = function integer(min, max) {
+  return {
+    kind: 'integer',
+    min: min,
+    max: max
+  };
+};
 var name = function name(pattern) {
   return {
     kind: 'name',
@@ -15580,7 +15621,13 @@ var METHODS = {
   lpd: [value(0, 2)],
   lps: [value(0, 1)],
   detune: [value(0, 2)],
-  unison: [value(1, 8)]
+  unison: [value(1, 8)],
+  spread: [value(0, 1)],
+  // the duck block plays on orbit 2 and ducks orbit 1, so no other orbit can be made
+  orbit: [integer(1, 2)],
+  duckorbit: [integer(1, 2)],
+  duckattack: [number(0.002, 2)],
+  duckdepth: [value(0, 1)]
 };
 
 /** Methods which can be used in a transform. */
@@ -16162,6 +16209,9 @@ var checkArg = function checkArg(fn, spec, a) {
   switch (spec.kind) {
     case 'number':
       if (typeof a !== 'number' || !inRange(a)) fail();
+      return a;
+    case 'integer':
+      if (!Number.isInteger(a) || !inRange(a)) fail();
       return a;
     case 'value':
       if (typeof a === 'number') {
@@ -19370,6 +19420,9 @@ var Engine = /*#__PURE__*/function () {
             case 1:
               uc();
               registerDrumSounds();
+              // the orbit which the duck block ducks, made before the first duck so that it is found.
+              // [0, 1] are the default channels of superdough, because initAudio is called without multiChannelOrbits
+              Zt().getOrbit(1, [0, 1]);
               this.analyser = this.audioContext.createAnalyser();
               this.analyser.fftSize = 2048;
               Zt().output.destinationGain.connect(this.analyser);
@@ -20442,6 +20495,15 @@ var ExtensionBlocks = /*#__PURE__*/function () {
       return methodNode(n, 'lpq', [2]);
     }
   }, {
+    key: "duck",
+    value: function duck(args) {
+      // the pattern plays on orbit 2 and ducks orbit 1, where the other tracks play by default
+      var n = methodNode(args.PATTERN, 'orbit', [2]);
+      n = methodNode(n, 'duckorbit', [1]);
+      n = methodNode(n, 'duckattack', [0.2]);
+      return methodNode(n, 'duckdepth', [clamp(args.DEPTH, 0, 1)]);
+    }
+  }, {
     key: "trancegate",
     value: function trancegate(args) {
       return methodNode(args.PATTERN, 'trancegate', [clamp(args.DENSITY, 0, 1), Math.round(clamp(args.SEED, 0, 1000)), Math.round(clamp(args.LENGTH, 1, 16))]);
@@ -20593,7 +20655,18 @@ var ExtensionBlocks = /*#__PURE__*/function () {
       var engine = this._engine;
       var cpm = engine ? engine.bpm / engine.beatsPerCycle : 30;
       var lines = ["setcpm(".concat(Math.round(cpm * 1000) / 1000, ")")];
-      this.trackCodes.forEach(function (code, track) {
+      // a track which ducks comes last, because strudel.cc warns when the ducked orbit has not played yet
+      var ducks = function ducks(_ref5) {
+        var _ref6 = _slicedToArray(_ref5, 2),
+          code = _ref6[1];
+        return code.includes('.duckorbit(') ? 1 : 0;
+      };
+      Array.from(this.trackCodes).sort(function (a, b) {
+        return ducks(a) - ducks(b);
+      }).forEach(function (_ref7) {
+        var _ref8 = _slicedToArray(_ref7, 2),
+          track = _ref8[0],
+          code = _ref8[1];
         lines.push("// track ".concat(commentText(track)), "$: ".concat(code));
       });
       if (Array.from(this.trackCodes.keys()).some(function (track) {

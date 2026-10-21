@@ -447,6 +447,14 @@ class ExtensionBlocks {
         return methodNode(n, 'lpq', [2]);
     }
 
+    duck (args) {
+        // the pattern plays on orbit 2 and ducks orbit 1, where the other tracks play by default
+        let n = methodNode(args.PATTERN, 'orbit', [2]);
+        n = methodNode(n, 'duckorbit', [1]);
+        n = methodNode(n, 'duckattack', [0.2]);
+        return methodNode(n, 'duckdepth', [clamp(args.DEPTH, 0, 1)]);
+    }
+
     trancegate (args) {
         return methodNode(args.PATTERN, 'trancegate', [
             clamp(args.DENSITY, 0, 1),
@@ -574,9 +582,12 @@ class ExtensionBlocks {
         const engine = this._engine;
         const cpm = engine ? engine.bpm / engine.beatsPerCycle : 30;
         const lines = [`setcpm(${Math.round(cpm * 1000) / 1000})`];
-        this.trackCodes.forEach((code, track) => {
-            lines.push(`// track ${commentText(track)}`, `$: ${code}`);
-        });
+        // a track which ducks comes last, because strudel.cc warns when the ducked orbit has not played yet
+        const ducks = ([, code]) => (code.includes('.duckorbit(') ? 1 : 0);
+        Array.from(this.trackCodes).sort((a, b) => ducks(a) - ducks(b))
+            .forEach(([track, code]) => {
+                lines.push(`// track ${commentText(track)}`, `$: ${code}`);
+            });
         if (Array.from(this.trackCodes.keys()).some(track => this.trackFills.has(track))) {
             // the trance gate block uses this function, which is not in Strudel
             lines.splice(1, 0, '// fillGaps: stretch each sound to the next one (for the trance gate)', FILL_GAPS_CODE);

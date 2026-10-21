@@ -48,6 +48,7 @@ export const LIMIT = {
 
 const number = (min, max) => ({kind: 'number', min, max});
 const value = (min, max) => ({kind: 'value', min, max});
+const integer = (min, max) => ({kind: 'integer', min, max});
 const name = pattern => ({kind: 'name', pattern});
 const letters = pattern => ({kind: 'letters', pattern});
 const TRANSFORM = {kind: 'transform'};
@@ -102,7 +103,13 @@ const METHODS = {
     lpd: [value(0, 2)],
     lps: [value(0, 1)],
     detune: [value(0, 2)],
-    unison: [value(1, 8)]
+    unison: [value(1, 8)],
+    spread: [value(0, 1)],
+    // the duck block plays on orbit 2 and ducks orbit 1, so no other orbit can be made
+    orbit: [integer(1, 2)],
+    duckorbit: [integer(1, 2)],
+    duckattack: [number(0.002, 2)],
+    duckdepth: [value(0, 1)]
 };
 
 /** Methods which can be used in a transform. */
@@ -601,6 +608,9 @@ const checkArg = (fn, spec, a) => {
     switch (spec.kind) {
     case 'number':
         if (typeof a !== 'number' || !inRange(a)) fail();
+        return a;
+    case 'integer':
+        if (!Number.isInteger(a) || !inRange(a)) fail();
         return a;
     case 'value':
         if (typeof a === 'number') {

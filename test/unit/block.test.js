@@ -406,6 +406,17 @@ describe('Strudel code of tracks', () => {
         expect(ext.strudelCode()).toBe('setcpm(30)');
     });
 
+    test('a track which ducks the others is written last', async () => {
+        const ext = new blockClass(makeRuntime());
+        ext.engine.play = vi.fn(() => Promise.resolve());
+        await ext.playTrack({PATTERN: ext.duck({PATTERN: 'bd', DEPTH: 0.8}), TRACK: 'kick'});
+        await ext.playTrack({PATTERN: 'c4', TRACK: 'pad'});
+        expect(ext.strudelCode().split('\n').filter(line => line.startsWith('$:'))).toEqual([
+            '$: note("c4")',
+            '$: s("bd").orbit(2).duckorbit(1).duckattack(0.2).duckdepth(0.8)'
+        ]);
+    });
+
     test('a track name can not break the code', async () => {
         const ext = new blockClass(makeRuntime());
         ext.engine.play = vi.fn(() => Promise.resolve());
@@ -514,6 +525,32 @@ describe('add, superimpose, acid and trance gate blocks', () => {
         e.engine.play = vi.fn(() => Promise.resolve());
         await e.playTrack({PATTERN: e.addNotes({PATTERN: 'bd', VALUE: '1'}), TRACK: '1'});
         expect(e.engine.play).not.toHaveBeenCalled();
+    });
+});
+
+describe('ducking, noise and thickness blocks', () => {
+    const ext = new blockClass(makeRuntime());
+
+    test.each([
+        ['duck', {PATTERN: 'bd', DEPTH: 0.8}, 's("bd").orbit(2).duckorbit(1).duckattack(0.2).duckdepth(0.8)'],
+        ['duck', {PATTERN: 'bd', DEPTH: 5}, 's("bd").orbit(2).duckorbit(1).duckattack(0.2).duckdepth(1)'],
+        ['effect', {PATTERN: 'c4', EFFECT: 'unison', VALUE: '20'}, 'note("c4").unison(8)'],
+        ['effect', {PATTERN: 'c4', EFFECT: 'detune', VALUE: '.4'}, 'note("c4").detune(".4")'],
+        ['effect', {PATTERN: 'c4', EFFECT: 'spread', VALUE: '2'}, 'note("c4").spread(1)'],
+        ['repeat', {PATTERN: 'white', TIMES: 16}, 's("white").fast(16)']
+    ])('%s %j', (opcode, args, code) => {
+        expect(String(ext[opcode](args))).toBe(code);
+    });
+
+    test('noise is in the sound dropdown', () => {
+        expect(MENUS.sound.items.some(item => item[0] === 'white')).toBe(true);
+    });
+
+    test('the ducking block compiles', () => {
+        const n = ext.duck({PATTERN: ext.miniSound({CODE: 'bd*4'}), DEPTH: 0.8});
+        const values = compile(n).queryArc(0, 1).map(hap => hap.value);
+        expect(values).toHaveLength(4);
+        expect(values[0]).toMatchObject({s: 'bd', orbit: 2, duckorbit: 1, duckattack: 0.2, duckdepth: 0.8});
     });
 });
 

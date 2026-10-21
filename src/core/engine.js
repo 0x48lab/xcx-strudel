@@ -114,6 +114,9 @@ export class Engine {
         await initAudio();
         registerSynthSounds();
         registerDrumSounds();
+        // the orbit which the duck block ducks, made before the first duck so that it is found.
+        // [0, 1] are the default channels of superdough, because initAudio is called without multiChannelOrbits
+        getSuperdoughAudioController().getOrbit(1, [0, 1]);
         this.analyser = this.audioContext.createAnalyser();
         this.analyser.fftSize = 2048;
         getSuperdoughAudioController().output.destinationGain.connect(this.analyser);

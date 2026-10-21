@@ -1,6 +1,6 @@
 {
   "name": "xcx-strudel",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Strudel pattern music for Xcratch",
   "extensionId": "strudel",
   "scripts": {

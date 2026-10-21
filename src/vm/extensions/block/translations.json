@@ -146,7 +146,12 @@
     "strudel.menu.effect.lpq": "filter resonance (lpq)",
     "strudel.menu.effect.lpenv": "filter movement (lpenv)",
     "strudel.menu.effect.lpd": "filter decay (lpd)",
-    "strudel.menu.effect.lps": "filter sustain (lps)"
+    "strudel.menu.effect.lps": "filter sustain (lps)",
+    "strudel.duck": "duck the other tracks on each sound of [PATTERN] depth [DEPTH]",
+    "strudel.menu.sound.white": "noise",
+    "strudel.menu.effect.unison": "thickness (unison)",
+    "strudel.menu.effect.detune": "detune",
+    "strudel.menu.effect.spread": "stereo spread (spread)"
   },
   "ja": {
     "strudel.name": "ストゥルーデル",
@@ -295,7 +300,12 @@
     "strudel.menu.effect.lpq": "フィルターの共鳴 (lpq)",
     "strudel.menu.effect.lpenv": "フィルターの動き (lpenv)",
     "strudel.menu.effect.lpd": "フィルターの減衰 (lpd)",
-    "strudel.menu.effect.lps": "フィルターの持続 (lps)"
+    "strudel.menu.effect.lps": "フィルターの持続 (lps)",
+    "strudel.duck": "[PATTERN] が鳴るたびに ほかのトラックを しぼませる 深さ [DEPTH]",
+    "strudel.menu.sound.white": "ノイズ",
+    "strudel.menu.effect.unison": "厚み (unison)",
+    "strudel.menu.effect.detune": "音のずれ (detune)",
+    "strudel.menu.effect.spread": "左右の広がり (spread)"
   },
   "ja-Hira": {
     "strudel.name": "すとぅるーでる",
@@ -444,6 +454,11 @@
     "strudel.menu.effect.lpq": "フィルターの ひびき (lpq)",
     "strudel.menu.effect.lpenv": "フィルターの うごき (lpenv)",
     "strudel.menu.effect.lpd": "フィルターの へりかた (lpd)",
-    "strudel.menu.effect.lps": "フィルターの のこりかた (lps)"
+    "strudel.menu.effect.lps": "フィルターの のこりかた (lps)",
+    "strudel.duck": "[PATTERN] が なるたびに ほかの トラックを しぼませる ふかさ [DEPTH]",
+    "strudel.menu.sound.white": "ノイズ",
+    "strudel.menu.effect.unison": "あつみ (unison)",
+    "strudel.menu.effect.detune": "おとの ずれ (detune)",
+    "strudel.menu.effect.spread": "さゆうの ひろがり (spread)"
   }
 }

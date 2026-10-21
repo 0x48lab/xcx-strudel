@@ -9,7 +9,7 @@ Available in English, Japanese and Japanese (Hiragana).
 ## デモ / Demo
 
 - https://0x48lab.github.io/xcx-strudel/ — ブラウザですぐ遊べます(緑の旗を押してください)
-- [チュートリアル / Tutorial](https://0x48lab.github.io/xcx-strudel/tutorial.html) — スクリーンショット付きで 9 ステップ(日本語)
+- [チュートリアル / Tutorial](https://0x48lab.github.io/xcx-strudel/tutorial.html) — スクリーンショット付きで 9 ステップと、EDM・トランスの音作りを学ぶ応用編(日本語)
 - サンプル作品(エディタでブロックを見る)
   - [はじめて: ビートと おどる ねこ](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/demo.sb3)
   - [ふつう: おんかいで メロディ](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/melody.sb3) — スペース・↑・↓・R キーでメロディが変わる
@@ -28,6 +28,7 @@ Available in English, Japanese and Japanese (Hiragana).
 - 値を返すブロックをクリックすると、同じ音を鳴らす Strudel のコードが表示される
 - 全部のトラックを Strudel のコードとして書き出したり、strudel.cc で開いたりできる
 - ゆれる値(sine など)、ランダム、ユークリッドリズム、左右分け、和音とアルペジオ(マスター)
+- アシッド、トランスゲート、キックでほかのトラックをしぼませるポンピング(サイドチェイン)、ノイズ、supersaw の厚み(unison / detune / spread)(マスター)
 
 ブロックは「はじめて」「ふつう」「マスター」のレベルで表示を切り替えられます。
 

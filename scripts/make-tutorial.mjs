@@ -151,6 +151,59 @@ const STEPS = {
         }));
         b.stack([flagAt(b, 24), level(b, '3'), tempo(b, 138), kick, hats, acid, pad,
             b.strudel('showViz', {}, {VIZ: 'spectrum'})]);
+    },
+    // 10. advanced: sounds of EDM and trance, a part on each key
+    step10: b => {
+        // value is a text, or {wave: block ID}
+        const effect = (pattern, name, value) => b.strudel('effect', {
+            PATTERN: ['block', pattern], VALUE: typeof value === 'string' ? ['text', value] : ['blockOnText', value.wave]
+        }, {EFFECT: name});
+        const tone = (pattern, synth) => b.strudel('tone', {PATTERN: ['block', pattern], SYNTH: ['synth', synth]});
+        const note = code => b.strudel('miniNote', {CODE: ['text', code]});
+        const tr909 = code => b.strudel('drumMachine', {
+            PATTERN: ['block', b.strudel('miniSound', {CODE: ['text', code]})], MACHINE: ['machine', 'RolandTR909']
+        });
+        const rising = (min, max) => ({wave: b.strudel('wave', {
+            MIN: ['number', min], MAX: ['number', max], CYCLES: ['number', 4]
+        }, {SHAPE: 'saw'})});
+        const CHORDS = '<[a3,c4,e4] [f3,a3,c4] [c4,e4,g4] [g3,b3,d4]>';
+        const parts = [
+            ['1', [play(b, 'キック', tr909('bd*4'))]],
+            ['2', [play(b, 'ベース', effect(tone(note('<[~ a1]*4 [~ f1]*4 [~ c2]*4 [~ g1]*4>'), 'sawtooth'), 'lpf', '500'))]],
+            ['3', [play(b, 'パッド', effect(b.strudel('trancegate', {
+                PATTERN: ['block', tone(note(CHORDS), 'supersaw')],
+                DENSITY: ['number', 0.8], SEED: ['number', 45], LENGTH: ['number', 1]
+            }), 'room', '.6'))]],
+            ['4', [play(b, 'プラック', effect(effect(tone(b.strudel('arp', {
+                PATTERN: ['block', note('<[a3,c4,e4,a4] [f3,a3,c4,f4] [c4,e4,g4,c5] [g3,b3,d4,g4]>')],
+                ORDER: ['text', '0 1 2 3 2 1 2 3']
+            }), 'square'), 'clip', '.3'), 'delay', '.4'))]],
+            ['5', [play(b, 'リード', effect(effect(b.strudel('superimpose', {
+                PATTERN: ['block', tone(b.strudel('scaleNotes', {
+                    STEPS: ['text', '<[7 ~ 9 11] [12 11 ~ 9] [11 ~ 9 7] [8 ~ 9 6]>*2'],
+                    ROOT: ['root', 'A3'], SCALE: ['scale', 'minor']
+                }), 'supersaw')]
+            }, {TRANSFORM: 'up12'}), 'unison', '7'), 'room', '.8'))]],
+            ['6', [
+                play(b, 'スネア', effect(tr909('<sd*4 sd*8 sd*16 sd*32>'), 'gain', rising(0.3, 1))),
+                play(b, 'ライザー', effect(effect(b.strudel('repeat', {
+                    PATTERN: ['sound', 'white'], TIMES: ['number', 16]
+                }), 'hpf', rising(300, 9000)), 'gain', rising(0, 0.4)))
+            ]],
+            ['space', [
+                b.strudel('stopTrack', {TRACK: ['text', 'スネア']}),
+                b.strudel('stopTrack', {TRACK: ['text', 'ライザー']})
+            ]],
+            ['7', [play(b, 'キック', b.strudel('duck', {
+                PATTERN: ['block', tr909('bd*4')], DEPTH: ['number', 0.85]
+            }))]],
+            ['0', [b.strudel('stopAll')]]
+        ];
+        const flag = flagAt(b, 24);
+        b.stack([flag, level(b, '3'), tempo(b, 140), b.strudel('showViz', {}, {VIZ: 'spectrum'}),
+            b.say('1〜6 キーで パートを ふやそう。7 で ポンピング、1 で もとの キック。スペースで ドロップ、0 で とめる', 8)]);
+        b.comment(flag, 'EDM・トランスの 音づくり。\nキーを 1つずつ おして、パートの やくわりを 耳で たしかめよう。', 900, 24);
+        parts.forEach(([key, blocks], i) => b.stack([b.whenKey(key, [24, 260 + (i * 150)]), ...blocks]));
     }
 };
 

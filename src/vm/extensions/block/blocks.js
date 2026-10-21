@@ -340,6 +340,16 @@ export const BLOCKS = [
         }
     },
     {
+        opcode: 'duck',
+        blockType: BlockType.REPORTER,
+        level: LEVEL.MASTER,
+        text: 'duck the other tracks on each sound of [PATTERN] depth [DEPTH]',
+        arguments: {
+            PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'bd'},
+            DEPTH: {type: ArgumentType.NUMBER, defaultValue: 0.8}
+        }
+    },
+    {
         opcode: 'chop',
         blockType: BlockType.REPORTER,
         level: LEVEL.MASTER,
@@ -474,7 +484,8 @@ const NOTE_ITEMS = [
 ];
 
 const REST_ITEMS = [
-    ['~', 'rest']
+    ['~', 'rest'],
+    ['white', 'noise']
 ];
 
 const SYNTH_ITEMS = [
@@ -533,6 +544,9 @@ export const EFFECTS = {
     lpenv: [-16, 16],
     lpd: [0, 2],
     lps: [0, 1],
+    unison: [1, 8],
+    detune: [0, 2],
+    spread: [0, 1],
     vowel: null
 };
 
@@ -556,6 +570,9 @@ const EFFECT_ITEMS = [
     ['lpenv', 'filter movement (lpenv)'],
     ['lpd', 'filter decay (lpd)'],
     ['lps', 'filter sustain (lps)'],
+    ['unison', 'thickness (unison)'],
+    ['detune', 'detune'],
+    ['spread', 'stereo spread (spread)'],
     ['vowel', 'vowel']
 ];
 
