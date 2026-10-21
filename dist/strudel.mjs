@@ -805,7 +805,7 @@ var en$1 = {
 	"strudel.menu.synth.sawtooth": "sawtooth",
 	"strudel.menu.synth.triangle": "triangle",
 	"strudel.menu.level.1": "beginner",
-	"strudel.menu.level.2": "standard",
+	"strudel.menu.level.2": "normal",
 	"strudel.menu.level.3": "master",
 	"strudel.miniSound": "sounds in mini-notation [CODE]",
 	"strudel.miniNote": "notes in mini-notation [CODE]",
@@ -963,8 +963,8 @@ var ja$1 = {
 	"strudel.menu.synth.square": "ピコピコ音 (square)",
 	"strudel.menu.synth.sawtooth": "ギザギザ音 (sawtooth)",
 	"strudel.menu.synth.triangle": "すっきり音 (triangle)",
-	"strudel.menu.level.1": "はじめて",
-	"strudel.menu.level.2": "ふつう",
+	"strudel.menu.level.1": "ビギナー",
+	"strudel.menu.level.2": "ノーマル",
 	"strudel.menu.level.3": "マスター",
 	"strudel.miniSound": "ミニ記法の音 [CODE]",
 	"strudel.miniNote": "ミニ記法の音階 [CODE]",
@@ -1125,8 +1125,8 @@ var translations = {
 	"strudel.menu.synth.square": "ピコピコ おと",
 	"strudel.menu.synth.sawtooth": "ギザギザ おと",
 	"strudel.menu.synth.triangle": "すっきり おと",
-	"strudel.menu.level.1": "はじめて",
-	"strudel.menu.level.2": "ふつう",
+	"strudel.menu.level.1": "ビギナー",
+	"strudel.menu.level.2": "ノーマル",
 	"strudel.menu.level.3": "マスター",
 	"strudel.miniSound": "ミニきほうの おと [CODE]",
 	"strudel.miniNote": "ミニきほうの おんかい [CODE]",
@@ -6917,7 +6917,7 @@ var DRUM_ITEMS = [['bd', 'bass drum'], ['sd', 'snare'], ['hh', 'hi-hat'], ['oh',
 var NOTE_ITEMS = [['c4', 'C'], ['d4', 'D'], ['e4', 'E'], ['f4', 'F'], ['g4', 'G'], ['a4', 'A'], ['b4', 'B'], ['c5', 'high C']];
 var REST_ITEMS = [['~', 'rest'], ['white', 'noise']];
 var SYNTH_ITEMS = [['sine', 'sine'], ['square', 'square'], ['sawtooth', 'sawtooth'], ['triangle', 'triangle'], ['supersaw', 'supersaw']];
-var LEVEL_ITEMS = [['1', 'beginner'], ['2', 'standard'], ['3', 'master']];
+var LEVEL_ITEMS = [['1', 'beginner'], ['2', 'normal'], ['3', 'master']];
 var ROOT_ITEMS = [['C4', 'C'], ['D4', 'D'], ['E4', 'E'], ['F4', 'F'], ['G4', 'G'], ['A3', 'A'], ['B3', 'B']];
 
 /** Scale names of Strudel. Spaces in tonal names are written with colons. */

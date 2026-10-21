@@ -12,9 +12,9 @@ Available in English, Japanese and Japanese (Hiragana).
 - [新規プロジェクト / New project](https://xcratch.github.io/editor/?extension=https://0x48lab.github.io/xcx-strudel/dist/strudel.mjs) — 拡張機能が入った状態で Xcratch エディターが開きます
 - [チュートリアル / Tutorial](https://0x48lab.github.io/xcx-strudel/tutorial.html) — スクリーンショット付きの 13 ステップ。リストとリズムで曲を書く、自分の声をビートにする、EDM・トランスの音作り、ジャズ・ソウルの和音まで(日本語)
 - サンプル作品(エディタでブロックを見る)
-  - [はじめて: ビートと おどる ねこ](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/demo.sb3)
-  - [ふつう: おんかいで メロディ](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/melody.sb3) — スペース・↑・↓・R キーでメロディが変わる
-  - [ふつう: ソウルな ピアノ ポップ](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/soulpop.sb3) — ジャズ・ソウル系の和音(セブンス、ナインス、借用和音、経過ディミニッシュ)とシャッフルのリズムで作ったオリジナル曲。和音・ベース・メロディはリストに1小節ずつ、ピアノのリズムは1拍ずつ、ドラムは楽器ごとに1行ずつ入っている。1〜4 キーでパートを止め、スペースで戻す
+  - [ビギナー: ビートと おどる ねこ](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/demo.sb3)
+  - [ノーマル: おんかいで メロディ](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/melody.sb3) — スペース・↑・↓・R キーでメロディが変わる
+  - [ノーマル: ソウルな ピアノ ポップ](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/soulpop.sb3) — ジャズ・ソウル系の和音(セブンス、ナインス、借用和音、経過ディミニッシュ)とシャッフルのリズムで作ったオリジナル曲。和音・ベース・メロディはリストに1小節ずつ、ピアノのリズムは1拍ずつ、ドラムは楽器ごとに1行ずつ入っている。1〜4 キーでパートを止め、スペースで戻す
   - [マスター: DJ トランス](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/trance.sb3) — 1〜5 キーでパートを重ね、Q〜T で止める
   - [マスター: アシッドとトランスゲート](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/acidgate.sb3) — [Switch Angel](https://github.com/switchangel) さんの [strudel-scripts](https://github.com/switchangel/strudel-scripts) の音作りを参考にした非公式の作品です(本人とは関係ありません)。コードは使わず、アシッドとトランスゲートのブロックで独自に再現しています
 - サンプル作品は `npm run demo` で `projects/` に作り直せます
@@ -34,7 +34,7 @@ Available in English, Japanese and Japanese (Hiragana).
 - ゆれる値(sine など)、ランダム、ユークリッドリズム、左右分け、和音とアルペジオ(マスター)
 - アシッド、トランスゲート、キックでほかのトラックをしぼませるポンピング(サイドチェイン)、ノイズ、supersaw の厚み(unison / detune / spread)(マスター)
 
-ブロックは「はじめて」「ふつう」「マスター」のレベルで表示を切り替えられます。
+ブロックは「ビギナー」「ノーマル」「マスター」のレベルで表示を切り替えられます。
 
 ## How to Use in Xcratch
 

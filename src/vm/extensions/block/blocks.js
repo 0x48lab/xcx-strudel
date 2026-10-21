@@ -519,7 +519,7 @@ const SYNTH_ITEMS = [
 
 const LEVEL_ITEMS = [
     ['1', 'beginner'],
-    ['2', 'standard'],
+    ['2', 'normal'],
     ['3', 'master']
 ];
 
