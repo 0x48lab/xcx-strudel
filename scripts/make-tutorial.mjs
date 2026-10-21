@@ -6,6 +6,7 @@
  */
 import path from 'path';
 import {Blocks, inOrder, writeProject} from './sb3-builder.mjs';
+import {PIANO_RHYTHM, SOUL} from './soul-song.mjs';
 
 const out = name => path.resolve(process.cwd(), `projects/tutorial/${name}.sb3`);
 
@@ -203,6 +204,42 @@ const STEPS = {
         b.stack([flag, level(b, '3'), tempo(b, 140), b.strudel('showViz', {}, {VIZ: 'spectrum'}),
             b.say('1〜6 キーで パートを ふやそう。7 で ポンピング、1 で もとの キック。スペースで ドロップ、0 で とめる', 8)]);
         b.comment(flag, 'EDM・トランスの 音づくり。\nキーを 1つずつ おして、パートの やくわりを 耳で たしかめよう。', 900, 24);
+        parts.forEach(([key, blocks], i) => b.stack([b.whenKey(key, [24, 260 + (i * 150)]), ...blocks]));
+    },
+    // 11. advanced: write a song in lists, and play chords on a rhythm
+    step11: b => {
+        const tone = (pattern, synth) => b.strudel('tone', {PATTERN: ['block', pattern], SYNTH: ['synth', synth]});
+        const effect = (pattern, name, value) => b.strudel('effect', {
+            PATTERN: ['block', pattern], VALUE: ['text', value]
+        }, {EFFECT: name});
+        const listNotes = name => b.strudel('miniNote', {
+            CODE: ['blockOnText', b.strudel('listMini', {}, {LISTNAME: name, HOW: 'cycle'})]
+        });
+        const tr808 = code => b.strudel('drumMachine', {
+            PATTERN: ['block', b.strudel('miniSound', {CODE: ['text', code]})], MACHINE: ['machine', 'RolandTR808']
+        });
+        const chords = b.list('コード', SOUL.piano);
+        const bass = b.list('ベース', SOUL.bass);
+        const melody = b.list('メロディ', SOUL.melody);
+        b.listMonitor(chords, [5, 5, 300, 220]);
+        const parts = [
+            ['1', [play(b, 'ピアノ', tone(listNotes(chords), 'piano'))]],
+            ['2', [play(b, 'ピアノ', tone(b.strudel('rhythm', {
+                PATTERN: ['block', listNotes(chords)], RHYTHM: ['text', PIANO_RHYTHM]
+            }), 'piano'))]],
+            ['3', [play(b, 'ベース', effect(tone(listNotes(bass), 'sawtooth'), 'lpf', '350'))]],
+            ['4', [play(b, 'メロディ', effect(tone(listNotes(melody), 'triangle'), 'room', '.4'))]],
+            ['5', [
+                play(b, 'ドラム', tr808(SOUL.drums)),
+                play(b, 'ハイハット', effect(tr808(SOUL.hats), 'gain', '.5'))
+            ]],
+            ['0', [b.strudel('stopAll')]]
+        ];
+        const flag = flagAt(b, 24);
+        b.stack([flag, level(b, '2'), tempo(b, 92),
+            b.say('1 で 和音、2 で リズムを つけて、3〜5 で パートを ふやそう。0 で とめる', 8)]);
+        b.comment(flag, '和音・ベース・メロディは「変数」の リストに 1小節ずつ 入っているよ。\n' +
+            'ステージの リストを クリックすると、和音を 書きかえられるよ。', 900, 24);
         parts.forEach(([key, blocks], i) => b.stack([b.whenKey(key, [24, 260 + (i * 150)]), ...blocks]));
     }
 };

@@ -18,6 +18,8 @@ export class Blocks {
         this.broadcasts = {};
         /** Lists of the sprite: ID to [name, items]. */
         this.lists = {};
+        /** Monitors on the stage. */
+        this.monitors = [];
         this.count = 0;
     }
 
@@ -166,6 +168,28 @@ export class Blocks {
     }
 
     /**
+     * Show a list of the sprite on the stage.
+     * @param {string} name - list name, made by list()
+     * @param {Array<number>} rect - [x, y, width, height] on the stage
+     */
+    listMonitor (name, [x, y, width, height]) {
+        const id = `l_${name}`;
+        this.monitors.push({
+            id,
+            mode: 'list',
+            opcode: 'data_listcontents',
+            params: {LIST: name},
+            spriteName: 'Sprite1',
+            value: this.lists[id][1],
+            width,
+            height,
+            x,
+            y,
+            visible: true
+        });
+    }
+
+    /**
      * @param {string} name - message name
      * @returns {string} - broadcast ID
      */
@@ -302,7 +326,7 @@ export const writeProject = async (cat, output, agent = 'xcx-strudel') => {
                 rotationStyle: 'all around'
             }
         ],
-        monitors: [],
+        monitors: cat.monitors,
         extensions: ['strudel'],
         // Xcratch reads the URLs as pairs of an extension ID and a URL
         extensionURLs: [['strudel', EXTENSION_URL]],

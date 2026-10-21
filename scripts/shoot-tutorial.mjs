@@ -13,7 +13,7 @@ const ROOT = process.cwd();
 const OUT = path.resolve(ROOT, 'tutorial');
 const SITE = 'https://0x48lab.github.io/xcx-strudel/';
 const EDITOR = 'https://xcratch.github.io/editor/';
-const STEPS = 10;
+const STEPS = 11;
 
 /** Space around a shot, in CSS pixels. */
 const PAD = 10;
@@ -136,6 +136,38 @@ const ring = (page, selector) => page.$eval(selector, el => {
     document.body.appendChild(div);
 });
 
+/**
+ * Draw a red ring around a rectangle.
+ * @param {object} page - page
+ * @param {object} rect - {x, y, width, height}
+ */
+const ringRect = (page, rect) => page.evaluate(r => {
+    const div = document.createElement('div');
+    Object.assign(div.style, {
+        position: 'fixed', left: `${r.x - 6}px`, top: `${r.y - 6}px`, zIndex: 9999, pointerEvents: 'none',
+        width: `${r.width + 12}px`, height: `${r.height + 12}px`,
+        border: '5px solid #ff4d6d', borderRadius: '10px', boxSizing: 'border-box'
+    });
+    div.id = 'tutorial-ring';
+    document.body.appendChild(div);
+}, rect);
+
+/** How to make a list, and a list on the stage. */
+const shootLists = async page => {
+    console.log('lists');
+    await open(page, 'step11');
+    const stage = await rectOf(page, '[class*="stage_stage_"]');
+    await page.screenshot({path: path.join(OUT, 'stage-list.png'), clip: stage});
+    console.log('  stage-list.png');
+    await page.locator('.scratchCategoryMenuItemLabel', {hasText: /^変数$/}).first().click();
+    await page.waitForTimeout(1500);
+    const button = await page.locator('.blocklyFlyoutButton', {hasText: 'リストを作る'}).first().boundingBox();
+    await ringRect(page, button);
+    const flyout = await rectOf(page, '.blocklyFlyout');
+    await shot(page, {x: flyout.x + PAD, y: button.y - 60, width: flyout.width - (PAD * 2), height: 420}, 'make-list');
+    await page.$eval('#tutorial-ring', el => el.remove());
+};
+
 /** How to add the extension. */
 const shootSetup = async page => {
     console.log('setup');
@@ -236,6 +268,7 @@ try {
         await open(page, `step${step}`);
         await shootScripts(page, `step${step}`);
     }
+    await shootLists(page);
     await shootViz(page);
 } finally {
     await browser.close();
