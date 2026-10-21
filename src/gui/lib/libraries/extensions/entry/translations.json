@@ -1,0 +1,14 @@
+{
+  "en": {
+    "strudel.entry.name": "Strudel",
+    "strudel.entry.description": "Make music with patterns like Strudel"
+  },
+  "ja": {
+    "strudel.entry.name": "ストゥルーデル",
+    "strudel.entry.description": "Strudelのようにパターンで音楽を作る"
+  },
+  "ja-Hira": {
+    "strudel.entry.name": "すとぅるーでる",
+    "strudel.entry.description": "パターンで おんがくを つくろう"
+  }
+}
