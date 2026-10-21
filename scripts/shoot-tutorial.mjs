@@ -13,7 +13,7 @@ const ROOT = process.cwd();
 const OUT = path.resolve(ROOT, 'tutorial');
 const SITE = 'https://0x48lab.github.io/xcx-strudel/';
 const EDITOR = 'https://xcratch.github.io/editor/';
-const STEPS = 11;
+const STEPS = 12;
 
 /** Space around a shot, in CSS pixels. */
 const PAD = 10;
@@ -155,7 +155,7 @@ const ringRect = (page, rect) => page.evaluate(r => {
 /** How to make a list, and a list on the stage. */
 const shootLists = async page => {
     console.log('lists');
-    await open(page, 'step11');
+    await open(page, 'step9');
     const stage = await rectOf(page, '[class*="stage_stage_"]');
     await page.screenshot({path: path.join(OUT, 'stage-list.png'), clip: stage});
     console.log('  stage-list.png');

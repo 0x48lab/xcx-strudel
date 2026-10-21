@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Make the projects of the tutorial: projects/tutorial/step1.sb3 ... step9.sb3.
+ * Make the projects of the tutorial: projects/tutorial/step1.sb3 ... step12.sb3.
  * Each step is a small project which tutorial.html shows and links to.
  * Run: npm run tutorial
  */
@@ -56,6 +56,39 @@ const hat = (b, opcode, fields, top) => {
     b.blocks[id].y = top[1];
     return id;
 };
+
+/**
+ * @param {Blocks} b - builder
+ * @param {string} pattern - block ID
+ * @param {string} synth - value of the synth menu
+ * @returns {string} - block ID of "with tone"
+ */
+const tone = (b, pattern, synth) => b.strudel('tone', {PATTERN: ['block', pattern], SYNTH: ['synth', synth]});
+
+/**
+ * @param {Blocks} b - builder
+ * @param {string} pattern - block ID
+ * @param {string} name - effect name
+ * @param {string|object} value - a text, or {wave: block ID}
+ * @returns {string} - block ID of "with effect"
+ */
+const effect = (b, pattern, name, value) => b.strudel('effect', {
+    PATTERN: ['block', pattern], VALUE: typeof value === 'string' ? ['text', value] : ['blockOnText', value.wave]
+}, {EFFECT: name});
+
+/**
+ * @param {Blocks} b - builder
+ * @param {string} name - list name
+ * @returns {string} - block ID of the list block, a bar in each cycle
+ */
+const listMini = (b, name) => b.strudel('listMini', {}, {LISTNAME: name, HOW: 'cycle'});
+
+/**
+ * @param {Blocks} b - builder
+ * @param {string} name - list name
+ * @returns {string} - block ID of notes from the list
+ */
+const listNotes = (b, name) => b.strudel('miniNote', {CODE: ['blockOnText', listMini(b, name)]});
 
 const STEPS = {
     // 1. one sound
@@ -123,8 +156,31 @@ const STEPS = {
         b.stack([b.whenKey('c', [24, 380]), say]);
         b.stack([b.whenKey('o', [24, 500]), b.strudel('openStrudel')]);
     },
-    // 9. master level: euclid, acid, trance gate and a wave
+    // 9. standard level: write a song in lists, and play chords on a rhythm
     step9: b => {
+        const chords = b.list('コード', ['[f3,a3,c4]', '[g3,b3,d4]', '[e3,g3,b3]', '[a3,c4,e4]']);
+        const bass = b.list('ベース', ['f2 [~ f2] f2 [~ f2]', 'g2 [~ g2] g2 [~ g2]', 'e2 [~ e2] e2 [~ e2]', 'a2 [~ a2] a2 [~ a2]']);
+        const melody = b.list('メロディ', ['[c5 d5] [e5 ~] [d5 c5] [a4 ~]', '[b4 c5] [d5 ~] [g4 ~] ~', '[e5 d5] [b4 ~] [g4 b4] [d5 ~]', '[c5 ~] [b4 a4] a4 ~']);
+        b.listMonitor(chords, [5, 5, 200, 150]);
+        const parts = [
+            ['1', [play(b, 'ピアノ', tone(b, listNotes(b, chords), 'piano'))]],
+            ['2', [play(b, 'ピアノ', tone(b, b.strudel('rhythm', {
+                PATTERN: ['block', listNotes(b, chords)], RHYTHM: ['text', '[x ~] [~ x] [x x] [~ x]']
+            }), 'piano'))]],
+            ['3', [play(b, 'ベース', effect(b, tone(b, listNotes(b, bass), 'sawtooth'), 'lpf', '400'))]],
+            ['4', [play(b, 'メロディ', effect(b, tone(b, listNotes(b, melody), 'triangle'), 'room', '.3'))]],
+            ['5', [play(b, 'ドラム', b.strudel('miniSound', {CODE: ['text', 'bd [~ bd] sd ~, hh*8']}))]],
+            ['0', [b.strudel('stopAll')]]
+        ];
+        const flag = flagAt(b, 24);
+        b.stack([flag, level(b, '2'), tempo(b, 100),
+            b.say('1 で 和音、2 で リズムを つけて、3〜5 で パートを ふやそう。0 で とめる', 8)]);
+        b.comment(flag, '和音・ベース・メロディは「変数」の リストに 1小節ずつ 入っているよ。\n' +
+            'ステージの リストを クリックすると、和音を 書きかえられるよ。', 900, 24);
+        parts.forEach(([key, blocks], i) => b.stack([b.whenKey(key, [24, 260 + (i * 150)]), ...blocks]));
+    },
+    // 10. master level: euclid, acid, trance gate and a wave
+    step10: b => {
         const kick = play(b, 'キック', b.strudel('drumMachine', {
             PATTERN: ['block', b.strudel('euclid', {
                 PULSES: ['number', 5], PATTERN: ['sound', 'bd'], STEPS: ['number', 8]
@@ -153,41 +209,37 @@ const STEPS = {
         b.stack([flagAt(b, 24), level(b, '3'), tempo(b, 138), kick, hats, acid, pad,
             b.strudel('showViz', {}, {VIZ: 'spectrum'})]);
     },
-    // 10. advanced: sounds of EDM and trance, a part on each key
-    step10: b => {
-        // value is a text, or {wave: block ID}
-        const effect = (pattern, name, value) => b.strudel('effect', {
-            PATTERN: ['block', pattern], VALUE: typeof value === 'string' ? ['text', value] : ['blockOnText', value.wave]
-        }, {EFFECT: name});
-        const tone = (pattern, synth) => b.strudel('tone', {PATTERN: ['block', pattern], SYNTH: ['synth', synth]});
-        const note = code => b.strudel('miniNote', {CODE: ['text', code]});
-        const tr909 = code => b.strudel('drumMachine', {
-            PATTERN: ['block', b.strudel('miniSound', {CODE: ['text', code]})], MACHINE: ['machine', 'RolandTR909']
-        });
+    // 11. advanced: sounds of EDM and trance in lists, a part on each key
+    step11: b => {
         const rising = (min, max) => ({wave: b.strudel('wave', {
             MIN: ['number', min], MAX: ['number', max], CYCLES: ['number', 4]
         }, {SHAPE: 'saw'})});
-        const CHORDS = '<[a3,c4,e4] [f3,a3,c4] [c4,e4,g4] [g3,b3,d4]>';
+        const tr909 = pattern => b.strudel('drumMachine', {PATTERN: ['block', pattern], MACHINE: ['machine', 'RolandTR909']});
+        const sounds = code => b.strudel('miniSound', {CODE: ['text', code]});
+        const chords = b.list('コード', ['[a3,c4,e4,a4]', '[f3,a3,c4,f4]', '[c4,e4,g4,c5]', '[g3,b3,d4,g4]']);
+        const bass = b.list('ベース', ['[~ a1]*4', '[~ f1]*4', '[~ c2]*4', '[~ g1]*4']);
+        const lead = b.list('リード', ['[7 ~ 9 11] [12 11 ~ 9]', '[11 ~ 9 7] [8 ~ 9 6]', '[7 ~ 9 11] [12 11 ~ 9]', '[11 ~ 9 7] [8 ~ 9 6]']);
+        const build = b.list('ビルドアップ', ['sd*4', 'sd*8', 'sd*16', 'sd*32']);
+        b.listMonitor(chords, [5, 5, 170, 150]);
         const parts = [
-            ['1', [play(b, 'キック', tr909('bd*4'))]],
-            ['2', [play(b, 'ベース', effect(tone(note('<[~ a1]*4 [~ f1]*4 [~ c2]*4 [~ g1]*4>'), 'sawtooth'), 'lpf', '500'))]],
-            ['3', [play(b, 'パッド', effect(b.strudel('trancegate', {
-                PATTERN: ['block', tone(note(CHORDS), 'supersaw')],
+            ['1', [play(b, 'キック', tr909(sounds('bd*4')))]],
+            ['2', [play(b, 'ベース', effect(b, tone(b, listNotes(b, bass), 'sawtooth'), 'lpf', '500'))]],
+            ['3', [play(b, 'パッド', effect(b, b.strudel('trancegate', {
+                PATTERN: ['block', tone(b, listNotes(b, chords), 'supersaw')],
                 DENSITY: ['number', 0.8], SEED: ['number', 45], LENGTH: ['number', 1]
             }), 'room', '.6'))]],
-            ['4', [play(b, 'プラック', effect(effect(tone(b.strudel('arp', {
-                PATTERN: ['block', note('<[a3,c4,e4,a4] [f3,a3,c4,f4] [c4,e4,g4,c5] [g3,b3,d4,g4]>')],
-                ORDER: ['text', '0 1 2 3 2 1 2 3']
+            ['4', [play(b, 'プラック', effect(b, effect(b, tone(b, b.strudel('arp', {
+                PATTERN: ['block', listNotes(b, chords)], ORDER: ['text', '0 1 2 3 2 1 2 3']
             }), 'square'), 'clip', '.3'), 'delay', '.4'))]],
-            ['5', [play(b, 'リード', effect(effect(b.strudel('superimpose', {
-                PATTERN: ['block', tone(b.strudel('scaleNotes', {
-                    STEPS: ['text', '<[7 ~ 9 11] [12 11 ~ 9] [11 ~ 9 7] [8 ~ 9 6]>*2'],
-                    ROOT: ['root', 'A3'], SCALE: ['scale', 'minor']
+            ['5', [play(b, 'リード', effect(b, effect(b, b.strudel('superimpose', {
+                PATTERN: ['block', tone(b, b.strudel('scaleNotes', {
+                    STEPS: ['blockOnText', listMini(b, lead)], ROOT: ['root', 'A3'], SCALE: ['scale', 'minor']
                 }), 'supersaw')]
             }, {TRANSFORM: 'up12'}), 'unison', '7'), 'room', '.8'))]],
             ['6', [
-                play(b, 'スネア', effect(tr909('<sd*4 sd*8 sd*16 sd*32>'), 'gain', rising(0.3, 1))),
-                play(b, 'ライザー', effect(effect(b.strudel('repeat', {
+                play(b, 'スネア', effect(b, tr909(b.strudel('miniSound', {CODE: ['blockOnText', listMini(b, build)]})),
+                    'gain', rising(0.3, 1))),
+                play(b, 'ライザー', effect(b, effect(b, b.strudel('repeat', {
                     PATTERN: ['sound', 'white'], TIMES: ['number', 16]
                 }), 'hpf', rising(300, 9000)), 'gain', rising(0, 0.4)))
             ]],
@@ -196,25 +248,19 @@ const STEPS = {
                 b.strudel('stopTrack', {TRACK: ['text', 'ライザー']})
             ]],
             ['7', [play(b, 'キック', b.strudel('duck', {
-                PATTERN: ['block', tr909('bd*4')], DEPTH: ['number', 0.85]
+                PATTERN: ['block', tr909(sounds('bd*4'))], DEPTH: ['number', 0.85]
             }))]],
             ['0', [b.strudel('stopAll')]]
         ];
         const flag = flagAt(b, 24);
         b.stack([flag, level(b, '3'), tempo(b, 140), b.strudel('showViz', {}, {VIZ: 'spectrum'}),
             b.say('1〜6 キーで パートを ふやそう。7 で ポンピング、1 で もとの キック。スペースで ドロップ、0 で とめる', 8)]);
-        b.comment(flag, 'EDM・トランスの 音づくり。\nキーを 1つずつ おして、パートの やくわりを 耳で たしかめよう。', 900, 24);
+        b.comment(flag, 'EDM・トランスの 音づくり。\nキーを 1つずつ おして、パートの やくわりを 耳で たしかめよう。\n' +
+            '和音・ベース・リード・ビルドアップは リストに 1小節ずつ 入っているよ。', 900, 24);
         parts.forEach(([key, blocks], i) => b.stack([b.whenKey(key, [24, 260 + (i * 150)]), ...blocks]));
     },
-    // 11. advanced: write a song in lists, and play chords on a rhythm
-    step11: b => {
-        const tone = (pattern, synth) => b.strudel('tone', {PATTERN: ['block', pattern], SYNTH: ['synth', synth]});
-        const effect = (pattern, name, value) => b.strudel('effect', {
-            PATTERN: ['block', pattern], VALUE: ['text', value]
-        }, {EFFECT: name});
-        const listNotes = name => b.strudel('miniNote', {
-            CODE: ['blockOnText', b.strudel('listMini', {}, {LISTNAME: name, HOW: 'cycle'})]
-        });
+    // 12. advanced: jazzy chords of soul and pop, in lists
+    step12: b => {
         const tr808 = code => b.strudel('drumMachine', {
             PATTERN: ['block', b.strudel('miniSound', {CODE: ['text', code]})], MACHINE: ['machine', 'RolandTR808']
         });
@@ -223,23 +269,22 @@ const STEPS = {
         const melody = b.list('メロディ', SOUL.melody);
         b.listMonitor(chords, [5, 5, 300, 220]);
         const parts = [
-            ['1', [play(b, 'ピアノ', tone(listNotes(chords), 'piano'))]],
-            ['2', [play(b, 'ピアノ', tone(b.strudel('rhythm', {
-                PATTERN: ['block', listNotes(chords)], RHYTHM: ['text', PIANO_RHYTHM]
+            ['1', [play(b, 'ピアノ', tone(b, b.strudel('rhythm', {
+                PATTERN: ['block', listNotes(b, chords)], RHYTHM: ['text', PIANO_RHYTHM]
             }), 'piano'))]],
-            ['3', [play(b, 'ベース', effect(tone(listNotes(bass), 'sawtooth'), 'lpf', '350'))]],
-            ['4', [play(b, 'メロディ', effect(tone(listNotes(melody), 'triangle'), 'room', '.4'))]],
-            ['5', [
+            ['2', [play(b, 'ベース', effect(b, tone(b, listNotes(b, bass), 'sawtooth'), 'lpf', '350'))]],
+            ['3', [play(b, 'メロディ', effect(b, tone(b, listNotes(b, melody), 'triangle'), 'room', '.4'))]],
+            ['4', [
                 play(b, 'ドラム', tr808(SOUL.drums)),
-                play(b, 'ハイハット', effect(tr808(SOUL.hats), 'gain', '.5'))
+                play(b, 'ハイハット', effect(b, tr808(SOUL.hats), 'gain', '.5'))
             ]],
             ['0', [b.strudel('stopAll')]]
         ];
         const flag = flagAt(b, 24);
         b.stack([flag, level(b, '2'), tempo(b, 92),
-            b.say('1 で 和音、2 で リズムを つけて、3〜5 で パートを ふやそう。0 で とめる', 8)]);
-        b.comment(flag, '和音・ベース・メロディは「変数」の リストに 1小節ずつ 入っているよ。\n' +
-            'ステージの リストを クリックすると、和音を 書きかえられるよ。', 900, 24);
+            b.say('1〜4 キーで パートを ふやそう。0 で とめる', 8)]);
+        b.comment(flag, 'ジャズや ソウルの 和音を つかった ピアノ ポップ。\n' +
+            '| FM7 | Em7 A7 | Dm7 G7 | Cmaj9 C9 |\n| FM7 | Fm6 | Em7 E♭dim7 | Dm7 G7sus4 |', 900, 24);
         parts.forEach(([key, blocks], i) => b.stack([b.whenKey(key, [24, 260 + (i * 150)]), ...blocks]));
     }
 };
