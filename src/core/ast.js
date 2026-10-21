@@ -56,6 +56,8 @@ const TRANSFORM = {kind: 'transform'};
 const SOUND_NAME = /^[a-z0-9_]+$/i;
 const BANK_NAME = /^[a-z0-9]+$/i;
 const VOWEL_CODE = /^[aeiou\s<>[\]~,*!@/.-]+$/;
+// a rhythm of x and ~ in mini-notation, such as "[x ~ ~] [~ ~ x]" or "x(3,8)"
+const RHYTHM_CODE = /^[x~\s<>[\](),*!@/.\d]+$/;
 const SCALE_NAME = /^[A-G](?:#|b)?\d?:[a-z]+(?::[a-z]+)*$/;
 
 /**
@@ -67,6 +69,7 @@ const METHODS = {
     slow: [number(0.01, LIMIT.SLOW)],
     ply: [number(1, 8)],
     rev: [],
+    struct: [letters(RHYTHM_CODE)],
     every: [number(1, 16), TRANSFORM],
     s: [name(SOUND_NAME)],
     scale: [name(SCALE_NAME)],

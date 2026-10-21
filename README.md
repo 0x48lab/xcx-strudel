@@ -14,7 +14,7 @@ Available in English, Japanese and Japanese (Hiragana).
   - [はじめて: ビートと おどる ねこ](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/demo.sb3)
   - [ふつう: おんかいで メロディ](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/melody.sb3) — スペース・↑・↓・R キーでメロディが変わる
   - [マスター: DJ トランス](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/trance.sb3) — 1〜5 キーでパートを重ね、Q〜T で止める
-  - [ふつう: ソウルな ピアノ ポップ](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/soulpop.sb3) — ジャズ・ソウル系の和音(セブンス、ナインス、借用和音、経過ディミニッシュ)とシャッフルのリズムで作ったオリジナル曲。1〜5 キーでパートを止め、スペースで戻す
+  - [ふつう: ソウルな ピアノ ポップ](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/soulpop.sb3) — ジャズ・ソウル系の和音(セブンス、ナインス、借用和音、経過ディミニッシュ)とシャッフルのリズムで作ったオリジナル曲。和音・ベース・メロディはリストに1小節ずつ入っている。1〜5 キーでパートを止め、スペースで戻す
   - [マスター: アシッドとトランスゲート](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/acidgate.sb3) — [Switch Angel](https://github.com/switchangel) さんの [strudel-scripts](https://github.com/switchangel/strudel-scripts) の音作りを参考にした非公式の作品です(本人とは関係ありません)。コードは使わず、アシッドとトランスゲートのブロックで独自に再現しています
 - サンプル作品は `npm run demo` で `projects/` に作り直せます
 
@@ -23,6 +23,8 @@ Available in English, Japanese and Japanese (Hiragana).
 - ドラム・音・休みを「順番に」「同時に」「交互に」「くりかえす」で組み立てて、トラックごとに鳴らす
 - エフェクト(lpf, hpf, room, delay, gain, pan, crush, speed, attack, release, vowel)、変形(rev, ply, every)、音階(scale)
 - ミニ記法(`bd*2 [~ sd] <hh oh>`)をそのまま書くこともできる
+- Scratch のリストの中身を、1サイクルずつ・順番に・同時に並べてミニ記法にできる(長いコード進行やメロディを1小節ずつ書ける)
+- 「リズムで刻む」ブロックで、和音などを `x ~` のリズムで鳴らせる
 - スプライトの音(録音した声など)をサンプルとして使う
 - オシロスコープとピアノロールをステージに表示する
 - 「拍がきたとき」「[バスドラム]が鳴ったとき」でスプライトを音に合わせて動かす

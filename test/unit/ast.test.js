@@ -532,6 +532,7 @@ describe('ducking, noise and thickness of a sound', () => {
     test.each([
         ['ducking', methodNode(methodNode(methodNode(methodNode(miniNode('bd*4', 's'), 'orbit', [2]), 'duckorbit', [1]), 'duckattack', [0.2]), 'duckdepth', [0.8])],
         ['noise', methodNode(methodNode(miniNode('white*16', 's'), 'hpf', [signalArg('saw', 300, 9000, 4)]), 'gain', [signalArg('saw', 0, 0.35, 4)])],
+        ['rhythm', methodNode(miniNode('<[c3,e3,g3] [d3,f3,a3]>', 'note'), 'struct', ['[x ~ ~] [~ ~ x] [x ~ x] [~ ~ ~]'])],
         ['thickness', methodNode(methodNode(methodNode(methodNode(miniNode('a3', 'note'), 's', ['supersaw']), 'unison', [7]), 'detune', [0.4]), 'spread', [0.8])]
     ])('%s', async (_, n) => {
         await expectSameAsStrudel(n);

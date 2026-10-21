@@ -554,6 +554,63 @@ describe('ducking, noise and thickness blocks', () => {
     });
 });
 
+describe('list and rhythm blocks', () => {
+    const ext = new blockClass(makeRuntime());
+    const lists = {
+        chords: ['[f3,a3,c4,e4]', '[e3,g3,b3,d4] [g3,a3,c#4,e4]', '', '  '],
+        empty: []
+    };
+    const util = {target: {lookupVariableByNameAndType: (name, type) => (
+        type === 'list' && Object.prototype.hasOwnProperty.call(lists, name) ? {value: lists[name]} : null
+    )}};
+
+    test.each([
+        ['cycle', '<[[f3,a3,c4,e4]] [[e3,g3,b3,d4] [g3,a3,c#4,e4]]>'],
+        ['seq', '[[f3,a3,c4,e4]] [[e3,g3,b3,d4] [g3,a3,c#4,e4]]'],
+        ['stack', '[[f3,a3,c4,e4]], [[e3,g3,b3,d4] [g3,a3,c#4,e4]]'],
+        ['unknown', '<[[f3,a3,c4,e4]] [[e3,g3,b3,d4] [g3,a3,c#4,e4]]>']
+    ])('items %s', (how, code) => {
+        expect(ext.listMini({LISTNAME: 'chords', HOW: how}, util)).toBe(code);
+    });
+
+    test('a missing or empty list is an empty text', () => {
+        expect(ext.listMini({LISTNAME: 'empty', HOW: 'cycle'}, util)).toBe('');
+        expect(ext.listMini({LISTNAME: 'nothing', HOW: 'cycle'}, util)).toBe('');
+        expect(ext.listMini({LISTNAME: 'chords', HOW: 'cycle'}, {})).toBe('');
+    });
+
+    test('an empty text of mini-notation is a rest', () => {
+        expect(String(ext.miniNote({CODE: ''}))).toBe('silence');
+        expect(String(ext.miniSound({CODE: '  '}))).toBe('silence');
+    });
+
+    test('a list is played as notes', () => {
+        const n = ext.miniNote({CODE: ext.listMini({LISTNAME: 'chords', HOW: 'cycle'}, util)});
+        expect(compile(n).queryArc(0, 1).map(hap => hap.value.note)).toEqual(['f3', 'a3', 'c4', 'e4']);
+    });
+
+    test('the rhythm block plays the pattern on the rhythm', () => {
+        const n = ext.rhythm({PATTERN: ext.miniNote({CODE: '[c3,e3]'}), RHYTHM: '[x ~ ~] [~ ~ x]'});
+        expect(String(n)).toBe('note("[c3,e3]").struct("[x ~ ~] [~ ~ x]")');
+        const haps = compile(n).queryArc(0, 1);
+        expect(haps).toHaveLength(4);
+        expect(haps.map(hap => hap.whole.begin.valueOf()).sort()).toEqual([0, 0, 5 / 6, 5 / 6]);
+    });
+
+    test.each(['x evil()', 'note("a")', 'x; alert(1)'])('a rhythm %j is not played', rhythm => {
+        expect(() => compile(ext.rhythm({PATTERN: 'c4', RHYTHM: rhythm}))).toThrow();
+    });
+
+    test('lists of the sprite and the stage are in the menu', () => {
+        const e = new blockClass(Object.assign(makeRuntime(), {
+            getEditingTarget: () => ({variables: {a: {type: 'list', name: 'chords'}, b: {type: '', name: 'x'}}}),
+            getTargetForStage: () => ({variables: {c: {type: 'list', name: 'melody'}, d: {type: 'list', name: 'chords'}}})
+        }));
+        expect(e.getListMenu()).toEqual(['chords', 'melody']);
+        expect(new blockClass(makeRuntime()).getListMenu()).toEqual(['']);
+    });
+});
+
 describe('sample maps are loaded when a pattern needs them', () => {
     const make = () => {
         const ext = new blockClass(makeRuntime());

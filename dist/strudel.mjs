@@ -916,7 +916,12 @@ var en$1 = {
 	"strudel.menu.sound.white": "noise",
 	"strudel.menu.effect.unison": "thickness (unison)",
 	"strudel.menu.effect.detune": "detune",
-	"strudel.menu.effect.spread": "stereo spread (spread)"
+	"strudel.menu.effect.spread": "stereo spread (spread)",
+	"strudel.listMini": "items of list [LISTNAME] [HOW]",
+	"strudel.rhythm": "play [PATTERN] in rhythm [RHYTHM]",
+	"strudel.menu.listHow.cycle": "one in each cycle",
+	"strudel.menu.listHow.seq": "in order in a cycle",
+	"strudel.menu.listHow.stack": "all together"
 };
 var ja$1 = {
 	"strudel.name": "ストゥルーデル",
@@ -1070,7 +1075,12 @@ var ja$1 = {
 	"strudel.menu.sound.white": "ノイズ",
 	"strudel.menu.effect.unison": "厚み (unison)",
 	"strudel.menu.effect.detune": "音のずれ (detune)",
-	"strudel.menu.effect.spread": "左右の広がり (spread)"
+	"strudel.menu.effect.spread": "左右の広がり (spread)",
+	"strudel.listMini": "リスト [LISTNAME] の中身を [HOW] ならべる",
+	"strudel.rhythm": "[PATTERN] をリズム [RHYTHM] で刻む",
+	"strudel.menu.listHow.cycle": "1サイクルに1つずつ",
+	"strudel.menu.listHow.seq": "1サイクルの中に順番に",
+	"strudel.menu.listHow.stack": "ぜんぶ同時に"
 };
 var translations = {
 	en: en$1,
@@ -1227,7 +1237,12 @@ var translations = {
 	"strudel.menu.sound.white": "ノイズ",
 	"strudel.menu.effect.unison": "あつみ (unison)",
 	"strudel.menu.effect.detune": "おとの ずれ (detune)",
-	"strudel.menu.effect.spread": "さゆうの ひろがり (spread)"
+	"strudel.menu.effect.spread": "さゆうの ひろがり (spread)",
+	"strudel.listMini": "リスト [LISTNAME] の なかみを [HOW] ならべる",
+	"strudel.rhythm": "[PATTERN] を リズム [RHYTHM] で きざむ",
+	"strudel.menu.listHow.cycle": "1サイクルに 1つずつ",
+	"strudel.menu.listHow.seq": "1サイクルの なかに じゅんばんに",
+	"strudel.menu.listHow.stack": "ぜんぶ いっしょに"
 }
 };
 
@@ -6429,6 +6444,39 @@ var BLOCKS = [{
     }
   }
 }, {
+  opcode: 'listMini',
+  blockType: BlockType.REPORTER,
+  level: LEVEL.STANDARD,
+  text: 'items of list [LISTNAME] [HOW]',
+  // not "LIST": scratch-vm passes a field named LIST as a variable reference {id, name}
+  arguments: {
+    LISTNAME: {
+      type: ArgumentType.STRING,
+      menu: 'list'
+    },
+    HOW: {
+      type: ArgumentType.STRING,
+      menu: 'listHow',
+      defaultValue: 'cycle'
+    }
+  }
+}, {
+  opcode: 'rhythm',
+  blockType: BlockType.REPORTER,
+  level: LEVEL.STANDARD,
+  text: 'play [PATTERN] in rhythm [RHYTHM]',
+  arguments: {
+    PATTERN: {
+      type: ArgumentType.STRING,
+      menu: 'sound',
+      defaultValue: 'c4'
+    },
+    RHYTHM: {
+      type: ArgumentType.STRING,
+      defaultValue: 'x ~ x x'
+    }
+  }
+}, {
   opcode: 'drumMachine',
   blockType: BlockType.REPORTER,
   level: LEVEL.STANDARD,
@@ -6873,6 +6921,7 @@ var LEVEL_ITEMS = [['1', 'beginner'], ['2', 'standard'], ['3', 'master']];
 var ROOT_ITEMS = [['C4', 'C'], ['D4', 'D'], ['E4', 'E'], ['F4', 'F'], ['G4', 'G'], ['A3', 'A'], ['B3', 'B']];
 
 /** Scale names of Strudel. Spaces in tonal names are written with colons. */
+var LIST_HOW_ITEMS = [['cycle', 'one in each cycle'], ['seq', 'in order in a cycle'], ['stack', 'all together']];
 var SCALE_ITEMS = [['major', 'major'], ['minor', 'minor'], ['major:pentatonic', 'major pentatonic'], ['minor:pentatonic', 'minor pentatonic'], ['blues', 'blues'], ['dorian', 'dorian'], ['chromatic', 'chromatic']];
 
 /** Effects and the range of their values. Null is an effect which takes letters. */
@@ -7039,6 +7088,11 @@ var MENUS = {
     acceptReporters: false,
     group: 'layer',
     items: LAYER_ITEMS
+  },
+  listHow: {
+    acceptReporters: false,
+    group: 'listHow',
+    items: LIST_HOW_ITEMS
   }
 };
 
@@ -15574,6 +15628,8 @@ var TRANSFORM = {
 var SOUND_NAME = /^[a-z0-9_]+$/i;
 var BANK_NAME = /^[a-z0-9]+$/i;
 var VOWEL_CODE = /^[aeiou\s<>[\]~,*!@/.-]+$/;
+// a rhythm of x and ~ in mini-notation, such as "[x ~ ~] [~ ~ x]" or "x(3,8)"
+var RHYTHM_CODE = /^[x~\s<>[\](),*!@/.\d]+$/;
 var SCALE_NAME = /^[A-G](?:#|b)?\d?:[a-z]+(?::[a-z]+)*$/;
 
 /**
@@ -15585,6 +15641,7 @@ var METHODS = {
   slow: [number(0.01, LIMIT.SLOW)],
   ply: [number(1, 8)],
   rev: [],
+  struct: [letters(RHYTHM_CODE)],
   every: [number(1, 16), TRANSFORM],
   s: [name(SOUND_NAME)],
   scale: [name(SCALE_NAME)],
@@ -20250,6 +20307,10 @@ var ExtensionBlocks = /*#__PURE__*/function () {
         acceptReporters: true,
         items: 'getSpriteSoundMenu'
       };
+      menus.list = {
+        acceptReporters: false,
+        items: 'getListMenu'
+      };
       Object.entries(MENUS).forEach(function (_ref) {
         var _ref2 = _slicedToArray(_ref, 2),
           name = _ref2[0],
@@ -20453,15 +20514,71 @@ var ExtensionBlocks = /*#__PURE__*/function () {
       }) : [];
       return names.length ? names : [''];
     }
+
+    /**
+     * @returns {Array<string>} - names of the lists of the editing sprite and the stage
+     */
+  }, {
+    key: "getListMenu",
+    value: function getListMenu() {
+      var names = [];
+      var target = this.runtime.getEditingTarget && this.runtime.getEditingTarget();
+      var stage = this.runtime.getTargetForStage && this.runtime.getTargetForStage();
+      [target, stage].forEach(function (t) {
+        if (!t || !t.variables) return;
+        Object.values(t.variables).forEach(function (v) {
+          if (v.type === 'list' && !names.includes(v.name)) names.push(v.name);
+        });
+      });
+      return names.length ? names : [''];
+    }
+
+    /**
+     * Mini-notation made of the items of a list. Each item is put in [ ].
+     * @param {object} args - LISTNAME and HOW
+     * @param {object} util - utility of the block
+     * @returns {string} - mini-notation, or '' when the list is not found or empty
+     */
+  }, {
+    key: "listMini",
+    value: function listMini(args, util) {
+      var target = util && util.target;
+      var list = target && target.lookupVariableByNameAndType(Cast.toString(args.LISTNAME), 'list');
+      if (!list || !Array.isArray(list.value)) return '';
+      var items = list.value.map(function (item) {
+        return Cast.toString(item).trim();
+      }).filter(function (item) {
+        return item.length > 0;
+      }).map(function (item) {
+        return "[".concat(item, "]");
+      });
+      if (!items.length) return '';
+      switch (Cast.toString(args.HOW)) {
+        case 'seq':
+          return items.join(' ');
+        case 'stack':
+          return items.join(', ');
+        default:
+          return "<".concat(items.join(' '), ">");
+      }
+    }
+  }, {
+    key: "rhythm",
+    value: function rhythm(args) {
+      return methodNode(args.PATTERN, 'struct', [Cast.toString(args.RHYTHM).trim()]);
+    }
   }, {
     key: "miniSound",
     value: function miniSound(args) {
-      return miniNode(Cast.toString(args.CODE), 's');
+      var code = Cast.toString(args.CODE);
+      // an empty text, such as an empty list, is a rest
+      return code.trim() ? miniNode(code, 's') : silenceNode();
     }
   }, {
     key: "miniNote",
     value: function miniNote(args) {
-      return miniNode(Cast.toString(args.CODE), 'note');
+      var code = Cast.toString(args.CODE);
+      return code.trim() ? miniNode(code, 'note') : silenceNode();
     }
   }, {
     key: "scaleNotes",

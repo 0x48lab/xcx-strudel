@@ -253,6 +253,7 @@ class ExtensionBlocks {
     menuInfo () {
         const menus = {};
         menus.spriteSound = {acceptReporters: true, items: 'getSpriteSoundMenu'};
+        menus.list = {acceptReporters: false, items: 'getListMenu'};
         Object.entries(MENUS).forEach(([name, menu]) => {
             menus[name] = {
                 acceptReporters: menu.acceptReporters,
@@ -412,12 +413,56 @@ class ExtensionBlocks {
         return names.length ? names : [''];
     }
 
+    /**
+     * @returns {Array<string>} - names of the lists of the editing sprite and the stage
+     */
+    getListMenu () {
+        const names = [];
+        const target = this.runtime.getEditingTarget && this.runtime.getEditingTarget();
+        const stage = this.runtime.getTargetForStage && this.runtime.getTargetForStage();
+        [target, stage].forEach(t => {
+            if (!t || !t.variables) return;
+            Object.values(t.variables).forEach(v => {
+                if (v.type === 'list' && !names.includes(v.name)) names.push(v.name);
+            });
+        });
+        return names.length ? names : [''];
+    }
+
+    /**
+     * Mini-notation made of the items of a list. Each item is put in [ ].
+     * @param {object} args - LISTNAME and HOW
+     * @param {object} util - utility of the block
+     * @returns {string} - mini-notation, or '' when the list is not found or empty
+     */
+    listMini (args, util) {
+        const target = util && util.target;
+        const list = target && target.lookupVariableByNameAndType(Cast.toString(args.LISTNAME), 'list');
+        if (!list || !Array.isArray(list.value)) return '';
+        const items = list.value.map(item => Cast.toString(item).trim())
+            .filter(item => item.length > 0)
+            .map(item => `[${item}]`);
+        if (!items.length) return '';
+        switch (Cast.toString(args.HOW)) {
+        case 'seq': return items.join(' ');
+        case 'stack': return items.join(', ');
+        default: return `<${items.join(' ')}>`;
+        }
+    }
+
+    rhythm (args) {
+        return methodNode(args.PATTERN, 'struct', [Cast.toString(args.RHYTHM).trim()]);
+    }
+
     miniSound (args) {
-        return miniNode(Cast.toString(args.CODE), 's');
+        const code = Cast.toString(args.CODE);
+        // an empty text, such as an empty list, is a rest
+        return code.trim() ? miniNode(code, 's') : silenceNode();
     }
 
     miniNote (args) {
-        return miniNode(Cast.toString(args.CODE), 'note');
+        const code = Cast.toString(args.CODE);
+        return code.trim() ? miniNode(code, 'note') : silenceNode();
     }
 
     scaleNotes (args) {

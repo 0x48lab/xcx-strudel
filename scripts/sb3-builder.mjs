@@ -16,6 +16,8 @@ export class Blocks {
         this.comments = {};
         /** Broadcast messages: ID to name. */
         this.broadcasts = {};
+        /** Lists of the sprite: ID to [name, items]. */
+        this.lists = {};
         this.count = 0;
     }
 
@@ -153,6 +155,17 @@ export class Blocks {
     }
 
     /**
+     * A list of the sprite.
+     * @param {string} name - list name
+     * @param {Array<string>} items - items
+     * @returns {string} - list name
+     */
+    list (name, items) {
+        this.lists[`l_${name}`] = [name, items];
+        return name;
+    }
+
+    /**
      * @param {string} name - message name
      * @returns {string} - broadcast ID
      */
@@ -244,7 +257,7 @@ export const writeProject = async (cat, output, agent = 'xcx-strudel') => {
                 isStage: false,
                 name: 'Sprite1',
                 variables: {},
-                lists: {},
+                lists: cat.lists,
                 broadcasts: {},
                 blocks: cat.blocks,
                 comments: cat.comments,

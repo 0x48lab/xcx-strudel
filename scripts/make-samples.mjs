@@ -239,15 +239,12 @@ const PROGRESSION = [
 ];
 
 /**
- * Piano comping in a shuffle: a beat is three triplets.
- * @param {Array<string>} bar - one or two chord names
- * @returns {string} - mini-notation of the bar
+ * Lists of the song, an item for each bar. A beat is three triplets of a shuffle.
+ * The piano list has only chords, and the rhythm block plays them on PIANO_RHYTHM.
  */
-const comp = ([x, y = x]) => `[[${CHORD[x]} ~ ~] [~ ~ ${CHORD[x]}] [${y === x ? '~ ~' : `${CHORD[y]} ~`} ${CHORD[y]}] [~ ~ ~]]`;
-
 const SOUL = {
-    piano: `<${PROGRESSION.map(comp).join(' ')}>`,
-    bass: `<${[
+    piano: PROGRESSION.map(bar => bar.map(name => CHORD[name]).join(' ')),
+    bass: [
         '[f2 ~ ~] [~ ~ f2] [~ ~ c2] [e2 ~ ~]',
         '[e2 ~ ~] [~ ~ e2] [a1 ~ ~] [~ ~ c#2]',
         '[d2 ~ ~] [~ ~ d2] [g1 ~ ~] [~ ~ b1]',
@@ -256,8 +253,8 @@ const SOUL = {
         '[f2 ~ ~] [~ ~ f2] [~ ~ ab1] [~ ~ eb2]',
         '[e2 ~ ~] [~ ~ e2] [eb2 ~ ~] [~ ~ eb2]',
         '[d2 ~ ~] [~ ~ d2] [g1 ~ ~] [~ ~ g1]'
-    ].map(bar => `[${bar}]`).join(' ')}>`,
-    melody: `<${[
+    ],
+    melody: [
         '[~ ~ e5] [g5 ~ e5] [d5 ~ c5] [~ ~ a4]',
         '[g4 ~ ~] [~ ~ ~] [~ ~ e5] [d5 ~ c#5]',
         '[d5 ~ ~] [~ ~ f5] [e5 ~ d5] [~ ~ b4]',
@@ -266,27 +263,36 @@ const SOUL = {
         '[f5 ~ ~] [ab5 ~ f5] [~ ~ d5] [c5 ~ ~]',
         '[b4 ~ ~] [~ ~ d5] [c5 ~ ~] [a4 ~ ~]',
         '[d5 ~ ~] [~ ~ ~] [~ ~ ~] [~ ~ g4]'
-    ].map(bar => `[${bar}]`).join(' ')}>`,
+    ],
     drums: '[bd ~ ~] [sd ~ bd] [~ ~ bd] [sd ~ ~]',
     hats: '[hh ~ hh]*4'
 };
+const PIANO_RHYTHM = '[x ~ ~] [~ ~ x] [x ~ x] [~ ~ ~]';
 
 const makeSoulPop = async () => {
     const b = new Blocks();
     const effect = (pattern, name, value) => b.strudel('effect', {
         PATTERN: ['block', pattern], VALUE: ['text', value]
     }, {EFFECT: name});
-    const note = code => b.strudel('miniNote', {CODE: ['text', code]});
     const tone = (pattern, synth) => b.strudel('tone', {PATTERN: ['block', pattern], SYNTH: ['synth', synth]});
+    // notes from a list, a bar in each cycle
+    const listNotes = name => b.strudel('miniNote', {
+        CODE: ['blockOnText', b.strudel('listMini', {}, {LISTNAME: name, HOW: 'cycle'})]
+    });
+    const piano = b.list('ピアノのコード', SOUL.piano);
+    const bass = b.list('ベース', SOUL.bass);
+    const melody = b.list('メロディ', SOUL.melody);
     const tr808 = code => b.strudel('drumMachine', {
         PATTERN: ['block', b.strudel('miniSound', {CODE: ['text', code]})], MACHINE: ['machine', 'RolandTR808']
     });
     const tracks = [
-        ['1', 'ピアノ', () => tone(note(SOUL.piano), 'piano')],
-        ['2', 'ベース', () => effect(tone(note(SOUL.bass), 'sawtooth'), 'lpf', '350')],
+        ['1', 'ピアノ', () => tone(b.strudel('rhythm', {
+            PATTERN: ['block', listNotes(piano)], RHYTHM: ['text', PIANO_RHYTHM]
+        }), 'piano')],
+        ['2', 'ベース', () => effect(tone(listNotes(bass), 'sawtooth'), 'lpf', '350')],
         ['3', 'ドラム', () => tr808(SOUL.drums)],
         ['4', 'ハイハット', () => effect(tr808(SOUL.hats), 'gain', '.5')],
-        ['5', 'メロディ', () => effect(effect(tone(note(SOUL.melody), 'triangle'), 'room', '.4'), 'delay', '.2')]
+        ['5', 'メロディ', () => effect(effect(tone(listNotes(melody), 'triangle'), 'room', '.4'), 'delay', '.2')]
     ];
 
     const flag = b.block('event_whenflagclicked', {top: [24, 24]});
@@ -296,13 +302,14 @@ const makeSoulPop = async () => {
     b.comment(flag, 'ジャズや ソウルの 和音を つかった ピアノ ポップ。\n' +
         '| FM7 | Em7 A7 | Dm7 G7 | Cmaj9 C9 |\n| FM7 | Fm6 | Em7 E♭dim7 | Dm7 G7sus4 |\n' +
         'ベースが 根音(ルート)を ひくので、ピアノは 根音を はぶいた 和音を ひいているよ。\n' +
-        '1拍を 3つに わけた「シャッフル」の リズムで はねているよ。', 1100, 24);
+        '1拍を 3つに わけた「シャッフル」の リズムで はねているよ。\n' +
+        '和音・ベース・メロディは「変数」の リストに 1小節ずつ 入っているよ。', 1100, 24);
     b.stack([b.whenReceive('えんそう', [24, 280]), ...tracks.map(([, track, make]) => play(b, track, make()))]);
-    b.stack([b.whenKey('space', [24, 640]), b.broadcast('えんそう')]);
+    b.stack([b.whenKey('space', [24, 760]), b.broadcast('えんそう')]);
     tracks.forEach(([key, track], i) => {
-        onKey(b, key, [24, 760 + (i * 110)], [b.strudel('stopTrack', {TRACK: ['text', track]})]);
+        onKey(b, key, [24, 880 + (i * 110)], [b.strudel('stopTrack', {TRACK: ['text', track]})]);
     });
-    danceOnBeat(b, [24, 1340]);
+    danceOnBeat(b, [24, 1460]);
 
     await writeProject(b, out('soulpop'), 'xcx-strudel make-samples');
 };

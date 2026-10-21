@@ -151,7 +151,12 @@
     "strudel.menu.sound.white": "noise",
     "strudel.menu.effect.unison": "thickness (unison)",
     "strudel.menu.effect.detune": "detune",
-    "strudel.menu.effect.spread": "stereo spread (spread)"
+    "strudel.menu.effect.spread": "stereo spread (spread)",
+    "strudel.listMini": "items of list [LISTNAME] [HOW]",
+    "strudel.rhythm": "play [PATTERN] in rhythm [RHYTHM]",
+    "strudel.menu.listHow.cycle": "one in each cycle",
+    "strudel.menu.listHow.seq": "in order in a cycle",
+    "strudel.menu.listHow.stack": "all together"
   },
   "ja": {
     "strudel.name": "ストゥルーデル",
@@ -305,7 +310,12 @@
     "strudel.menu.sound.white": "ノイズ",
     "strudel.menu.effect.unison": "厚み (unison)",
     "strudel.menu.effect.detune": "音のずれ (detune)",
-    "strudel.menu.effect.spread": "左右の広がり (spread)"
+    "strudel.menu.effect.spread": "左右の広がり (spread)",
+    "strudel.listMini": "リスト [LISTNAME] の中身を [HOW] ならべる",
+    "strudel.rhythm": "[PATTERN] をリズム [RHYTHM] で刻む",
+    "strudel.menu.listHow.cycle": "1サイクルに1つずつ",
+    "strudel.menu.listHow.seq": "1サイクルの中に順番に",
+    "strudel.menu.listHow.stack": "ぜんぶ同時に"
   },
   "ja-Hira": {
     "strudel.name": "すとぅるーでる",
@@ -459,6 +469,11 @@
     "strudel.menu.sound.white": "ノイズ",
     "strudel.menu.effect.unison": "あつみ (unison)",
     "strudel.menu.effect.detune": "おとの ずれ (detune)",
-    "strudel.menu.effect.spread": "さゆうの ひろがり (spread)"
+    "strudel.menu.effect.spread": "さゆうの ひろがり (spread)",
+    "strudel.listMini": "リスト [LISTNAME] の なかみを [HOW] ならべる",
+    "strudel.rhythm": "[PATTERN] を リズム [RHYTHM] で きざむ",
+    "strudel.menu.listHow.cycle": "1サイクルに 1つずつ",
+    "strudel.menu.listHow.seq": "1サイクルの なかに じゅんばんに",
+    "strudel.menu.listHow.stack": "ぜんぶ いっしょに"
   }
 }

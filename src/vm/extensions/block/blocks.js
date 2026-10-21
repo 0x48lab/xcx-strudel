@@ -172,6 +172,27 @@ export const BLOCKS = [
         }
     },
     {
+        opcode: 'listMini',
+        blockType: BlockType.REPORTER,
+        level: LEVEL.STANDARD,
+        text: 'items of list [LISTNAME] [HOW]',
+        // not "LIST": scratch-vm passes a field named LIST as a variable reference {id, name}
+        arguments: {
+            LISTNAME: {type: ArgumentType.STRING, menu: 'list'},
+            HOW: {type: ArgumentType.STRING, menu: 'listHow', defaultValue: 'cycle'}
+        }
+    },
+    {
+        opcode: 'rhythm',
+        blockType: BlockType.REPORTER,
+        level: LEVEL.STANDARD,
+        text: 'play [PATTERN] in rhythm [RHYTHM]',
+        arguments: {
+            PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'},
+            RHYTHM: {type: ArgumentType.STRING, defaultValue: 'x ~ x x'}
+        }
+    },
+    {
         opcode: 'drumMachine',
         blockType: BlockType.REPORTER,
         level: LEVEL.STANDARD,
@@ -513,6 +534,12 @@ const ROOT_ITEMS = [
 ];
 
 /** Scale names of Strudel. Spaces in tonal names are written with colons. */
+const LIST_HOW_ITEMS = [
+    ['cycle', 'one in each cycle'],
+    ['seq', 'in order in a cycle'],
+    ['stack', 'all together']
+];
+
 const SCALE_ITEMS = [
     ['major', 'major'],
     ['minor', 'minor'],
@@ -684,7 +711,8 @@ export const MENUS = {
     offTime: {acceptReporters: false, group: 'offTime', items: OFF_TIME_ITEMS},
     chord: {acceptReporters: true, group: 'chord', items: CHORD_ITEMS},
     viz: {acceptReporters: false, group: 'viz', items: VIZ_ITEMS},
-    layer: {acceptReporters: false, group: 'layer', items: LAYER_ITEMS}
+    layer: {acceptReporters: false, group: 'layer', items: LAYER_ITEMS},
+    listHow: {acceptReporters: false, group: 'listHow', items: LIST_HOW_ITEMS}
 };
 
 /**
