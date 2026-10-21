@@ -230,6 +230,14 @@ const shootPalette = async page => {
     const flyout = await rectOf(page, '.blocklyFlyout');
     await shot(page, {x: toolbox.x + PAD, y: toolbox.y + PAD, width: flyout.x + flyout.width - toolbox.x - (PAD * 2),
         height: Math.min(900, toolbox.height) - (PAD * 2)}, 'palette');
+    // the block which changes the level, for the top page
+    const levelBlock = await page.evaluate(() => {
+        const flyout = Blockly.getMainWorkspace().getFlyout().getWorkspace();
+        const block = flyout.getTopBlocks(false).find(b => b.type === 'strudel_setLevel');
+        const r = block.getSvgRoot().getBoundingClientRect();
+        return {x: r.left, y: r.top, width: r.width, height: r.height};
+    });
+    await shot(page, levelBlock, 'level-block');
 
     // open the sound dropdown of the "play" block
     await shootScripts(page, 'step1');

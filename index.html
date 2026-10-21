@@ -123,10 +123,15 @@ li { margin: 4px 0; }
     font-weight: bold;
     cursor: pointer;
 }
-.levels { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
-.level { border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
-.level h3 { margin: 0 0 6px; font-size: 18px; }
-.level p { margin: 0; color: var(--muted); font-size: 15px; }
+.level-how { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin: 12px 0; }
+.level-how img { max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 10px; background: #fff; }
+.level-how p { flex: 1; min-width: 240px; margin: 0; }
+.level-table { width: 100%; border-collapse: collapse; margin: 8px 0 12px; }
+.level-table th, .level-table td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+.level-table th { background: var(--code-bg); }
+.level-table td:first-child { font-weight: bold; white-space: nowrap; }
+.level-table td:last-child { white-space: nowrap; }
+.level-table a { color: inherit; }
 .en { color: var(--muted); font-size: 15px; }
 footer { text-align: center; color: var(--muted); font-size: 14px; padding: 0 16px 32px; }
 footer a { color: inherit; }
@@ -189,21 +194,18 @@ footer a { color: inherit; }
     </section>
 
     <section class="card">
-        <h2>3つの レベル</h2>
-        <div class="levels">
-            <div class="level">
-                <h3>はじめて</h3>
-                <p>ドラムやドレミを ▼ でえらんで、「じゅんばんに」「いっしょに」「くりかえす」でくみたてる。はくに あわせて スプライトを うごかせる。</p>
-            </div>
-            <div class="level">
-                <h3>ふつう</h3>
-                <p>エフェクト、音階、ミニ記法、スプライトの音、ピアノの音など。くんだパターンを Strudel のコードにして strudel.cc で ひらける。</p>
-            </div>
-            <div class="level">
-                <h3>マスター</h3>
-                <p>ゆれる値、ランダム、ユークリッドリズム、和音とアルペジオ、アシッド、トランスゲート、ポンピング、スペクトラム。</p>
-            </div>
+        <h2>ブロックは 3だんかい</h2>
+        <p>さいしょは ブロックが すこしだけ 出ているよ。なれてきたら、ブロックを ふやしていこう。</p>
+        <div class="level-how">
+            <img src="tutorial/level-block.png?v=b9ab5114" width="253" height="63" alt="はじめてのブロックを表示する、というブロック">
+            <p>「ストゥルーデル」の いちばん 上の ブロックで ▼ から「ふつう」「マスター」を えらんで、ブロックを クリックすると ふえるよ。作品を ひらいたときは、その 作品で つかっている レベルに 自動で かわるよ。</p>
         </div>
+        <table class="level-table">
+            <tr><th>レベル</th><th>できること</th><th>ステップ</th></tr>
+            <tr><td>はじめて</td><td>音を ▼ で えらんで、ならべたり かさねたり する。音に あわせて スプライトを うごかす</td><td><a href="tutorial.html#step1">1〜7</a></td></tr>
+            <tr><td>ふつう</td><td>ミニ記法・リスト・リズム・効果・音階・じぶんの 声で、曲を 書く</td><td><a href="tutorial.html#step8">8〜10</a>、<a href="tutorial.html#step13">13</a></td></tr>
+            <tr><td>マスター</td><td>アシッド・トランスゲート・ポンピングなど、クラブミュージックの わざ</td><td><a href="tutorial.html#step11">11〜12</a></td></tr>
+        </table>
         <p class="en">English, Japanese and Japanese (Hiragana) are supported.</p>
     </section>
 </main>
