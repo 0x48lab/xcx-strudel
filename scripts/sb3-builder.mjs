@@ -271,13 +271,17 @@ export class Blocks {
 
     /**
      * @param {string} name - variable name
-     * @param {string} reporter - block ID of the new value
+     * @param {string|number} value - block ID of a reporter, or a value
      * @returns {string} - block ID of "set variable to"
      */
-    setVariable (name, reporter) {
+    setVariable (name, value) {
         const id = this.block('data_setvariableto', {fields: {VARIABLE: [name, `v_${name}`]}});
-        this.text(id, 'VALUE', '0');
-        this.put(id, 'VALUE', reporter);
+        if (this.blocks[value]) {
+            this.text(id, 'VALUE', '0');
+            this.put(id, 'VALUE', value);
+        } else {
+            this.text(id, 'VALUE', value);
+        }
         return id;
     }
 

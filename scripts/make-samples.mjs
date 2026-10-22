@@ -229,7 +229,7 @@ const makeAcidDuck = async () => {
         PATTERN: ['block', pattern], SEMITONES: ['number', semitones]
     });
     const filter = b.variable('フィルター', 2);
-    const last = b.variable('さっきのフィルター', 2);
+    const last = b.variable('前のフィルター', 2);
     b.sliderMonitor(filter, [5, 5], [0, 8]);
 
     const flag = b.block('event_whenflagclicked', {top: [24, 24]});
@@ -244,9 +244,12 @@ const makeAcidDuck = async () => {
     }), -24), 'supersaw'), 'detune', '1'), 'release', '5'), 'fm', '2'));
     const scope = b.strudel('showViz', {}, {VIZ: 'scope'});
     const hint = b.say('スライダーで ベースの フィルターを うごかそう。', 6);
-    b.stack([flag, level, tempo, kick, b.broadcast('ベース'), pad, scope, hint]);
+    // the filter and its note are set before anything plays, so that the watcher below finds them the same
+    const reset = b.setVariable(filter, 2);
+    b.stack([flag, reset, b.setVariable(last, b.getVariable(filter)), level, tempo, kick, b.broadcast('ベース'), pad,
+        scope, hint]);
     b.comment(flag, 'シンセキックで ほかの トラックを へこませる(ダッキング)アシッド。\n' +
-        'ベースは マイナースケールの でたらめな おとを、えらびかた 46 で くりかえすよ。\n' +
+        'ベースは マイナースケールの らんすうの おとを、えらびかた 46 で くりかえすよ。\n' +
         'Switch Angel さんの ライブコーディングを さんこうにした、ひこうしきの さくひんです' +
         '(ほんにんとは かんけいありません)。', 1100, 24);
 
@@ -258,10 +261,10 @@ const makeAcidDuck = async () => {
         ROOT: ['root', 'C4'],
         SCALE: ['scale', 'minor']
     }), -12), 'sawtooth'), 'lpf', '200'), 'lpenv', b.getVariable(filter)), 'lpq', '12'));
-    b.stack([b.whenReceive('ベース', [24, 660]), bass]);
-    b.comment(bass, 'でたらめな かずを スケールの ばんごうに すると、\nいつも スケールの なかの おとに なるよ。', 1100, 660);
+    b.stack([b.whenReceive('ベース', [24, 760]), bass]);
+    b.comment(bass, 'らんすうを スケールの ばんごうに すると、\nいつも スケールの なかの おとに なるよ。', 1100, 760);
 
-    const watch = b.block('event_whenflagclicked', {top: [24, 900]});
+    const watch = b.block('event_whenflagclicked', {top: [24, 1000]});
     const remember = () => b.setVariable(last, b.getVariable(filter));
     const same = b.block('operator_equals');
     b.text(same, 'OPERAND1', '');
@@ -281,8 +284,11 @@ const makeAcidDuck = async () => {
     const forever = b.block('control_forever');
     b.blocks[forever].inputs.SUBSTACK = [2, ifChanged];
     b.blocks[ifChanged].parent = forever;
-    b.stack([watch, remember(), forever]);
-    danceOnBeat(b, [24, 1320]);
+    b.stack([watch, forever]);
+    b.comment(watch, 'スライダーが うごいたかを しらべるよ。\n' +
+        '「前のフィルター」は、まえに しらべた ときの「フィルター」の メモ。\n' +
+        'メモと ちがったら、メモを なおして ベースを ならしなおすよ。', 1100, 1000);
+    danceOnBeat(b, [24, 1380]);
 
     await writeProject(b, out('acidduck'), 'xcx-strudel make-samples');
 };

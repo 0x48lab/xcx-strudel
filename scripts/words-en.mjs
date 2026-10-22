@@ -6,7 +6,6 @@
 export const WORDS = {
     // track, list and message names
     'えんそう': 'play',
-    'さっきのフィルター': 'last filter',
     'こえ': 'voice',
     'アシッド': 'acid',
     'キック': 'kick',
@@ -17,6 +16,7 @@ export const WORDS = {
     'パッド': 'pad',
     'ビルドアップ': 'build-up',
     'フィルター': 'filter',
+    '前のフィルター': 'previous filter',
     'ビート': 'beat',
     'ピアノ': 'piano',
     'ピアノのコード': 'piano chords',
@@ -47,13 +47,17 @@ export const WORDS = {
         'Move the filter of the bass with the slider.',
 
     // comments
-    ['シンセキックで ほかの トラックを へこませる(ダッキング)アシッド。\nベースは マイナースケールの でたらめな おとを、' +
+    ['シンセキックで ほかの トラックを へこませる(ダッキング)アシッド。\nベースは マイナースケールの らんすうの おとを、' +
         'えらびかた 46 で くりかえすよ。\nSwitch Angel さんの ライブコーディングを さんこうにした、ひこうしきの さくひんです' +
         '(ほんにんとは かんけいありません)。']:
         'Acid where the synth kick pushes the other tracks down (ducking).\n' +
         'The bass repeats random notes of a minor scale, picked by number 46.\n' +
         'An unofficial work inspired by the live coding of Switch Angel (not related to Switch Angel).',
-    'でたらめな かずを スケールの ばんごうに すると、\nいつも スケールの なかの おとに なるよ。':
+    ['スライダーが うごいたかを しらべるよ。\n「前のフィルター」は、まえに しらべた ときの「フィルター」の メモ。\n' +
+        'メモと ちがったら、メモを なおして ベースを ならしなおすよ。']:
+        'This checks if the slider has moved.\n"previous filter" is a note of "filter" from the last check.\n' +
+        'When they are different, it updates the note and plays the bass again.',
+    'らんすうを スケールの ばんごうに すると、\nいつも スケールの なかの おとに なるよ。':
         'Random numbers as steps of a scale\nalways make notes in the scale.',
     'みどりの はたを おすと、ドラムと メロディが なるよ。\n「じゅんばんに」の ▼ で おとを かえてみよう。':
         'Click the green flag to play the drums and the melody.\nChange the sounds with ▼ of "in order".',
