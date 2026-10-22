@@ -327,7 +327,8 @@ describe('sound dropdowns', () => {
     test('the menu is shown in each language', () => {
         const ja = new blockClass(makeRuntime());
         const items = ja.getInfo().menus.sound.items.map(item => item.text);
-        expect(items).toEqual(expect.arrayContaining(['bass drum', 'C', 'rest']));
+        // sounds are shown by their Strudel names
+        expect(items).toEqual(expect.arrayContaining(['bd', 'c4', '~']));
     });
 });
 
@@ -573,6 +574,29 @@ describe('ducking, noise and thickness blocks', () => {
 
     test('noise is in the sound dropdown', () => {
         expect(MENUS.sound.items.some(item => item[0] === 'white')).toBe(true);
+    });
+
+    test.each([
+        [{EFFECT: 'duck', VALUE: '2'}, 's("bd").duck("2")'],
+        [{EFFECT: 'duck', VALUE: '2:3:4'}, 's("bd").duck("2:3:4")'],
+        [{EFFECT: 'duckattack', VALUE: '.2'}, 's("bd").duckattack(".2")'],
+        [{EFFECT: 'duckdepth', VALUE: '5'}, 's("bd").duckdepth(1)'],
+        [{EFFECT: 'orbit', VALUE: '2.6'}, 's("bd").orbit(3)'],
+        [{EFFECT: 'orbit', VALUE: '99'}, 's("bd").orbit(8)']
+    ])('the duck effects %j', (args, code) => {
+        expect(String(ext.effect(Object.assign({PATTERN: 'bd'}, args)))).toBe(code);
+    });
+
+    test('the duck effects compile as in Strudel', () => {
+        const n = ext.effect({PATTERN: ext.effect({PATTERN: 'bd', EFFECT: 'duck', VALUE: '2:3'}),
+            EFFECT: 'duckdepth', VALUE: '.8'});
+        expect(compile(n).queryArc(0, 1)[0].value).toMatchObject({s: 'bd', duckorbit: [2, 3], duckdepth: 0.8});
+    });
+
+    test('the old ducking block is hidden but still plays', () => {
+        const info = ext.getInfo().blocks.find(b => b.opcode === 'duck');
+        expect(info.hideFromPalette).toBe(true);
+        expect(info).not.toHaveProperty('hidden');
     });
 
     test('the ducking block compiles', () => {

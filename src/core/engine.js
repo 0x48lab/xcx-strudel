@@ -9,6 +9,7 @@ import {
 } from 'superdough';
 import {registerDrumSounds} from './drums.js';
 import {Tracks} from './tracks.js';
+import {LIMIT} from './ast.js';
 
 const BEAT_CHECK_INTERVAL = 10; // ms
 
@@ -114,9 +115,9 @@ export class Engine {
         await initAudio();
         registerSynthSounds();
         registerDrumSounds();
-        // the orbit which the duck block ducks, made before the first duck so that it is found.
+        // the orbits which duck can duck, made before the first duck so that they are found.
         // [0, 1] are the default channels of superdough, because initAudio is called without multiChannelOrbits
-        getSuperdoughAudioController().getOrbit(1, [0, 1]);
+        for (let orbit = 1; orbit <= LIMIT.ORBITS; orbit++) getSuperdoughAudioController().getOrbit(orbit, [0, 1]);
         this.analyser = this.audioContext.createAnalyser();
         this.analyser.fftSize = 2048;
         getSuperdoughAudioController().output.destinationGain.connect(this.analyser);

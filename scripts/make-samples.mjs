@@ -235,13 +235,13 @@ const makeAcidDuck = async () => {
     const flag = b.block('event_whenflagclicked', {top: [24, 24]});
     const level = b.strudel('setLevel', {}, {LEVEL: '3'});
     const tempo = b.strudel('setBpm', {BPM: ['number', 140]});
-    const kick = play(b, 'キック', b.strudel('duck', {
-        PATTERN: ['block', b.strudel('repeat', {PATTERN: ['sound', 'sbd'], TIMES: ['number', 4]})],
-        DEPTH: ['number', 0.8]
-    }));
-    const pad = play(b, 'パッド', effect(effect(effect(tone(transpose(b.strudel('slow', {
+    // the kick ducks orbits 2 and 3, where the bass and the pad play
+    const kick = play(b, 'キック', effect(effect(effect(b.strudel('repeat', {
+        PATTERN: ['sound', 'sbd'], TIMES: ['number', 4]
+    }), 'duck', '2:3'), 'duckattack', '.2'), 'duckdepth', '.8'));
+    const pad = play(b, 'パッド', effect(effect(effect(effect(tone(transpose(b.strudel('slow', {
         PATTERN: ['sound', 'c4'], CYCLES: ['number', 2]
-    }), -24), 'supersaw'), 'detune', '1'), 'release', '5'), 'fm', '2'));
+    }), -24), 'supersaw'), 'detune', '1'), 'release', '5'), 'fm', '2'), 'orbit', '3'));
     const scope = b.strudel('showViz', {}, {VIZ: 'scope'});
     const hint = b.say('スライダーで ベースの フィルターを うごかそう。', 6);
     // the filter and its note are set before anything plays, so that the watcher below finds them the same
@@ -254,13 +254,13 @@ const makeAcidDuck = async () => {
         '(ほんにんとは かんけいありません)。', 1100, 24);
 
     // the bass is played again with the new filter when the slider moves
-    const bass = play(b, 'ベース', effect(effect(effect(tone(transpose(b.strudel('scaleNotes', {
+    const bass = play(b, 'ベース', effect(effect(effect(effect(tone(transpose(b.strudel('scaleNotes', {
         STEPS: ['blockOnText', b.strudel('randomSteps', {
             MIN: ['number', -7], MAX: ['number', 2], STEPS: ['number', 16], SEED: ['number', 46], LENGTH: ['number', 1]
         })],
         ROOT: ['root', 'C4'],
         SCALE: ['scale', 'minor']
-    }), -12), 'sawtooth'), 'lpf', '200'), 'lpenv', b.getVariable(filter)), 'lpq', '12'));
+    }), -12), 'sawtooth'), 'lpf', '200'), 'lpenv', b.getVariable(filter)), 'lpq', '12'), 'orbit', '2'));
     b.stack([b.whenReceive('ベース', [24, 760]), bass]);
     b.comment(bass, 'らんすうを スケールの ばんごうに すると、\nいつも スケールの なかの おとに なるよ。', 1100, 760);
 

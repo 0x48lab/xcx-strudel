@@ -278,19 +278,20 @@ const STEPS = {
         b.listMonitor(chords, [5, 5, 170, 150]);
         const parts = [
             ['1', [play(b, 'キック', tr909(sounds('bd*4')))]],
-            ['2', [play(b, 'ベース', effect(b, tone(b, listNotes(b, bass), 'sawtooth'), 'lpf', '500'))]],
-            ['3', [play(b, 'パッド', effect(b, b.strudel('trancegate', {
+            // the parts which the kick ducks on key 7 play on orbit 2
+            ['2', [play(b, 'ベース', effect(b, effect(b, tone(b, listNotes(b, bass), 'sawtooth'), 'lpf', '500'), 'orbit', '2'))]],
+            ['3', [play(b, 'パッド', effect(b, effect(b, b.strudel('trancegate', {
                 PATTERN: ['block', tone(b, listNotes(b, chords), 'supersaw')],
                 DENSITY: ['number', 0.8], SEED: ['number', 45], LENGTH: ['number', 1]
-            }), 'room', '.6'))]],
-            ['4', [play(b, 'プラック', effect(b, effect(b, tone(b, b.strudel('arp', {
+            }), 'room', '.6'), 'orbit', '2'))]],
+            ['4', [play(b, 'プラック', effect(b, effect(b, effect(b, tone(b, b.strudel('arp', {
                 PATTERN: ['block', listNotes(b, chords)], ORDER: ['text', '0 1 2 3 2 1 2 3']
-            }), 'square'), 'clip', '.3'), 'delay', '.4'))]],
-            ['5', [play(b, 'リード', effect(b, effect(b, b.strudel('superimpose', {
+            }), 'square'), 'clip', '.3'), 'delay', '.4'), 'orbit', '2'))]],
+            ['5', [play(b, 'リード', effect(b, effect(b, effect(b, b.strudel('superimpose', {
                 PATTERN: ['block', tone(b, b.strudel('scaleNotes', {
                     STEPS: ['blockOnText', listMini(b, lead)], ROOT: ['root', 'A3'], SCALE: ['scale', 'minor']
                 }), 'supersaw')]
-            }, {TRANSFORM: 'up12'}), 'unison', '7'), 'room', '.8'))]],
+            }, {TRANSFORM: 'up12'}), 'unison', '7'), 'room', '.8'), 'orbit', '2'))]],
             ['6', [
                 play(b, 'スネア', effect(b, tr909(b.strudel('miniSound', {CODE: ['blockOnText', listMini(b, build)]})),
                     'gain', rising(0.3, 1))),
@@ -302,9 +303,8 @@ const STEPS = {
                 b.strudel('stopTrack', {TRACK: ['text', 'スネア']}),
                 b.strudel('stopTrack', {TRACK: ['text', 'ライザー']})
             ]],
-            ['7', [play(b, 'キック', b.strudel('duck', {
-                PATTERN: ['block', tr909(sounds('bd*4'))], DEPTH: ['number', 0.85]
-            }))]],
+            ['7', [play(b, 'キック', effect(b, effect(b, effect(b, tr909(sounds('bd*4')),
+                'duck', '2'), 'duckattack', '.2'), 'duckdepth', '.85'))]],
             ['0', [b.strudel('stopAll')]]
         ];
         const flag = flagAt(b, 24);

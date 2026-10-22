@@ -248,9 +248,10 @@ class ExtensionBlocks {
                 default: block.text,
                 description: `text of the block "${block.opcode}"`
             }),
-            hideFromPalette: block.level > this.level
+            hideFromPalette: !!block.hidden || block.level > this.level
         });
         delete info.level;
+        delete info.hidden;
         return info;
     }
 
@@ -553,7 +554,8 @@ class ExtensionBlocks {
         }
         const raw = Cast.toString(args.VALUE).trim();
         // a plain number is kept in the range, a pattern such as "<300 2000>" is checked when it plays
-        const value = range && /^-?\d+(\.\d+)?$/.test(raw) ? clamp(raw, range[0], range[1]) : raw;
+        let value = range && /^-?\d+(\.\d+)?$/.test(raw) ? clamp(raw, range[0], range[1]) : raw;
+        if (fn === 'orbit' && typeof value === 'number') value = Math.round(value);
         // distortion makes a sound much louder, so it is turned down
         if (fn === 'distort') return methodNode(methodNode(args.PATTERN, fn, [value]), 'distortvol', [0.3]);
         return methodNode(args.PATTERN, fn, [value]);
@@ -656,7 +658,7 @@ class ExtensionBlocks {
         const cpm = engine ? engine.bpm / engine.beatsPerCycle : 30;
         const lines = [`setcpm(${Math.round(cpm * 1000) / 1000})`];
         // a track which ducks comes last, because strudel.cc warns when the ducked orbit has not played yet
-        const ducks = ([, code]) => (code.includes('.duckorbit(') ? 1 : 0);
+        const ducks = ([, code]) => (/\.duck(?:orbit)?\(/.test(code) ? 1 : 0);
         Array.from(this.trackCodes).sort((a, b) => ducks(a) - ducks(b))
             .forEach(([track, code]) => {
                 lines.push(`// track ${commentText(track)}`, `$: ${code}`);

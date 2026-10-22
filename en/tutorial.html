@@ -130,6 +130,8 @@ nav li.column-item { list-style: none; }
 table { border-collapse: collapse; width: 100%; margin: 8px 0; }
 th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; vertical-align: top; }
 th { background: var(--code-bg); }
+/* long code in a table cell wraps on phones */
+td code { overflow-wrap: anywhere; }
 .url {
     display: block;
     overflow-x: auto;
@@ -200,10 +202,10 @@ footer a { color: inherit; }
             <li>Choose "Extension Loader", the first card.<figure><img src="../tutorial/en/setup-2.png?v=a3c88caf" width="636" height="533" alt="The Extension Loader card in the list of extensions" loading="lazy"></figure></li>
             <li>Enter this URL and click "OK".
                 <code class="url">https://0x48lab.github.io/xcx-strudel/dist/strudel.mjs</code>
-                <figure><img src="../tutorial/en/setup-3.png?v=db6e193c" width="495" height="163" alt="The dialog to enter the URL of the extension" loading="lazy"></figure></li>
+                <figure><img src="../tutorial/en/setup-3.png?v=f267370b" width="495" height="163" alt="The dialog to enter the URL of the extension" loading="lazy"></figure></li>
         </ol>
         <div class="side">
-            <figure><img src="../tutorial/en/palette.png?v=b8832199" width="311" height="900" alt="The blocks of Strudel" loading="lazy"></figure>
+            <figure><img src="../tutorial/en/palette.png?v=e62e7e06" width="311" height="900" alt="The blocks of Strudel" loading="lazy"></figure>
             <div>
                 <p>When "Strudel" appears on the left, you are ready. The green blocks with the swirl are the blocks of this extension.</p>
                 <p>At first only the "beginner" blocks are shown. Choose "normal" or "master" in the top block to show more blocks.</p>
@@ -214,53 +216,53 @@ footer a { color: inherit; }
 
     <section class="card" id="step1">
         <h2><span class="num">1</span>Play a sound</h2>
-        <figure><img src="../tutorial/en/step1-1.png?v=08b9984f" width="255" height="106" alt="When the green flag is clicked, play bass drum on track 1" loading="lazy"></figure>
-        <p>"<b>play [ ] on track [ ]</b>" is the most important block. Click the green flag, and the bass drum plays "boom, boom..." again and again. Click the red button to stop.</p>
-        <p>Click ▼ to choose another sound: drums, the notes C to high C, and "rest".</p>
-        <figure><img src="../tutorial/en/menu-sound.png?v=8511836a" width="255" height="383" alt="The menu of sounds: bass drum, snare, hi-hat and more" loading="lazy"></figure>
-        <div class="try"><strong>Try it</strong><ul><li>Change it to snare or clap. You can change it while it plays.</li><li>What does "C" sound like?</li></ul></div>
+        <figure><img src="../tutorial/en/step1-1.png?v=e432ab96" width="255" height="106" alt="When the green flag is clicked, play bd on track 1" loading="lazy"></figure>
+        <p>"<b>play [ ] on track [ ]</b>" is the most important block. Click the green flag, and <code>bd</code> (bass drum) plays "boom, boom..." again and again. Click the red button to stop.</p>
+        <p>Click ▼ to choose another sound. The names in the menu are the same as in Strudel: drums such as <code>sd</code> (snare drum), <code>hh</code> (hi-hat), <code>oh</code> (open hi-hat), <code>cp</code> (clap) and <code>cr</code> (crash cymbal), the notes <code>c4</code> to <code>c5</code> (C to high C), and <code>~</code> (rest: no sound).</p>
+        <figure><img src="../tutorial/en/menu-sound.png?v=34ddc5b8" width="255" height="383" alt="The menu of sounds: bd, sd, hh and more" loading="lazy"></figure>
+        <div class="try"><strong>Try it</strong><ul><li>Change it to <code>sd</code> or <code>cp</code>. You can change it while it plays.</li><li>What does <code>c4</code> sound like?</li></ul></div>
         <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step1.sb3" target="_blank" rel="noopener">Open this step</a></div>
     </section>
 
     <section class="card" id="step2">
         <h2><span class="num">2</span>Sounds in order</h2>
-        <figure><img src="../tutorial/en/step2-1.png?v=f09064aa" width="536" height="144" alt="Set tempo to 110, and play in order bass drum, rest, snare, rest on track drums" loading="lazy"></figure>
-        <p>Put the "<b>in order</b>" block into the ▼ of "play", and four sounds play one after another: "boom, -, tap, -". That is a beat.</p>
+        <figure><img src="../tutorial/en/step2-1.png?v=fd5465ab" width="536" height="144" alt="Set tempo to 110, and play seq bd ~ sd ~ on track drums" loading="lazy"></figure>
+        <p>Put the "<b>seq</b>" block (sequence: sounds in order) into the ▼ of "play", and four sounds play one after another: "boom, -, tap, -". That is a beat.</p>
         <h3>What is a cycle?</h3>
-        <p>In Strudel a loop is called a "<b>cycle</b>". The sounds of "in order" fit exactly into one cycle: four sounds share it in four, eight sounds in eight. Use "set tempo to [ ] BPM" to change the speed.</p>
+        <p>In Strudel a loop is called a "<b>cycle</b>". The sounds of "seq" fit exactly into one cycle: four sounds share it in four, eight sounds in eight. Use "set tempo to [ ] BPM" to change the speed.</p>
         <p>You can name the track (here "drums") as you like.</p>
-        <div class="try"><strong>Try it</strong><ul><li>Change a "rest" to hi-hat. What happens?</li><li>Set the tempo to 80 or 140.</li></ul></div>
+        <div class="try"><strong>Try it</strong><ul><li>Change a <code>~</code> to <code>hh</code>. What happens?</li><li>Set the tempo to 80 or 140.</li></ul></div>
         <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step2.sb3" target="_blank" rel="noopener">Open this step</a></div>
     </section>
 
     <section class="card" id="step3">
         <h2><span class="num">3</span>Layer tracks</h2>
-        <figure><img src="../tutorial/en/step3-1.png?v=720289f4" width="536" height="182" alt="Play the drums track, and a hats track with hi-hat repeated 8 times" loading="lazy"></figure>
+        <figure><img src="../tutorial/en/step3-1.png?v=be416326" width="536" height="182" alt="Play the drums track, and a hats track with fast 8 hh" loading="lazy"></figure>
         <p>Add another "play" block with <b>another track name</b>, and the two play together, like instruments joining a band.</p>
-        <p>"<b>repeat [ ] [ ] times</b>" plays the same sound many times in a cycle. Eight hi-hats make the beat groove.</p>
+        <p>"<b>fast [ ] [ ]</b>" (play faster: repeat it many times in a cycle) plays the same sound many times in a cycle. <code>fast 8 hh</code> plays eight hi-hats, and they make the beat groove.</p>
         <p>Playing again on <b>the same track name replaces</b> the old pattern. You will use this in step 5.</p>
-        <div class="try"><strong>Try it</strong><ul><li>Repeat 16 or 3 times.</li><li>Use "together" to play bass drum and crash at the same time.</li></ul></div>
+        <div class="try"><strong>Try it</strong><ul><li>Change 8 to 16 or 3.</li><li>Use "<b>stack</b>" (play together, stacked on top of each other) to play <code>bd</code> and <code>cr</code> at the same time.</li></ul></div>
         <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step3.sb3" target="_blank" rel="noopener">Open this step</a></div>
     </section>
 
     <section class="card" id="step4">
         <h2><span class="num">4</span>Make a melody</h2>
-        <figure class="wide"><a href="../tutorial/en/step4-1.png?v=87669c55" target="_blank" rel="noopener"><img src="../tutorial/en/step4-1.png?v=87669c55" width="1021" height="230" alt="Take turns between in order C E G high C and in order A G E D, with tone triangle" loading="lazy"></a><figcaption>Click to see it larger</figcaption></figure>
+        <figure class="wide"><a href="../tutorial/en/step4-1.png?v=1f324363" target="_blank" rel="noopener"><img src="../tutorial/en/step4-1.png?v=1f324363" width="1021" height="230" alt="s triangle, cat of seq c4 e4 g4 c5 and seq a4 g4 e4 d4" loading="lazy"></a><figcaption>Click to see it larger</figcaption></figure>
         <p>A third track "melody" is added. The blocks are nested, so read them from the inside.</p>
         <ol>
-            <li>"in order C E G high C" and "in order A G E D" make two phrases.</li>
-            <li>"<b>take turns</b>" plays them one after another, a phrase in each cycle.</li>
-            <li>"<b>[ ] with tone [ ]</b>" chooses the kind of sound: triangle, sawtooth, square, sine and more.</li>
+            <li>"seq c4 e4 g4 c5" and "seq a4 g4 e4 d4" make two phrases.</li>
+            <li>"<b>cat</b>" (concatenate: one after another) plays them one after another, a phrase in each cycle.</li>
+            <li>"<b>s [ ] [ ]</b>" (sound) chooses the kind of sound: <code>triangle</code>, <code>sawtooth</code>, <code>square</code>, <code>sine</code> and more. These are the shapes of the waves.</li>
         </ol>
-        <div class="try"><strong>Try it</strong><ul><li>Change the tone to sawtooth or square.</li><li>Change the notes and make your own melody.</li></ul></div>
+        <div class="try"><strong>Try it</strong><ul><li>Change <code>triangle</code> to <code>sawtooth</code> or <code>square</code>.</li><li>Change the notes and make your own melody.</li></ul></div>
         <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step4.sb3" target="_blank" rel="noopener">Open this step</a></div>
     </section>
 
     <section class="card" id="step5">
         <h2><span class="num">5</span>Change the song with keys</h2>
-        <figure><img src="../tutorial/en/step5-1.png?v=720289f4" width="536" height="182" alt="The green flag plays drums and hats" loading="lazy"></figure>
+        <figure><img src="../tutorial/en/step5-1.png?v=be416326" width="536" height="182" alt="The green flag plays drums and hats" loading="lazy"></figure>
         <div class="row">
-            <figure><img src="../tutorial/en/step5-2.png?v=47693bc2" width="573" height="106" alt="Space plays bass drum, bass drum, snare, clap on track drums" loading="lazy"></figure>
+            <figure><img src="../tutorial/en/step5-2.png?v=3bf44382" width="573" height="106" alt="Space plays seq bd bd sd cp on track drums" loading="lazy"></figure>
             <figure><img src="../tutorial/en/step5-3.png?v=e3d1217e" width="162" height="106" alt="Key s stops track hats" loading="lazy"></figure>
             <figure><img src="../tutorial/en/step5-4.png?v=b6a96273" width="163" height="106" alt="Key 0 stops all tracks" loading="lazy"></figure>
         </div>
@@ -278,19 +280,19 @@ footer a { color: inherit; }
 
     <section class="card" id="step6">
         <h2><span class="num">6</span>See the sound</h2>
-        <figure class="wide"><a href="../tutorial/en/step6-1.png?v=9c2d0c1c" target="_blank" rel="noopener"><img src="../tutorial/en/step6-1.png?v=9c2d0c1c" width="1021" height="268" alt="Play three tracks and show the piano roll" loading="lazy"></a><figcaption>Click to see it larger</figcaption></figure>
+        <figure class="wide"><a href="../tutorial/en/step6-1.png?v=b15b42ae" target="_blank" rel="noopener"><img src="../tutorial/en/step6-1.png?v=b15b42ae" width="1021" height="268" alt="Play three tracks and show pianoroll" loading="lazy"></a><figcaption>Click to see it larger</figcaption></figure>
         <div class="row">
-            <figure><img src="../tutorial/en/step6-2.png?v=c0ccaa37" width="192" height="106" alt="Key 1 shows the oscilloscope" loading="lazy"></figure>
-            <figure><img src="../tutorial/en/step6-3.png?v=f0ffe90a" width="176" height="106" alt="Key 2 shows the spectrum" loading="lazy"></figure>
+            <figure><img src="../tutorial/en/step6-2.png?v=19478bbd" width="192" height="106" alt="Key 1 shows scope" loading="lazy"></figure>
+            <figure><img src="../tutorial/en/step6-3.png?v=f0ffe90a" width="176" height="106" alt="Key 2 shows spectrum" loading="lazy"></figure>
             <figure><img src="../tutorial/en/step6-4.png?v=4f00209d" width="193" height="106" alt="Key 3 hides the picture of sound" loading="lazy"></figure>
         </div>
         <p>"<b>show [ ]</b>" draws the sound on the stage.</p>
         <div class="row">
-            <figure><img src="../tutorial/en/stage-pianoroll.png?v=96e57506" width="280" height="210" alt="Piano roll" loading="lazy"><figcaption>Piano roll: which note plays when</figcaption></figure>
-            <figure><img src="../tutorial/en/stage-scope.png?v=150fc39d" width="280" height="210" alt="Oscilloscope" loading="lazy"><figcaption>Oscilloscope: the shape of the wave</figcaption></figure>
-            <figure><img src="../tutorial/en/stage-spectrum.png?v=181da464" width="280" height="210" alt="Spectrum" loading="lazy"><figcaption>Spectrum: how loud low to high sounds are</figcaption></figure>
+            <figure><img src="../tutorial/en/stage-pianoroll.png?v=96e57506" width="280" height="210" alt="pianoroll" loading="lazy"><figcaption><code>pianoroll</code> (piano roll): which note plays when</figcaption></figure>
+            <figure><img src="../tutorial/en/stage-scope.png?v=150fc39d" width="280" height="210" alt="scope" loading="lazy"><figcaption><code>scope</code> (oscilloscope): the shape of the wave</figcaption></figure>
+            <figure><img src="../tutorial/en/stage-spectrum.png?v=181da464" width="280" height="210" alt="spectrum" loading="lazy"><figcaption><code>spectrum</code>: how loud low to high sounds are</figcaption></figure>
         </div>
-        <p>In the piano roll, the vertical line in the middle is "now". Higher notes are drawn higher. The picture is drawn behind the sprites, so you can still see the cat.</p>
+        <p>In <code>pianoroll</code>, the vertical line in the middle is "now". Higher notes are drawn higher. The picture is drawn behind the sprites, so you can still see the cat.</p>
         <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step6.sb3" target="_blank" rel="noopener">Open this step</a></div>
     </section>
 
@@ -298,24 +300,24 @@ footer a { color: inherit; }
         <h2><span class="num">7</span>Make the cat dance</h2>
         <div class="row">
             <figure><img src="../tutorial/en/step7-2.png?v=52a21b02" width="166" height="101" alt="When a beat comes, next costume" loading="lazy"></figure>
-            <figure><img src="../tutorial/en/step7-3.png?v=8598f4cf" width="224" height="166" alt="When bass drum sounds, set size to 120%, wait 0.1 seconds, set size to 100%" loading="lazy"></figure>
+            <figure><img src="../tutorial/en/step7-3.png?v=5895a777" width="224" height="166" alt="When bd sounds, set size to 120%, wait 0.1 seconds, set size to 100%" loading="lazy"></figure>
         </div>
         <p>These blocks move sprites with the music.</p>
         <ul>
             <li>"<b>when a beat comes</b>": runs on every beat. With "next costume" the cat steps to the beat.</li>
-            <li>"<b>when [ ] sounds</b>": runs each time the chosen drum plays. Jump on the bass drum, change the color on the snare...</li>
+            <li>"<b>when [ ] sounds</b>": runs each time the chosen drum plays. Jump on <code>bd</code>, change the color on <code>sd</code>...</li>
         </ul>
         <p>They work with all the usual Scratch blocks.</p>
-        <div class="try"><strong>Try it</strong><ul><li>When the snare sounds, "change color effect by 25".</li><li>Use the "beat" and "cycle" values to move the cat.</li></ul></div>
+        <div class="try"><strong>Try it</strong><ul><li>When <code>sd</code> sounds, "change color effect by 25".</li><li>Use the "beat" and "cycle" values to move the cat.</li></ul></div>
         <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step7.sb3" target="_blank" rel="noopener">Open this step</a></div>
     </section>
 
     <section class="card" id="step8">
         <h2><span class="num">8</span>Normal level: mini-notation, effects and scales</h2>
-        <figure><a href="../tutorial/en/step8-1.png?v=4d777e55" target="_blank" rel="noopener"><img src="../tutorial/en/step8-1.png?v=4d777e55" width="856" height="274" alt="Show normal blocks, and play drums in mini-notation, a bass with an effect and a melody on a scale" loading="lazy"></a><figcaption>Click to see it larger</figcaption></figure>
+        <figure><a href="../tutorial/en/step8-1.png?v=45b4ed45" target="_blank" rel="noopener"><img src="../tutorial/en/step8-1.png?v=45b4ed45" width="856" height="274" alt="Show normal blocks, and play drums with s in mini-notation, a bass with lpf 600 and a melody with n and scale" loading="lazy"></a><figcaption>Click to see it larger</figcaption></figure>
         <p>Choose "<b>normal</b>" in the top block to show more blocks.</p>
         <h3>Mini-notation</h3>
-        <p>"sounds in mini-notation" writes sounds just like Strudel. The drums here are <code>bd*2 [~ sd] &lt;hh oh&gt; sd</code> and the bass is <code>&lt;c2 a1 f1 g1&gt;*2</code> (long texts are cut with "…" in the block).</p>
+        <p>"<b>s [ ]</b>" (sound) with a text box writes sounds just like Strudel, and "<b>note [ ]</b>" writes notes the same way. The drums here are <code>bd*2 [~ sd] &lt;hh oh&gt; sd</code> and the bass is <code>&lt;c2 a1 f1 g1&gt;*2</code> (long texts are cut with "…" in the block).</p>
         <table>
             <tr><th>Write</th><th>Meaning</th><th>Example</th></tr>
             <tr><td><code>bd sd</code></td><td>sounds separated by spaces play in order</td><td><code>bd hh sd hh</code></td></tr>
@@ -327,8 +329,8 @@ footer a { color: inherit; }
         </table>
         <h3>Effects and scales</h3>
         <ul>
-            <li>"<b>[ ] with effect [ ] [ ]</b>": muffle (lpf), echo in a room (room), delay and more. The bass is muffled at 600 to sound soft.</li>
-            <li>"<b>steps [ ] of scale [ ] [ ]</b>": write notes as step numbers of a scale. On the major pentatonic scale, any number sounds nice. The "piano" tone loads real piano sounds automatically.</li>
+            <li>The <b>effect block</b> "<b>[ ] [ ] [ ]</b>": choose an effect with ▼, give it a value, and put a pattern in. <code>lpf</code> (low-pass filter: cuts high sounds so it sounds muffled), <code>room</code> (reverb: an echo like in a big room), <code>delay</code> (repeats the sound later, like an echo in the mountains) and more. <code>lpf 600</code> makes the bass sound soft.</li>
+            <li>"<b>n [ ] scale [ ] [ ]</b>": write notes as step numbers (<code>n</code>) of a scale. On <code>major:pentatonic</code> (the major pentatonic scale), any number sounds nice. The "piano" sound loads real piano sounds automatically.</li>
         </ul>
         <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step8.sb3" target="_blank" rel="noopener">Open this step</a></div>
     </section>
@@ -349,8 +351,8 @@ footer a { color: inherit; }
         <figure><img src="../tutorial/en/stage-list.png?v=bc908705" width="482" height="362" alt="The list chords on the stage, a chord in each item" loading="lazy"></figure>
         <p>These chords, F, G, Em and Am, are a progression which is used very often in pop music.</p>
         <h3>2. Play a list</h3>
-        <figure><img src="../tutorial/en/step9-2.png?v=e9864b6d" width="829" height="117" alt="Key 1 plays notes in mini-notation from items of list chords, one in each cycle, with tone piano" loading="lazy"></figure>
-        <p>Put "<b>items of list [ ] [ ]</b>" into the text of "notes in mini-notation". The items are joined into one mini-notation.</p>
+        <figure><img src="../tutorial/en/step9-2.png?v=1aece022" width="829" height="117" alt="Key 1 plays s piano, note with items of list chords, one in each cycle" loading="lazy"></figure>
+        <p>Put "<b>items of list [ ] [ ]</b>" into the text of "note". The items are joined into one mini-notation.</p>
         <table>
             <tr><th>Choose with ▼</th><th>Mini-notation</th><th>Use</th></tr>
             <tr><td>one in each cycle</td><td><code>&lt;[item1] [item2] …&gt;</code></td><td><b>an item = a bar</b>: lists "chords", "bass", "melody"</td></tr>
@@ -359,8 +361,8 @@ footer a { color: inherit; }
         </table>
         <p>Press 1 and the chords ring, a bar each. Before pressing keys, click the stage <b>outside the list</b> (keys typed after clicking in the list change the list).</p>
         <h3>3. Play on a rhythm</h3>
-        <figure class="wide"><img src="../tutorial/en/step9-3.png?v=fc62b553" width="1276" height="122" alt="Key 2 plays the chords in the rhythm of list rhythm, in order in a cycle, with tone piano" loading="lazy"></figure>
-        <p>"<b>play [ ] in rhythm [ ]</b>" plays only on <code>x</code>; <code>~</code> is a rest. The chords stay the same and get a rhythm.</p>
+        <figure class="wide"><img src="../tutorial/en/step9-3.png?v=c39e44a6" width="1276" height="122" alt="Key 2 plays s piano, struct with items of list rhythm in order in a cycle, on the chords" loading="lazy"></figure>
+        <p>"<b>struct [ ] [ ]</b>" (structure: play in a rhythm) plays only on <code>x</code>; <code>~</code> is a rest. The chords stay the same and get a rhythm.</p>
         <p>The rhythm is in a list too. The items of "rhythm" are <code>x ~</code>, <code>~ x</code>, <code>x x</code> and <code>~ x</code>. "<b>in order in a cycle</b>" makes <b>each item a beat</b>, each beat cut in two. Key 2 replaces the piano and it starts to bounce.</p>
         <table>
             <tr><th>Beat</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
@@ -371,16 +373,16 @@ footer a { color: inherit; }
   .struct("[x ~] [~ x] [x x] [~ x]").s("piano")
 s("[bd [~ bd] ~ ~], [~ ~ sd ~], [hh*8]")</code></pre>
         <h3>4. Add bass, melody and drums</h3>
-        <figure class="wide"><img src="../tutorial/en/step9-4.png?v=e5a32471" width="1067" height="122" alt="Key 3 plays list bass with tone sawtooth, muffled at 400" loading="lazy"></figure>
-        <figure class="wide"><img src="../tutorial/en/step9-5.png?v=4920352f" width="1134" height="122" alt="Key 4 plays list melody with tone triangle and room .3" loading="lazy"></figure>
-        <figure><img src="../tutorial/en/step9-6.png?v=8bdc1015" width="643" height="112" alt="Key 5 plays sounds in mini-notation from list drums, all together" loading="lazy"></figure>
+        <figure class="wide"><img src="../tutorial/en/step9-4.png?v=a3bc73e5" width="1067" height="122" alt="Key 3 plays lpf 400, s sawtooth, note with list bass" loading="lazy"></figure>
+        <figure class="wide"><img src="../tutorial/en/step9-5.png?v=35e0e9bb" width="1134" height="122" alt="Key 4 plays room .3, s triangle, note with list melody" loading="lazy"></figure>
+        <figure><img src="../tutorial/en/step9-6.png?v=2997f085" width="643" height="112" alt="Key 5 plays s with items of list drums, all together" loading="lazy"></figure>
         <p>Bass and melody are in lists too, a bar in each item. Add them with keys 3, 4 and 5. Key 0 stops everything.</p>
         <p>The drums are "<b>all together</b>": in the list "drums", <b>each item is a line for one drum</b>, like the screen of a drum machine.</p>
         <table>
             <tr><th>Drum</th><th>Item of "drums"</th></tr>
-            <tr><td>bass drum</td><td><code>bd [~ bd] ~ ~</code></td></tr>
-            <tr><td>snare</td><td><code>~ ~ sd ~</code></td></tr>
-            <tr><td>hi-hat</td><td><code>hh*8</code></td></tr>
+            <tr><td><code>bd</code></td><td><code>bd [~ bd] ~ ~</code></td></tr>
+            <tr><td><code>sd</code></td><td><code>~ ~ sd ~</code></td></tr>
+            <tr><td><code>hh</code></td><td><code>hh*8</code></td></tr>
         </table>
         <table>
             <tr><th>Bar</th><th>chords</th><th>bass</th><th>melody</th></tr>
@@ -413,13 +415,13 @@ s("[bd [~ bd] ~ ~], [~ ~ sd ~], [hh*8]")</code></pre>
         </div>
         <h3>2. Play the voice</h3>
         <figure><img src="../tutorial/en/step10-2.png?v=fb10f62c" width="366" height="106" alt="Key 1 plays sprite sound Meow on track voice" loading="lazy"></figure>
-        <p>Choose a sound with ▼ of "<b>sprite sound [ ]</b>". Your recordings appear there. This block fits into the ▼ of "play" and "in order", just like a drum.</p>
+        <p>Choose a sound with ▼ of "<b>sprite sound [ ]</b>". Your recordings appear there. This block fits into the ▼ of "play" and "seq", just like a drum.</p>
         <h3>3. Repeat and shorten</h3>
-        <figure><img src="../tutorial/en/step10-3.png?v=1442ef45" width="759" height="117" alt="Key 2 repeats the sprite sound 4 times with length .5" loading="lazy"></figure>
-        <p>"repeat 4 times" plays it four times in a cycle. If the voice is long and overlaps, cut it with "<b>length (clip)</b>".</p>
+        <figure><img src="../tutorial/en/step10-3.png?v=0aece0e4" width="759" height="117" alt="Key 2 plays clip .5, fast 4, sprite sound" loading="lazy"></figure>
+        <p>"fast 4" plays it four times in a cycle. If the voice is long and overlaps, cut it with the "<b>clip</b>" effect (cuts each sound short).</p>
         <h3>4. Change the pitch</h3>
-        <figure class="wide"><img src="../tutorial/en/step10-4.png?v=51ddfa0d" width="1000" height="122" alt="Key 3 adds the effect speed 1 1.5 2 -1 to the repeated voice" loading="lazy"></figure>
-        <p>The "<b>speed</b>" effect changes the pitch. <code>1 1.5 2 -1</code> gives the four voices these pitches in turn.</p>
+        <figure class="wide"><img src="../tutorial/en/step10-4.png?v=74393692" width="1000" height="122" alt="Key 3 adds speed 1 1.5 2 -1 to the repeated voice" loading="lazy"></figure>
+        <p>The "<b>speed</b>" effect (how fast the sound plays) changes the pitch. <code>1 1.5 2 -1</code> gives the four voices these pitches in turn.</p>
         <table>
             <tr><th>speed</th><th>What happens?</th></tr>
             <tr><td><code>1</code></td><td>the voice as it is</td></tr>
@@ -428,11 +430,11 @@ s("[bd [~ bd] ~ ~], [~ ~ sd ~], [hh*8]")</code></pre>
             <tr><td><code>-1</code></td><td>backwards</td></tr>
         </table>
         <h3>5. Mix it with drums</h3>
-        <figure><img src="../tutorial/en/step10-5.png?v=04a57379" width="789" height="112" alt="Key 4 plays in order bass drum, sprite sound, snare, sprite sound on track beat" loading="lazy"></figure>
-        <p>"sprite sound" also fits into "in order": "boom, meow, tap, meow".</p>
-        <figure><img src="../tutorial/en/step10-6.png?v=d2b5737e" width="876" height="117" alt="Key 5 plays the sprite sound with speed <1 .5> and room .8" loading="lazy"></figure>
-        <p>Key 5 changes the pitch every bar and adds reverb. Key 0 stops everything.</p>
-        <div class="try"><strong>Try it</strong><ul><li>Record your voice and choose it in every "sprite sound".</li><li>Record "boom", "pah" and "tss" and use them instead of bass drum, snare and hi-hat.</li><li>At the master level, "cut each sound of [ ] into [ ]" chops a long voice into small pieces.</li></ul></div>
+        <figure><img src="../tutorial/en/step10-5.png?v=83cd64e8" width="789" height="112" alt="Key 4 plays seq bd, sprite sound, sd, sprite sound on track beat" loading="lazy"></figure>
+        <p>"sprite sound" also fits into "seq": "boom, meow, tap, meow".</p>
+        <figure><img src="../tutorial/en/step10-6.png?v=dd53a916" width="876" height="117" alt="Key 5 plays room .8, speed &lt;1 .5&gt;, sprite sound" loading="lazy"></figure>
+        <p>Key 5 changes the pitch every bar and adds reverb with <code>room</code>. Key 0 stops everything.</p>
+        <div class="try"><strong>Try it</strong><ul><li>Record your voice and choose it in every "sprite sound".</li><li>Record "boom", "pah" and "tss" and use them instead of <code>bd</code>, <code>sd</code> and <code>hh</code>.</li><li>At the master level, "<b>chop [ ] [ ]</b>" (cut each sound into small pieces) chops a long voice into small pieces.</li></ul></div>
         <p class="note">Recordings live only in the browser, so they do not play in strudel.cc. When you save the project, the recordings are saved with it.</p>
         <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step10.sb3" target="_blank" rel="noopener">Open this step</a></div>
     </section>
@@ -454,7 +456,7 @@ s("[bd [~ bd] ~ ~], [~ ~ sd ~], [hh*8]")</code></pre>
         </table>
         <p>The piano leaves out the <b>roots</b>. The bass plays them, so the piano plays only the notes which give the color.</p>
         <h3>The shuffle</h3>
-        <figure class="wide"><img src="../tutorial/en/step11-2.png?v=b8452f8b" width="1276" height="122" alt="Key 1 plays list chords in the rhythm of list rhythm with tone piano" loading="lazy"></figure>
+        <figure class="wide"><img src="../tutorial/en/step11-2.png?v=79c26fb3" width="1276" height="122" alt="Key 1 plays s piano, struct with list rhythm, note with list chords" loading="lazy"></figure>
         <p>This song cuts a beat into <b>three</b>, so it bounces: a <b>shuffle</b>. As in step 9, the rhythm and the drums are lists.</p>
         <table>
             <tr><th>List</th><th>How</th><th>Items</th></tr>
@@ -462,9 +464,9 @@ s("[bd [~ bd] ~ ~], [~ ~ sd ~], [hh*8]")</code></pre>
             <tr><td>drums</td><td>all together (an item = a drum)</td><td><code>[bd ~ ~] [~ ~ bd] [~ ~ bd] [~ ~ ~]</code><br><code>[~ ~ ~] [sd ~ ~] [~ ~ ~] [sd ~ ~]</code><br><code>[hh ~ hh]*4</code></td></tr>
         </table>
         <p>The bass and melody lists also cut a beat into three.</p>
-        <figure class="wide"><img src="../tutorial/en/step11-3.png?v=c2d56c10" width="1067" height="122" alt="Key 2 plays list bass with tone sawtooth, muffled at 350" loading="lazy"></figure>
-        <figure class="wide"><img src="../tutorial/en/step11-4.png?v=ab6c1f3e" width="1134" height="122" alt="Key 3 plays list melody with tone triangle and room .4" loading="lazy"></figure>
-        <figure class="wide"><img src="../tutorial/en/step11-5.png?v=6e7744ba" width="1131" height="122" alt="Key 4 plays list drums all together on drum machine RolandTR808" loading="lazy"></figure>
+        <figure class="wide"><img src="../tutorial/en/step11-3.png?v=5996a4fa" width="1067" height="122" alt="Key 2 plays lpf 350, s sawtooth, note with list bass" loading="lazy"></figure>
+        <figure class="wide"><img src="../tutorial/en/step11-4.png?v=a0f500be" width="1134" height="122" alt="Key 3 plays room .4, s triangle, note with list melody" loading="lazy"></figure>
+        <figure class="wide"><img src="../tutorial/en/step11-5.png?v=49936850" width="1131" height="122" alt="Key 4 plays bank RolandTR808, s with list drums all together" loading="lazy"></figure>
         <div class="try"><strong>Try it</strong><ul><li>Change the sixth chord <code>[f3,ab3,c4,d4]</code> (Fm6) to <code>[f3,a3,c4,e4]</code> (FM7) and compare. The bittersweet feeling is gone.</li><li>Change the list "rhythm" to <code>x ~</code> <code>~ x</code> <code>x x</code> <code>~ x</code> like step 9, and it stops bouncing.</li></ul></div>
         <div class="buttons">
             <a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step11.sb3" target="_blank" rel="noopener">Open this step</a>
@@ -474,16 +476,16 @@ s("[bd [~ bd] ~ ~], [~ ~ sd ~], [hh*8]")</code></pre>
 
     <section class="card" id="step12">
         <h2><span class="num">12</span>Master level: acid and trance gate</h2>
-        <figure class="wide"><a href="../tutorial/en/step12-1.png?v=91c851d9" target="_blank" rel="noopener"><img src="../tutorial/en/step12-1.png?v=91c851d9" width="1024" height="360" alt="Master blocks: drum machine, wave, acid and trance gate" loading="lazy"></a><figcaption>Click to see it larger</figcaption></figure>
+        <figure class="wide"><a href="../tutorial/en/step12-1.png?v=69a4348e" target="_blank" rel="noopener"><img src="../tutorial/en/step12-1.png?v=69a4348e" width="1024" height="360" alt="Master blocks: euclid, bank, sine range, acidenv and trancegate" loading="lazy"></a><figcaption>Click to see it larger</figcaption></figure>
         <p>Choose "<b>master</b>" to use the tricks of club music.</p>
         <ul>
-            <li>"<b>spread [ ] of [ ] over [ ] steps</b>": spreads, say, 5 hits over 8 steps as evenly as possible (a Euclidean rhythm). These rhythms are found in music all over the world.</li>
-            <li>"<b>[ ] on drum machine [ ]</b>": the sounds of famous drum machines such as the TR-909.</li>
-            <li>"<b>wave</b>": put it where a number goes, and the value moves like a wave. Here the hi-hats move left and right.</li>
-            <li>"<b>make [ ] acid</b>": the squelchy bass of the TB-303.</li>
-            <li>"<b>trance gate</b>": chops long chords into short pieces. Change "rhythm" to change the chopping.</li>
+            <li>"<b>euclid [ ] [ ] [ ]</b>" (Euclidean rhythm): <code>euclid 5 8</code> spreads 5 hits over 8 steps as evenly as possible. These rhythms are found in music all over the world.</li>
+            <li>"<b>bank [ ] [ ]</b>" (drum machine): the sounds of famous drum machines such as the TR-909 (<code>RolandTR909</code>).</li>
+            <li>The <b>wave block</b> "<b>[ ] range [ ] [ ] slow [ ]</b>": put it where a number goes, and the value moves like a wave between the two numbers. <code>sine</code>, <code>saw</code>, <code>square</code>, <code>tri</code> (triangle), <code>rand</code> (random) and <code>perlin</code> (smooth random) are the shapes of the wave, and "slow" sets how many cycles one wave takes. Here the hi-hats move left and right with <code>pan</code> (left and right).</li>
+            <li>"<b>acidenv [ ] [ ]</b>" (acid envelope): the squelchy bass of the TB-303. Its name comes from the <code>acidenv</code> function in Switch Angel's strudel-scripts.</li>
+            <li>"<b>trancegate</b>" (trance gate): chops long chords into short pieces. The numbers are density (how many pieces sound), seed (which random rhythm) and length. Change the seed to change the chopping. Its name comes from Switch Angel's <code>trancegate</code> function.</li>
         </ul>
-        <div class="try"><strong>Try it</strong><ul><li>Spread 3 or 7 hits.</li><li>Change "rhythm" of the trance gate from 0 to 20 to find one you like.</li></ul></div>
+        <div class="try"><strong>Try it</strong><ul><li>Change <code>euclid 5 8</code> to 3 or 7 hits.</li><li>Change the seed of trancegate from 0 to 20 to find one you like.</li></ul></div>
         <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step12.sb3" target="_blank" rel="noopener">Open this step</a></div>
     </section>
 
@@ -495,7 +497,7 @@ s("[bd [~ bd] ~ ~], [~ ~ sd ~], [hh*8]")</code></pre>
             <figure><img src="../tutorial/en/step12-3.png?v=807581d5" width="206" height="106" alt="Key o opens all tracks in strudel.cc" loading="lazy"></figure>
         </div>
         <ul>
-            <li>"<b>Strudel code of all tracks</b>": the playing tracks as code. Click the block to see it.</li>
+            <li>"<b>Strudel code of all tracks</b>": the tracks you played, as code (kept after stopping). Click the block to see it.</li>
             <li>"<b>open all tracks in strudel.cc</b>": strudel.cc opens and plays the same song as code.</li>
         </ul>
         <p>In the project of step 12, click the green flag and press c and o.</p>
@@ -504,19 +506,45 @@ s("[bd [~ bd] ~ ~], [~ ~ sd ~], [hh*8]")</code></pre>
             <tr><th>Block</th><th>Strudel code</th></tr>
             <tr><td>play [ ] on track [ ]</td><td><code>$: …</code> (a line for each track)</td></tr>
             <tr><td>set tempo to [ ] BPM</td><td><code>setcpm(…)</code> (cycles per minute)</td></tr>
-            <tr><td>sounds / notes in mini-notation</td><td><code>s("bd sd")</code> / <code>note("c3 e3")</code></td></tr>
+            <tr><td>seq [ ] [ ] [ ] [ ]</td><td><code>seq("bd", "~", "sd", "~")</code></td></tr>
+            <tr><td>stack [ ] [ ] / cat [ ] [ ]</td><td><code>stack(…, …)</code> / <code>cat(…, …)</code></td></tr>
+            <tr><td>s [code] / note [code]</td><td><code>s("bd sd")</code> / <code>note("c3 e3")</code></td></tr>
             <tr><td>items of list [ ] one in each cycle</td><td><code>"&lt;[item1] [item2] …&gt;"</code></td></tr>
-            <tr><td>[ ] with tone [ ]</td><td><code>.s("piano")</code></td></tr>
-            <tr><td>[ ] with effect [ ] [ ]</td><td><code>.lpf(600)</code> <code>.room(.5)</code> and more</td></tr>
-            <tr><td>play [ ] in rhythm [ ]</td><td><code>.struct("x ~ x x")</code></td></tr>
-            <tr><td>[ ] on drum machine [ ]</td><td><code>.bank("RolandTR909")</code></td></tr>
+            <tr><td>s [piano] [ ]</td><td><code>.s("piano")</code></td></tr>
+            <tr><td>fast [ ] [ ] / slow [ ] [ ]</td><td><code>.fast(8)</code> / <code>.slow(2)</code></td></tr>
+            <tr><td>[lpf] [ ] [ ] (effect block)</td><td><code>.lpf(600)</code> <code>.room(.5)</code> and more</td></tr>
+            <tr><td>struct [ ] [ ]</td><td><code>.struct("x ~ x x")</code></td></tr>
+            <tr><td>bank [ ] [ ]</td><td><code>.bank("RolandTR909")</code></td></tr>
         </table>
+        <p>The block names are the same as the names in Strudel code, so once you know a block, you can already read its code.</p>
+        <h3>What is a function?</h3>
+        <p>A <b>function</b> takes a pattern and gives back a changed pattern. In code, the name after <code>.</code> is the name of the function, and the values in <code>()</code> are what you give to it (<b>arguments</b>).</p>
+        <pre><code>note("c3 e3 g3").transpose(12)   // give 12 to transpose → the pattern an octave higher
+note("c3 e3 g3").lpf(600)        // give 600 to lpf → the pattern sounds muffled</code></pre>
+        <p>Functions in a chain work from left to right, just like blocks inside blocks.</p>
+        <h3>Reading blocks inside blocks</h3>
+        <p>A block reads from the <b>outside</b>: the name on the outer block comes first, and the pattern it changes goes inside. The block <code>room .8 [ unison 7 [ superimpose transpose 12 [ … ] ] ]</code> is the same as this Strudel code:</p>
+        <pre><code>room(.8, unison(7, superimpose(x =&gt; x.transpose(12), …)))   // outside first, like the blocks
+….superimpose(x =&gt; x.transpose(12)).unison(7).room(.8)      // the same, as a chain</code></pre>
+        <p>Both lines make the same sound. A chain is written <b>the other way round</b>: the innermost block comes first, and the outermost block comes last.</p>
+        <h3>Functions which take a function</h3>
+        <p>The master level blocks <b>sometimes</b>, <b>every</b>, <b>jux</b>, <b>off</b> and <b>superimpose</b> take a <b>function</b> as an argument (they are called <b>higher-order functions</b>). Each item in ▼, such as <code>rev</code> or <code>transpose 12</code>, is a function. The block decides <b>when and where</b>, and ▼ decides <b>what</b> to do.</p>
+        <table>
+            <tr><th>Block</th><th>Strudel code</th><th>What it does</th></tr>
+            <tr><td>sometimes</td><td><code>.sometimes(x =&gt; x.transpose(12))</code></td><td>applies the function sometimes (to about half of the sounds)</td></tr>
+            <tr><td>every</td><td><code>.every(4, x =&gt; x.rev())</code></td><td>applies the function once in 4 cycles</td></tr>
+            <tr><td>jux</td><td><code>.jux(x =&gt; x.rev())</code></td><td>splits left and right, and applies the function to the right only (juxtapose = put side by side)</td></tr>
+            <tr><td>off</td><td><code>.off(0.125, x =&gt; x.transpose(7))</code></td><td>adds a copy with the function applied, a little later</td></tr>
+            <tr><td>superimpose</td><td><code>.superimpose(x =&gt; x.transpose(12))</code></td><td>adds a copy with the function applied, on top</td></tr>
+        </table>
+        <p>Read <code>x =&gt; x.transpose(12)</code> as "<b>take x, and give back x an octave higher</b>". It is a function without a name, made on the spot.</p>
+        <p>Your own blocks made with "Make a Block" in Scratch are functions too. The names on the blocks (sometimes, transpose ...) are the same in code, so learn them by name for Strudel.</p>
         <h3>Using strudel.cc</h3>
         <ul>
             <li>After changing the code, press <b>Ctrl+Enter</b> to play it again. <b>Ctrl+.</b> stops.</li>
             <li>Change one number at a time and listen each time.</li>
             <li>Add <code>.hush()</code> at the end of a track to mute only that track.</li>
-            <li>The trance gate is a block of this extension, so the code also has a function which does the same (<code>fillGaps</code>). Sprite sounds do not play in strudel.cc.</li>
+            <li><code>trancegate</code> is not built into Strudel (it comes from Switch Angel's strudel-scripts), so the code uses <code>struct</code> and also has a function which does the rest (<code>fillGaps</code>). Sprite sounds do not play in strudel.cc.</li>
         </ul>
         <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step12.sb3" target="_blank" rel="noopener">Open the project of step 12</a></div>
     </section>
@@ -545,47 +573,48 @@ s("[bd [~ bd] ~ ~], [~ ~ sd ~], [hh*8]")</code></pre>
         <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step13.sb3" target="_blank" rel="noopener">Open the advanced lesson</a></div>
 
         <h3>1. Kick: four on the floor</h3>
-        <figure><img src="../tutorial/en/step13-2.png?v=34a4e191" width="640" height="112" alt="Key 1 plays bd*4 on drum machine RolandTR909 on track kick" loading="lazy"></figure>
+        <figure><img src="../tutorial/en/step13-2.png?v=e245d06c" width="640" height="112" alt="Key 1 plays bank RolandTR909, s bd*4 on track kick" loading="lazy"></figure>
         <p>Four kicks a bar: "boom, boom, boom, boom". This is the heart of dance music. The TR-909 is a famous drum machine of house and techno.</p>
         <p class="label">In Strudel</p><pre><code>s("bd*4").bank("RolandTR909")</code></pre>
 
         <h3>2. Off-beat bass</h3>
-        <figure class="wide"><img src="../tutorial/en/step13-3.png?v=9cd9d36c" width="1067" height="122" alt="Key 2 plays list bass with tone sawtooth, muffled at 500" loading="lazy"></figure>
-        <p><code>[~ a1]*4</code> in the list "bass" is "rest, A" four times. It plays only <b>between the kicks (off-beats)</b>, so it bounces with the kick without bumping into it. "muffle 500" cuts the high sounds and keeps the low end.</p>
-        <p class="label">In Strudel</p><pre><code>note("&lt;[~ a1]*4 [~ f1]*4 [~ c2]*4 [~ g1]*4&gt;").s("sawtooth").lpf(500)</code></pre>
+        <figure class="wide"><img src="../tutorial/en/step13-3.png?v=9f8f1213" width="1067" height="122" alt="Key 2 plays orbit 2, lpf 500, s sawtooth, note with list bass" loading="lazy"></figure>
+        <p><code>[~ a1]*4</code> in the list "bass" is "rest, A" four times. It plays only <b>between the kicks (off-beats)</b>, so it bounces with the kick without bumping into it. <code>lpf 500</code> cuts the high sounds and keeps the low end. (<code>orbit 2</code> is for pumping in part 7.)</p>
+        <p class="label">In Strudel</p><pre><code>note("&lt;[~ a1]*4 [~ f1]*4 [~ c2]*4 [~ g1]*4&gt;").s("sawtooth").lpf(500).orbit(2)</code></pre>
         <p class="try-inline">Try it: change <code>[~ a1]*4</code> to <code>[~ a1 a1 a1]*4</code> for the "rolling bass" of trance.</p>
 
         <h3>3. Pad with a trance gate</h3>
-        <figure class="wide"><img src="../tutorial/en/step13-4.png?v=9610b7eb" width="1458" height="128" alt="Key 3 plays list chords with tone supersaw, chopped by the trance gate, with room" loading="lazy"></figure>
-        <p>The <b>chords</b> of the list "chords" are held with "supersaw" (many sawtooth waves together) and chopped by the trance gate. "room" makes it sound like a big hall.</p>
+        <figure class="wide"><img src="../tutorial/en/step13-4.png?v=eb0b3433" width="1458" height="128" alt="Key 3 plays orbit 2, room .6, trancegate, s supersaw, note with list chords" loading="lazy"></figure>
+        <p>The <b>chords</b> of the list "chords" are held with <code>supersaw</code> (many sawtooth waves together) and chopped by <code>trancegate</code>. <code>room</code> makes it sound like a big hall.</p>
         <p class="label">In Strudel</p><pre><code>note("&lt;[a3,c4,e4,a4] [f3,a3,c4,f4] [c4,e4,g4,c5] [g3,b3,d4,g4]&gt;").s("supersaw")
-  .trancegate(.8, 45, 1).room(.6)</code></pre>
-        <p class="note">The trance gate is a block of this extension. When you open the code in strudel.cc, it becomes Strudel functions which do the same (struct and fillGaps).</p>
+  .trancegate(.8, 45, 1).room(.6).orbit(2)</code></pre>
+        <p class="note"><code>trancegate</code> is not built into Strudel. When you open the code in strudel.cc, it becomes Strudel functions which do the same (struct and fillGaps).</p>
 
         <h3>4. Arpeggio pluck</h3>
-        <figure class="wide"><img src="../tutorial/en/step13-5.png?v=75b07607" width="1598" height="133" alt="Key 4 plays the notes of list chords one by one, with tone square, length .3 and delay .4" loading="lazy"></figure>
-        <p>Playing the notes of a chord one by one is an <b>arpeggio</b>. It uses the same list "chords" as the pad. "length .3" makes the notes short like a plucked string, and "delay" repeats them later so they sparkle.</p>
+        <figure class="wide"><img src="../tutorial/en/step13-5.png?v=965f3dce" width="1598" height="133" alt="Key 4 plays orbit 2, delay .4, clip .3, s square, arp 0 1 2 3 2 1 2 3, note with list chords" loading="lazy"></figure>
+        <p>Playing the notes of a chord one by one is an <b>arpeggio</b>. The "<b>arp [ ] [ ]</b>" block (arpeggio) plays them in the order of the numbers. It uses the same list "chords" as the pad. <code>clip .3</code> makes the notes short like a plucked string, and <code>delay</code> repeats them later so they sparkle.</p>
         <p class="label">In Strudel</p><pre><code>note("&lt;[a3,c4,e4,a4] [f3,a3,c4,f4] [c4,e4,g4,c5] [g3,b3,d4,g4]&gt;")
-  .arp("0 1 2 3 2 1 2 3").s("square").clip(.3).delay(.4)</code></pre>
+  .arp("0 1 2 3 2 1 2 3").s("square").clip(.3).delay(.4).orbit(2)</code></pre>
 
         <h3>5. Thick lead</h3>
-        <figure class="wide"><img src="../tutorial/en/step13-6.png?v=74ea7521" width="1683" height="133" alt="Key 5 plays the scale steps of list lead with supersaw, superimpose transpose 12 (an octave higher on top), thickness 7 and room .8" loading="lazy"></figure>
+        <figure class="wide"><img src="../tutorial/en/step13-6.png?v=2b0097c3" width="1683" height="133" alt="Key 5 plays orbit 2, room .8, unison 7, superimpose transpose 12, s supersaw, n with list lead, scale A3 minor" loading="lazy"></figure>
         <p>Three tricks make the melody stand out.</p>
         <ul>
-            <li><b>thickness (unison) 7</b>: seven sawtooth waves, each a little off in pitch. Like a choir, many voices sound thick.</li>
-            <li><b>superimpose transpose 12</b>: the same melody also plays an octave (12 semitones) higher, so it shines. superimpose puts what the function in ▼ makes (transpose 12) on top of the melody.</li>
-            <li><b>a big room</b>: it spreads far.</li>
+            <li><b><code>unison</code> 7</b> (how many waves sound together): seven sawtooth waves, each a little off in pitch. Like a choir, many voices sound thick.</li>
+            <li><b><code>superimpose</code> <code>transpose 12</code></b>: the same melody also plays an octave (12 semitones) higher, so it shines. superimpose puts what the function in ▼ makes (transpose 12) on top of the melody.</li>
+            <li><b><code>room .8</code></b>: a big room, so it spreads far.</li>
         </ul>
+        <p>The blocks read from the outside, and the code chain from the inside (see "Reading blocks inside blocks" in the column).</p>
         <p class="label">In Strudel</p><pre><code>n("&lt;[7 ~ 9 11] [12 11 ~ 9] [11 ~ 9 7] [8 ~ 9 6]&gt;*2").scale("A3:minor")
-  .s("supersaw").superimpose(x =&gt; x.transpose(12)).unison(7).room(.8)</code></pre>
-        <p class="try-inline">Try it: compare thickness 1 and 7 to hear what "thick" means. Try "detune" and "stereo spread (spread)" too.</p>
+  .s("supersaw").superimpose(x =&gt; x.transpose(12)).unison(7).room(.8).orbit(2)</code></pre>
+        <p class="try-inline">Try it: compare <code>unison</code> 1 and 7 to hear what "thick" means. Try <code>detune</code> (how far off the pitches are) and <code>spread</code> (how wide the waves spread left and right) too.</p>
 
         <h3>6. Build-up and drop</h3>
-        <figure class="wide"><img src="../tutorial/en/step13-7.png?v=e8521062" width="1557" height="171" alt="Key 6 plays the snare of list build-up getting louder, and noise with a rising thin filter on track riser" loading="lazy"></figure>
+        <figure class="wide"><img src="../tutorial/en/step13-7.png?v=c899f83f" width="1557" height="171" alt="Key 6 plays gain saw range .3 1 slow 4 on the sd of list build-up, and hpf saw range 300 9000 slow 4 on white noise on track riser" loading="lazy"></figure>
         <p>The part which lifts the mood before the chorus is the <b>build-up</b>.</p>
         <ul>
-            <li><b>snare</b>: the list "build-up" goes <code>sd*4</code> → <code>sd*8</code> → <code>sd*16</code> → <code>sd*32</code>, twice as fast every bar. "wave rising" makes it louder.</li>
-            <li><b>riser</b>: "<b>noise</b>" is a hiss. Raising "thin (hpf)" from 300 to 9000 cuts the low sounds and makes a rising "whoosh".</li>
+            <li><b>snare</b>: the list "build-up" goes <code>sd*4</code> → <code>sd*8</code> → <code>sd*16</code> → <code>sd*32</code>, twice as fast every bar. <code>gain</code> (volume) with <code>saw range .3 1 slow 4</code> makes it louder and louder (a saw wave goes up slowly, then drops at once).</li>
+            <li><b>riser</b>: <code>white</code> (white noise) is a hiss. Raising <code>hpf</code> (high-pass filter: cuts low sounds so it sounds thin) from 300 to 9000 makes a rising "whoosh".</li>
         </ul>
         <figure><img src="../tutorial/en/step13-8.png?v=47cecdee" width="187" height="144" alt="Space stops the tracks snare and riser" loading="lazy"></figure>
         <p>At the peak, press Space! The build-up stops and the other parts hit: the <b>drop</b>. The waves go around once in 4 cycles, so press it when they reach the top.</p>
@@ -593,11 +622,17 @@ s("[bd [~ bd] ~ ~], [~ ~ sd ~], [hh*8]")</code></pre>
 s("white*16").hpf(saw.range(300, 9000).slow(4)).gain(saw.range(0, .4).slow(4))</code></pre>
 
         <h3>7. Pumping</h3>
-        <figure class="wide"><img src="../tutorial/en/step13-9.png?v=7c58c368" width="969" height="117" alt="Key 7 plays bd*4, ducking the other tracks with depth 0.85, on track kick" loading="lazy"></figure>
-        <p>The biggest secret of EDM. On each kick, <b>all the other tracks get quieter for a moment</b> and come back, so the whole sound breathes. Producers call it "sidechain".</p>
-        <p>The track name is the same "kick", so 7 replaces the plain kick. Press 1 and 7 a few times and compare. "depth" goes from 0 (no ducking) to 1 (the most).</p>
-        <p class="label">In Strudel</p><pre><code>s("bd*4").bank("RolandTR909").orbit(2).duckorbit(1).duckattack(.2).duckdepth(.85)</code></pre>
-        <p class="note">Strudel sends sounds through "orbits". Normal sounds go through orbit 1. The kick goes through orbit 2 and ducks orbit 1.</p>
+        <figure class="wide"><img src="../tutorial/en/step13-9.png?v=8becce6b" width="969" height="117" alt="Key 7 plays duckdepth .85, duckattack .2, duck 2, bank RolandTR909, s bd*4 on track kick" loading="lazy"></figure>
+        <p>The biggest secret of EDM. On each kick, <b>the other parts get quieter for a moment</b> and come back, so the whole sound breathes. Producers call it "sidechain".</p>
+        <p><b>Orbits.</b> Strudel sends sounds through "<b>orbits</b>", like lanes on a road. Sounds go through orbit 1 unless you choose another one. The <code>orbit</code> effect puts a part on another orbit (1 to 8). That is why the bass, the pad, the pluck and the lead have <code>orbit 2</code>: they all go through orbit 2. The kick stays on orbit 1.</p>
+        <p><b>duck.</b> The <code>duck</code> effect (duck your head: make other sounds quieter) chooses which orbits get quieter on each sound. <code>duck 2</code> makes orbit 2 quieter on each kick. To duck several orbits, write them with <code>:</code>, like <code>2:3:4</code>.</p>
+        <ul>
+            <li><code>duckattack</code>: how long the ducked sound takes to come back (in seconds). <code>.2</code> is a short "whoo".</li>
+            <li><code>duckdepth</code>: how much quieter, from 0 (no ducking) to 1 (silent).</li>
+        </ul>
+        <p>The track name is the same "kick", so 7 replaces the plain kick. Press 1 and 7 a few times and compare.</p>
+        <p class="label">In Strudel</p><pre><code>s("bd*4").bank("RolandTR909").duck("2").duckattack(".2").duckdepth(".85")</code></pre>
+        <p class="note">The build-up snare and the riser stay on orbit 1, so they do not get quieter.</p>
         <figure><img src="../tutorial/en/step13-10.png?v=b6a96273" width="163" height="106" alt="Key 0 stops all tracks" loading="lazy"></figure>
 
         <h3>Next: code</h3>

@@ -46,7 +46,8 @@ export const LIMIT = {
     MODIFIER: 64,
     SLOW: 1024,
     EVENTS: 4096, // estimated events in a cycle
-    DEPTH: 32
+    DEPTH: 32,
+    ORBITS: 8
 };
 
 const number = (min, max) => ({kind: 'number', min, max});
@@ -55,6 +56,8 @@ const integer = (min, max) => ({kind: 'integer', min, max});
 const name = pattern => ({kind: 'name', pattern});
 const letters = pattern => ({kind: 'letters', pattern});
 const TRANSFORM = {kind: 'transform'};
+// an orbit or orbits such as 2 or "2:3:4", for duck
+const ORBITS = {kind: 'orbits'};
 
 const SOUND_NAME = /^[a-z0-9_]+$/i;
 const BANK_NAME = /^[a-z0-9]+$/i;
@@ -114,10 +117,11 @@ const METHODS = {
     distort: [value(0, 10)],
     distortvol: [number(0, 1)],
     fm: [value(0, 8)],
-    // the duck block plays on orbit 2 and ducks orbit 1, so no other orbit can be made
-    orbit: [integer(1, 2)],
-    duckorbit: [integer(1, 2)],
-    duckattack: [number(0.002, 2)],
+    // orbits are made when audio starts, so only a few can be used
+    orbit: [integer(1, LIMIT.ORBITS)],
+    duck: [ORBITS],
+    duckorbit: [ORBITS],
+    duckattack: [value(0.002, 2)],
     duckdepth: [value(0, 1)]
 };
 
@@ -677,6 +681,16 @@ const checkArg = (fn, spec, a) => {
     case 'name':
         if (typeof a !== 'string' || !spec.pattern.test(a)) fail();
         return a;
+    case 'orbits': {
+        const orbit = x => Number.isInteger(x) && x >= 1 && x <= LIMIT.ORBITS;
+        if (typeof a === 'number') {
+            if (!orbit(a)) fail();
+            return a;
+        }
+        if (typeof a !== 'string' || !/^\s*\d+(?:\s*:\s*\d+)*\s*$/.test(a) ||
+            !a.split(':').every(x => orbit(Number(x)))) fail();
+        return mini(a.replace(/\s+/g, ''));
+    }
     case 'letters':
         // mini-notation of letters such as "<a e i>"
         if (typeof a !== 'string' || !spec.pattern.test(a)) fail();

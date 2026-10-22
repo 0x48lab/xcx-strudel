@@ -17,23 +17,24 @@ Available in English, Japanese and Japanese (Hiragana).
   - [ノーマル: おんかいで メロディ](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/melody.sb3) — スペース・↑・↓・R キーでメロディが変わる
   - [ノーマル: ソウルな ピアノ ポップ](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/soulpop.sb3) — ジャズ・ソウル系の和音(セブンス、ナインス、借用和音、経過ディミニッシュ)とシャッフルのリズムで作ったオリジナル曲。和音・ベース・メロディはリストに1小節ずつ、ピアノのリズムは1拍ずつ、ドラムは楽器ごとに1行ずつ入っている。1〜4 キーでパートを止め、スペースで戻す
   - [マスター: DJ トランス](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/trance.sb3) — 1〜5 キーでパートを重ね、Q〜T で止める
-  - [マスター: アシッドとトランスゲート](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/acidgate.sb3) — [Switch Angel](https://github.com/switchangel) さんの [strudel-scripts](https://github.com/switchangel/strudel-scripts) の音作りを参考にした非公式の作品です(本人とは関係ありません)。コードは使わず、アシッドとトランスゲートのブロックで独自に再現しています
+  - [マスター: アシッドとトランスゲート](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/acidgate.sb3) — [Switch Angel](https://github.com/switchangel) さんの [strudel-scripts](https://github.com/switchangel/strudel-scripts) の音作りを参考にした非公式の作品です(本人とは関係ありません)。コードは使わず、`acidenv` と `trancegate` のブロックで再現しています
 - サンプル作品は `npm run demo` で `projects/` に作り直せます
 
 ## できること / Features
 
-- ドラム・音・休みを「順番に」「同時に」「交互に」「くりかえす」で組み立てて、トラックごとに鳴らす
-- エフェクト(lpf, hpf, room, delay, gain, pan, crush, speed, attack, release, vowel)、変形(rev, ply, every)、音階(scale)
+- ブロックとメニューには Strudel の関数名・音の名前をそのまま使う(`seq` `stack` `cat` `fast` `lpf` `bd` など)。Strudel に名前がない Scratch 側の操作(トラックで鳴らす、止める など)だけ日本語
+- ドラム・音・休みを `seq` `stack` `cat` `fast` で組み立てて、トラックごとに鳴らす
+- エフェクト(lpf, hpf, room, delay, gain, pan, crush, speed, attack, release, distort, fm, vowel など)、変形(rev, ply, every)、音階(n + scale)
 - ミニ記法(`bd*2 [~ sd] <hh oh>`)をそのまま書くこともできる
 - Scratch のリストの中身を、1サイクルずつ・順番に・同時に並べてミニ記法にできる(長いコード進行やメロディを1小節ずつ書ける)
-- 「リズムで刻む」ブロックで、和音などを `x ~` のリズムで鳴らせる
+- `struct` ブロックで、和音などを `x ~` のリズムで鳴らせる
 - スプライトの音(録音した声など)をサンプルとして使う
 - オシロスコープとピアノロールをステージに表示する
-- 「拍がきたとき」「[バスドラム]が鳴ったとき」でスプライトを音に合わせて動かす
+- 「拍がきたとき」「[bd]が鳴ったとき」でスプライトを音に合わせて動かす
 - 値を返すブロックをクリックすると、同じ音を鳴らす Strudel のコードが表示される
 - 全部のトラックを Strudel のコードとして書き出したり、strudel.cc で開いたりできる
-- ゆれる値(sine など)、ランダム、ユークリッドリズム、左右分け、和音とアルペジオ(マスター)
-- アシッド、トランスゲート、キックでほかのトラックをしぼませるポンピング(サイドチェイン)、ノイズ、supersaw の厚み(unison / detune / spread)(マスター)
+- 信号(sine など)、乱数(irand)、degradeBy、euclid、jux、sometimes、off、superimpose、和音と arp(マスター)
+- `acidenv` と `trancegate`([Switch Angel](https://github.com/switchangel) さんの [strudel-scripts](https://github.com/switchangel/strudel-scripts) の関数が元)、`duck` / `orbit` によるポンピング(サイドチェイン)、ノイズ、supersaw の厚み(unison / detune / spread)(マスター)
 
 ブロックは「ビギナー」「ノーマル」「マスター」のレベルで表示を切り替えられます。
 

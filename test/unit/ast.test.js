@@ -534,6 +534,8 @@ describe('fillGaps performance', () => {
 describe('ducking, noise and thickness of a sound', () => {
     test.each([
         ['ducking', methodNode(methodNode(methodNode(methodNode(miniNode('bd*4', 's'), 'orbit', [2]), 'duckorbit', [1]), 'duckattack', [0.2]), 'duckdepth', [0.8])],
+        ['duck as in Strudel', methodNode(methodNode(methodNode(miniNode('sbd*4', 's'), 'duck', ['2:3:4']), 'duckattack', ['.2']), 'duckdepth', [0.8])],
+        ['orbits up to 8', methodNode(miniNode('a1*4', 'note'), 'orbit', [8])],
         ['noise', methodNode(methodNode(miniNode('white*16', 's'), 'hpf', [signalArg('saw', 300, 9000, 4)]), 'gain', [signalArg('saw', 0, 0.35, 4)])],
         ['rhythm', methodNode(miniNode('<[c3,e3,g3] [d3,f3,a3]>', 'note'), 'struct', ['[x ~ ~] [~ ~ x] [x ~ x] [~ ~ ~]'])],
         ['thickness', methodNode(methodNode(methodNode(methodNode(miniNode('a3', 'note'), 's', ['supersaw']), 'unison', [7]), 'detune', [0.4]), 'spread', [0.8])]
@@ -543,10 +545,14 @@ describe('ducking, noise and thickness of a sound', () => {
 
     test.each([
         ['orbit', [99]],
-        ['orbit', [3]],
+        ['orbit', [9]],
         ['orbit', [1.5]],
         ['duckorbit', [0]],
         ['duckorbit', [1.5]],
+        ['duck', [9]],
+        ['duck', ['2:9']],
+        ['duck', ['2 3']],
+        ['duck', ['<2 3>']],
         ['duckattack', [10]],
         ['duckdepth', [2]],
         ['spread', [3]]

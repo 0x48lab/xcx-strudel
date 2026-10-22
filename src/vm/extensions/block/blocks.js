@@ -84,7 +84,7 @@ export const BLOCKS = [
         opcode: 'sequence',
         blockType: BlockType.REPORTER,
         level: LEVEL.BEGINNER,
-        text: 'in order [A] [B] [C] [D]',
+        text: 'seq [A] [B] [C] [D]',
         arguments: {
             A: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'bd'},
             B: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'hh'},
@@ -96,7 +96,7 @@ export const BLOCKS = [
         opcode: 'together',
         blockType: BlockType.REPORTER,
         level: LEVEL.BEGINNER,
-        text: 'together [A] [B]',
+        text: 'stack [A] [B]',
         arguments: {
             A: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'bd'},
             B: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'cr'}
@@ -106,7 +106,7 @@ export const BLOCKS = [
         opcode: 'alternate',
         blockType: BlockType.REPORTER,
         level: LEVEL.BEGINNER,
-        text: 'take turns [A] [B]',
+        text: 'cat [A] [B]',
         arguments: {
             A: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'},
             B: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'g4'}
@@ -116,7 +116,7 @@ export const BLOCKS = [
         opcode: 'repeat',
         blockType: BlockType.REPORTER,
         level: LEVEL.BEGINNER,
-        text: 'repeat [PATTERN] [TIMES] times',
+        text: 'fast [TIMES] [PATTERN]',
         arguments: {
             PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'hh'},
             TIMES: {type: ArgumentType.NUMBER, defaultValue: 4}
@@ -126,7 +126,7 @@ export const BLOCKS = [
         opcode: 'slow',
         blockType: BlockType.REPORTER,
         level: LEVEL.STANDARD,
-        text: 'stretch [PATTERN] over [CYCLES] cycles',
+        text: 'slow [CYCLES] [PATTERN]',
         arguments: {
             PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'},
             CYCLES: {type: ArgumentType.NUMBER, defaultValue: 2}
@@ -136,7 +136,7 @@ export const BLOCKS = [
         opcode: 'tone',
         blockType: BlockType.REPORTER,
         level: LEVEL.BEGINNER,
-        text: '[PATTERN] with tone [SYNTH]',
+        text: 's [SYNTH] [PATTERN]',
         arguments: {
             PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'},
             SYNTH: {type: ArgumentType.STRING, menu: 'synth', defaultValue: 'sawtooth'}
@@ -146,7 +146,7 @@ export const BLOCKS = [
         opcode: 'miniSound',
         blockType: BlockType.REPORTER,
         level: LEVEL.STANDARD,
-        text: 'sounds in mini-notation [CODE]',
+        text: 's [CODE]',
         arguments: {
             CODE: {type: ArgumentType.STRING, defaultValue: 'bd*2 [~ sd] <hh oh>'}
         }
@@ -155,7 +155,7 @@ export const BLOCKS = [
         opcode: 'miniNote',
         blockType: BlockType.REPORTER,
         level: LEVEL.STANDARD,
-        text: 'notes in mini-notation [CODE]',
+        text: 'note [CODE]',
         arguments: {
             CODE: {type: ArgumentType.STRING, defaultValue: 'c3 [e3 g3] <a3 b3>'}
         }
@@ -164,7 +164,7 @@ export const BLOCKS = [
         opcode: 'scaleNotes',
         blockType: BlockType.REPORTER,
         level: LEVEL.STANDARD,
-        text: 'steps [STEPS] of scale [ROOT] [SCALE]',
+        text: 'n [STEPS] scale [ROOT] [SCALE]',
         arguments: {
             STEPS: {type: ArgumentType.STRING, defaultValue: '0 2 4 <6 7>'},
             ROOT: {type: ArgumentType.STRING, menu: 'root', defaultValue: 'C4'},
@@ -186,7 +186,7 @@ export const BLOCKS = [
         opcode: 'rhythm',
         blockType: BlockType.REPORTER,
         level: LEVEL.STANDARD,
-        text: 'play [PATTERN] in rhythm [RHYTHM]',
+        text: 'struct [RHYTHM] [PATTERN]',
         arguments: {
             PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'},
             RHYTHM: {type: ArgumentType.STRING, defaultValue: 'x ~ x x'}
@@ -196,7 +196,7 @@ export const BLOCKS = [
         opcode: 'drumMachine',
         blockType: BlockType.REPORTER,
         level: LEVEL.STANDARD,
-        text: '[PATTERN] on drum machine [MACHINE]',
+        text: 'bank [MACHINE] [PATTERN]',
         arguments: {
             PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'bd'},
             MACHINE: {type: ArgumentType.STRING, menu: 'machine', defaultValue: 'RolandTR909'}
@@ -216,7 +216,7 @@ export const BLOCKS = [
         opcode: 'effect',
         blockType: BlockType.REPORTER,
         level: LEVEL.STANDARD,
-        text: '[PATTERN] with effect [EFFECT] [VALUE]',
+        text: '[EFFECT] [VALUE] [PATTERN]',
         arguments: {
             PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'},
             EFFECT: {type: ArgumentType.STRING, menu: 'effect', defaultValue: 'lpf'},
@@ -227,7 +227,7 @@ export const BLOCKS = [
         opcode: 'addNotes',
         blockType: BlockType.REPORTER,
         level: LEVEL.STANDARD,
-        text: 'add [VALUE] to the pitch of [PATTERN]',
+        text: 'add [VALUE] [PATTERN]',
         arguments: {
             VALUE: {type: ArgumentType.STRING, defaultValue: '<0 3 5 3>'},
             PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'}
@@ -237,7 +237,7 @@ export const BLOCKS = [
         opcode: 'reverse',
         blockType: BlockType.REPORTER,
         level: LEVEL.STANDARD,
-        text: 'reverse [PATTERN]',
+        text: 'rev [PATTERN]',
         arguments: {
             PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'}
         }
@@ -246,7 +246,7 @@ export const BLOCKS = [
         opcode: 'ply',
         blockType: BlockType.REPORTER,
         level: LEVEL.STANDARD,
-        text: 'play each of [PATTERN] [TIMES] times',
+        text: 'ply [TIMES] [PATTERN]',
         arguments: {
             PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'bd'},
             TIMES: {type: ArgumentType.NUMBER, defaultValue: 2}
@@ -268,7 +268,7 @@ export const BLOCKS = [
         opcode: 'wave',
         blockType: BlockType.REPORTER,
         level: LEVEL.MASTER,
-        text: 'wave [SHAPE] from [MIN] to [MAX] in [CYCLES] cycles',
+        text: '[SHAPE] range [MIN] [MAX] slow [CYCLES]',
         arguments: {
             SHAPE: {type: ArgumentType.STRING, menu: 'shape', defaultValue: 'sine'},
             MIN: {type: ArgumentType.NUMBER, defaultValue: 200},
@@ -280,7 +280,7 @@ export const BLOCKS = [
         opcode: 'randomSteps',
         blockType: BlockType.REPORTER,
         level: LEVEL.MASTER,
-        text: 'random numbers from [MIN] to [MAX], [STEPS] in a cycle, pick [SEED] length [LENGTH]',
+        text: 'irand [MIN] .. [MAX] seg [STEPS] rib [SEED] [LENGTH]',
         arguments: {
             MIN: {type: ArgumentType.NUMBER, defaultValue: 0},
             MAX: {type: ArgumentType.NUMBER, defaultValue: 7},
@@ -293,7 +293,7 @@ export const BLOCKS = [
         opcode: 'degrade',
         blockType: BlockType.REPORTER,
         level: LEVEL.MASTER,
-        text: 'rest [PATTERN] by chance [PERCENT] %',
+        text: 'degradeBy [PERCENT] % [PATTERN]',
         arguments: {
             PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'hh'},
             PERCENT: {type: ArgumentType.NUMBER, defaultValue: 50}
@@ -313,7 +313,7 @@ export const BLOCKS = [
         opcode: 'euclid',
         blockType: BlockType.REPORTER,
         level: LEVEL.MASTER,
-        text: 'spread [PULSES] of [PATTERN] over [STEPS] steps',
+        text: 'euclid [PULSES] [STEPS] [PATTERN]',
         arguments: {
             PULSES: {type: ArgumentType.NUMBER, defaultValue: 3},
             PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'bd'},
@@ -355,7 +355,7 @@ export const BLOCKS = [
         opcode: 'acid',
         blockType: BlockType.REPORTER,
         level: LEVEL.MASTER,
-        text: 'make [PATTERN] acid, filter [AMOUNT]',
+        text: 'acidenv [AMOUNT] [PATTERN]',
         arguments: {
             PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'},
             AMOUNT: {type: ArgumentType.NUMBER, defaultValue: 0.5}
@@ -365,7 +365,7 @@ export const BLOCKS = [
         opcode: 'trancegate',
         blockType: BlockType.REPORTER,
         level: LEVEL.MASTER,
-        text: 'trance gate [PATTERN] density [DENSITY] rhythm [SEED] length [LENGTH]',
+        text: 'trancegate [DENSITY] [SEED] [LENGTH] [PATTERN]',
         arguments: {
             PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'},
             DENSITY: {type: ArgumentType.NUMBER, defaultValue: 0.5},
@@ -377,6 +377,8 @@ export const BLOCKS = [
         opcode: 'duck',
         blockType: BlockType.REPORTER,
         level: LEVEL.MASTER,
+        // replaced by the duck effects, kept so that saved projects still play
+        hidden: true,
         text: 'duck the other tracks on each sound of [PATTERN] depth [DEPTH]',
         arguments: {
             PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'bd'},
@@ -387,7 +389,7 @@ export const BLOCKS = [
         opcode: 'chop',
         blockType: BlockType.REPORTER,
         level: LEVEL.MASTER,
-        text: 'cut each sound of [PATTERN] into [PIECES]',
+        text: 'chop [PIECES] [PATTERN]',
         arguments: {
             PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'bd'},
             PIECES: {type: ArgumentType.NUMBER, defaultValue: 4}
@@ -397,7 +399,7 @@ export const BLOCKS = [
         opcode: 'transpose',
         blockType: BlockType.REPORTER,
         level: LEVEL.MASTER,
-        text: 'move [PATTERN] up [SEMITONES] semitones',
+        text: 'transpose [SEMITONES] [PATTERN]',
         arguments: {
             PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'},
             SEMITONES: {type: ArgumentType.NUMBER, defaultValue: 7}
@@ -417,7 +419,7 @@ export const BLOCKS = [
         opcode: 'arp',
         blockType: BlockType.REPORTER,
         level: LEVEL.MASTER,
-        text: 'play the notes of [PATTERN] one by one in order [ORDER]',
+        text: 'arp [ORDER] [PATTERN]',
         arguments: {
             PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'},
             ORDER: {type: ArgumentType.STRING, defaultValue: '0 1 2 1'}
@@ -494,33 +496,33 @@ export const BLOCKS = [
 ];
 
 const DRUM_ITEMS = [
-    ['bd', 'bass drum'],
-    ['sd', 'snare'],
-    ['hh', 'hi-hat'],
-    ['oh', 'open hi-hat'],
-    ['cp', 'clap'],
+    ['bd', 'bd'],
+    ['sd', 'sd'],
+    ['hh', 'hh'],
+    ['oh', 'oh'],
+    ['cp', 'cp'],
     ['rim', 'rim'],
-    ['lt', 'low tom'],
-    ['mt', 'mid tom'],
-    ['ht', 'high tom'],
-    ['cr', 'crash'],
-    ['sbd', 'synth kick']
+    ['lt', 'lt'],
+    ['mt', 'mt'],
+    ['ht', 'ht'],
+    ['cr', 'cr'],
+    ['sbd', 'sbd']
 ];
 
 const NOTE_ITEMS = [
-    ['c4', 'C'],
-    ['d4', 'D'],
-    ['e4', 'E'],
-    ['f4', 'F'],
-    ['g4', 'G'],
-    ['a4', 'A'],
-    ['b4', 'B'],
-    ['c5', 'high C']
+    ['c4', 'c4'],
+    ['d4', 'd4'],
+    ['e4', 'e4'],
+    ['f4', 'f4'],
+    ['g4', 'g4'],
+    ['a4', 'a4'],
+    ['b4', 'b4'],
+    ['c5', 'c5']
 ];
 
 const REST_ITEMS = [
-    ['~', 'rest'],
-    ['white', 'noise']
+    ['~', '~'],
+    ['white', 'white']
 ];
 
 const SYNTH_ITEMS = [
@@ -538,13 +540,13 @@ const LEVEL_ITEMS = [
 ];
 
 const ROOT_ITEMS = [
-    ['C4', 'C'],
-    ['D4', 'D'],
-    ['E4', 'E'],
-    ['F4', 'F'],
-    ['G4', 'G'],
-    ['A3', 'A'],
-    ['B3', 'B']
+    ['C4', 'C4'],
+    ['D4', 'D4'],
+    ['E4', 'E4'],
+    ['F4', 'F4'],
+    ['G4', 'G4'],
+    ['A3', 'A3'],
+    ['B3', 'B3']
 ];
 
 /** Scale names of Strudel. Spaces in tonal names are written with colons. */
@@ -557,8 +559,8 @@ const LIST_HOW_ITEMS = [
 const SCALE_ITEMS = [
     ['major', 'major'],
     ['minor', 'minor'],
-    ['major:pentatonic', 'major pentatonic'],
-    ['minor:pentatonic', 'minor pentatonic'],
+    ['major:pentatonic', 'major:pentatonic'],
+    ['minor:pentatonic', 'minor:pentatonic'],
     ['blues', 'blues'],
     ['dorian', 'dorian'],
     ['chromatic', 'chromatic']
@@ -590,35 +592,44 @@ export const EFFECTS = {
     spread: [0, 1],
     distort: [0, 10],
     fm: [0, 8],
-    vowel: null
+    vowel: null,
+    orbit: [1, 8],
+    // orbits to duck, such as 2 or 2:3:4
+    duck: null,
+    duckattack: [0.002, 2],
+    duckdepth: [0, 1]
 };
 
 const EFFECT_ITEMS = [
-    ['lpf', 'muffle (lpf)'],
-    ['hpf', 'thin (hpf)'],
-    ['room', 'echo in a room (room)'],
+    ['lpf', 'lpf'],
+    ['hpf', 'hpf'],
+    ['room', 'room'],
     ['delay', 'delay'],
-    ['gain', 'volume (gain)'],
-    ['pan', 'left-right (pan)'],
+    ['gain', 'gain'],
+    ['pan', 'pan'],
     ['crush', 'crush'],
     ['speed', 'speed'],
-    ['attack', 'fade in (attack)'],
-    ['release', 'fade out (release)'],
-    ['clip', 'length (clip)'],
+    ['attack', 'attack'],
+    ['release', 'release'],
+    ['clip', 'clip'],
     ['decay', 'decay'],
     ['sustain', 'sustain'],
-    ['delaytime', 'delay time'],
-    ['delayfeedback', 'delay feedback'],
-    ['lpq', 'filter resonance (lpq)'],
-    ['lpenv', 'filter movement (lpenv)'],
-    ['lpd', 'filter decay (lpd)'],
-    ['lps', 'filter sustain (lps)'],
-    ['unison', 'thickness (unison)'],
+    ['delaytime', 'delaytime'],
+    ['delayfeedback', 'delayfeedback'],
+    ['lpq', 'lpq'],
+    ['lpenv', 'lpenv'],
+    ['lpd', 'lpd'],
+    ['lps', 'lps'],
+    ['unison', 'unison'],
     ['detune', 'detune'],
-    ['spread', 'stereo spread (spread)'],
-    ['distort', 'distortion (distort)'],
-    ['fm', 'metallic (fm)'],
-    ['vowel', 'vowel']
+    ['spread', 'spread'],
+    ['distort', 'distort'],
+    ['fm', 'fm'],
+    ['vowel', 'vowel'],
+    ['orbit', 'orbit'],
+    ['duck', 'duck'],
+    ['duckattack', 'duckattack'],
+    ['duckdepth', 'duckdepth']
 ];
 
 const BANK_ITEMS = [
@@ -653,12 +664,12 @@ const TRANSFORM_ITEMS = [
 ];
 
 const SHAPE_ITEMS = [
-    ['sine', 'smooth wave (sine)'],
-    ['saw', 'rising (saw)'],
-    ['square', 'on and off (square)'],
-    ['tri', 'up and down (tri)'],
-    ['rand', 'random (rand)'],
-    ['perlin', 'smooth random (perlin)']
+    ['sine', 'sine'],
+    ['saw', 'saw'],
+    ['square', 'square'],
+    ['tri', 'tri'],
+    ['rand', 'rand'],
+    ['perlin', 'perlin']
 ];
 
 const OFF_TIME_ITEMS = [
@@ -688,10 +699,10 @@ const CHORD_ITEMS = [
 ];
 
 const VIZ_ITEMS = [
-    ['scope', 'oscilloscope'],
-    ['pianoroll', 'piano roll'],
+    ['scope', 'scope'],
+    ['pianoroll', 'pianoroll'],
     ['spectrum', 'spectrum'],
-    ['punchcard', 'punch card']
+    ['punchcard', 'punchcard']
 ];
 
 const LAYER_ITEMS = [
