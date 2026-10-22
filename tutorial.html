@@ -223,7 +223,7 @@ footer a { color: inherit; }
         <figure><img src="tutorial/step1-1.png?v=e7c82986" width="291" height="106" alt="みどりの旗が押されたとき、バスドラムをトラック1で鳴らす" loading="lazy"></figure>
         <p>「<b>〜をトラック〜で鳴らす</b>」が いちばん 大事な ブロック。みどりの はたを おすと、バスドラムが「ドン、ドン…」と ずっと くりかえし 鳴るよ。止めるときは 赤い ボタン。</p>
         <p>▼ を おすと、ほかの 音を えらべるよ。ドラムの 音と、ドレミの 音と「休み」が あるよ。</p>
-        <figure><img src="tutorial/menu-sound.png?v=4c52e490" width="325" height="383" alt="音をえらぶメニュー。バスドラム、スネア、ハイハットなど" loading="lazy"></figure>
+        <figure><img src="tutorial/menu-sound.png?v=1929412c" width="325" height="383" alt="音をえらぶメニュー。バスドラム、スネア、ハイハットなど" loading="lazy"></figure>
         <div class="try">
             <strong>やってみよう</strong>
             <ul>
@@ -651,11 +651,11 @@ s("[bd [~ bd] ~ ~], [~ ~ sd ~], [hh*8]")</code></pre>
   .arp("0 1 2 3 2 1 2 3").s("square").clip(.3).delay(.4)</code></pre>
 
         <h3>5. 分厚い リード</h3>
-        <figure class="wide"><img src="tutorial/step13-6.png?v=30b4b03a" width="1927" height="133" alt="5キーで、音階のメロディを分厚いギザギザ音で、1オクターブ上を重ね、厚み7、ひびき.8でトラック リードで鳴らす" loading="lazy"></figure>
+        <figure class="wide"><img src="tutorial/step13-6.png?v=8428033e" width="1927" height="133" alt="5キーで、音階のメロディを分厚いギザギザ音で、superimpose transpose 12 で1オクターブ上を重ね、厚み7、ひびき.8でトラック リードで鳴らす" loading="lazy"></figure>
         <p>メロディを 目立たせる わざが 3つ 入っているよ。</p>
         <ul>
             <li><b>厚み(unison)7</b>:ギザギザ音を 7本、少しずつ 音の 高さを ずらして 重ねる。人が 大ぜいで 歌うと 声が 太く 聞こえるのと 同じ しくみ。</li>
-            <li><b>1オクターブ上を 重ねる</b>:同じ メロディを 高い 音でも 鳴らして、きらっと させる。</li>
+            <li><b>superimpose(重ねる)transpose 12(1オクターブ 上げる)</b>:同じ メロディを 1オクターブ 高い 音でも 鳴らして、きらっと させる。▼の 中身(transpose 12)を、元の メロディに 重ねる 関数だよ。</li>
             <li><b>大きな ひびき</b>:遠くまで 広がる 感じを 出す。</li>
         </ul>
         <p class="label">Strudel では</p><pre><code>n("&lt;[7 ~ 9 11] [12 11 ~ 9] [11 ~ 9 7] [8 ~ 9 6]&gt;*2").scale("A3:minor")

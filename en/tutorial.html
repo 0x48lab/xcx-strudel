@@ -217,7 +217,7 @@ footer a { color: inherit; }
         <figure><img src="../tutorial/en/step1-1.png?v=08b9984f" width="255" height="106" alt="When the green flag is clicked, play bass drum on track 1" loading="lazy"></figure>
         <p>"<b>play [ ] on track [ ]</b>" is the most important block. Click the green flag, and the bass drum plays "boom, boom..." again and again. Click the red button to stop.</p>
         <p>Click ▼ to choose another sound: drums, the notes C to high C, and "rest".</p>
-        <figure><img src="../tutorial/en/menu-sound.png?v=6e6a928f" width="255" height="383" alt="The menu of sounds: bass drum, snare, hi-hat and more" loading="lazy"></figure>
+        <figure><img src="../tutorial/en/menu-sound.png?v=8511836a" width="255" height="383" alt="The menu of sounds: bass drum, snare, hi-hat and more" loading="lazy"></figure>
         <div class="try"><strong>Try it</strong><ul><li>Change it to snare or clap. You can change it while it plays.</li><li>What does "C" sound like?</li></ul></div>
         <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step1.sb3" target="_blank" rel="noopener">Open this step</a></div>
     </section>
@@ -569,11 +569,11 @@ s("[bd [~ bd] ~ ~], [~ ~ sd ~], [hh*8]")</code></pre>
   .arp("0 1 2 3 2 1 2 3").s("square").clip(.3).delay(.4)</code></pre>
 
         <h3>5. Thick lead</h3>
-        <figure class="wide"><img src="../tutorial/en/step13-6.png?v=40fe6c74" width="1683" height="133" alt="Key 5 plays the scale steps of list lead with supersaw, an octave higher on top, thickness 7 and room .8" loading="lazy"></figure>
+        <figure class="wide"><img src="../tutorial/en/step13-6.png?v=74ea7521" width="1683" height="133" alt="Key 5 plays the scale steps of list lead with supersaw, superimpose transpose 12 (an octave higher on top), thickness 7 and room .8" loading="lazy"></figure>
         <p>Three tricks make the melody stand out.</p>
         <ul>
             <li><b>thickness (unison) 7</b>: seven sawtooth waves, each a little off in pitch. Like a choir, many voices sound thick.</li>
-            <li><b>an octave higher on top</b>: the same melody also plays higher, so it shines.</li>
+            <li><b>superimpose transpose 12</b>: the same melody also plays an octave (12 semitones) higher, so it shines. superimpose puts what the function in ▼ makes (transpose 12) on top of the melody.</li>
             <li><b>a big room</b>: it spreads far.</li>
         </ul>
         <p class="label">In Strudel</p><pre><code>n("&lt;[7 ~ 9 11] [12 11 ~ 9] [11 ~ 9 7] [8 ~ 9 6]&gt;*2").scale("A3:minor")

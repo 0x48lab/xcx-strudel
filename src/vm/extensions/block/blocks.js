@@ -256,7 +256,7 @@ export const BLOCKS = [
         opcode: 'every',
         blockType: BlockType.REPORTER,
         level: LEVEL.STANDARD,
-        text: 'once in [CYCLES] cycles [TRANSFORM] [PATTERN]',
+        text: 'every [CYCLES] [TRANSFORM] [PATTERN]',
         arguments: {
             CYCLES: {type: ArgumentType.NUMBER, defaultValue: 4},
             TRANSFORM: {type: ArgumentType.STRING, menu: 'transform', defaultValue: 'rev'},
@@ -324,7 +324,7 @@ export const BLOCKS = [
         opcode: 'jux',
         blockType: BlockType.REPORTER,
         level: LEVEL.MASTER,
-        text: 'split [PATTERN] left and right, and [TRANSFORM] the right',
+        text: 'jux [TRANSFORM] [PATTERN]',
         arguments: {
             PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'},
             TRANSFORM: {type: ArgumentType.STRING, menu: 'transform', defaultValue: 'rev'}
@@ -334,7 +334,7 @@ export const BLOCKS = [
         opcode: 'off',
         blockType: BlockType.REPORTER,
         level: LEVEL.MASTER,
-        text: 'add [PATTERN] [TRANSFORM] [TIME] later',
+        text: 'off [TIME] [TRANSFORM] [PATTERN]',
         arguments: {
             PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'},
             TRANSFORM: {type: ArgumentType.STRING, menu: 'transform', defaultValue: 'up12'},
@@ -345,7 +345,7 @@ export const BLOCKS = [
         opcode: 'superimpose',
         blockType: BlockType.REPORTER,
         level: LEVEL.MASTER,
-        text: 'add [PATTERN] [TRANSFORM] on top',
+        text: 'superimpose [TRANSFORM] [PATTERN]',
         arguments: {
             PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'},
             TRANSFORM: {type: ArgumentType.STRING, menu: 'transform', defaultValue: 'up12'}
@@ -644,12 +644,12 @@ export const TRANSFORMS = {
 };
 
 const TRANSFORM_ITEMS = [
-    ['rev', 'reverse'],
-    ['fast', 'twice as fast'],
-    ['slow', 'half as fast'],
-    ['ply', 'double each'],
-    ['up12', 'an octave higher'],
-    ['up7', 'a fifth higher']
+    ['rev', 'rev'],
+    ['fast', 'fast 2'],
+    ['slow', 'slow 2'],
+    ['ply', 'ply 2'],
+    ['up12', 'transpose 12'],
+    ['up7', 'transpose 7']
 ];
 
 const SHAPE_ITEMS = [
