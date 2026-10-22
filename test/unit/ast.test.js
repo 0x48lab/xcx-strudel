@@ -4,12 +4,15 @@ import * as tonal from '@strudel/tonal';
 import {evaluate} from '@strudel/transpiler';
 import {FILL_GAPS_CODE, fillGaps} from '../../src/core/fill.js';
 import {
+    asSteps,
     callNode,
     classify,
     compile,
+    controlOf,
     isNode,
     methodNode,
     miniNode,
+    randomNode,
     signalArg,
     silenceNode,
     toCode,
@@ -549,5 +552,58 @@ describe('ducking, noise and thickness of a sound', () => {
         ['spread', [3]]
     ])('%s %j is rejected', (fn, args) => {
         expect(() => compile(methodNode(miniNode('bd', 's'), fn, args))).toThrow();
+    });
+});
+
+describe('random steps, distortion and fm', () => {
+    test.each([
+        ['random steps in a scale', methodNode(randomNode(-7, 2, 16, 46, 1), 'scale', ['C3:minor'])],
+        ['random steps which repeat 2 cycles', randomNode(0, 7, 8, 3, 2)],
+        ['distortion', methodNode(methodNode(methodNode(miniNode('c2', 'note'), 's', ['sawtooth']), 'distort', [2.2]), 'distortvol', [0.3])],
+        ['fm', methodNode(methodNode(miniNode('c2', 'note'), 's', ['supersaw']), 'fm', ['<2 4>'])]
+    ])('%s', async (_, n) => {
+        await expectSameAsStrudel(n);
+    });
+
+    test('random steps are written as Strudel code', () => {
+        expect(toCode(randomNode(-7, 2, 16, 46, 1))).toBe('n(irand(10).add(-7).seg(16).rib(46, 1))');
+    });
+
+    test('random steps repeat from the seed', () => {
+        const steps = cycle => compile(randomNode(-7, 2, 16, 46, 1)).queryArc(cycle, cycle + 1).map(hap => hap.value.n);
+        expect(steps(0)).toHaveLength(16);
+        expect(steps(0).every(x => Number.isInteger(x) && x >= -7 && x <= 2)).toBe(true);
+        expect(steps(5)).toEqual(steps(0));
+    });
+
+    test('random steps are steps of a scale and have the control n', () => {
+        const n = randomNode(0, 7, 4, 0, 1);
+        expect(controlOf(n)).toBe('n');
+        expect(asSteps(n)).toBe(n);
+    });
+
+    test('random steps are revived from JSON', () => {
+        const n = toNode(JSON.parse(JSON.stringify(randomNode(-7, 2, 16, 46, 1))));
+        expect(toCode(n)).toBe('n(irand(10).add(-7).seg(16).rib(46, 1))');
+    });
+
+    test.each([
+        [randomNode(3, 2, 16, 0, 1)],
+        [randomNode(0, 99, 16, 0, 1)],
+        [randomNode(0, 7, 0, 0, 1)],
+        [randomNode(0, 7, 999, 0, 1)],
+        [randomNode(0, 7, 16, 0.5, 1)],
+        [randomNode(0, 7, 16, 0, 99)]
+    ])('bad random steps %j are rejected', n => {
+        expect(() => compile(n)).toThrow();
+        expect(String(n)).toBe('(broken pattern)');
+    });
+
+    test.each([
+        ['distort', [99]],
+        ['distortvol', [2]],
+        ['fm', [20]]
+    ])('%s %j is rejected', (fn, args) => {
+        expect(() => compile(methodNode(miniNode('c2', 'note'), fn, args))).toThrow();
     });
 });

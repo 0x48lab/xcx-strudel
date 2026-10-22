@@ -1,4 +1,6 @@
-import {cat, n as nControl, note, perlin, rand, s, saw, seq, silence, sine, square, stack, tri} from '@strudel/core';
+import {
+    cat, irand, n as nControl, note, perlin, rand, s, saw, seq, silence, sine, square, stack, tri
+} from '@strudel/core';
 import {mini, mini2ast} from '@strudel/mini';
 // registers Pattern.prototype.scale and transpose
 import '@strudel/tonal';
@@ -11,6 +13,7 @@ import {fillGaps} from './fill.js';
  * Node shapes:
  *   {type: 'mini', code, control?}   mini-notation leaf. control is 's', 'note' or 'n'.
  *   {type: 'silence'}
+ *   {type: 'random', min, max, steps, seed, length}   random steps (n) which repeat
  *   {type: 'call', fn, args}         top level function such as seq or stack
  *   {type: 'method', target, fn, args} method chain such as .fast(2)
  *
@@ -108,6 +111,9 @@ const METHODS = {
     detune: [value(0, 2)],
     unison: [value(1, 8)],
     spread: [value(0, 1)],
+    distort: [value(0, 10)],
+    distortvol: [number(0, 1)],
+    fm: [value(0, 8)],
     // the duck block plays on orbit 2 and ducks orbit 1, so no other orbit can be made
     orbit: [integer(1, 2)],
     duckorbit: [integer(1, 2)],
@@ -188,6 +194,8 @@ export const controlOf = n => {
     case 'method':
         // scale turns steps into notes
         return n.fn === 'scale' ? 'note' : controlOf(n.target);
+    case 'random':
+        return 'n';
     default:
         return null;
     }
@@ -212,6 +220,31 @@ export const miniNode = (code, control) => node({type: 'mini', code: String(code
 
 /** @returns {object} - silence node */
 export const silenceNode = () => node({type: 'silence'});
+
+/**
+ * Random steps, such as `n(irand(10).add(-7).seg(16).rib(46, 1))`.
+ * @param {number} min - lowest step
+ * @param {number} max - highest step
+ * @param {number} steps - steps in a cycle
+ * @param {number} seed - cycle of random numbers to use
+ * @param {number} length - cycles to repeat
+ * @returns {object} - random node
+ */
+export const randomNode = (min, max, steps, seed, length) => node({type: 'random', min, max, steps, seed, length});
+
+/**
+ * Check the numbers of a random node.
+ * @param {object} n - random node
+ * @returns {object} - the node
+ */
+const checkRandom = n => {
+    const ok = (x, min, max) => Number.isInteger(x) && x >= min && x <= max;
+    if (!ok(n.min, -48, 48) || !ok(n.max, n.min, 48) || !ok(n.steps, 1, LIMIT.MODIFIER) ||
+        !ok(n.seed, 0, 1000) || !ok(n.length, 1, 16)) {
+        throw new Error('bad numbers for random steps');
+    }
+    return n;
+};
 
 const isTransform = a => !!a && typeof a === 'object' && typeof a.fn === 'string' && Array.isArray(a.args) &&
     a.args.every(x => typeof x === 'number' || typeof x === 'string');
@@ -250,6 +283,8 @@ const revive = (v, depth = 0) => {
         return miniNode(v.code, v.control);
     case 'silence':
         return silenceNode();
+    case 'random':
+        return randomNode(v.min, v.max, v.steps, v.seed, v.length);
     case 'call': {
         if (typeof v.fn !== 'string' || !Array.isArray(v.args)) return null;
         const args = v.args.map(a => revive(a, depth + 1));
@@ -428,6 +463,10 @@ export const toCode = n => {
     }
     case 'silence':
         return 'silence';
+    case 'random': {
+        const {min, max, steps, seed, length} = checkRandom(n);
+        return `n(irand(${max - min + 1}).add(${min}).seg(${steps}).rib(${seed}, ${length}))`;
+    }
     case 'call':
         if (!has(CALLS, n.fn)) throw new Error(`unknown function: ${n.fn}`);
         return `${n.fn}(${n.args.map(toCode).join(', ')})`;
@@ -576,6 +615,8 @@ const estimate = (n, depth = 0) => {
     switch (n.type) {
     case 'mini':
         return miniWeight(n.code);
+    case 'random':
+        return n.steps;
     case 'call':
         return n.args.reduce((sum, a) => sum + estimate(a, depth + 1), 0);
     case 'method': {
@@ -678,6 +719,12 @@ const compileNode = n => {
     }
     case 'silence':
         return silence;
+    case 'random': {
+        const {min, max, steps, seed, length} = checkRandom(n);
+        return nControl(irand(max - min + 1).add(min)
+            .seg(steps)
+            .rib(seed, length));
+    }
     case 'call':
         if (!Object.prototype.hasOwnProperty.call(CALLS, n.fn)) throw new Error(`unknown function: ${n.fn}`);
         return CALLS[n.fn](...n.args.map(compileNode));

@@ -792,6 +792,7 @@ var en$1 = {
 	"strudel.menu.drum.mt": "mid tom",
 	"strudel.menu.drum.ht": "high tom",
 	"strudel.menu.drum.cr": "crash",
+	"strudel.menu.drum.sbd": "synth kick",
 	"strudel.menu.note.c4": "C",
 	"strudel.menu.note.d4": "D",
 	"strudel.menu.note.e4": "E",
@@ -867,6 +868,7 @@ var en$1 = {
 	"strudel.menu.machine.BossDR55": "BossDR55",
 	"strudel.menu.sound.~": "rest",
 	"strudel.wave": "wave [SHAPE] from [MIN] to [MAX] in [CYCLES] cycles",
+	"strudel.randomSteps": "random numbers from [MIN] to [MAX], [STEPS] in a cycle, pick [SEED] length [LENGTH]",
 	"strudel.degrade": "rest [PATTERN] by chance [PERCENT] %",
 	"strudel.sometimes": "sometimes [TRANSFORM] [PATTERN]",
 	"strudel.euclid": "spread [PULSES] of [PATTERN] over [STEPS] steps",
@@ -917,6 +919,8 @@ var en$1 = {
 	"strudel.menu.effect.unison": "thickness (unison)",
 	"strudel.menu.effect.detune": "detune",
 	"strudel.menu.effect.spread": "stereo spread (spread)",
+	"strudel.menu.effect.distort": "distortion (distort)",
+	"strudel.menu.effect.fm": "metallic (fm)",
 	"strudel.listMini": "items of list [LISTNAME] [HOW]",
 	"strudel.rhythm": "play [PATTERN] in rhythm [RHYTHM]",
 	"strudel.menu.listHow.cycle": "one in each cycle",
@@ -951,6 +955,7 @@ var ja$1 = {
 	"strudel.menu.drum.mt": "ミドルタム",
 	"strudel.menu.drum.ht": "ハイタム",
 	"strudel.menu.drum.cr": "シンバル",
+	"strudel.menu.drum.sbd": "シンセキック",
 	"strudel.menu.note.c4": "ド",
 	"strudel.menu.note.d4": "レ",
 	"strudel.menu.note.e4": "ミ",
@@ -1026,6 +1031,7 @@ var ja$1 = {
 	"strudel.menu.machine.BossDR55": "BossDR55",
 	"strudel.menu.sound.~": "休み",
 	"strudel.wave": "ゆれる値 [SHAPE] を [MIN] から [MAX] まで [CYCLES] サイクルで",
+	"strudel.randomSteps": "[MIN] から [MAX] までの でたらめな数を 1サイクルに [STEPS] 個 えらび方 [SEED] 長さ [LENGTH]",
 	"strudel.degrade": "[PATTERN] を [PERCENT] %の確率で休ませる",
 	"strudel.sometimes": "ときどき [TRANSFORM] [PATTERN]",
 	"strudel.euclid": "[PATTERN] を [STEPS] 拍に [PULSES] 回ちらす",
@@ -1076,6 +1082,8 @@ var ja$1 = {
 	"strudel.menu.effect.unison": "厚み (unison)",
 	"strudel.menu.effect.detune": "音のずれ (detune)",
 	"strudel.menu.effect.spread": "左右の広がり (spread)",
+	"strudel.menu.effect.distort": "ひずみ (distort)",
+	"strudel.menu.effect.fm": "金属っぽさ (fm)",
 	"strudel.listMini": "リスト [LISTNAME] の中身を [HOW] ならべる",
 	"strudel.rhythm": "[PATTERN] をリズム [RHYTHM] で刻む",
 	"strudel.menu.listHow.cycle": "1サイクルに1つずつ",
@@ -1113,6 +1121,7 @@ var translations = {
 	"strudel.menu.drum.mt": "まんなかの タム",
 	"strudel.menu.drum.ht": "たかい タム",
 	"strudel.menu.drum.cr": "シンバル",
+	"strudel.menu.drum.sbd": "シンセキック",
 	"strudel.menu.note.c4": "ド",
 	"strudel.menu.note.d4": "レ",
 	"strudel.menu.note.e4": "ミ",
@@ -1188,6 +1197,7 @@ var translations = {
 	"strudel.menu.machine.BossDR55": "BossDR55",
 	"strudel.menu.sound.~": "やすみ",
 	"strudel.wave": "ゆれる あたい [SHAPE] を [MIN] から [MAX] まで [CYCLES] サイクルで",
+	"strudel.randomSteps": "[MIN] から [MAX] までの でたらめな かずを 1サイクルに [STEPS] こ えらびかた [SEED] ながさ [LENGTH]",
 	"strudel.degrade": "[PATTERN] を [PERCENT] %の かくりつで やすませる",
 	"strudel.sometimes": "ときどき [TRANSFORM] [PATTERN]",
 	"strudel.euclid": "[PATTERN] を [STEPS] はくに [PULSES] かい ちらす",
@@ -1238,6 +1248,8 @@ var translations = {
 	"strudel.menu.effect.unison": "あつみ (unison)",
 	"strudel.menu.effect.detune": "おとの ずれ (detune)",
 	"strudel.menu.effect.spread": "さゆうの ひろがり (spread)",
+	"strudel.menu.effect.distort": "ひずみ (distort)",
+	"strudel.menu.effect.fm": "きんぞくっぽさ (fm)",
 	"strudel.listMini": "リスト [LISTNAME] の なかみを [HOW] ならべる",
 	"strudel.rhythm": "[PATTERN] を リズム [RHYTHM] で きざむ",
 	"strudel.menu.listHow.cycle": "1サイクルに 1つずつ",
@@ -5975,7 +5987,7 @@ const K = (t, e = 1, n = 0) => Ef(t + n, e) , Nf = (t) => j$2((e, n) => {
 }; l("shuffle", (t, e) => Be$1(Nf(t), t, e)); l("scramble", (t, e) => Be$1(ze$1(t)._segment(t), t, e)); const Lf = (t, e) => new f((n) => {
   let { randSeed: s, ...r } = n.controls;
   return s = t(s), e.query(n.setControls({ ...r, randSeed: s }));
-}, e._steps); l("seed", (t, e) => Lf(() => t, e)); const W$2 = j$2((t, e) => K(t, 1, e.randSeed)); W$2.toBipolar(); const Oe = (t) => W$2.fmap((e) => e < t); Oe(0.5); const ze$1 = (t) => W$2.fmap((e) => Math.trunc(e * t)), Me$1 = (t, e) => (e = e.map(d), e.length == 0 ? q$2 : t.range(0, e.length).fmap((n) => {
+}, e._steps); l("seed", (t, e) => Lf(() => t, e)); const W$2 = j$2((t, e) => K(t, 1, e.randSeed)); W$2.toBipolar(); const Oe = (t) => W$2.fmap((e) => e < t); Oe(0.5); const ze$1 = (t) => W$2.fmap((e) => Math.trunc(e * t)), yw = (t) => d(t).fmap(ze$1).innerJoin(), Me$1 = (t, e) => (e = e.map(d), e.length == 0 ? q$2 : t.range(0, e.length).fmap((n) => {
   const s = Math.min(Math.max(Math.floor(n), 0), e.length - 1);
   return e[s];
 })), It$1 = (t, e) => Me$1(t, e).outerJoin(), Pe = (t, e) => Me$1(t, e).innerJoin();
@@ -6615,6 +6627,33 @@ var BLOCKS = [{
     }
   }
 }, {
+  opcode: 'randomSteps',
+  blockType: BlockType.REPORTER,
+  level: LEVEL.MASTER,
+  text: 'random numbers from [MIN] to [MAX], [STEPS] in a cycle, pick [SEED] length [LENGTH]',
+  arguments: {
+    MIN: {
+      type: ArgumentType.NUMBER,
+      defaultValue: 0
+    },
+    MAX: {
+      type: ArgumentType.NUMBER,
+      defaultValue: 7
+    },
+    STEPS: {
+      type: ArgumentType.NUMBER,
+      defaultValue: 16
+    },
+    SEED: {
+      type: ArgumentType.NUMBER,
+      defaultValue: 0
+    },
+    LENGTH: {
+      type: ArgumentType.NUMBER,
+      defaultValue: 1
+    }
+  }
+}, {
   opcode: 'degrade',
   blockType: BlockType.REPORTER,
   level: LEVEL.MASTER,
@@ -6913,7 +6952,7 @@ var BLOCKS = [{
     }
   }
 }];
-var DRUM_ITEMS = [['bd', 'bass drum'], ['sd', 'snare'], ['hh', 'hi-hat'], ['oh', 'open hi-hat'], ['cp', 'clap'], ['rim', 'rim'], ['lt', 'low tom'], ['mt', 'mid tom'], ['ht', 'high tom'], ['cr', 'crash']];
+var DRUM_ITEMS = [['bd', 'bass drum'], ['sd', 'snare'], ['hh', 'hi-hat'], ['oh', 'open hi-hat'], ['cp', 'clap'], ['rim', 'rim'], ['lt', 'low tom'], ['mt', 'mid tom'], ['ht', 'high tom'], ['cr', 'crash'], ['sbd', 'synth kick']];
 var NOTE_ITEMS = [['c4', 'C'], ['d4', 'D'], ['e4', 'E'], ['f4', 'F'], ['g4', 'G'], ['a4', 'A'], ['b4', 'B'], ['c5', 'high C']];
 var REST_ITEMS = [['~', 'rest'], ['white', 'noise']];
 var SYNTH_ITEMS = [['sine', 'sine'], ['square', 'square'], ['sawtooth', 'sawtooth'], ['triangle', 'triangle'], ['supersaw', 'supersaw']];
@@ -6948,9 +6987,11 @@ var EFFECTS = {
   unison: [1, 8],
   detune: [0, 2],
   spread: [0, 1],
+  distort: [0, 10],
+  fm: [0, 8],
   vowel: null
 };
-var EFFECT_ITEMS = [['lpf', 'muffle (lpf)'], ['hpf', 'thin (hpf)'], ['room', 'echo in a room (room)'], ['delay', 'delay'], ['gain', 'volume (gain)'], ['pan', 'left-right (pan)'], ['crush', 'crush'], ['speed', 'speed'], ['attack', 'fade in (attack)'], ['release', 'fade out (release)'], ['clip', 'length (clip)'], ['decay', 'decay'], ['sustain', 'sustain'], ['delaytime', 'delay time'], ['delayfeedback', 'delay feedback'], ['lpq', 'filter resonance (lpq)'], ['lpenv', 'filter movement (lpenv)'], ['lpd', 'filter decay (lpd)'], ['lps', 'filter sustain (lps)'], ['unison', 'thickness (unison)'], ['detune', 'detune'], ['spread', 'stereo spread (spread)'], ['vowel', 'vowel']];
+var EFFECT_ITEMS = [['lpf', 'muffle (lpf)'], ['hpf', 'thin (hpf)'], ['room', 'echo in a room (room)'], ['delay', 'delay'], ['gain', 'volume (gain)'], ['pan', 'left-right (pan)'], ['crush', 'crush'], ['speed', 'speed'], ['attack', 'fade in (attack)'], ['release', 'fade out (release)'], ['clip', 'length (clip)'], ['decay', 'decay'], ['sustain', 'sustain'], ['delaytime', 'delay time'], ['delayfeedback', 'delay feedback'], ['lpq', 'filter resonance (lpq)'], ['lpenv', 'filter movement (lpenv)'], ['lpd', 'filter decay (lpd)'], ['lps', 'filter sustain (lps)'], ['unison', 'thickness (unison)'], ['detune', 'detune'], ['spread', 'stereo spread (spread)'], ['distort', 'distortion (distort)'], ['fm', 'metallic (fm)'], ['vowel', 'vowel']];
 var BANK_ITEMS = [['drums', 'drum machines'], ['piano', 'piano'], ['dirt', 'Dirt-Samples (casio, jazz ...)'], ['vcsl', 'VCSL instruments']];
 var MACHINE_ITEMS = ['RolandTR909', 'RolandTR808', 'RolandTR707', 'LinnDrum', 'OberheimDMX', 'KorgMinipops', 'CasioRZ1', 'BossDR55'].map(function (m) {
   return [m, m];
@@ -15537,6 +15578,7 @@ var FILL_GAPS_CODE = "register('fillGaps', (pat) => new Pattern((state) => {\n  
  * Node shapes:
  *   {type: 'mini', code, control?}   mini-notation leaf. control is 's', 'note' or 'n'.
  *   {type: 'silence'}
+ *   {type: 'random', min, max, steps, seed, length}   random steps (n) which repeat
  *   {type: 'call', fn, args}         top level function such as seq or stack
  *   {type: 'method', target, fn, args} method chain such as .fast(2)
  *
@@ -15680,6 +15722,9 @@ var METHODS = {
   detune: [value(0, 2)],
   unison: [value(1, 8)],
   spread: [value(0, 1)],
+  distort: [value(0, 10)],
+  distortvol: [number(0, 1)],
+  fm: [value(0, 8)],
   // the duck block plays on orbit 2 and ducks orbit 1, so no other orbit can be made
   orbit: [integer(1, 2)],
   duckorbit: [integer(1, 2)],
@@ -15786,6 +15831,8 @@ var _controlOf = function controlOf(n) {
     case 'method':
       // scale turns steps into notes
       return n.fn === 'scale' ? 'note' : _controlOf(n.target);
+    case 'random':
+      return 'n';
     default:
       return null;
   }
@@ -15814,6 +15861,41 @@ var silenceNode = function silenceNode() {
   return node({
     type: 'silence'
   });
+};
+
+/**
+ * Random steps, such as `n(irand(10).add(-7).seg(16).rib(46, 1))`.
+ * @param {number} min - lowest step
+ * @param {number} max - highest step
+ * @param {number} steps - steps in a cycle
+ * @param {number} seed - cycle of random numbers to use
+ * @param {number} length - cycles to repeat
+ * @returns {object} - random node
+ */
+var randomNode = function randomNode(min, max, steps, seed, length) {
+  return node({
+    type: 'random',
+    min: min,
+    max: max,
+    steps: steps,
+    seed: seed,
+    length: length
+  });
+};
+
+/**
+ * Check the numbers of a random node.
+ * @param {object} n - random node
+ * @returns {object} - the node
+ */
+var checkRandom = function checkRandom(n) {
+  var ok = function ok(x, min, max) {
+    return Number.isInteger(x) && x >= min && x <= max;
+  };
+  if (!ok(n.min, -48, 48) || !ok(n.max, n.min, 48) || !ok(n.steps, 1, LIMIT.MODIFIER) || !ok(n.seed, 0, 1000) || !ok(n.length, 1, 16)) {
+    throw new Error('bad numbers for random steps');
+  }
+  return n;
 };
 var isTransform = function isTransform(a) {
   return !!a && _typeof$2(a) === 'object' && typeof a.fn === 'string' && Array.isArray(a.args) && a.args.every(function (x) {
@@ -15870,6 +15952,8 @@ var _revive = function revive(v) {
       return miniNode(v.code, v.control);
     case 'silence':
       return silenceNode();
+    case 'random':
+      return randomNode(v.min, v.max, v.steps, v.seed, v.length);
     case 'call':
       {
         if (typeof v.fn !== 'string' || !Array.isArray(v.args)) return null;
@@ -16072,6 +16156,16 @@ var _toCode = function toCode(n) {
       }
     case 'silence':
       return 'silence';
+    case 'random':
+      {
+        var _checkRandom = checkRandom(n),
+          min = _checkRandom.min,
+          max = _checkRandom.max,
+          steps = _checkRandom.steps,
+          seed = _checkRandom.seed,
+          length = _checkRandom.length;
+        return "n(irand(".concat(max - min + 1, ").add(").concat(min, ").seg(").concat(steps, ").rib(").concat(seed, ", ").concat(length, "))");
+      }
     case 'call':
       if (!has(CALLS, n.fn)) throw new Error("unknown function: ".concat(n.fn));
       return "".concat(n.fn, "(").concat(n.args.map(_toCode).join(', '), ")");
@@ -16226,6 +16320,8 @@ var _estimate = function estimate(n) {
   switch (n.type) {
     case 'mini':
       return miniWeight(n.code);
+    case 'random':
+      return n.steps;
     case 'call':
       return n.args.reduce(function (sum, a) {
         return sum + _estimate(a, depth + 1);
@@ -16340,6 +16436,16 @@ var _compileNode = function compileNode(n) {
       }
     case 'silence':
       return q$2;
+    case 'random':
+      {
+        var _checkRandom2 = checkRandom(n),
+          min = _checkRandom2.min,
+          max = _checkRandom2.max,
+          steps = _checkRandom2.steps,
+          seed = _checkRandom2.seed,
+          length = _checkRandom2.length;
+        return Xs(yw(max - min + 1).add(min).seg(steps).rib(seed, length));
+      }
     case 'call':
       if (!Object.prototype.hasOwnProperty.call(CALLS, n.fn)) throw new Error("unknown function: ".concat(n.fn));
       return CALLS[n.fn].apply(CALLS, _toConsumableArray(n.args.map(_compileNode)));
@@ -20123,6 +20229,9 @@ var setupTranslations = function setupTranslations() {
 var EXTENSION_ID = 'strudel';
 var BPM_RANGE = [10, 400];
 
+/** A note in the exported code when no track has been played. */
+var NO_TRACK_COMMENT = '// no track has been played. Click the green flag, then open strudel.cc.';
+
 /**
  * @param {*} value - block argument
  * @param {number} min - minimum
@@ -20216,8 +20325,13 @@ var ExtensionBlocks = /*#__PURE__*/function () {
 
     // expose this instance for other extensions and debugging
     runtime["ext_".concat(EXTENSION_ID)] = this;
+    // the stop sign keeps the code of the tracks, so that it can be opened in strudel.cc after stopping.
+    // the green flag stops all first, then starts, so the code is forgotten at the start.
     runtime.on('PROJECT_STOP_ALL', function () {
-      return _this.stopAll();
+      return _this.stopSound();
+    });
+    runtime.on('PROJECT_START', function () {
+      return _this.forgetTracks();
     });
     runtime.on('PROJECT_LOADED', function () {
       return _this.adjustLevelToProject();
@@ -20416,10 +20530,24 @@ var ExtensionBlocks = /*#__PURE__*/function () {
   }, {
     key: "stopAll",
     value: function stopAll() {
-      this.trackCodes.clear();
-      this.trackFills.clear();
+      this.forgetTracks();
+      this.stopSound();
+    }
+
+    /** Stop the sound of all tracks, keeping their code. */
+  }, {
+    key: "stopSound",
+    value: function stopSound() {
       this.playTokens.clear();
       if (this._engine) this._engine.stopAll();
+    }
+
+    /** Forget the code of all tracks. */
+  }, {
+    key: "forgetTracks",
+    value: function forgetTracks() {
+      this.trackCodes.clear();
+      this.trackFills.clear();
     }
   }, {
     key: "setBpm",
@@ -20659,6 +20787,8 @@ var ExtensionBlocks = /*#__PURE__*/function () {
       var raw = Cast.toString(args.VALUE).trim();
       // a plain number is kept in the range, a pattern such as "<300 2000>" is checked when it plays
       var value = range && /^-?\d+(\.\d+)?$/.test(raw) ? clamp(raw, range[0], range[1]) : raw;
+      // distortion makes a sound much louder, so it is turned down
+      if (fn === 'distort') return methodNode(methodNode(args.PATTERN, fn, [value]), 'distortvol', [0.3]);
       return methodNode(args.PATTERN, fn, [value]);
     }
   }, {
@@ -20694,6 +20824,13 @@ var ExtensionBlocks = /*#__PURE__*/function () {
     value: function wave(args) {
       var shape = Cast.toString(args.SHAPE);
       return signalArg(shape, Cast.toNumber(args.MIN), Cast.toNumber(args.MAX), clamp(args.CYCLES, 0.25, LIMIT.MODIFIER));
+    }
+  }, {
+    key: "randomSteps",
+    value: function randomSteps(args) {
+      var min = Math.round(clamp(args.MIN, -48, 48));
+      var max = Math.round(clamp(args.MAX, -48, 48));
+      return randomNode(Math.min(min, max), Math.max(min, max), Math.round(clamp(args.STEPS, 1, LIMIT.MODIFIER)), Math.round(clamp(args.SEED, 0, 1000)), Math.round(clamp(args.LENGTH, 1, 16)));
     }
   }, {
     key: "degrade",
@@ -20786,6 +20923,7 @@ var ExtensionBlocks = /*#__PURE__*/function () {
           code = _ref8[1];
         lines.push("// track ".concat(commentText(track)), "$: ".concat(code));
       });
+      if (!this.trackCodes.size) lines.push(NO_TRACK_COMMENT);
       if (Array.from(this.trackCodes.keys()).some(function (track) {
         return _this5.trackFills.has(track);
       })) {

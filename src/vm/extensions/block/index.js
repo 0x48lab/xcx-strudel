@@ -11,6 +11,7 @@ import {
     methodNode,
     isNode,
     miniNode,
+    randomNode,
     signalArg,
     silenceNode,
     soundsOf,
@@ -51,6 +52,9 @@ const setupTranslations = () => {
 const EXTENSION_ID = 'strudel';
 
 const BPM_RANGE = [10, 400];
+
+/** A note in the exported code when no track has been played. */
+const NO_TRACK_COMMENT = '// no track has been played. Click the green flag, then open strudel.cc.';
 
 /**
  * @param {*} value - block argument
@@ -181,7 +185,10 @@ class ExtensionBlocks {
 
         // expose this instance for other extensions and debugging
         runtime[`ext_${EXTENSION_ID}`] = this;
-        runtime.on('PROJECT_STOP_ALL', () => this.stopAll());
+        // the stop sign keeps the code of the tracks, so that it can be opened in strudel.cc after stopping.
+        // the green flag stops all first, then starts, so the code is forgotten at the start.
+        runtime.on('PROJECT_STOP_ALL', () => this.stopSound());
+        runtime.on('PROJECT_START', () => this.forgetTracks());
         runtime.on('PROJECT_LOADED', () => this.adjustLevelToProject());
     }
 
@@ -336,10 +343,20 @@ class ExtensionBlocks {
     }
 
     stopAll () {
-        this.trackCodes.clear();
-        this.trackFills.clear();
+        this.forgetTracks();
+        this.stopSound();
+    }
+
+    /** Stop the sound of all tracks, keeping their code. */
+    stopSound () {
         this.playTokens.clear();
         if (this._engine) this._engine.stopAll();
+    }
+
+    /** Forget the code of all tracks. */
+    forgetTracks () {
+        this.trackCodes.clear();
+        this.trackFills.clear();
     }
 
     setBpm (args) {
@@ -537,6 +554,8 @@ class ExtensionBlocks {
         const raw = Cast.toString(args.VALUE).trim();
         // a plain number is kept in the range, a pattern such as "<300 2000>" is checked when it plays
         const value = range && /^-?\d+(\.\d+)?$/.test(raw) ? clamp(raw, range[0], range[1]) : raw;
+        // distortion makes a sound much louder, so it is turned down
+        if (fn === 'distort') return methodNode(methodNode(args.PATTERN, fn, [value]), 'distortvol', [0.3]);
         return methodNode(args.PATTERN, fn, [value]);
     }
 
@@ -565,6 +584,15 @@ class ExtensionBlocks {
         const shape = Cast.toString(args.SHAPE);
         return signalArg(shape, Cast.toNumber(args.MIN), Cast.toNumber(args.MAX),
             clamp(args.CYCLES, 0.25, LIMIT.MODIFIER));
+    }
+
+    randomSteps (args) {
+        const min = Math.round(clamp(args.MIN, -48, 48));
+        const max = Math.round(clamp(args.MAX, -48, 48));
+        return randomNode(Math.min(min, max), Math.max(min, max),
+            Math.round(clamp(args.STEPS, 1, LIMIT.MODIFIER)),
+            Math.round(clamp(args.SEED, 0, 1000)),
+            Math.round(clamp(args.LENGTH, 1, 16)));
     }
 
     degrade (args) {
@@ -633,6 +661,7 @@ class ExtensionBlocks {
             .forEach(([track, code]) => {
                 lines.push(`// track ${commentText(track)}`, `$: ${code}`);
             });
+        if (!this.trackCodes.size) lines.push(NO_TRACK_COMMENT);
         if (Array.from(this.trackCodes.keys()).some(track => this.trackFills.has(track))) {
             // the trance gate block uses this function, which is not in Strudel
             lines.splice(1, 0, '// fillGaps: stretch each sound to the next one (for the trance gate)', FILL_GAPS_CODE);

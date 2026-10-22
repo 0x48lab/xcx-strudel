@@ -386,6 +386,8 @@ describe('P3 blocks', () => {
 });
 
 describe('Strudel code of tracks', () => {
+    const NO_TRACK = '// no track has been played. Click the green flag, then open strudel.cc.';
+
     test('playing tracks are written with setcpm and $:', async () => {
         const ext = new blockClass(makeRuntime());
         ext.engine.play = vi.fn(() => Promise.resolve());
@@ -403,7 +405,22 @@ describe('Strudel code of tracks', () => {
         ext.stopTrack({TRACK: 'drums'});
         expect(ext.strudelCode()).not.toContain('drums');
         ext.stopAll();
-        expect(ext.strudelCode()).toBe('setcpm(30)');
+        expect(ext.strudelCode()).toBe(['setcpm(30)', NO_TRACK].join('\n'));
+    });
+
+    test('the code is kept after the stop sign and forgotten at the green flag', async () => {
+        const runtime = makeRuntime();
+        const ext = new blockClass(runtime);
+        ext.engine.play = vi.fn(() => Promise.resolve());
+        ext.engine.stopAll = vi.fn();
+        await ext.playTrack({PATTERN: 'c4', TRACK: 'melody'});
+        runtime.emit('PROJECT_STOP_ALL');
+        expect(ext.engine.stopAll).toHaveBeenCalled();
+        expect(ext.strudelCode()).toContain('$: note("c4")');
+        // the green flag stops all, then starts
+        runtime.emit('PROJECT_STOP_ALL');
+        runtime.emit('PROJECT_START');
+        expect(ext.strudelCode()).toBe(['setcpm(30)', NO_TRACK].join('\n'));
     });
 
     test('a track which ducks the others is written last', async () => {
@@ -434,7 +451,7 @@ describe('Strudel code of tracks', () => {
     test('a pattern which fails to compile is not written', async () => {
         const ext = new blockClass(makeRuntime());
         await ext.playTrack({PATTERN: 'bd*99999', TRACK: '1'});
-        expect(ext.strudelCode()).toBe('setcpm(30)');
+        expect(ext.strudelCode()).toBe(['setcpm(30)', NO_TRACK].join('\n'));
     });
 
     test('strudel.cc is opened with the code in the hash', async () => {
@@ -485,7 +502,7 @@ describe('exported code can not be injected', () => {
         const ext = new blockClass(makeRuntime());
         ext.engine.play = vi.fn(() => Promise.reject(new Error('no audio')));
         await ext.playTrack({PATTERN: 'bd', TRACK: '1'});
-        expect(ext.strudelCode()).toBe('setcpm(30)');
+        expect(ext.strudelCode()).not.toContain('$:');
     });
 });
 
@@ -537,9 +554,21 @@ describe('ducking, noise and thickness blocks', () => {
         ['effect', {PATTERN: 'c4', EFFECT: 'unison', VALUE: '20'}, 'note("c4").unison(8)'],
         ['effect', {PATTERN: 'c4', EFFECT: 'detune', VALUE: '.4'}, 'note("c4").detune(".4")'],
         ['effect', {PATTERN: 'c4', EFFECT: 'spread', VALUE: '2'}, 'note("c4").spread(1)'],
-        ['repeat', {PATTERN: 'white', TIMES: 16}, 's("white").fast(16)']
+        ['repeat', {PATTERN: 'white', TIMES: 16}, 's("white").fast(16)'],
+        ['effect', {PATTERN: 'c2', EFFECT: 'distort', VALUE: '2.2'}, 'note("c2").distort(2.2).distortvol(0.3)'],
+        ['effect', {PATTERN: 'c2', EFFECT: 'distort', VALUE: '50'}, 'note("c2").distort(10).distortvol(0.3)'],
+        ['effect', {PATTERN: 'c2', EFFECT: 'fm', VALUE: '2'}, 'note("c2").fm(2)'],
+        ['randomSteps', {MIN: -7, MAX: 2, STEPS: 16, SEED: 46, LENGTH: 1}, 'n(irand(10).add(-7).seg(16).rib(46, 1))'],
+        ['randomSteps', {MIN: 5, MAX: -1.4, STEPS: 999, SEED: -3, LENGTH: 0}, 'n(irand(7).add(-1).seg(64).rib(0, 1))'],
+        ['repeat', {PATTERN: 'sbd', TIMES: 4}, 's("sbd").fast(4)']
     ])('%s %j', (opcode, args, code) => {
         expect(String(ext[opcode](args))).toBe(code);
+    });
+
+    test('random steps are steps of the scale block', () => {
+        const steps = ext.randomSteps({MIN: -7, MAX: 2, STEPS: 16, SEED: 46, LENGTH: 1});
+        expect(String(ext.scaleNotes({STEPS: steps, ROOT: 'C4', SCALE: 'minor'})))
+            .toBe('n(irand(10).add(-7).seg(16).rib(46, 1)).scale("C4:minor")');
     });
 
     test('noise is in the sound dropdown', () => {

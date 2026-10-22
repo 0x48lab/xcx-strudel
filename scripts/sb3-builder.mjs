@@ -12,7 +12,7 @@ const JAPANESE = /[\u3040-\u30ff\u3400-\u9fff\uff01-\uff5e]/;
 
 /**
  * Translate the Japanese texts of a project, such as track names, comments and list names.
- * IDs made from names, such as l_<list name>, are translated in the same way.
+ * IDs made from names, such as l_<list name> and v_<variable name>, are translated in the same way.
  * @param {*} value - part of the project
  * @param {object} words - Japanese text to English text
  * @param {Set<string>} missing - Japanese texts which are not in the words
@@ -21,7 +21,7 @@ const JAPANESE = /[\u3040-\u30ff\u3400-\u9fff\uff01-\uff5e]/;
 const translate = (value, words, missing) => {
     if (typeof value === 'string') {
         if (!JAPANESE.test(value)) return value;
-        const prefix = /^[lm]_/.test(value) ? value.slice(0, 2) : '';
+        const prefix = /^[lmv]_/.test(value) ? value.slice(0, 2) : '';
         const text = value.slice(prefix.length);
         if (Object.prototype.hasOwnProperty.call(words, text)) return prefix + words[text];
         missing.add(text);
@@ -51,6 +51,8 @@ export class Blocks {
         this.broadcasts = {};
         /** Lists of the sprite: ID to [name, items]. */
         this.lists = {};
+        /** Variables for all sprites, which are on the stage: ID to [name, value]. */
+        this.variables = {};
         /** Monitors on the stage. */
         this.monitors = [];
         this.count = 0;
@@ -223,6 +225,63 @@ export class Blocks {
     }
 
     /**
+     * A variable for all sprites.
+     * @param {string} name - variable name
+     * @param {number} value - first value
+     * @returns {string} - variable name
+     */
+    variable (name, value) {
+        this.variables[`v_${name}`] = [name, value];
+        return name;
+    }
+
+    /**
+     * Show a variable as a slider on the stage.
+     * @param {string} name - variable name, made by variable()
+     * @param {Array<number>} position - [x, y] on the stage
+     * @param {Array<number>} range - [min, max] of the slider
+     */
+    sliderMonitor (name, [x, y], [min, max]) {
+        const id = `v_${name}`;
+        this.monitors.push({
+            id,
+            mode: 'slider',
+            opcode: 'data_variable',
+            params: {VARIABLE: name},
+            spriteName: null,
+            value: this.variables[id][1],
+            width: 0,
+            height: 0,
+            x,
+            y,
+            visible: true,
+            sliderMin: min,
+            sliderMax: max,
+            isDiscrete: false
+        });
+    }
+
+    /**
+     * @param {string} name - variable name
+     * @returns {string} - block ID of the variable reporter
+     */
+    getVariable (name) {
+        return this.block('data_variable', {fields: {VARIABLE: [name, `v_${name}`]}});
+    }
+
+    /**
+     * @param {string} name - variable name
+     * @param {string} reporter - block ID of the new value
+     * @returns {string} - block ID of "set variable to"
+     */
+    setVariable (name, reporter) {
+        const id = this.block('data_setvariableto', {fields: {VARIABLE: [name, `v_${name}`]}});
+        this.text(id, 'VALUE', '0');
+        this.put(id, 'VALUE', reporter);
+        return id;
+    }
+
+    /**
      * @param {string} name - message name
      * @returns {string} - broadcast ID
      */
@@ -288,7 +347,7 @@ export const writeProject = async (cat, output, agent = 'xcx-strudel') => {
             {
                 isStage: true,
                 name: 'Stage',
-                variables: {},
+                variables: cat.variables,
                 lists: {},
                 broadcasts: cat.broadcasts,
                 blocks: {},

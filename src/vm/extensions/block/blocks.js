@@ -277,6 +277,19 @@ export const BLOCKS = [
         }
     },
     {
+        opcode: 'randomSteps',
+        blockType: BlockType.REPORTER,
+        level: LEVEL.MASTER,
+        text: 'random numbers from [MIN] to [MAX], [STEPS] in a cycle, pick [SEED] length [LENGTH]',
+        arguments: {
+            MIN: {type: ArgumentType.NUMBER, defaultValue: 0},
+            MAX: {type: ArgumentType.NUMBER, defaultValue: 7},
+            STEPS: {type: ArgumentType.NUMBER, defaultValue: 16},
+            SEED: {type: ArgumentType.NUMBER, defaultValue: 0},
+            LENGTH: {type: ArgumentType.NUMBER, defaultValue: 1}
+        }
+    },
+    {
         opcode: 'degrade',
         blockType: BlockType.REPORTER,
         level: LEVEL.MASTER,
@@ -490,7 +503,8 @@ const DRUM_ITEMS = [
     ['lt', 'low tom'],
     ['mt', 'mid tom'],
     ['ht', 'high tom'],
-    ['cr', 'crash']
+    ['cr', 'crash'],
+    ['sbd', 'synth kick']
 ];
 
 const NOTE_ITEMS = [
@@ -574,6 +588,8 @@ export const EFFECTS = {
     unison: [1, 8],
     detune: [0, 2],
     spread: [0, 1],
+    distort: [0, 10],
+    fm: [0, 8],
     vowel: null
 };
 
@@ -600,6 +616,8 @@ const EFFECT_ITEMS = [
     ['unison', 'thickness (unison)'],
     ['detune', 'detune'],
     ['spread', 'stereo spread (spread)'],
+    ['distort', 'distortion (distort)'],
+    ['fm', 'metallic (fm)'],
     ['vowel', 'vowel']
 ];
 

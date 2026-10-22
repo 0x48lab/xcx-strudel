@@ -6,6 +6,7 @@
 export const WORDS = {
     // track, list and message names
     'えんそう': 'play',
+    'さっきのフィルター': 'last filter',
     'こえ': 'voice',
     'アシッド': 'acid',
     'キック': 'kick',
@@ -15,6 +16,7 @@ export const WORDS = {
     'ハイハット': 'hats',
     'パッド': 'pad',
     'ビルドアップ': 'build-up',
+    'フィルター': 'filter',
     'ビート': 'beat',
     'ピアノ': 'piano',
     'ピアノのコード': 'piano chords',
@@ -41,8 +43,18 @@ export const WORDS = {
         'Record your voice in the Sounds tab and choose it with ▼. Try keys 1-5, 0 stops.',
     'スペース・↑・↓ キーで メロディが かわるよ。R キーで ひびきが つくよ。':
         'Space, up and down change the melody. R adds reverb.',
+    'スライダーで ベースの フィルターを うごかそう。':
+        'Move the filter of the bass with the slider.',
 
     // comments
+    ['シンセキックで ほかの トラックを へこませる(ダッキング)アシッド。\nベースは マイナースケールの でたらめな おとを、' +
+        'えらびかた 46 で くりかえすよ。\nSwitch Angel さんの ライブコーディングを さんこうにした、ひこうしきの さくひんです' +
+        '(ほんにんとは かんけいありません)。']:
+        'Acid where the synth kick pushes the other tracks down (ducking).\n' +
+        'The bass repeats random notes of a minor scale, picked by number 46.\n' +
+        'An unofficial work inspired by the live coding of Switch Angel (not related to Switch Angel).',
+    'でたらめな かずを スケールの ばんごうに すると、\nいつも スケールの なかの おとに なるよ。':
+        'Random numbers as steps of a scale\nalways make notes in the scale.',
     'みどりの はたを おすと、ドラムと メロディが なるよ。\n「じゅんばんに」の ▼ で おとを かえてみよう。':
         'Click the green flag to play the drums and the melody.\nChange the sounds with ▼ of "in order".',
     'はくが くるたびに コスチュームを かえて おどるよ。':

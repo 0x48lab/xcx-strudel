@@ -217,6 +217,76 @@ const makeAcidGate = async () => {
     await writeProject(b, out('acidgate'), 'xcx-strudel make-samples');
 };
 
+// ---- acid with ducking: a random bass in a scale, a filter on a slider (master level) ----
+const makeAcidDuck = async () => {
+    const b = new Blocks();
+    const effect = (pattern, name, value) => b.strudel('effect', {
+        // a block ID as the value puts that reporter into the value
+        PATTERN: ['block', pattern], VALUE: [b.blocks[value] ? 'blockOnText' : 'text', value]
+    }, {EFFECT: name});
+    const tone = (pattern, synth) => b.strudel('tone', {PATTERN: ['block', pattern], SYNTH: ['synth', synth]});
+    const transpose = (pattern, semitones) => b.strudel('transpose', {
+        PATTERN: ['block', pattern], SEMITONES: ['number', semitones]
+    });
+    const filter = b.variable('フィルター', 2);
+    const last = b.variable('さっきのフィルター', 2);
+    b.sliderMonitor(filter, [5, 5], [0, 8]);
+
+    const flag = b.block('event_whenflagclicked', {top: [24, 24]});
+    const level = b.strudel('setLevel', {}, {LEVEL: '3'});
+    const tempo = b.strudel('setBpm', {BPM: ['number', 140]});
+    const kick = play(b, 'キック', b.strudel('duck', {
+        PATTERN: ['block', b.strudel('repeat', {PATTERN: ['sound', 'sbd'], TIMES: ['number', 4]})],
+        DEPTH: ['number', 0.8]
+    }));
+    const pad = play(b, 'パッド', effect(effect(effect(tone(transpose(b.strudel('slow', {
+        PATTERN: ['sound', 'c4'], CYCLES: ['number', 2]
+    }), -24), 'supersaw'), 'detune', '1'), 'release', '5'), 'fm', '2'));
+    const scope = b.strudel('showViz', {}, {VIZ: 'scope'});
+    const hint = b.say('スライダーで ベースの フィルターを うごかそう。', 6);
+    b.stack([flag, level, tempo, kick, b.broadcast('ベース'), pad, scope, hint]);
+    b.comment(flag, 'シンセキックで ほかの トラックを へこませる(ダッキング)アシッド。\n' +
+        'ベースは マイナースケールの でたらめな おとを、えらびかた 46 で くりかえすよ。\n' +
+        'Switch Angel さんの ライブコーディングを さんこうにした、ひこうしきの さくひんです' +
+        '(ほんにんとは かんけいありません)。', 1100, 24);
+
+    // the bass is played again with the new filter when the slider moves
+    const bass = play(b, 'ベース', effect(effect(effect(tone(transpose(b.strudel('scaleNotes', {
+        STEPS: ['blockOnText', b.strudel('randomSteps', {
+            MIN: ['number', -7], MAX: ['number', 2], STEPS: ['number', 16], SEED: ['number', 46], LENGTH: ['number', 1]
+        })],
+        ROOT: ['root', 'C4'],
+        SCALE: ['scale', 'minor']
+    }), -12), 'sawtooth'), 'lpf', '200'), 'lpenv', b.getVariable(filter)), 'lpq', '12'));
+    b.stack([b.whenReceive('ベース', [24, 660]), bass]);
+    b.comment(bass, 'でたらめな かずを スケールの ばんごうに すると、\nいつも スケールの なかの おとに なるよ。', 1100, 660);
+
+    const watch = b.block('event_whenflagclicked', {top: [24, 900]});
+    const remember = () => b.setVariable(last, b.getVariable(filter));
+    const same = b.block('operator_equals');
+    b.text(same, 'OPERAND1', '');
+    b.put(same, 'OPERAND1', b.getVariable(filter));
+    b.text(same, 'OPERAND2', '');
+    b.put(same, 'OPERAND2', b.getVariable(last));
+    const changed = b.block('operator_not');
+    b.blocks[changed].inputs.OPERAND = [2, same];
+    b.blocks[same].parent = changed;
+    const ifChanged = b.block('control_if');
+    b.blocks[ifChanged].inputs.CONDITION = [2, changed];
+    b.blocks[changed].parent = ifChanged;
+    const then = [remember(), b.broadcast('ベース')];
+    b.stack(then);
+    b.blocks[ifChanged].inputs.SUBSTACK = [2, then[0]];
+    b.blocks[then[0]].parent = ifChanged;
+    const forever = b.block('control_forever');
+    b.blocks[forever].inputs.SUBSTACK = [2, ifChanged];
+    b.blocks[ifChanged].parent = forever;
+    b.stack([watch, remember(), forever]);
+    danceOnBeat(b, [24, 1320]);
+
+    await writeProject(b, out('acidduck'), 'xcx-strudel make-samples');
+};
+
 // ---- soul pop: jazzy chords on the piano with a shuffle (standard level) ----
 
 const makeSoulPop = async () => {
@@ -269,4 +339,5 @@ await makeMelody();
 await makeTrance();
 await makeAcidGate();
 await makeSoulPop();
-console.log('made projects/melody.sb3, projects/trance.sb3, projects/acidgate.sb3 and projects/soulpop.sb3');
+await makeAcidDuck();
+console.log('made projects/melody.sb3, projects/trance.sb3, projects/acidgate.sb3, projects/soulpop.sb3 and projects/acidduck.sb3');
