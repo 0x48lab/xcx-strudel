@@ -1,6 +1,7 @@
 /**
  * Run the C block "play on track" and the blocks in it without Scratch.
  * A step is [opcode, args], a block in the C block from the top.
+ * A step of a C block in the track is [opcode, args, steps], with the blocks in it.
  */
 
 /**
@@ -33,7 +34,13 @@ export const makeUtil = target => {
  */
 const runBranch = (ext, util, steps) => {
     util.thread.stackFrames.push({executionContext: null});
-    steps.forEach(([opcode, args]) => ext[opcode](args || {}, util));
+    steps.forEach(([opcode, args, inner]) => {
+        ext[opcode](args || {}, util);
+        if (!inner) return;
+        // the C block, its branch, then the C block again
+        runBranch(ext, util, inner);
+        ext[opcode](args || {}, util);
+    });
     util.thread.stackFrames.pop();
 };
 

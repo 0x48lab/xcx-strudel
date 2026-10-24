@@ -195,6 +195,7 @@ main a { color: var(--accent); }
         <ul class="toc">
             <li><a href="#seq">seq</a></li>
             <li><a href="#stack">stack</a></li>
+            <li><a href="#stackBranch">stack (C block)</a></li>
             <li><a href="#cat">cat</a></li>
             <li><a href="#fast">fast</a></li>
             <li><a href="#slow">slow</a></li>
@@ -288,6 +289,13 @@ main a { color: var(--accent); }
             <p>Plays sounds <b>at the same time</b>, stacked up. Use it to play drums and bass together.</p>
             <pre><code>stack(s(&quot;bd&quot;), s(&quot;cr&quot;))</code></pre>
             <p class="history" data-label="Name and history">It means "to pile up" in English. In mini-notation, a <code>,</code> (comma) does the same thing (<code>"bd, cr"</code>).</p>
+        </article>
+        <article class="entry" id="stackBranch">
+            <h3>stack (C block) <span class="badge l2">Normal</span></h3>
+            <p class="blockline">Block: <code>stack</code> (a C block in a track)</p>
+            <p>Plays the blocks in it as <b>another chain</b>, at the same time as the sound above. <code>beat</code> and others in it change only the sound in it. <code>orbit</code> and others below it change all the sounds.</p>
+            <pre><code>stack(s(&quot;bd&quot;).beat(&quot;0,10&quot;, 16), s(&quot;sd&quot;).beat(&quot;4,12&quot;, 16)).orbit(2)</code></pre>
+            <p class="history" data-label="Name and history">One of these blocks is one part between the commas of <code>stack( , )</code> in Strudel. Separate tracks can be stopped one by one; stacked sounds stop together.</p>
         </article>
         <article class="entry" id="cat">
             <h3>cat <span class="badge l1">Beginner</span></h3>

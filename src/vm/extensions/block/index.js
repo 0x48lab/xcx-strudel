@@ -490,6 +490,35 @@ class ExtensionBlocks {
         this.startWith(util, () => callNode('stack', [args.A, args.B]));
     }
 
+    /**
+     * The C block "stack" in a track. The blocks in it build another pattern,
+     * which is stacked on the pattern above, as stack(above, inner) in Strudel.
+     * The branch runs as a loop of one time, as the C block of a track.
+     * @param {object} args - no arguments
+     * @param {object} util - utility of the block
+     */
+    stackBranch (args, util) {
+        const frame = util.stackFrame;
+        if (!frame.strudelTrack) {
+            if (!this.trackOf(util)) return;
+            frame.strudelTrack = {node: null};
+            util.startBranch(1, true);
+            return;
+        }
+        const inner = frame.strudelTrack.node;
+        delete frame.strudelTrack;
+        const track = this.trackOf(util);
+        if (!track || !inner) return;
+        const above = track.node;
+        if (!above) {
+            track.node = inner;
+            return;
+        }
+        // stack(a, b) and a stack below it are written as stack(a, b, c)
+        const layers = above.type === 'call' && above.fn === 'stack' ? above.args : [above];
+        track.node = callNode('stack', [...layers, inner]);
+    }
+
     cat (args, util) {
         this.startWith(util, () => callNode('cat', [args.A, args.B]));
     }

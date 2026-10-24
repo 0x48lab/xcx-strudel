@@ -68,6 +68,36 @@ var entry = {
   translationMap: translations$1
 };
 
+function _arrayLikeToArray(r, a) {
+  (null == a || a > r.length) && (a = r.length);
+  for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
+  return n;
+}
+
+function _arrayWithoutHoles(r) {
+  if (Array.isArray(r)) return _arrayLikeToArray(r);
+}
+
+function _iterableToArray(r) {
+  if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r);
+}
+
+function _unsupportedIterableToArray(r, a) {
+  if (r) {
+    if ("string" == typeof r) return _arrayLikeToArray(r, a);
+    var t = {}.toString.call(r).slice(8, -1);
+    return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0;
+  }
+}
+
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
+function _toConsumableArray(r) {
+  return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread();
+}
+
 function _arrayWithHoles(r) {
   if (Array.isArray(r)) return r;
 }
@@ -97,20 +127,6 @@ function _iterableToArrayLimit(r, l) {
       }
     }
     return a;
-  }
-}
-
-function _arrayLikeToArray(r, a) {
-  (null == a || a > r.length) && (a = r.length);
-  for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
-  return n;
-}
-
-function _unsupportedIterableToArray(r, a) {
-  if (r) {
-    if ("string" == typeof r) return _arrayLikeToArray(r, a);
-    var t = {}.toString.call(r).slice(8, -1);
-    return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0;
   }
 }
 
@@ -922,6 +938,7 @@ var en$1 = {
 	"strudel.n": "n [CODE]",
 	"strudel.seq": "seq [A] [B] [C] [D]",
 	"strudel.stack": "stack [A] [B]",
+	"strudel.stackBranch": "stack",
 	"strudel.cat": "cat [A] [B]",
 	"strudel.fast": "fast [TIMES]",
 	"strudel.scale": "scale [ROOT] [SCALE]",
@@ -1091,6 +1108,7 @@ var ja$1 = {
 	"strudel.n": "n [CODE]",
 	"strudel.seq": "seq [A] [B] [C] [D]",
 	"strudel.stack": "stack [A] [B]",
+	"strudel.stackBranch": "stack で重ねる",
 	"strudel.cat": "cat [A] [B]",
 	"strudel.fast": "fast [TIMES]",
 	"strudel.scale": "scale [ROOT] [SCALE]",
@@ -1263,6 +1281,7 @@ var translations = {
 	"strudel.n": "n [CODE]",
 	"strudel.seq": "seq [A] [B] [C] [D]",
 	"strudel.stack": "stack [A] [B]",
+	"strudel.stackBranch": "stack で かさねる",
 	"strudel.cat": "cat [A] [B]",
 	"strudel.fast": "fast [TIMES]",
 	"strudel.scale": "scale [ROOT] [SCALE]",
@@ -6108,22 +6127,6 @@ Please check with "npm ls @strudel/core".`
 );
 globalThis._strudelLoaded = true;
 
-function _arrayWithoutHoles(r) {
-  if (Array.isArray(r)) return _arrayLikeToArray(r);
-}
-
-function _iterableToArray(r) {
-  if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r);
-}
-
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-function _toConsumableArray(r) {
-  return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread();
-}
-
 /**
  * Types of block
  * @enum {string}
@@ -6244,6 +6247,7 @@ var LEVEL = {
  * Shapes have one role each:
  * - the C block "play on track" is a track, which is a line of Strudel code
  * - command blocks in it are the parts of the method chain, from the top to the bottom
+ * - the C block "stack" in a track is another chain, which plays at the same time as the chain above it
  * - reporter blocks are values, which are put in the inputs
  * A block with `inTrack` works only in the C block.
  * A block with `maxLevel` is hidden above that level, where another block takes its place.
@@ -6435,6 +6439,13 @@ var BLOCKS = [{
       defaultValue: 'cr'
     }
   }
+}, {
+  opcode: 'stackBranch',
+  blockType: BlockType.CONDITIONAL,
+  branchCount: 1,
+  level: LEVEL.STANDARD,
+  inTrack: true,
+  text: 'stack'
 }, {
   opcode: 'cat',
   blockType: BlockType.COMMAND,
@@ -20723,6 +20734,39 @@ var ExtensionBlocks = /*#__PURE__*/function () {
       this.startWith(util, function () {
         return callNode('stack', [args.A, args.B]);
       });
+    }
+
+    /**
+     * The C block "stack" in a track. The blocks in it build another pattern,
+     * which is stacked on the pattern above, as stack(above, inner) in Strudel.
+     * The branch runs as a loop of one time, as the C block of a track.
+     * @param {object} args - no arguments
+     * @param {object} util - utility of the block
+     */
+  }, {
+    key: "stackBranch",
+    value: function stackBranch(args, util) {
+      var frame = util.stackFrame;
+      if (!frame.strudelTrack) {
+        if (!this.trackOf(util)) return;
+        frame.strudelTrack = {
+          node: null
+        };
+        util.startBranch(1, true);
+        return;
+      }
+      var inner = frame.strudelTrack.node;
+      delete frame.strudelTrack;
+      var track = this.trackOf(util);
+      if (!track || !inner) return;
+      var above = track.node;
+      if (!above) {
+        track.node = inner;
+        return;
+      }
+      // stack(a, b) and a stack below it are written as stack(a, b, c)
+      var layers = above.type === 'call' && above.fn === 'stack' ? above.args : [above];
+      track.node = callNode('stack', [].concat(_toConsumableArray(layers), [inner]));
     }
   }, {
     key: "cat",

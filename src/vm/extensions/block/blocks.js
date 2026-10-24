@@ -18,6 +18,7 @@ export const LEVEL = {
  * Shapes have one role each:
  * - the C block "play on track" is a track, which is a line of Strudel code
  * - command blocks in it are the parts of the method chain, from the top to the bottom
+ * - the C block "stack" in a track is another chain, which plays at the same time as the chain above it
  * - reporter blocks are values, which are put in the inputs
  * A block with `inTrack` works only in the C block.
  * A block with `maxLevel` is hidden above that level, where another block takes its place.
@@ -163,6 +164,14 @@ export const BLOCKS = [
             A: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'bd'},
             B: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'cr'}
         }
+    },
+    {
+        opcode: 'stackBranch',
+        blockType: BlockType.CONDITIONAL,
+        branchCount: 1,
+        level: LEVEL.STANDARD,
+        inTrack: true,
+        text: 'stack'
     },
     {
         opcode: 'cat',

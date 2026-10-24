@@ -195,6 +195,7 @@ main a { color: var(--accent); }
         <ul class="toc">
             <li><a href="#seq">seq</a></li>
             <li><a href="#stack">stack</a></li>
+            <li><a href="#stackBranch">stack で重ねる</a></li>
             <li><a href="#cat">cat</a></li>
             <li><a href="#fast">fast</a></li>
             <li><a href="#slow">slow</a></li>
@@ -288,6 +289,13 @@ main a { color: var(--accent); }
             <p>音を <b>同時に</b> かさねて 鳴らす。ドラムと ベースを いっしょに 鳴らすときに つかうよ。</p>
             <pre><code>stack(s(&quot;bd&quot;), s(&quot;cr&quot;))</code></pre>
             <p class="history" data-label="なまえと れきし">英語で「つみかさねる」。ミニ記法では <code>,</code>(カンマ)で 同じ ことが できるよ(<code>"bd, cr"</code>)。</p>
+        </article>
+        <article class="entry" id="stackBranch">
+            <h3>stack で重ねる <span class="badge l2">ノーマル</span></h3>
+            <p class="blockline">ブロック: トラックの 中に <code>stack で重ねる</code>(C型)</p>
+            <p>C型の 中に 積んだ ブロックを <b>べつの 鎖</b>として、上の 音と 同時に 鳴らす。中の <code>beat</code> などは 中の 音だけに かかる。下に 積んだ <code>orbit</code> などは ぜんぶの 音に かかるよ。</p>
+            <pre><code>stack(s(&quot;bd&quot;).beat(&quot;0,10&quot;, 16), s(&quot;sd&quot;).beat(&quot;4,12&quot;, 16)).orbit(2)</code></pre>
+            <p class="history" data-label="なまえと れきし">Strudel の <code>stack( , )</code> の カンマ 1つ分が、このブロック 1つ分。トラックを 分けると 1本ずつ 止められ、stack で 重ねると まとめて 止まるよ。</p>
         </article>
         <article class="entry" id="cat">
             <h3>cat <span class="badge l1">ビギナー</span></h3>

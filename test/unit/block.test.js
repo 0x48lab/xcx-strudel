@@ -239,7 +239,7 @@ describe('the track block', () => {
 
     test('blocks in the track are commands and only values are reporters', () => {
         blockDefs.forEach(b => {
-            if (b.inTrack) expect(b.blockType).toBe('command');
+            if (b.inTrack) expect(b.blockType).toBe(b.opcode === 'stackBranch' ? 'conditional' : 'command');
             if (b.blockType === 'reporter') expect(Object.keys(b.arguments || {})).not.toContain('PATTERN');
         });
         expect(blockDefs.find(b => b.opcode === 'track').blockType).toBe('conditional');
@@ -802,6 +802,56 @@ describe('list and rhythm blocks', () => {
 
     test.each(['0, evil()', 'x ~ x', '0; alert(1)', '0*100'])('beat steps %j are not played', beats => {
         expect(() => compile(build(ext, [['s', {CODE: 'bd'}], ['beat', {BEATS: beats, STEPS: 16}]]))).toThrow();
+    });
+
+    test('stack plays the chain in it with the chain above, and a method below is on all', () => {
+        const n = build(ext, [
+            ['s', {CODE: 'bd:1'}], ['beat', {BEATS: '0,7?,10', STEPS: 16}],
+            ['stackBranch', {}, [['s', {CODE: 'sd:2'}], ['beat', {BEATS: '4,12', STEPS: 16}]]],
+            ['stackBranch', {}, [['s', {CODE: 'hh:4!8'}]]],
+            ['fast', {TIMES: 2}]
+        ]);
+        expect(String(n)).toBe('stack(s("bd:1").beat("0,7?,10", 16), s("sd:2").beat("4,12", 16), ' +
+            's("hh:4!8")).fast(2)');
+        const sounds = compile(n).queryArc(0, 0.5).map(hap => hap.value.s);
+        expect(sounds.filter(x => x === 'sd')).toHaveLength(2);
+        expect(sounds.filter(x => x === 'hh')).toHaveLength(8);
+    });
+
+    test('stack at the top of a track is the chain in it', () => {
+        expect(codeOf(ext, [['stackBranch', {}, [['s', {CODE: 'bd'}]]], ['fast', {TIMES: 2}]])).toBe('s("bd").fast(2)');
+    });
+
+    test('an empty stack does not change the track', () => {
+        expect(codeOf(ext, [['s', {CODE: 'bd'}], ['stackBranch', {}, []]])).toBe('s("bd")');
+    });
+
+    test('a stack below a method keeps the method on the chain above only', () => {
+        expect(codeOf(ext, [['s', {CODE: 'bd'}], ['fast', {TIMES: 2}], ['stackBranch', {}, [['s', {CODE: 'hh'}]]]]))
+            .toBe('stack(s("bd").fast(2), s("hh"))');
+    });
+
+    test('stack in stack is a stack in the inner chain', () => {
+        expect(codeOf(ext, [['s', {CODE: 'bd'}], ['stackBranch', {}, [
+            ['s', {CODE: 'sd'}], ['stackBranch', {}, [['s', {CODE: 'hh'}]]], ['fast', {TIMES: 2}]
+        ]]])).toBe('stack(s("bd"), stack(s("sd"), s("hh")).fast(2))');
+    });
+
+    test('stack outside a track does nothing', () => {
+        const util = makeUtil();
+        ext.stackBranch({}, util);
+        expect(util.branches).toBe(0);
+    });
+
+    test('a track with stacks plays and exports the code', async () => {
+        const ext = new blockClass(makeRuntime());
+        ext.engine.play = vi.fn(() => Promise.resolve());
+        ext.engine.init = vi.fn(() => Promise.resolve());
+        await playTrack(ext, 'drums', [
+            ['s', {CODE: 'bd'}], ['stackBranch', {}, [['s', {CODE: 'sd'}]]]
+        ]);
+        expect(ext.strudelCode()).toContain('$: stack(s("bd"), s("sd"))');
+        expect(ext.engine.play).toHaveBeenCalledTimes(1);
     });
 
     test.each(['x evil()', 'note("a")', 'x; alert(1)'])('a rhythm %j is not played', rhythm => {
