@@ -3,11 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Strudel for Xcratch function dictionary</title>
+<title>Strudel for Xcratch block dictionary</title>
 <link rel="icon" href="../icon.svg" type="image/svg+xml">
 <link rel="alternate" hreflang="ja" href="https://0x48lab.github.io/xcx-strudel/dictionary.html">
 <link rel="alternate" hreflang="en" href="https://0x48lab.github.io/xcx-strudel/en/dictionary.html">
-<meta name="description" content="What the block names of Strudel for Xcratch (Strudel functions) mean, and where the names come from.">
+<meta name="description" content="How to use the blocks of Strudel for Xcratch, and what their names (Strudel functions) mean and where they come from.">
+<!-- made by scripts/make-dictionary-page.mjs from scripts/dictionary-book.mjs: edit them, not this file -->
 <style>
 :root {
     --bg: #f9f9fb;
@@ -157,6 +158,7 @@ pre code { padding: 0; background: none; }
 .wide img { max-width: none; }
 footer { text-align: center; color: var(--muted); font-size: 14px; padding: 0 16px 32px; }
 footer a { color: inherit; }
+
 /* dictionary */
 .toc { display: flex; flex-wrap: wrap; gap: 6px 10px; padding: 0; list-style: none; }
 .toc a { display: inline-block; padding: 2px 8px; border: 1px solid var(--border); border-radius: 999px; text-decoration: none; color: inherit; font-family: ui-monospace, Menlo, monospace; font-size: 14px; }
@@ -171,540 +173,1133 @@ footer a { color: inherit; }
 .history::before { content: attr(data-label); display: block; font-weight: bold; font-size: 13px; color: var(--purple); }
 .entry pre { margin: 6px 0 0; }
 main a { color: var(--accent); }
+
+/* block dictionary */
+.entry h3 { font-family: inherit; }
+.entry h3 .fn { font-family: ui-monospace, Menlo, monospace; font-size: 15px; font-weight: normal; color: var(--muted); }
+.example { display: grid; grid-template-columns: minmax(0, auto) minmax(220px, 1fr); gap: 8px 24px; align-items: start; }
+.example figure { margin: 6px 0 0; overflow-x: auto; }
+.example figure img { max-width: none; }
+@media (max-width: 720px) { .example { grid-template-columns: 1fr; } }
+.entry ul.uses { margin: 4px 0 0; padding-left: 1.4em; }
+.items { margin: 12px 0 0; padding: 4px 16px 12px; border: 1px dashed var(--border); border-radius: 12px; }
+.item { border-top: 1px solid var(--border); padding-top: 8px; margin-top: 10px; scroll-margin-top: 12px; }
+.item:first-of-type { border-top: none; }
+.item h4 { margin: 0 0 4px; font-size: 16px; font-family: ui-monospace, Menlo, monospace; overflow-wrap: anywhere; }
+.item h4 small { font-family: system-ui, sans-serif; font-weight: normal; color: var(--muted); }
+details.history { margin: 8px 0 0; padding: 8px 12px; border-left: 4px solid var(--purple); background: var(--code-bg); border-radius: 0 8px 8px 0; font-size: 15px; }
+details.history::before { content: none; }
+details.history summary { cursor: pointer; font-weight: bold; font-size: 13px; color: var(--purple); }
+details.history p { margin: 6px 0 0; }
 </style>
 </head>
 <body>
 <header>
     <p class="lang"><a href="../dictionary.html" data-keep-hash>日本語</a></p>
     <img src="../icon.svg" alt="" width="64" height="64" style="display:block;margin:0 auto 8px">
-    <h1>Function dictionary</h1>
-    <p>Find out what each block name means and where it comes from.<br><a href="./">Strudel for Xcratch</a> ・ <a href="tutorial.html">Tutorial</a> ・ <a href="rhythms.html">Rhythm book</a></p>
+    <h1>Block dictionary</h1>
+    <p>When do you use this block? How do you use it? Find out here.<br><a href="./">Strudel for Xcratch</a> ・ <a href="tutorial.html">Tutorial</a> ・ <a href="rhythms.html">Rhythm book</a></p>
 </header>
 <main>
     <section class="card" id="about">
-        <p>The names of the blocks and ▼ menus in this extension are all the same as the function and sound names in <a href="https://strudel.cc/" target="_blank" rel="noopener">Strudel</a>. This dictionary tells you <b>what each name does</b> and <b>where the name comes from</b> (a short history).</p>
-        <p>"Block:" shows the block which you put in the "play on track [ ]" block. The blocks in it, from top to bottom, become the steps such as <code>.fast(4)</code> of Strudel.</p>
-<h3>Where do Strudel's names come from?</h3>
-<p>Strudel is based on <b>TidalCycles</b>, a programming language for music. <b>Alex McLean</b> from the UK made it around 2009 in a language called Haskell. People all over the world use it for "<b>live coding</b>": playing music by changing the code while it runs.</p>
-<p>In 2022, <b>Felix Roos</b> and Alex McLean moved the ideas of TidalCycles into JavaScript, so it can play music right in your web browser. That is Strudel. So many names, like <code>fast</code> <code>rev</code> <code>every</code> <code>jux</code>, come from TidalCycles. Counting time in "cycles" also comes from the name Tidal<b>Cycles</b>.</p>
-<p>Sound names (like <code>bd</code> <code>lpf</code> <code>sawtooth</code>) are even older. They come from the history of drum machines and synthesizers.</p>
+        <p>This dictionary shows <b>how to use each block</b>, from the top of the palette down. Build the blocks as in the pictures and try them. "Open all the examples" opens a project with all the examples of the dictionary.</p>
+        <p>The names of the blocks and ▼ menus are the names of the functions and sounds of <a href="https://strudel.cc/" target="_blank" rel="noopener">Strudel</a>. Open "Name and history" to see where each name comes from.</p>
+        <p>The blocks in "play on track [ ]", from top to bottom, become the steps such as <code>.fast(4)</code> of Strudel.</p>
+        <details class="history"><summary>Where do Strudel's names come from?</summary>
+        <p>Strudel is based on <b>TidalCycles</b>, a programming language for music. <b>Alex McLean</b> from the UK made it around 2009 in a language called Haskell. People all over the world use it for "<b>live coding</b>": playing music by changing the code while it runs.</p>
+        <p>In 2022, <b>Felix Roos</b> and Alex McLean moved the ideas of TidalCycles into JavaScript, so it can play music right in your web browser. That is Strudel. So many names, like <code>fast</code> <code>rev</code> <code>every</code> <code>jux</code>, come from TidalCycles. Counting time in "cycles" also comes from the name Tidal<b>Cycles</b>.</p>
+        <p>Sound names (like <code>bd</code> <code>lpf</code> <code>sawtooth</code>) are even older. They come from the history of drum machines and synthesizers.</p>
+        </details>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/en/dictionary.sb3" target="_blank" rel="noopener">Open all the examples</a></div>
     </section>
     <nav class="card" aria-label="Index">
         <h2>Index</h2>
-        <h3><a href="#pattern">Line up and stack</a></h3>
-        <ul class="toc">
-            <li><a href="#seq">seq</a></li>
-            <li><a href="#stack">stack</a></li>
-            <li><a href="#stackBranch">stack (C block)</a></li>
-            <li><a href="#cat">cat</a></li>
-            <li><a href="#fast">fast</a></li>
-            <li><a href="#slow">slow</a></li>
-            <li><a href="#struct">struct</a></li>
-            <li><a href="#beat">beat</a></li>
-        </ul>
-        <h3><a href="#sound">Choose a sound</a></h3>
-        <ul class="toc">
-            <li><a href="#s">s</a></li>
-            <li><a href="#note">note</a></li>
-            <li><a href="#n">n + scale</a></li>
-            <li><a href="#bank">bank</a></li>
-            <li><a href="#drums">bd sd hh oh cp rim lt mt ht cr</a></li>
-            <li><a href="#sbd">sbd</a></li>
-            <li><a href="#waves">sine square sawtooth triangle</a></li>
-            <li><a href="#supersaw">supersaw</a></li>
-            <li><a href="#white">white</a></li>
-        </ul>
-        <h3><a href="#change">Change a pattern</a></h3>
-        <ul class="toc">
-            <li><a href="#add">add</a></li>
-            <li><a href="#transpose">transpose</a></li>
-            <li><a href="#rev">rev</a></li>
-            <li><a href="#ply">ply</a></li>
-            <li><a href="#every">every</a></li>
-            <li><a href="#sometimes">sometimes</a></li>
-            <li><a href="#degradeBy">degradeBy</a></li>
-            <li><a href="#euclid">euclid</a></li>
-            <li><a href="#jux">jux</a></li>
-            <li><a href="#off">off</a></li>
-            <li><a href="#superimpose">superimpose</a></li>
-            <li><a href="#chop">chop</a></li>
-            <li><a href="#arp">arp</a></li>
-        </ul>
-        <h3><a href="#wave">Moving values and random numbers</a></h3>
-        <ul class="toc">
-            <li><a href="#range">sine saw square tri rand perlin + range</a></li>
-            <li><a href="#irand">irand + seg + rib</a></li>
-        </ul>
-        <h3><a href="#effect">Effects</a></h3>
-        <ul class="toc">
-            <li><a href="#lpf">lpf / hpf</a></li>
-            <li><a href="#lpq">lpq</a></li>
-            <li><a href="#lpenv">lpenv / lpd / lps</a></li>
-            <li><a href="#adsr">attack decay sustain release</a></li>
-            <li><a href="#room">room</a></li>
-            <li><a href="#delay">delay / delaytime / delayfeedback</a></li>
-            <li><a href="#gain">gain</a></li>
-            <li><a href="#pan">pan</a></li>
-            <li><a href="#crush">crush</a></li>
-            <li><a href="#distort">distort</a></li>
-            <li><a href="#speed">speed</a></li>
-            <li><a href="#clip">clip</a></li>
-            <li><a href="#vowel">vowel</a></li>
-            <li><a href="#unison">unison / detune / spread</a></li>
-            <li><a href="#fm">fm</a></li>
-        </ul>
-        <h3><a href="#club">Club music tricks</a></h3>
-        <ul class="toc">
-            <li><a href="#orbit">orbit</a></li>
-            <li><a href="#duck">duck / duckattack / duckdepth</a></li>
-            <li><a href="#acidenv">acidenv</a></li>
-            <li><a href="#trancegate">trancegate</a></li>
-        </ul>
-        <h3><a href="#viz">See the sound</a></h3>
-        <ul class="toc">
-            <li><a href="#scope">scope</a></li>
-            <li><a href="#pianoroll">pianoroll</a></li>
-            <li><a href="#spectrum">spectrum</a></li>
-            <li><a href="#punchcard">punchcard</a></li>
-        </ul>
-        <h3><a href="#scale">Names of scales and chords</a></h3>
-        <ul class="toc">
-            <li><a href="#major">major / minor</a></li>
-            <li><a href="#pentatonic">major:pentatonic / minor:pentatonic</a></li>
-            <li><a href="#blues">blues / dorian / chromatic</a></li>
-        </ul>
+        <h3><a href="#setup">Getting started</a></h3>
+        <ul class="toc"><li><a href="#setLevel">show blocks for [ ]</a></li></ul>
+        <h3><a href="#tracks">Tracks and tempo</a></h3>
+        <ul class="toc"><li><a href="#track">play on track [ ]</a></li><li><a href="#stopTrack">stop track [ ]</a></li><li><a href="#stopAll">stop all tracks</a></li><li><a href="#setBpm">set tempo to [ ] BPM</a></li><li><a href="#setBeatsPerCycle">set beats in a cycle to [ ]</a></li></ul>
+        <h3><a href="#sounds">Choosing sounds</a></h3>
+        <ul class="toc"><li><a href="#s">s [ ]</a></li><li><a href="#note">note [ ]</a></li><li><a href="#n">n [ ]</a></li><li><a href="#seq">seq [ ] [ ] [ ] [ ]</a></li><li><a href="#stack">stack [ ] [ ]</a></li><li><a href="#stackBranch">stack (C block)</a></li><li><a href="#cat">cat [ ] [ ]</a></li><li><a href="#spriteSound">sprite sound [ ]</a></li><li><a href="#chord">chord [ ] [ ]</a></li></ul>
+        <h3><a href="#change">Changing the sound</a></h3>
+        <ul class="toc"><li><a href="#fast">fast [ ]</a></li><li><a href="#slow">slow [ ]</a></li><li><a href="#scale">scale [ ] [ ]</a></li><li><a href="#struct">struct [ ]</a></li><li><a href="#beat">beat [ ] [ ]</a></li><li><a href="#bank">bank [ ]</a></li><li><a href="#effect">effect [ ▼] [ ]</a></li><li><a href="#add">add [ ]</a></li><li><a href="#rev">rev</a></li><li><a href="#ply">ply [ ]</a></li><li><a href="#every">every [ ] [ ]</a></li><li><a href="#degradeBy">degradeBy [ ] %</a></li><li><a href="#sometimes">sometimes [ ]</a></li><li><a href="#euclid">euclid [ ] [ ]</a></li><li><a href="#jux">jux [ ]</a></li><li><a href="#off">off [ ] [ ]</a></li><li><a href="#superimpose">superimpose [ ]</a></li><li><a href="#chop">chop [ ]</a></li><li><a href="#transpose">transpose [ ]</a></li><li><a href="#arp">arp [ ]</a></li><li><a href="#acidenv">acidenv [ ]</a></li><li><a href="#trancegate">trancegate [ ] [ ] [ ]</a></li></ul>
+        <h3><a href="#values">Value blocks</a></h3>
+        <ul class="toc"><li><a href="#listMini">items of list [ ] [ ]</a></li><li><a href="#range">[ ] range [ ] [ ] slow [ ]</a></li><li><a href="#irand">irand [ ] .. [ ] seg [ ] rib [ ] [ ]</a></li></ul>
+        <h3><a href="#move">Moving with the music</a></h3>
+        <ul class="toc"><li><a href="#whenBeat">when a beat comes</a></li><li><a href="#whenSound">when [ ] sounds</a></li><li><a href="#beatInCycle">beat</a></li><li><a href="#cycle">cycle</a></li></ul>
+        <h3><a href="#code">Strudel code</a></h3>
+        <ul class="toc"><li><a href="#strudelCode">Strudel code of all tracks</a></li><li><a href="#openStrudel">open all tracks in strudel.cc</a></li></ul>
+        <h3><a href="#viz">Seeing the sound</a></h3>
+        <ul class="toc"><li><a href="#showViz">show [ ]</a></li><li><a href="#hideViz">hide the picture of sound</a></li><li><a href="#vizLayer">put the picture of sound [ ] the sprites</a></li></ul>
+        <h3><a href="#drumkit">Drum sounds</a></h3>
+        <ul class="toc"><li><a href="#setDrumKit">(experimental) set drums to [ ]</a></li></ul>
     </nav>
-    <section class="card" id="pattern">
-        <h2>Line up and stack</h2>
-        <article class="entry" id="seq">
-            <h3>seq <span class="badge l1">Beginner</span></h3>
-            <p class="blockline">Block: <code>seq [bd] [hh] [sd] [hh]</code></p>
-            <p>Puts sounds <b>in order</b> inside one cycle. With 4 sounds, each one plays for 1/4 of a cycle.</p>
-            <pre><code>seq(s(&quot;bd&quot;), s(&quot;hh&quot;), s(&quot;sd&quot;), s(&quot;hh&quot;))</code></pre>
-            <p class="history" data-label="Name and history">Short for <b>sequence</b> (a line of things in order). It is the same word as "sequencer", a machine that plays sounds in order.</p>
-        </article>
-        <article class="entry" id="stack">
-            <h3>stack <span class="badge l1">Beginner</span></h3>
-            <p class="blockline">Block: <code>stack [bd] [cr]</code></p>
-            <p>Plays sounds <b>at the same time</b>, stacked up. Use it to play drums and bass together.</p>
-            <pre><code>stack(s(&quot;bd&quot;), s(&quot;cr&quot;))</code></pre>
-            <p class="history" data-label="Name and history">It means "to pile up" in English. In mini-notation, a <code>,</code> (comma) does the same thing (<code>"bd, cr"</code>).</p>
-        </article>
-        <article class="entry" id="stackBranch">
-            <h3>stack (C block) <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>stack</code> (a C block in a track)</p>
-            <p>Plays the blocks in it as <b>another chain</b>, at the same time as the sound above. <code>beat</code> and others in it change only the sound in it. <code>orbit</code> and others below it change all the sounds.</p>
-            <pre><code>stack(s(&quot;bd&quot;).beat(&quot;0,10&quot;, 16), s(&quot;sd&quot;).beat(&quot;4,12&quot;, 16)).orbit(2)</code></pre>
-            <p class="history" data-label="Name and history">One of these blocks is one part between the commas of <code>stack( , )</code> in Strudel. Separate tracks can be stopped one by one; stacked sounds stop together.</p>
-        </article>
-        <article class="entry" id="cat">
-            <h3>cat <span class="badge l1">Beginner</span></h3>
-            <p class="blockline">Block: <code>cat [c4] [g4]</code></p>
-            <p>Plays them <b>by turns</b>, one per cycle. First c4, then g4, then c4 again...</p>
-            <pre><code>cat(note(&quot;c4&quot;), note(&quot;g4&quot;))</code></pre>
-            <p class="history" data-label="Name and history">Short for <b>concatenate</b> (to join together). In programming, this name is often used for joining text. It is the same as <code>&lt; &gt;</code> in mini-notation.</p>
-        </article>
-        <article class="entry" id="fast">
-            <h3>fast <span class="badge l1">Beginner</span></h3>
-            <p class="blockline">Block: <code>fast [4]</code></p>
-            <p>Makes the pattern <b>N times faster</b>. A single sound plays N times in one cycle.</p>
-            <pre><code>s(&quot;hh&quot;).fast(4)</code></pre>
-            <p class="history" data-label="Name and history">A basic name from TidalCycles. It is the same as <code>*</code> in mini-notation (<code>"hh*4"</code>).</p>
-        </article>
-        <article class="entry" id="slow">
-            <h3>slow <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>slow [2]</code></p>
-            <p>Makes the pattern <b>N times slower</b>, stretching it over N cycles.</p>
-            <pre><code>note(&quot;c4&quot;).slow(2)</code></pre>
-            <p class="history" data-label="Name and history">The opposite of <code>fast</code>. It is the same as <code>/</code> in mini-notation (<code>"c4/2"</code>).</p>
-        </article>
-        <article class="entry" id="struct">
-            <h3>struct <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>struct [x ~ x x]</code></p>
-            <p><b>Chops</b> the sound into the rhythm you write with <code>x</code> and <code>~</code>. Handy for putting a chord on a rhythm.</p>
-            <pre><code>note(&quot;[c3,e3,g3]&quot;).struct(&quot;x ~ x x&quot;)</code></pre>
-            <p class="history" data-label="Name and history">Short for <b>structure</b> (the frame or skeleton). It means you borrow just the "skeleton" of a rhythm.</p>
-        </article>
-        <article class="entry" id="beat">
-            <h3>beat <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>beat [0,7,10] [16]</code></p>
-            <p>Cuts a cycle into <b>N steps</b> and plays on the numbered steps. 0 is the first step. List the numbers with <code>,</code>, and add <code>?</code> like <code>7?</code> to drop that step sometimes.</p>
-            <pre><code>s(&quot;bd&quot;).beat(&quot;0,7?,10&quot;, 16)</code></pre>
-            <p class="history" data-label="Name and history">English for the pulse of music. Putting sounds on 16 steps is how drum machines such as the TR-808 build rhythms with their 16 step buttons.</p>
+    <section class="card" id="setup">
+        <h2>Getting started</h2>
+        <article class="entry" id="setLevel">
+            <h3>show blocks for [ ] <span class="badge l1">Beginner</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/setLevel.png?v=e5b5f298" width="216" height="106" alt="show blocks for [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Chooses which blocks are in the palette by <b>level</b>. Beginner shows a few, Normal adds mini-notation and effects, and Master shows all the blocks.</p>
+                    <p class="label">Try it</p>
+                    <p>Click the green flag, and the Normal blocks appear in the palette.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Put it at the start of a project so that the blocks it needs are in the palette</li></ul>
+            <p class="label">In Strudel</p>
+            <p class="note">Strudel does not have it: it is a block of this extension.</p>
+            <details class="history"><summary>Name and history</summary><p>Strudel does not have it: it is a block of this extension, so that you can add blocks little by little and not get lost.</p></details>
         </article>
     </section>
-    <section class="card" id="sound">
-        <h2>Choose a sound</h2>
+    <section class="card" id="tracks">
+        <h2>Tracks and tempo</h2>
+        <article class="entry" id="track">
+            <h3>play on track [ ] <span class="fn">$:</span> <span class="badge l1">Beginner</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/track.png?v=31b1c49d" width="196" height="160" alt="play on track [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Makes a pattern from the blocks in it and keeps playing it on a <b>named track</b>. Play the same name again, and it changes at the next cycle. Use another name, and the tracks play together.</p>
+                    <p class="label">Try it</p>
+                    <p>The kick keeps playing: boom boom boom boom.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Put drums, bass and melody on separate tracks, to stop or change them one by one</li><li>Play the same track with another pattern when a key is pressed, to switch the music</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>s(&quot;bd&quot;).fast(4)</code></pre>
+            <details class="history"><summary>Name and history</summary><p>The blocks in it are read from the top, and each becomes one step of Strudel, such as <code>.fast(4)</code>. One track is one <code>$:</code> line of Strudel.</p></details>
+        </article>
+        <article class="entry" id="stopTrack">
+            <h3>stop track [ ] <span class="fn">hush</span> <span class="badge l1">Beginner</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/stopTrack.png?v=f8b63e0a" width="187" height="106" alt="stop track [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p><b>Stops</b> the named track. The other tracks keep playing.</p>
+                    <p class="label">Try it</p>
+                    <p>Press space, and only the track "drums" stops.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Stop the drums for a break (<a href="rhythms.html#break">rhythm book</a>)</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>$: s(&quot;bd*4&quot;).hush()</code></pre>
+            <details class="history"><summary>Name and history</summary><p>In Strudel, delete the line, or add <code>.hush()</code> (be quiet) at its end.</p></details>
+        </article>
+        <article class="entry" id="stopAll">
+            <h3>stop all tracks <span class="fn">hush</span> <span class="badge l1">Beginner</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/stopAll.png?v=b6a96273" width="163" height="106" alt="stop all tracks" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Stops and forgets <b>all the tracks</b>. The red stop button only stops the sound and keeps the tracks (they stay in "Strudel code of all tracks"); this block forgets them too.</p>
+                    <p class="label">Try it</p>
+                    <p>Press 0, and all the sound stops.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Use it at the end of a song, or to start again</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>hush()</code></pre>
+            <details class="history"><summary>Name and history</summary><p><b>Hush</b> means "shh, be quiet". In strudel.cc, Ctrl + . stops the sound too.</p></details>
+        </article>
+        <article class="entry" id="setBpm">
+            <h3>set tempo to [ ] BPM <span class="fn">setcpm</span> <span class="badge l1">Beginner</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/setBpm.png?v=0608dda7" width="194" height="106" alt="set tempo to [ ] BPM" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Sets the <b>tempo</b> (beats in a minute). Usually about 120: hip hop is about 90, drum and bass about 170.</p>
+                    <p class="label">Try it</p>
+                    <p>Click the green flag, and the tempo becomes 90: slower.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Choose a tempo for the genre (the <a href="rhythms.html">rhythm book</a> has the BPM of each genre)</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>setcpm(90/4)</code></pre>
+            <details class="history"><summary>Name and history</summary><p><b>BPM</b> = <b>b</b>eats <b>p</b>er <b>m</b>inute. Strudel counts cycles, so with 4 beats in a cycle it writes <code>setcpm(90/4)</code> (22.5 cycles a minute).</p></details>
+        </article>
+        <article class="entry" id="setBeatsPerCycle">
+            <h3>set beats in a cycle to [ ] <span class="fn">setcpm</span> <span class="badge l2">Normal</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/setBeatsPerCycle.png?v=6d1603cf" width="210" height="203" alt="set beats in a cycle to [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Sets how many <b>beats</b> a cycle has. Usually 4. Set 3 for three beats, like a waltz.</p>
+                    <p class="label">Try it</p>
+                    <p>It plays in three: boom chick chick.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Make a waltz or a song in 6/8</li><li>Change how often "when a beat comes" runs</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>setcpm(120/3)
+$: s(&quot;bd sd sd&quot;)</code></pre>
+            <details class="history"><summary>Name and history</summary><p>The tempo (BPM) stays, and the length of a cycle changes. "When a beat comes" and "beat" follow this number.</p></details>
+        </article>
+    </section>
+    <section class="card" id="sounds">
+        <h2>Choosing sounds</h2>
         <article class="entry" id="s">
-            <h3>s <span class="badge l1">Beginner</span></h3>
-            <p class="blockline">Block: <code>s [bd ▼]</code> / <code>s [bd sd]</code></p>
-            <p>Picks the <b>kind of sound</b>. Drum names (<code>bd</code>) and synth wave shapes (<code>sawtooth</code>) are all chosen with s.</p>
-            <pre><code>s(&quot;bd sd&quot;)  /  note(&quot;c4&quot;).s(&quot;sawtooth&quot;)</code></pre>
-            <p class="history" data-label="Name and history">Short for <b>sound</b>. The name comes straight from SuperDirt, the sound engine of TidalCycles.</p>
+            <h3>s [ ] <span class="fn">s</span> <span class="badge l1">Beginner</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/s.png?v=3e793d9f" width="196" height="122" alt="s [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Chooses the <b>kind of sound</b>. In Beginner you choose it with ▼; from Normal you can write mini-notation. At the top of a track it sets the sound; below, it changes the sound (<code>.s()</code>).</p>
+                    <p class="label">Try it</p>
+                    <p>It plays boom tick clap tick.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Write a drum rhythm (<a href="rhythms.html">rhythm book</a>)</li><li>Put it below note to play the notes with a piano or a synth</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>s(&quot;bd hh sd hh&quot;)</code></pre>
+            <div class="items">
+                <p class="label">Names in ▼</p>
+                <section class="item" id="drums">
+                    <h4>bd sd hh oh cp rim lt mt ht cr</h4>
+                    <p>Names of drum sounds. bd = bass drum, sd = snare, hh = hi-hat, oh = open hi-hat, cp = clap (hand clap), rim = rim, lt / mt / ht = low / middle / high tom, cr = crash cymbal.</p>
+                    <pre><code>s(&quot;bd hh sd hh&quot;)</code></pre>
+                    <details class="history"><summary>Name and history</summary><p>These short names come from the labels on drum machine knobs. They became popular as sound folder names in TidalCycles. <b>bd</b> = <b>b</b>ass <b>d</b>rum, <b>sd</b> = <b>s</b>nare <b>d</b>rum, <b>hh</b> = <b>h</b>i-<b>h</b>at.</p></details>
+                </section>
+                <section class="item" id="sbd">
+                    <h4>sbd</h4>
+                    <p>A kick made by a synthesizer (<b>s</b>ynth <b>b</b>ass <b>d</b>rum). It is not a recorded sound. It is made by calculation.</p>
+                    <pre><code>s(&quot;sbd!4&quot;)</code></pre>
+                    <details class="history"><summary>Name and history</summary><p>The "boom" kick that slides down in pitch works the same way as the TR-808 kick: the pitch drops very quickly.</p></details>
+                </section>
+                <section class="item" id="waves">
+                    <h4>sine square sawtooth triangle</h4>
+                    <p>The basic wave shapes of a synthesizer. sine = soft, square = beepy, sawtooth = jagged and bright, triangle = clean.</p>
+                    <pre><code>note(&quot;c4&quot;).s(&quot;sawtooth&quot;)</code></pre>
+                    <details class="history"><summary>Name and history</summary><p>They are all names of wave shapes. sine is the sine wave from math, square is a square, sawtooth is "the teeth of a saw", and triangle is a triangle. They have been used since the analog synths of the 1960s.</p></details>
+                </section>
+                <section class="item" id="supersaw">
+                    <h4>supersaw</h4>
+                    <p>A thick, sparkly sound made by stacking many sawtooth waves, each a little out of tune.</p>
+                    <pre><code>note(&quot;[a3,c4,e4]&quot;).s(&quot;supersaw&quot;)</code></pre>
+                    <details class="history"><summary>Name and history</summary><p>The name of a feature on the Roland <b>JP-8000</b> synth, which came out around 1997. Its sound of 7 stacked sawtooth waves became a typical sound of a kind of music called trance.</p></details>
+                </section>
+                <section class="item" id="white">
+                    <h4>white</h4>
+                    <p>A "shhh" <b>noise</b>. Used for a riser, a sound that gets louder and louder in a build-up.</p>
+                    <pre><code>s(&quot;white*16&quot;)</code></pre>
+                    <details class="history"><summary>Name and history</summary><p><b>White noise</b>. White light has all colors mixed in. In the same way, this noise has all pitches mixed in at about the same amount, so it is called "white".</p></details>
+                </section>
+            </div>
+            <details class="history"><summary>Name and history</summary><p>Short for <b>sound</b>. The name comes straight from SuperDirt, the sound engine of TidalCycles.</p></details>
         </article>
         <article class="entry" id="note">
-            <h3>note <span class="badge l1">Beginner</span></h3>
-            <p class="blockline">Block: <code>note [c4 ▼]</code> / <code>note [c4 e4 g4]</code></p>
-            <p>Writes the <b>pitch</b> (how high or low a sound is) with a note name (<code>c4</code>) or a number (60 = c4).</p>
-            <pre><code>note(&quot;c4 e4 g4&quot;)</code></pre>
-            <p class="history" data-label="Name and history">"Note" means a musical note. The numbers are MIDI numbers (MIDI is a shared set of rules for electronic instruments, made in 1983). 60 is middle C.</p>
+            <h3>note [ ] <span class="fn">note</span> <span class="badge l1">Beginner</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/note.png?v=89df24b0" width="196" height="160" alt="note [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Writes the <b>pitch</b> with a note name (<code>c4</code>) or a number (60 = c4). Put s below it to play it with that sound.</p>
+                    <p class="label">Try it</p>
+                    <p>The piano plays C, E, G.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Write a melody or a bass line</li><li>Write <code>[c4,e4,g4]</code> with commas to play a chord</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>note(&quot;c4 e4 g4&quot;).s(&quot;piano&quot;)</code></pre>
+            <details class="history"><summary>Name and history</summary><p>"Note" means a musical note. The numbers are MIDI numbers (MIDI is a shared set of rules for electronic instruments, made in 1983). 60 is middle C.</p></details>
         </article>
         <article class="entry" id="n">
-            <h3>n + scale <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>n [0 2 4]</code> + <code>scale [C4] [major]</code></p>
-            <p>Write numbers with <code>n</code>, and <code>scale</code> turns each number into a note of the scale. 0 is the first note. With numbers, you never play a wrong note, whatever the scale.</p>
-            <pre><code>n(&quot;0 2 4&quot;).scale(&quot;C4:major&quot;)</code></pre>
-            <p class="history" data-label="Name and history"><b>n</b> means <b>number</b>. "Scale" comes from the Latin word scala, which means "ladder", because the notes line up like the steps of a ladder.</p>
+            <h3>n [ ] <span class="fn">n</span> <span class="badge l2">Normal</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/n.png?v=39cf92b5" width="215" height="198" alt="n [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Writes <b>which note of a scale</b> to play, by number. Put scale below it to turn the numbers into notes of that scale. 0 is the first. With numbers you never play a wrong note.</p>
+                    <p class="label">Try it</p>
+                    <p>It plays C, E, G and the high C.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Write a melody which stays in the scale</li><li>Change only the scale to make the same melody bright or dark</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>n(&quot;0 2 4 7&quot;).scale(&quot;C4:major&quot;).s(&quot;piano&quot;)</code></pre>
+            <details class="history"><summary>Name and history</summary><p><b>n</b> means <b>number</b>.</p></details>
         </article>
-        <article class="entry" id="bank">
-            <h3>bank <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>bank [RolandTR909]</code></p>
-            <p>Changes the drum sounds to the sounds of a certain drum machine.</p>
-            <pre><code>s(&quot;bd*4&quot;).bank(&quot;RolandTR909&quot;)</code></pre>
-            <p class="history" data-label="Name and history">From <b>sample bank</b> (a storehouse of samples). The <b>TR-808</b> (1980) and <b>TR-909</b> (1983) are Roland drum machines. These famous machines made the sound of hip-hop, house and techno.</p>
+        <article class="entry" id="seq">
+            <h3>seq [ ] [ ] [ ] [ ] <span class="fn">seq</span> <span class="badge l1">Beginner</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/seq.png?v=54903fae" width="283" height="122" alt="seq [ ] [ ] [ ] [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Puts sounds <b>in order</b> inside one cycle. With 4 sounds, each one plays for 1/4 of a cycle.</p>
+                    <p class="label">Try it</p>
+                    <p>It plays boom tick clap tick.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Build a rhythm in Beginner. Choose <code>~</code> (rest) in ▼ for a step with no sound</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>seq(s(&quot;bd&quot;), s(&quot;hh&quot;), s(&quot;sd&quot;), s(&quot;hh&quot;))</code></pre>
+            <details class="history"><summary>Name and history</summary><p>Short for <b>sequence</b> (a line of things in order). It is the same word as "sequencer", a machine that plays sounds in order. In mini-notation, put them in a row with spaces (<code>"bd hh sd hh"</code>).</p></details>
         </article>
-        <article class="entry" id="drums">
-            <h3>bd sd hh oh cp rim lt mt ht cr <span class="badge l1">Beginner</span></h3>
-            <p class="blockline">Block: <code>▼ drums</code></p>
-            <p>Names of drum sounds. bd = bass drum, sd = snare, hh = hi-hat, oh = open hi-hat, cp = clap (hand clap), rim = rim, lt / mt / ht = low / middle / high tom, cr = crash cymbal.</p>
-            <pre><code>s(&quot;bd hh sd hh&quot;)</code></pre>
-            <p class="history" data-label="Name and history">These short names come from the labels on drum machine knobs. They became popular as sound folder names in TidalCycles. <b>bd</b> = <b>b</b>ass <b>d</b>rum, <b>sd</b> = <b>s</b>nare <b>d</b>rum, <b>hh</b> = <b>h</b>i-<b>h</b>at.</p>
+        <article class="entry" id="stack">
+            <h3>stack [ ] [ ] <span class="fn">stack</span> <span class="badge l1">Beginner</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/stack.png?v=0447d122" width="200" height="160" alt="stack [ ] [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Plays sounds <b>at the same time</b>, stacked up.</p>
+                    <p class="label">Try it</p>
+                    <p>The kick and the hi-hat play together, 4 times.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Play two sounds together in Beginner. To stack more, use the C block stack or separate tracks</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>stack(s(&quot;bd&quot;), s(&quot;hh&quot;)).fast(4)</code></pre>
+            <details class="history"><summary>Name and history</summary><p>It means "to pile up" in English. In mini-notation, a <code>,</code> (comma) does the same thing (<code>"bd, hh"</code>).</p></details>
         </article>
-        <article class="entry" id="sbd">
-            <h3>sbd <span class="badge l1">Beginner</span></h3>
-            <p class="blockline">Block: <code>▼ sbd</code></p>
-            <p>A kick made by a synthesizer (<b>s</b>ynth <b>b</b>ass <b>d</b>rum). It is not a recorded sound. It is made by calculation.</p>
-            <pre><code>s(&quot;sbd!4&quot;)</code></pre>
-            <p class="history" data-label="Name and history">The "boom" kick that slides down in pitch works the same way as the TR-808 kick: the pitch drops very quickly.</p>
+        <article class="entry" id="stackBranch">
+            <h3>stack (C block) <span class="fn">stackBranch</span> <span class="badge l2">Normal</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/stackBranch.png?v=ff14a90a" width="205" height="257" alt="stack (C block)" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Plays the blocks in it as <b>another chain</b>, at the same time as the sound above. Blocks in it change only the sound in it; blocks below it change all the sounds.</p>
+                    <p class="label">Try it</p>
+                    <p>The kick and the snare play together, with the sounds of the TR-909.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Write each drum in its own short input, easy to read (<a href="rhythms.html">rhythm book</a>)</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>stack(s(&quot;bd*4&quot;), s(&quot;[~ sd]*2&quot;)).bank(&quot;RolandTR909&quot;)</code></pre>
+            <details class="history"><summary>Name and history</summary><p>One of these blocks is one part between the commas of <code>stack( , )</code> in Strudel. Separate tracks can be stopped one by one; stacked sounds stop together.</p></details>
         </article>
-        <article class="entry" id="waves">
-            <h3>sine square sawtooth triangle <span class="badge l1">Beginner</span></h3>
-            <p class="blockline">Block: <code>s [sawtooth ▼]</code></p>
-            <p>The basic wave shapes of a synthesizer. sine = soft, square = beepy, sawtooth = jagged and bright, triangle = clean.</p>
-            <pre><code>note(&quot;c4&quot;).s(&quot;sawtooth&quot;)</code></pre>
-            <p class="history" data-label="Name and history">They are all names of wave shapes. sine is the sine wave from math, square is a square, sawtooth is "the teeth of a saw", and triangle is a triangle. They have been used since the analog synths of the 1960s.</p>
+        <article class="entry" id="cat">
+            <h3>cat [ ] [ ] <span class="fn">cat</span> <span class="badge l1">Beginner</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/cat.png?v=2fa34930" width="196" height="160" alt="cat [ ] [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Plays them <b>by turns</b>, one per cycle. First c4, then g4, then c4 again...</p>
+                    <p class="label">Try it</p>
+                    <p>It plays C, G, C, G by turns.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Change the bass note every cycle</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>cat(note(&quot;c4&quot;), note(&quot;g4&quot;)).fast(4)</code></pre>
+            <details class="history"><summary>Name and history</summary><p>Short for <b>concatenate</b> (to join together). In programming, this name is often used for joining text. It is the same as <code>&lt; &gt;</code> in mini-notation.</p></details>
         </article>
-        <article class="entry" id="supersaw">
-            <h3>supersaw <span class="badge l1">Beginner</span></h3>
-            <p class="blockline">Block: <code>s [supersaw ▼]</code></p>
-            <p>A thick, sparkly sound made by stacking many sawtooth waves, each a little out of tune.</p>
-            <pre><code>note(&quot;[a3,c4,e4]&quot;).s(&quot;supersaw&quot;)</code></pre>
-            <p class="history" data-label="Name and history">The name of a feature on the Roland <b>JP-8000</b> synth, which came out around 1997. Its sound of 7 stacked sawtooth waves became a typical sound of a kind of music called trance.</p>
+        <article class="entry" id="spriteSound">
+            <h3>sprite sound [ ] <span class="badge l2">Normal</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/spriteSound.png?v=c02afe3f" width="206" height="160" alt="sprite sound [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Plays a sound in the Sounds tab of the sprite (such as your recorded voice), like a drum.</p>
+                    <p class="label">Try it</p>
+                    <p>The cat says meow twice.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Make a beat with your own voice (<a href="tutorial.html#step10">tutorial step 10</a>)</li></ul>
+            <p class="label">In Strudel</p>
+            <p class="note">Strudel does not have it: it is a block of this extension.</p>
+            <details class="history"><summary>Name and history</summary><p>Strudel loads sound files with <code>samples()</code>. strudel.cc cannot read the sounds of a sprite, so they do not play in the exported code.</p></details>
         </article>
-        <article class="entry" id="white">
-            <h3>white <span class="badge l1">Beginner</span></h3>
-            <p class="blockline">Block: <code>s [white ▼]</code></p>
-            <p>A "shhh" <b>noise</b>. Used for a riser, a sound that gets louder and louder in a build-up.</p>
-            <pre><code>s(&quot;white*16&quot;)</code></pre>
-            <p class="history" data-label="Name and history"><b>White noise</b>. White light has all colors mixed in. In the same way, this noise has all pitches mixed in at about the same amount, so it is called "white".</p>
+        <article class="entry" id="chord">
+            <h3>chord [ ] [ ] <span class="badge l3">Master</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/chord.png?v=29fa98d6" width="214" height="160" alt="chord [ ] [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Plays a <b>chord</b> from a root and a kind. major is bright, minor is dark, 7 and maj7 sound jazzy.</p>
+                    <p class="label">Try it</p>
+                    <p>C, E, G and B play together.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Put arp below it to play the notes one by one</li><li>Chop the chord with struct</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>note(&quot;[c4,e4,g4,b4]&quot;).s(&quot;piano&quot;)</code></pre>
+            <details class="history"><summary>Name and history</summary><p>"Chord" comes from the same word as accord (agreement, harmony).</p></details>
         </article>
     </section>
     <section class="card" id="change">
-        <h2>Change a pattern</h2>
-        <article class="entry" id="add">
-            <h3>add <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>add [7]</code></p>
-            <p><b>Adds</b> a number to the pitch (number). You can add a pattern too, like <code>"&lt;0 2 4&gt;"</code>.</p>
-            <pre><code>note(&quot;c4&quot;).add(note(&quot;&lt;0 7&gt;&quot;))</code></pre>
-            <p class="history" data-label="Name and history">It means "to add" in English.</p>
+        <h2>Changing the sound</h2>
+        <p>The blocks from here go <b>below</b> a sound block in a track. They work from the top down.</p>
+        <article class="entry" id="fast">
+            <h3>fast [ ] <span class="fn">fast</span> <span class="badge l1">Beginner</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/fast.png?v=bae93d12" width="196" height="160" alt="fast [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Makes the pattern <b>N times faster</b>. A single sound plays N times in one cycle.</p>
+                    <p class="label">Try it</p>
+                    <p>The hi-hat ticks 8 times in a cycle.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Make the hi-hat tick (8 for eighth notes, 16 for sixteenth notes)</li><li>Play a melody twice as fast</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>s(&quot;hh&quot;).fast(8)</code></pre>
+            <details class="history"><summary>Name and history</summary><p>A basic name from TidalCycles. It is the same as <code>*</code> in mini-notation (<code>"hh*8"</code>).</p></details>
         </article>
-        <article class="entry" id="transpose">
-            <h3>transpose <span class="badge l3">Master</span></h3>
-            <p class="blockline">Block: <code>transpose [12]</code></p>
-            <p>Moves the notes up by <b>N half steps</b> (down if N is negative). 12 is one octave.</p>
-            <pre><code>note(&quot;c4&quot;).transpose(12)</code></pre>
-            <p class="history" data-label="Name and history">A music word. It means moving a whole song higher or lower, for example to make it easier to sing.</p>
+        <article class="entry" id="slow">
+            <h3>slow [ ] <span class="fn">slow</span> <span class="badge l2">Normal</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/slow.png?v=96325d3c" width="196" height="198" alt="slow [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Makes the pattern <b>N times slower</b>, stretching it over N cycles.</p>
+                    <p class="label">Try it</p>
+                    <p>The four notes play slowly, over two cycles.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Change long pads and chords slowly</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>note(&quot;c4 e4 g4 b4&quot;).slow(2).s(&quot;piano&quot;)</code></pre>
+            <details class="history"><summary>Name and history</summary><p>The opposite of <code>fast</code>. It is the same as <code>/</code> in mini-notation (<code>"c4/2"</code>).</p></details>
+        </article>
+        <article class="entry" id="scale">
+            <h3>scale [ ] [ ] <span class="fn">scale</span> <span class="badge l2">Normal</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/scale.png?v=8a91d3db" width="216" height="198" alt="scale [ ] [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Turns the numbers of n into notes of the chosen <b>scale</b>. Choose the root (such as C4) and the kind of scale.</p>
+                    <p class="label">Try it</p>
+                    <p>It goes up C, D, E♭, F, G: a dark sound.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Keep the numbers and change the scale to change the mood</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>n(&quot;0 1 2 3 4&quot;).scale(&quot;C4:minor&quot;).s(&quot;piano&quot;)</code></pre>
+            <div class="items">
+                <p class="label">Names in ▼</p>
+                <section class="item" id="major">
+                    <h4>major minor</h4>
+                    <p>major is a bright scale (major key), minor is a dark scale (minor key).</p>
+                    <pre><code>n(&quot;0 2 4&quot;).scale(&quot;C4:minor&quot;)</code></pre>
+                    <details class="history"><summary>Name and history</summary><p>In English, major = "bigger", minor = "smaller". They are named by whether the gap between C and E (a third) is big or small.</p></details>
+                </section>
+                <section class="item" id="pentatonic">
+                    <h4>major:pentatonic minor:pentatonic</h4>
+                    <p>A scale with only 5 notes. It sounds nice in any order.</p>
+                    <pre><code>n(&quot;0 1 2 3 4&quot;).scale(&quot;C4:major:pentatonic&quot;)</code></pre>
+                    <details class="history"><summary>Name and history</summary><p>From the Greek penta (5) + tonic (tone). The Japanese "yonanuki" scale, which leaves out the 4th and 7th notes, is in the same family.</p></details>
+                </section>
+                <section class="item" id="blues">
+                    <h4>blues dorian chromatic</h4>
+                    <p>blues is the scale of blues music, dorian is a scale loved in jazz and Celtic music, and chromatic is a scale with every half step.</p>
+                    <pre><code>n(&quot;0 1 2 3&quot;).scale(&quot;C4:dorian&quot;)</code></pre>
+                    <details class="history"><summary>Name and history</summary><p><b>dorian</b> is a scale named after the Dorians of ancient Greece. It came down to us through the church music of the Middle Ages. <b>chromatic</b> comes from the Greek chroma (color).</p></details>
+                </section>
+            </div>
+            <details class="history"><summary>Name and history</summary><p>It comes from the Latin word scala, which means "ladder", because the notes line up like the steps of a ladder.</p></details>
+        </article>
+        <article class="entry" id="struct">
+            <h3>struct [ ] <span class="fn">struct</span> <span class="badge l2">Normal</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/struct.png?v=36a6cbef" width="196" height="198" alt="struct [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p><b>Chops</b> the sound into the rhythm you write with <code>x</code> (play) and <code>~</code> (rest).</p>
+                    <p class="label">Try it</p>
+                    <p>The chord plays on the rhythm: hit, rest, hit, hit.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Put a chord on a rhythm, like a piano or guitar part</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>note(&quot;[c3,e3,g3]&quot;).struct(&quot;x ~ x x&quot;).s(&quot;piano&quot;)</code></pre>
+            <details class="history"><summary>Name and history</summary><p>Short for <b>structure</b> (the frame or skeleton). It means you borrow just the "skeleton" of a rhythm.</p></details>
+        </article>
+        <article class="entry" id="beat">
+            <h3>beat [ ] [ ] <span class="fn">beat</span> <span class="badge l2">Normal</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/beat.png?v=8c4f4c94" width="196" height="160" alt="beat [ ] [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Cuts a cycle into <b>N steps</b> and plays on the numbered steps. 0 is the first step. List the numbers with <code>,</code>, and add <code>?</code> like <code>7?</code> to drop that step sometimes.</p>
+                    <p class="label">Try it</p>
+                    <p>The kick plays off the beats and bounces.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Write kicks and snares which play here and there (<a href="rhythms.html">rhythm book</a>)</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>s(&quot;bd&quot;).beat(&quot;0,7,10&quot;, 16)</code></pre>
+            <details class="history"><summary>Name and history</summary><p>English for the pulse of music. Putting sounds on 16 steps is how drum machines such as the TR-808 build rhythms with their 16 step buttons.</p></details>
+        </article>
+        <article class="entry" id="bank">
+            <h3>bank [ ] <span class="fn">bank</span> <span class="badge l2">Normal</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/bank.png?v=15c0b52a" width="205" height="160" alt="bank [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Changes the drums to the sounds of the chosen <b>drum machine</b>.</p>
+                    <p class="label">Try it</p>
+                    <p>The kick becomes the hard sound of the TR-909.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Use the TR-909 for house and techno, the TR-808 for hip hop and trap</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>s(&quot;bd*4&quot;).bank(&quot;RolandTR909&quot;)</code></pre>
+            <details class="history"><summary>Name and history</summary><p>From <b>sample bank</b> (a storehouse of samples). The <b>TR-808</b> (1980) and <b>TR-909</b> (1983) are Roland drum machines. These famous machines made the sound of hip-hop, house and techno.</p></details>
+        </article>
+        <article class="entry" id="effect">
+            <h3>effect [ ▼] [ ] <span class="badge l2">Normal</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/effect.png?v=f6126dd7" width="196" height="198" alt="effect [ ▼] [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Adds the <b>effect</b> chosen in ▼. The number can also be a mini-notation pattern or a wave.</p>
+                    <p class="label">Try it</p>
+                    <p>The high part of the jagged bass is cut, and it becomes a muffled, fat sound.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Muffle a bass, add room to the drums, make the hi-hat softer</li><li>Stack many effects on a sound (they work from the top)</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>note(&quot;c2*4&quot;).s(&quot;sawtooth&quot;).lpf(600)</code></pre>
+            <div class="items">
+                <p class="label">Names in ▼</p>
+                <section class="item" id="lpf">
+                    <h4>lpf hpf</h4>
+                    <p><b>lpf</b> cuts the high sounds and makes it muffled. <b>hpf</b> cuts the low sounds and makes it thin and tinny. The number is where the cutting starts (Hz).</p>
+                    <pre><code>s(&quot;sawtooth&quot;).lpf(600)</code></pre>
+                    <details class="history"><summary>Name and history</summary><p><b>L</b>ow-<b>p</b>ass <b>f</b>ilter (a filter that lets low sounds pass) and <b>h</b>igh-<b>p</b>ass <b>f</b>ilter. The filters in the synths that Robert Moog made in the 1960s are famous.</p></details>
+                </section>
+                <section class="item" id="lpq">
+                    <h4>lpq</h4>
+                    <p>Boosts the edge of the filter for a "wowww" sound <b>with a strong character</b> (resonance).</p>
+                    <pre><code>s(&quot;sawtooth&quot;).lpf(400).lpq(12)</code></pre>
+                    <details class="history"><summary>Name and history</summary><p><b>q</b> is an electronics word: the "Q value" (how sharp the cut is).</p></details>
+                </section>
+                <section class="item" id="lpenv">
+                    <h4>lpenv lpd lps</h4>
+                    <p><b>Opens and closes</b> the filter each time a sound plays. lpd is the time until it closes, lps is how much stays open. The "bwow" of acid music is this.</p>
+                    <pre><code>note(&quot;a1*8&quot;).s(&quot;sawtooth&quot;).lpf(200).lpenv(4)</code></pre>
+                    <details class="history"><summary>Name and history</summary><p><b>env</b> = <b>env</b>elope (how the shape of a sound changes). <b>d</b> = decay, <b>s</b> = sustain (see ADSR below).</p></details>
+                </section>
+                <section class="item" id="adsr">
+                    <h4>attack decay sustain release</h4>
+                    <p>The <b>shape</b> of the volume. attack = how slowly it starts, decay = time to go down, sustain = how loud it stays, release = how it fades out at the end.</p>
+                    <pre><code>note(&quot;c4&quot;).s(&quot;sine&quot;).attack(.5).release(2)</code></pre>
+                    <details class="history"><summary>Name and history</summary><p>The 4 first letters make "<b>ADSR</b>". It is said that Vladimir Ussachevsky, an electronic music researcher, came up with it in the 1960s. Almost every synth today has it.</p></details>
+                </section>
+                <section class="item" id="room">
+                    <h4>room</h4>
+                    <p><b>Echoing space</b> (reverb). It sounds like playing in a big room.</p>
+                    <pre><code>s(&quot;sd&quot;).room(.5)</code></pre>
+                    <details class="history"><summary>Name and history</summary><p>"Room" in English. The sound echoes differently depending on the size of the room.</p></details>
+                </section>
+                <section class="item" id="delay">
+                    <h4>delay delaytime delayfeedback</h4>
+                    <p>An <b>echo</b>. The same sound repeats a little later. delaytime is the gap, delayfeedback is how many times it repeats.</p>
+                    <pre><code>note(&quot;c4 e4&quot;).delay(.4).delaytime(.25)</code></pre>
+                    <details class="history"><summary>Name and history</summary><p>It means "being late" in English. Long ago, people made echoes by looping recording tape (like the Roland Space Echo, 1974).</p></details>
+                </section>
+                <section class="item" id="gain">
+                    <h4>gain</h4>
+                    <p>How <b>loud</b> the sound is. 1 is normal.</p>
+                    <pre><code>s(&quot;hh*8&quot;).gain(.6)</code></pre>
+                    <details class="history"><summary>Name and history</summary><p>In English it means "to increase" or "profit". It is a word for how many times bigger an electric signal is made.</p></details>
+                </section>
+                <section class="item" id="pan">
+                    <h4>pan</h4>
+                    <p><b>Left-right position</b>. 0 is left, 0.5 is the middle, 1 is right.</p>
+                    <pre><code>s(&quot;hh*8&quot;).pan(sine.range(0, 1))</code></pre>
+                    <details class="history"><summary>Name and history</summary><p>From <b>panorama</b> (a wide view). It means where in the left-right view you put the sound.</p></details>
+                </section>
+                <section class="item" id="crush">
+                    <h4>crush</h4>
+                    <p>Makes the sound <b>crunchy</b> (a bitcrusher). The smaller the number, the rougher it gets.</p>
+                    <pre><code>s(&quot;bd sd&quot;).crush(4)</code></pre>
+                    <details class="history"><summary>Name and history</summary><p>It "crushes" the detail of the sound (the number of bits), so it is called crush. It sounds close to the 8-bit sounds of old game consoles.</p></details>
+                </section>
+                <section class="item" id="distort">
+                    <h4>distort</h4>
+                    <p><b>Distortion</b>. Bends the sound to make it fat and rough.</p>
+                    <pre><code>note(&quot;a1&quot;).s(&quot;sawtooth&quot;).distort(2)</code></pre>
+                    <details class="history"><summary>Name and history</summary><p>The same as the distortion of an electric guitar. In the 1950s-60s, amps turned up too loud broke the sound, and people liked it as a cool sound.</p></details>
+                </section>
+                <section class="item" id="speed">
+                    <h4>speed</h4>
+                    <p>The <b>playback speed</b> of a recorded sound. 2 is twice as fast and higher. -1 plays it backwards.</p>
+                    <pre><code>s(&quot;bd&quot;).speed(2)</code></pre>
+                    <details class="history"><summary>Name and history</summary><p>It works the same way as spinning a record or tape faster to make the sound higher.</p></details>
+                </section>
+                <section class="item" id="clip">
+                    <h4>clip</h4>
+                    <p>The <b>length</b> of a sound. 1 lasts until the next sound, 0.3 cuts it short.</p>
+                    <pre><code>note(&quot;c4 e4&quot;).s(&quot;square&quot;).clip(.3)</code></pre>
+                    <details class="history"><summary>Name and history</summary><p>It means "to cut off" in English.</p></details>
+                </section>
+                <section class="item" id="vowel">
+                    <h4>vowel</h4>
+                    <p>Makes the sound like a <b>voice</b> saying vowels such as "a, e, i, o, u".</p>
+                    <pre><code>s(&quot;sawtooth&quot;).vowel(&quot;&lt;a e i o&gt;&quot;)</code></pre>
+                    <details class="history"><summary>Name and history</summary><p>"Vowel" in English. It is a filter that copies the sounds (formants) that make the vowels of a human voice.</p></details>
+                </section>
+                <section class="item" id="unison">
+                    <h4>unison detune spread</h4>
+                    <p>How <b>thick</b> a supersaw is. unison is the number of stacked waves, detune is how far apart the pitches are, spread is how wide it is left to right.</p>
+                    <pre><code>note(&quot;a3&quot;).s(&quot;supersaw&quot;).unison(7).detune(.4).spread(.8)</code></pre>
+                    <details class="history"><summary>Name and history</summary><p><b>Unison</b> means "one sound" in Latin. It is when many people sing the same note. <b>Detune</b> means "to put out of tune".</p></details>
+                </section>
+                <section class="item" id="fm">
+                    <h4>fm</h4>
+                    <p>Makes the sound <b>metallic</b>, like a bell or an electric piano (FM synthesis).</p>
+                    <pre><code>note(&quot;c4&quot;).s(&quot;sine&quot;).fm(2)</code></pre>
+                    <details class="history"><summary>Name and history</summary><p><b>F</b>requency <b>m</b>odulation (the same words as in FM radio). John Chowning at Stanford University discovered it in 1967, and the Yamaha <b>DX7</b> of 1983 spread it around the world.</p></details>
+                </section>
+                <section class="item" id="orbit">
+                    <h4>orbit</h4>
+                    <p>Chooses the <b>path</b> (1-8) the sound goes through. Reverb, echo and duck work separately for each path.</p>
+                    <pre><code>note(&quot;a1*8&quot;).s(&quot;sawtooth&quot;).orbit(2)</code></pre>
+                    <details class="history"><summary>Name and history</summary><p>"Orbit" in English. It is the name of the system in SuperDirt, the sound engine of TidalCycles, that keeps each track's effects apart so they do not mix.</p></details>
+                </section>
+                <section class="item" id="duck">
+                    <h4>duck duckattack duckdepth</h4>
+                    <p>Each time the kick plays, the sounds on other paths (orbits) <b>shrink</b>. The sound "pumps" as if it is breathing.</p>
+                    <pre><code>s(&quot;bd*4&quot;).duck(&quot;2:3&quot;).duckattack(.2).duckdepth(.8)</code></pre>
+                    <details class="history"><summary>Name and history</summary><p>"Duck" means "to quickly lower your head". It comes from "ducking", a trick of turning the music down while someone talks on the radio. In club music it is also called "sidechain" or "pumping", and it was popular in 2000s French house and EDM.</p></details>
+                </section>
+            </div>
+            <details class="history"><summary>Name and history</summary><p>Each name in ▼ is a Strudel function. Look them up in the list below.</p></details>
+        </article>
+        <article class="entry" id="add">
+            <h3>add [ ] <span class="fn">add</span> <span class="badge l2">Normal</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/add.png?v=3d836a6f" width="215" height="236" alt="add [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p><b>Adds</b> a number to the pitch (number). You can add a pattern too, like <code>&lt;0 2 4&gt;</code>.</p>
+                    <p class="label">Try it</p>
+                    <p>The same melody goes 2 steps up the scale in the next cycle, 4 steps up in the one after, and then back.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Repeat a phrase at different heights</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>n(&quot;0 2 4&quot;).add(n(&quot;&lt;0 2 4&gt;&quot;)).scale(&quot;C4:major&quot;).s(&quot;piano&quot;)</code></pre>
+            <details class="history"><summary>Name and history</summary><p>It means "to add" in English.</p></details>
         </article>
         <article class="entry" id="rev">
-            <h3>rev <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>rev</code></p>
-            <p>Plays the pattern <b>backwards</b>, from the end.</p>
-            <pre><code>s(&quot;bd hh sd hh&quot;).rev()</code></pre>
-            <p class="history" data-label="Name and history">Short for <b>reverse</b>.</p>
+            <h3>rev <span class="fn">rev</span> <span class="badge l2">Normal</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/rev.png?v=722622bc" width="196" height="198" alt="rev" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Plays the pattern <b>backwards</b>, from the end.</p>
+                    <p class="label">Try it</p>
+                    <p>It plays G, E, D, C: from the end.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Use it with every to play backwards now and then</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>note(&quot;c4 d4 e4 g4&quot;).rev().s(&quot;piano&quot;)</code></pre>
+            <details class="history"><summary>Name and history</summary><p>Short for <b>reverse</b>.</p></details>
         </article>
         <article class="entry" id="ply">
-            <h3>ply <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>ply [2]</code></p>
-            <p>Repeats each sound in the pattern <b>N times</b>.</p>
+            <h3>ply [ ] <span class="fn">ply</span> <span class="badge l2">Normal</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/ply.png?v=af60e2d3" width="196" height="160" alt="ply [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Repeats each sound in the pattern <b>N times</b>.</p>
+                    <p class="label">Try it</p>
+                    <p>Each sound plays twice: boom boom, clap clap.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Make hi-hat rolls (trap) and fills</li></ul>
+            <p class="label">In Strudel</p>
             <pre><code>s(&quot;bd sd&quot;).ply(2)</code></pre>
-            <p class="history" data-label="Name and history">"Ply" means a layer or a twist of thread. Think of making one thread into many layers. The name comes from TidalCycles.</p>
+            <details class="history"><summary>Name and history</summary><p>"Ply" means a layer or a twist of thread. Think of making one thread into many layers. The name comes from TidalCycles.</p></details>
         </article>
         <article class="entry" id="every">
-            <h3>every <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>every [4] [rev]</code></p>
-            <p>Uses the ▼ function only <b>once every N cycles</b>.</p>
-            <pre><code>note(&quot;c4 e4 g4&quot;).every(4, x =&gt; x.rev())</code></pre>
-            <p class="history" data-label="Name and history">It means "every" in English. One of the most famous functions, there since the early days of TidalCycles.</p>
-        </article>
-        <article class="entry" id="sometimes">
-            <h3>sometimes <span class="badge l3">Master</span></h3>
-            <p class="blockline">Block: <code>sometimes [transpose 12]</code></p>
-            <p>Uses the ▼ function <b>sometimes</b> (on about half of the sounds).</p>
-            <pre><code>note(&quot;c4*8&quot;).sometimes(x =&gt; x.transpose(12))</code></pre>
-            <p class="history" data-label="Name and history">It means "sometimes" in English. Its friends are <code>often</code> and <code>rarely</code>.</p>
+            <h3>every [ ] [ ] <span class="fn">every</span> <span class="badge l2">Normal</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/every.png?v=f5396336" width="196" height="198" alt="every [ ] [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Changes the pattern in the ▼ way <b>once every N cycles</b>. ▼ has rev, fast 2, slow 2, ply 2, transpose 12 and transpose 7.</p>
+                    <p class="label">Try it</p>
+                    <p>Once in four cycles, the melody plays backwards.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Add a change now and then, so that the loop does not stay the same (fills)</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>note(&quot;c4 e4 g4&quot;).every(4, x =&gt; x.rev()).s(&quot;piano&quot;)</code></pre>
+            <details class="history"><summary>Name and history</summary><p>It means "every" in English. One of the most famous functions, there since the early days of TidalCycles.</p></details>
         </article>
         <article class="entry" id="degradeBy">
-            <h3>degradeBy <span class="badge l3">Master</span></h3>
-            <p class="blockline">Block: <code>degradeBy [30] %</code></p>
-            <p>Leaves out sounds <b>by chance</b>. If you make a hi-hat a little sparse, it sounds like a person is playing.</p>
+            <h3>degradeBy [ ] % <span class="fn">degradeBy</span> <span class="badge l3">Master</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/degradeBy.png?v=2d2340a6" width="196" height="160" alt="degradeBy [ ] %" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Leaves out sounds <b>by chance</b>. With 30, 30% of the sounds do not play.</p>
+                    <p class="label">Try it</p>
+                    <p>Some hi-hats drop out, and it sounds like a person playing.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Make fast hi-hats sparse to make a loop feel alive</li></ul>
+            <p class="label">In Strudel</p>
             <pre><code>s(&quot;hh*16&quot;).degradeBy(0.3)</code></pre>
-            <p class="history" data-label="Name and history"><b>Degrade</b> means "to make worse" or "to break down". It is the same as <code>?</code> in mini-notation (<code>"hh*16?"</code>).</p>
+            <details class="history"><summary>Name and history</summary><p><b>Degrade</b> means "to make worse" or "to break down". It is the same as <code>?</code> in mini-notation (<code>"hh*16?"</code>).</p></details>
+        </article>
+        <article class="entry" id="sometimes">
+            <h3>sometimes [ ] <span class="fn">sometimes</span> <span class="badge l3">Master</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/sometimes.png?v=32662c94" width="233" height="198" alt="sometimes [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Changes the pattern in the ▼ way <b>sometimes</b> (on about half of the sounds).</p>
+                    <p class="label">Try it</p>
+                    <p>Now and then a C plays an octave higher.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Give a repeated note a different change each time</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>note(&quot;c4*8&quot;).sometimes(x =&gt; x.transpose(12)).s(&quot;piano&quot;)</code></pre>
+            <details class="history"><summary>Name and history</summary><p>It means "sometimes" in English. Its friends are <code>often</code> and <code>rarely</code>.</p></details>
         </article>
         <article class="entry" id="euclid">
-            <h3>euclid <span class="badge l3">Master</span></h3>
-            <p class="blockline">Block: <code>euclid [3] [8]</code></p>
-            <p>Spreads N sounds over M steps <b>as evenly as possible</b>. (3, 8) is a rhythm you can hear in music all over the world.</p>
-            <pre><code>s(&quot;bd&quot;).euclid(3, 8)</code></pre>
-            <p class="history" data-label="Name and history">Godfried Toussaint, a computational geometry researcher, showed in papers around 2004-2005 that traditional rhythms from Cuba and Africa can be made with the same steps as the "<b>Euclidean algorithm</b>". That is ancient Greek math from about 2300 years ago, for finding the greatest common divisor of two numbers. The original steps were used by Bjorklund, a physicist, to set the timing of a particle accelerator.</p>
+            <h3>euclid [ ] [ ] <span class="fn">euclid</span> <span class="badge l3">Master</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/euclid.png?v=f9ce2349" width="196" height="160" alt="euclid [ ] [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Spreads N sounds over M steps <b>as evenly as possible</b>. (3, 8) is a rhythm you can hear in music all over the world.</p>
+                    <p class="label">Try it</p>
+                    <p>It plays in 3, 3, 2: tock, tock, tock.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Stack it on four on the floor for a catchy offset (<a href="rhythms.html#euclid">rhythm book</a>)</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>s(&quot;rim&quot;).euclid(3, 8)</code></pre>
+            <details class="history"><summary>Name and history</summary><p>Godfried Toussaint, a computational geometry researcher, showed in papers around 2004-2005 that traditional rhythms from Cuba and Africa can be made with the same steps as the "<b>Euclidean algorithm</b>". That is ancient Greek math from about 2300 years ago, for finding the greatest common divisor of two numbers. The original steps were used by Bjorklund, a physicist, to set the timing of a particle accelerator.</p></details>
         </article>
         <article class="entry" id="jux">
-            <h3>jux <span class="badge l3">Master</span></h3>
-            <p class="blockline">Block: <code>jux [rev]</code></p>
-            <p>Splits the sound into left and right, and uses the ▼ function <b>only on the right</b>. Left and right play different sounds, so it sounds wide.</p>
+            <h3>jux [ ] <span class="fn">jux</span> <span class="badge l3">Master</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/jux.png?v=5e020c95" width="196" height="160" alt="jux [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Splits the sound into left and right, and changes <b>only the right</b> in the ▼ way. Left and right play different sounds, so it sounds wide.</p>
+                    <p class="label">Try it</p>
+                    <p>The left plays as usual and the right plays backwards (use headphones).</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Make the sound wide</li></ul>
+            <p class="label">In Strudel</p>
             <pre><code>s(&quot;bd hh sd hh&quot;).jux(x =&gt; x.rev())</code></pre>
-            <p class="history" data-label="Name and history">Short for <b>juxtapose</b> (to put side by side). A name born in TidalCycles.</p>
+            <details class="history"><summary>Name and history</summary><p>Short for <b>juxtapose</b> (to put side by side). A name born in TidalCycles.</p></details>
         </article>
         <article class="entry" id="off">
-            <h3>off <span class="badge l3">Master</span></h3>
-            <p class="blockline">Block: <code>off [1/8] [transpose 7]</code></p>
-            <p>Takes the pattern, <b>delays</b> it a little, uses the ▼ function on it, and stacks it on top. You get a shifted sound, like an echo.</p>
-            <pre><code>note(&quot;c4 e4&quot;).off(0.125, x =&gt; x.transpose(7))</code></pre>
-            <p class="history" data-label="Name and history">It means "shifted" or "away" in English. The name comes from TidalCycles.</p>
+            <h3>off [ ] [ ] <span class="fn">off</span> <span class="badge l3">Master</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/off.png?v=3e165fb9" width="240" height="198" alt="off [ ] [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Takes the pattern, <b>delays</b> it a little, changes it in the ▼ way, and stacks it on top.</p>
+                    <p class="label">Try it</p>
+                    <p>G plays just after C, and B just after E.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Add a shifted harmony, like an echo</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>note(&quot;c4 e4&quot;).off(0.125, x =&gt; x.transpose(7)).s(&quot;piano&quot;)</code></pre>
+            <details class="history"><summary>Name and history</summary><p>It means "shifted" or "away" in English. The name comes from TidalCycles.</p></details>
         </article>
         <article class="entry" id="superimpose">
-            <h3>superimpose <span class="badge l3">Master</span></h3>
-            <p class="blockline">Block: <code>superimpose [transpose 12]</code></p>
-            <p><b>Stacks</b> a copy with the ▼ function on top of the original pattern.</p>
-            <pre><code>note(&quot;c4 e4&quot;).superimpose(x =&gt; x.transpose(12))</code></pre>
-            <p class="history" data-label="Name and history">It means "to lay one thing over another". It is the same word as the photo trick of showing two pictures at once (superimposing).</p>
+            <h3>superimpose [ ] <span class="fn">superimpose</span> <span class="badge l3">Master</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/superimpose.png?v=f43e88b4" width="243" height="198" alt="superimpose [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p><b>Stacks</b> a copy changed in the ▼ way on top of the original pattern.</p>
+                    <p class="label">Try it</p>
+                    <p>C plays with the C an octave higher.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Make a lead thicker</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>note(&quot;c4 e4&quot;).superimpose(x =&gt; x.transpose(12)).s(&quot;piano&quot;)</code></pre>
+            <details class="history"><summary>Name and history</summary><p>It means "to lay one thing over another". It is the same word as the photo trick of showing two pictures at once (superimposing).</p></details>
         </article>
         <article class="entry" id="chop">
-            <h3>chop <span class="badge l3">Master</span></h3>
-            <p class="blockline">Block: <code>chop [4]</code></p>
-            <p><b>Cuts</b> one sound <b>into N pieces</b> and plays them in small bits.</p>
+            <h3>chop [ ] <span class="fn">chop</span> <span class="badge l3">Master</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/chop.png?v=cb4ddaa6" width="196" height="160" alt="chop [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p><b>Cuts</b> one sound <b>into N pieces</b> and plays them in small bits.</p>
+                    <p class="label">Try it</p>
+                    <p>The kick is cut into 4 pieces which play one after another.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Cut a recorded voice and play the pieces (<a href="tutorial.html#step10">tutorial step 10</a>)</li></ul>
+            <p class="label">In Strudel</p>
             <pre><code>s(&quot;bd&quot;).chop(4)</code></pre>
-            <p class="history" data-label="Name and history">It means "to cut" or "to chop" in English. Cutting recorded sounds into small pieces and rearranging them is a hip-hop trick that spread with the samplers of the 1980s.</p>
+            <details class="history"><summary>Name and history</summary><p>It means "to cut" or "to chop" in English. Cutting recorded sounds into small pieces and rearranging them is a hip-hop trick that spread with the samplers of the 1980s.</p></details>
+        </article>
+        <article class="entry" id="transpose">
+            <h3>transpose [ ] <span class="fn">transpose</span> <span class="badge l3">Master</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/transpose.png?v=144b15eb" width="196" height="198" alt="transpose [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Moves the notes up by <b>N half steps</b> (down if N is negative). 12 is one octave.</p>
+                    <p class="label">Try it</p>
+                    <p>C, E, G play an octave lower.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Move a melody down to bass height</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>note(&quot;c4 e4 g4&quot;).transpose(-12).s(&quot;piano&quot;)</code></pre>
+            <details class="history"><summary>Name and history</summary><p>A music word. It means moving a whole song higher or lower, for example to make it easier to sing.</p></details>
         </article>
         <article class="entry" id="arp">
-            <h3>arp <span class="badge l3">Master</span></h3>
-            <p class="blockline">Block: <code>arp [0 1 2 1]</code></p>
-            <p>Plays the notes of a chord <b>one at a time</b>, in the order of the numbers (an arpeggio).</p>
-            <pre><code>note(&quot;[c4,e4,g4]&quot;).arp(&quot;0 1 2 1&quot;)</code></pre>
-            <p class="history" data-label="Name and history">Short for <b>arpeggio</b>. It comes from arpa, the Italian word for harp. It means playing the notes of a chord one by one, like on a harp.</p>
-        </article>
-    </section>
-    <section class="card" id="wave">
-        <h2>Moving values and random numbers</h2>
-        <article class="entry" id="range">
-            <h3>sine saw square tri rand perlin + range <span class="badge l3">Master</span></h3>
-            <p class="blockline">Block: <code>[sine] range [200] [2000] slow [4]</code></p>
-            <p><b>Values that move</b> over time. Put one into an effect instead of a number, and the sound slowly changes.</p>
-            <pre><code>sine.range(200, 2000).slow(4)</code></pre>
-            <p class="history" data-label="Name and history">It works like an "<b>LFO</b>" (a slowly moving wave) on a synthesizer. <b>perlin</b> is a "smooth random number" made by Ken Perlin in 1983. It was made to make movie CG look natural, and it won an Academy Award (for science and technology) in 1997.</p>
-        </article>
-        <article class="entry" id="irand">
-            <h3>irand + seg + rib <span class="badge l3">Master</span></h3>
-            <p class="blockline">Block: <code>irand [-7] .. [2] seg [16] rib [46] [1]</code></p>
-            <p>Makes numbers with <b>random numbers</b>. <code>seg</code> sets how many to take in one cycle. <code>rib</code> sets which cycle of random numbers to repeat. The same numbers always give the same phrase.</p>
-            <pre><code>n(irand(10).add(-7).seg(16).rib(46, 1))</code></pre>
-            <p class="history" data-label="Name and history"><b>irand</b> = <b>rand</b>om <b>i</b>nteger (whole number). <b>seg</b> = short for <b>seg</b>ment (to split up), <b>rib</b> = short for <b>rib</b>bon.</p>
-        </article>
-    </section>
-    <section class="card" id="effect">
-        <h2>Effects</h2>
-        <article class="entry" id="lpf">
-            <h3>lpf / hpf <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>[lpf ▼] [600]</code></p>
-            <p><b>lpf</b> cuts the high sounds and makes it muffled. <b>hpf</b> cuts the low sounds and makes it thin and tinny. The number is where the cutting starts (Hz).</p>
-            <pre><code>s(&quot;sawtooth&quot;).lpf(600)</code></pre>
-            <p class="history" data-label="Name and history"><b>L</b>ow-<b>p</b>ass <b>f</b>ilter (a filter that lets low sounds pass) and <b>h</b>igh-<b>p</b>ass <b>f</b>ilter. The filters in the synths that Robert Moog made in the 1960s are famous.</p>
-        </article>
-        <article class="entry" id="lpq">
-            <h3>lpq <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>[lpq ▼] [12]</code></p>
-            <p>Boosts the edge of the filter for a "wowww" sound <b>with a strong character</b> (resonance).</p>
-            <pre><code>s(&quot;sawtooth&quot;).lpf(400).lpq(12)</code></pre>
-            <p class="history" data-label="Name and history"><b>q</b> is an electronics word: the "Q value" (how sharp the cut is).</p>
-        </article>
-        <article class="entry" id="lpenv">
-            <h3>lpenv / lpd / lps <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>[lpenv ▼] [4]</code></p>
-            <p><b>Opens and closes</b> the filter each time a sound plays. lpd is the time until it closes, lps is how much stays open. The "bwow" of acid music is this.</p>
-            <pre><code>note(&quot;a1*8&quot;).s(&quot;sawtooth&quot;).lpf(200).lpenv(4)</code></pre>
-            <p class="history" data-label="Name and history"><b>env</b> = <b>env</b>elope (how the shape of a sound changes). <b>d</b> = decay, <b>s</b> = sustain (see ADSR below).</p>
-        </article>
-        <article class="entry" id="adsr">
-            <h3>attack decay sustain release <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>[attack ▼] [.5]</code></p>
-            <p>The <b>shape</b> of the volume. attack = how slowly it starts, decay = time to go down, sustain = how loud it stays, release = how it fades out at the end.</p>
-            <pre><code>note(&quot;c4&quot;).s(&quot;sine&quot;).attack(.5).release(2)</code></pre>
-            <p class="history" data-label="Name and history">The 4 first letters make "<b>ADSR</b>". It is said that Vladimir Ussachevsky, an electronic music researcher, came up with it in the 1960s. Almost every synth today has it.</p>
-        </article>
-        <article class="entry" id="room">
-            <h3>room <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>[room ▼] [.5]</code></p>
-            <p><b>Echoing space</b> (reverb). It sounds like playing in a big room.</p>
-            <pre><code>s(&quot;sd&quot;).room(.5)</code></pre>
-            <p class="history" data-label="Name and history">"Room" in English. The sound echoes differently depending on the size of the room.</p>
-        </article>
-        <article class="entry" id="delay">
-            <h3>delay / delaytime / delayfeedback <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>[delay ▼] [.4]</code></p>
-            <p>An <b>echo</b>. The same sound repeats a little later. delaytime is the gap, delayfeedback is how many times it repeats.</p>
-            <pre><code>note(&quot;c4 e4&quot;).delay(.4).delaytime(.25)</code></pre>
-            <p class="history" data-label="Name and history">It means "being late" in English. Long ago, people made echoes by looping recording tape (like the Roland Space Echo, 1974).</p>
-        </article>
-        <article class="entry" id="gain">
-            <h3>gain <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>[gain ▼] [.8]</code></p>
-            <p>How <b>loud</b> the sound is. 1 is normal.</p>
-            <pre><code>s(&quot;hh*8&quot;).gain(.6)</code></pre>
-            <p class="history" data-label="Name and history">In English it means "to increase" or "profit". It is a word for how many times bigger an electric signal is made.</p>
-        </article>
-        <article class="entry" id="pan">
-            <h3>pan <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>[pan ▼] [0]</code></p>
-            <p><b>Left-right position</b>. 0 is left, 0.5 is the middle, 1 is right.</p>
-            <pre><code>s(&quot;hh*8&quot;).pan(sine.range(0, 1))</code></pre>
-            <p class="history" data-label="Name and history">From <b>panorama</b> (a wide view). It means where in the left-right view you put the sound.</p>
-        </article>
-        <article class="entry" id="crush">
-            <h3>crush <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>[crush ▼] [4]</code></p>
-            <p>Makes the sound <b>crunchy</b> (a bitcrusher). The smaller the number, the rougher it gets.</p>
-            <pre><code>s(&quot;bd sd&quot;).crush(4)</code></pre>
-            <p class="history" data-label="Name and history">It "crushes" the detail of the sound (the number of bits), so it is called crush. It sounds close to the 8-bit sounds of old game consoles.</p>
-        </article>
-        <article class="entry" id="distort">
-            <h3>distort <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>[distort ▼] [2]</code></p>
-            <p><b>Distortion</b>. Bends the sound to make it fat and rough.</p>
-            <pre><code>note(&quot;a1&quot;).s(&quot;sawtooth&quot;).distort(2)</code></pre>
-            <p class="history" data-label="Name and history">The same as the distortion of an electric guitar. In the 1950s-60s, amps turned up too loud broke the sound, and people liked it as a cool sound.</p>
-        </article>
-        <article class="entry" id="speed">
-            <h3>speed <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>[speed ▼] [2]</code></p>
-            <p>The <b>playback speed</b> of a recorded sound. 2 is twice as fast and higher. -1 plays it backwards.</p>
-            <pre><code>s(&quot;bd&quot;).speed(2)</code></pre>
-            <p class="history" data-label="Name and history">It works the same way as spinning a record or tape faster to make the sound higher.</p>
-        </article>
-        <article class="entry" id="clip">
-            <h3>clip <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>[clip ▼] [.3]</code></p>
-            <p>The <b>length</b> of a sound. 1 lasts until the next sound, 0.3 cuts it short.</p>
-            <pre><code>note(&quot;c4 e4&quot;).s(&quot;square&quot;).clip(.3)</code></pre>
-            <p class="history" data-label="Name and history">It means "to cut off" in English.</p>
-        </article>
-        <article class="entry" id="vowel">
-            <h3>vowel <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>[vowel ▼] [a]</code></p>
-            <p>Makes the sound like a <b>voice</b> saying vowels such as "a, e, i, o, u".</p>
-            <pre><code>s(&quot;sawtooth&quot;).vowel(&quot;&lt;a e i o&gt;&quot;)</code></pre>
-            <p class="history" data-label="Name and history">"Vowel" in English. It is a filter that copies the sounds (formants) that make the vowels of a human voice.</p>
-        </article>
-        <article class="entry" id="unison">
-            <h3>unison / detune / spread <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>[unison ▼] [7]</code></p>
-            <p>How <b>thick</b> a supersaw is. unison is the number of stacked waves, detune is how far apart the pitches are, spread is how wide it is left to right.</p>
-            <pre><code>note(&quot;a3&quot;).s(&quot;supersaw&quot;).unison(7).detune(.4).spread(.8)</code></pre>
-            <p class="history" data-label="Name and history"><b>Unison</b> means "one sound" in Latin. It is when many people sing the same note. <b>Detune</b> means "to put out of tune".</p>
-        </article>
-        <article class="entry" id="fm">
-            <h3>fm <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>[fm ▼] [2]</code></p>
-            <p>Makes the sound <b>metallic</b>, like a bell or an electric piano (FM synthesis).</p>
-            <pre><code>note(&quot;c4&quot;).s(&quot;sine&quot;).fm(2)</code></pre>
-            <p class="history" data-label="Name and history"><b>F</b>requency <b>m</b>odulation (the same words as in FM radio). John Chowning at Stanford University discovered it in 1967, and the Yamaha <b>DX7</b> of 1983 spread it around the world.</p>
-        </article>
-    </section>
-    <section class="card" id="club">
-        <h2>Club music tricks</h2>
-        <article class="entry" id="orbit">
-            <h3>orbit <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>[orbit ▼] [2]</code></p>
-            <p>Chooses the <b>path</b> (1-8) the sound goes through. Reverb, echo and duck work separately for each path.</p>
-            <pre><code>note(&quot;a1*8&quot;).s(&quot;sawtooth&quot;).orbit(2)</code></pre>
-            <p class="history" data-label="Name and history">"Orbit" in English. It is the name of the system in SuperDirt, the sound engine of TidalCycles, that keeps each track's effects apart so they do not mix.</p>
-        </article>
-        <article class="entry" id="duck">
-            <h3>duck / duckattack / duckdepth <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>[duck ▼] [2]</code></p>
-            <p>Each time the kick plays, the sounds on other paths (orbits) <b>shrink</b>. The sound "pumps" as if it is breathing.</p>
-            <pre><code>s(&quot;bd*4&quot;).duck(&quot;2:3&quot;).duckattack(.2).duckdepth(.8)</code></pre>
-            <p class="history" data-label="Name and history">"Duck" means "to quickly lower your head". It comes from "ducking", a trick of turning the music down while someone talks on the radio. In club music it is also called "sidechain" or "pumping", and it was popular in 2000s French house and EDM.</p>
+            <h3>arp [ ] <span class="fn">arp</span> <span class="badge l3">Master</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/arp.png?v=0fdabfe6" width="218" height="198" alt="arp [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Plays the notes of a chord <b>one at a time</b>, in the order of the numbers (an arpeggio). 0 is the lowest note.</p>
+                    <p class="label">Try it</p>
+                    <p>The chord plays one note at a time: C, E, G, E.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Sparkly trance plucks, or a piano accompaniment</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>note(&quot;[c4,e4,g4]&quot;).arp(&quot;0 1 2 1&quot;).s(&quot;piano&quot;)</code></pre>
+            <details class="history"><summary>Name and history</summary><p>Short for <b>arpeggio</b>. It comes from arpa, the Italian word for harp. It means playing the notes of a chord one by one, like on a harp.</p></details>
         </article>
         <article class="entry" id="acidenv">
-            <h3>acidenv <span class="badge l3">Master</span></h3>
-            <p class="blockline">Block: <code>acidenv [.6]</code></p>
-            <p>Puts a sawtooth wave and a filter together to make the "bwow-bwow" sound of <b>acid</b> music.</p>
-            <pre><code>(block only; exported as s, lpf, lpenv, lps, lpd and lpq)</code></pre>
-            <p class="history" data-label="Name and history">The Roland <b>TB-303</b> from 1981 was made to replace a bass player, but it did not sell. Then in 1987, Phuture in Chicago made "Acid Tracks" by turning its knobs round and round, and "acid house" was born. The name comes from the function <code>acidenv</code> in Switch Angel's strudel-scripts.</p>
+            <h3>acidenv [ ] <span class="badge l3">Master</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/acidenv.png?v=25c2c1ff" width="196" height="160" alt="acidenv [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Puts a sawtooth wave and a filter together for the "bwow-bwow" sound of <b>acid</b> music. The bigger the number, the more it moves.</p>
+                    <p class="label">Try it</p>
+                    <p>The bass plays sixteenth notes: bwow bwow.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>An acid house bass (<a href="tutorial.html#step12">tutorial step 12</a>)</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>note(&quot;a1*16&quot;).s(&quot;sawtooth&quot;).lpf(100).lpenv(5.4).lps(0.2).lpd(0.12).lpq(2)</code></pre>
+            <details class="history"><summary>Name and history</summary><p>The Roland <b>TB-303</b> from 1981 was made to replace a bass player, but it did not sell. Then in 1987, Phuture in Chicago made "Acid Tracks" by turning its knobs round and round, and "acid house" was born. The name comes from the function <code>acidenv</code> in Switch Angel's strudel-scripts. It is exported as s, lpf, lpenv, lps, lpd and lpq.</p></details>
         </article>
         <article class="entry" id="trancegate">
-            <h3>trancegate <span class="badge l3">Master</span></h3>
-            <p class="blockline">Block: <code>trancegate [.8] [45] [1]</code></p>
-            <p><b>Chops</b> a long chord into small pieces for the "ta-ta-ta-ta" sound of trance.</p>
-            <pre><code>(block only; exported as struct, fillGaps and clip)</code></pre>
-            <p class="history" data-label="Name and history">A "gate" trick (a gate that opens and closes the sound), used a lot in trance music since the late 1990s. The name comes from the function <code>trancegate</code> in Switch Angel's strudel-scripts.</p>
+            <h3>trancegate [ ] [ ] [ ] <span class="badge l3">Master</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/trancegate.png?v=16a16713" width="233" height="198" alt="trancegate [ ] [ ] [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p><b>Chops</b> a long chord into small pieces for the "ta-ta-ta-ta" sound of trance. The first number is how many steps play, the second is the seed of the rhythm (change it for another rhythm).</p>
+                    <p class="label">Try it</p>
+                    <p>The thick chord is chopped: ta-ta, ta-ta-ta.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>A trance pad (<a href="tutorial.html#step12">tutorial step 12</a>)</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>note(&quot;[a3,c4,e4]&quot;).s(&quot;supersaw&quot;).struct(rand.mul(1.2).round().seg(16).rib(12, 1)).fillGaps().clip(0.7)</code></pre>
+            <details class="history"><summary>Name and history</summary><p>A "gate" trick (a gate that opens and closes the sound), used a lot in trance music since the late 1990s. The name comes from the function <code>trancegate</code> in Switch Angel's strudel-scripts. It is exported as struct, fillGaps and clip.</p></details>
+        </article>
+    </section>
+    <section class="card" id="values">
+        <h2>Value blocks</h2>
+        <p>Round blocks go into the inputs of other blocks.</p>
+        <article class="entry" id="listMini">
+            <h3>items of list [ ] [ ] <span class="badge l2">Normal</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/listMini.png?v=0bba0679" width="418" height="160" alt="items of list [ ] [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Turns the items of a Scratch <b>list</b> into mini-notation. Choose how in ▼: "one in each cycle" plays a line a bar, "in order in a cycle" plays all of them in a cycle, "all together" stacks them.</p>
+                    <p class="label">Try it</p>
+                    <p>The list "melody" has four lines: <code>c4 e4</code>, <code>g4 e4</code>, <code>a4 g4</code> and <code>e4 d4</code>. Each line plays for a bar, in order.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Write a long melody or chord progression a bar at a time in a list (<a href="tutorial.html#step9">tutorial step 9</a>)</li><li>Write a line for each drum and stack them with "all together"</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>note(&quot;&lt;[c4 e4] [g4 e4] [a4 g4] [e4 d4]&gt;&quot;).s(&quot;piano&quot;)</code></pre>
+            <details class="history"><summary>Name and history</summary><p>Strudel has no lists, so they are exported as mini-notation: <code>&lt; &gt;</code> (one in each cycle), <code>[ ]</code> (in order) and <code>,</code> (together).</p></details>
+        </article>
+        <article class="entry" id="range">
+            <h3>[ ] range [ ] [ ] slow [ ] <span class="fn">range</span> <span class="badge l3">Master</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/range.png?v=9d371331" width="404" height="198" alt="[ ] range [ ] [ ] slow [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p><b>A value which moves</b> over time. Choose the shape of the wave, from what to what, and how many cycles it takes. Put it into an effect instead of a number, and the sound slowly changes.</p>
+                    <p class="label">Try it</p>
+                    <p>Over four cycles the bass goes muffled and bright and back.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Open the filter slowly to build up (<a href="rhythms.html#filter">rhythm book</a>)</li><li>Put it in gain to get louder little by little</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>note(&quot;c2*8&quot;).s(&quot;sawtooth&quot;).lpf(sine.range(200, 2000).slow(4))</code></pre>
+            <details class="history"><summary>Name and history</summary><p>It works like an "<b>LFO</b>" (a slowly moving wave) on a synthesizer. <b>perlin</b> is a "smooth random number" made by Ken Perlin in 1983. It was made to make movie CG look natural, and it won an Academy Award (for science and technology) in 1997.</p></details>
+        </article>
+        <article class="entry" id="irand">
+            <h3>irand [ ] .. [ ] seg [ ] rib [ ] [ ] <span class="fn">irand</span> <span class="badge l3">Master</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/irand.png?v=13c5a4d7" width="384" height="198" alt="irand [ ] .. [ ] seg [ ] rib [ ] [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Makes numbers with <b>random numbers</b>: from what to what, how many in a cycle, and which seed to repeat for how many cycles. The same seed always gives the same phrase.</p>
+                    <p class="label">Try it</p>
+                    <p>Eight random notes of the scale play, and the same phrase repeats every cycle.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Change the seed to find a melody you like</li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>n(irand(8).add(0).seg(8).rib(3, 1)).scale(&quot;C4:minor:pentatonic&quot;).s(&quot;piano&quot;)</code></pre>
+            <details class="history"><summary>Name and history</summary><p><b>irand</b> = <b>rand</b>om <b>i</b>nteger (whole number). <b>seg</b> = short for <b>seg</b>ment (to split up), <b>rib</b> = short for <b>rib</b>bon.</p></details>
+        </article>
+    </section>
+    <section class="card" id="move">
+        <h2>Moving with the music</h2>
+        <article class="entry" id="whenBeat">
+            <h3>when a beat comes <span class="badge l1">Beginner</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/whenBeat.png?v=62785c1d" width="166" height="101" alt="when a beat comes" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Runs the blocks below <b>on every beat</b>: 4 times a cycle when a cycle has 4 beats.</p>
+                    <p class="label">Try it</p>
+                    <p>The cat changes its costume on every beat, as if it walks.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Make sprites dance to the music</li></ul>
+            <p class="label">In Strudel</p>
+            <p class="note">Strudel does not have it: it is a block of this extension.</p>
+            <details class="history"><summary>Name and history</summary><p>Strudel does not have it: it is a block for Scratch. It runs at the time the sound plays, so the picture and the sound stay together.</p></details>
+        </article>
+        <article class="entry" id="whenSound">
+            <h3>when [ ] sounds <span class="badge l1">Beginner</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/whenSound.png?v=025d0c3a" width="185" height="101" alt="when [ ] sounds" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Runs the blocks below <b>each time the chosen sound plays</b>.</p>
+                    <p class="label">Try it</p>
+                    <p>The cat gets a little bigger each time the kick plays.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Jump on the kick, change color on the snare: a different move for each drum</li></ul>
+            <p class="label">In Strudel</p>
+            <p class="note">Strudel does not have it: it is a block of this extension.</p>
+            <details class="history"><summary>Name and history</summary><p>Strudel does not have it: it is a block for Scratch.</p></details>
+        </article>
+        <article class="entry" id="beatInCycle">
+            <h3>beat <span class="badge l1">Beginner</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/beatInCycle.png?v=8832452d" width="166" height="106" alt="beat" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p><b>Which beat</b> of the cycle it is now (1, 2, 3, 4). 0 when nothing is playing.</p>
+                    <p class="label">Try it</p>
+                    <p>The cat counts the beats: 1, 2, 3, 4.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Use "if beat = 1" to move differently at the start of each bar</li></ul>
+            <p class="label">In Strudel</p>
+            <p class="note">Strudel does not have it: it is a block of this extension.</p>
+            <details class="history"><summary>Name and history</summary><p>Strudel does not have it: it is a block for Scratch.</p></details>
+        </article>
+        <article class="entry" id="cycle">
+            <h3>cycle <span class="badge l1">Beginner</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/cycle.png?v=9c68a07c" width="166" height="106" alt="cycle" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Which cycle it is now (counting from 0).</p>
+                    <p class="label">Try it</p>
+                    <p>The cat says the number of the cycle.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Change the backdrop every 8 cycles: follow the song with the picture</li></ul>
+            <p class="label">In Strudel</p>
+            <p class="note">Strudel does not have it: it is a block of this extension.</p>
+            <details class="history"><summary>Name and history</summary><p>The cycle is the unit of time of Strudel (TidalCycles). In this extension a cycle is usually a bar.</p></details>
+        </article>
+    </section>
+    <section class="card" id="code">
+        <h2>Strudel code</h2>
+        <article class="entry" id="strudelCode">
+            <h3>Strudel code of all tracks <span class="badge l2">Normal</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/strudelCode.png?v=2c8208a6" width="239" height="106" alt="Strudel code of all tracks" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>The text of the Strudel code of <b>all the tracks</b> which are playing.</p>
+                    <p class="label">Try it</p>
+                    <p>Press C, and the cat says the code.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>See what code your blocks make</li></ul>
+            <p class="label">In Strudel</p>
+            <p class="note">Strudel does not have it: it is a block of this extension.</p>
+            <details class="history"><summary>Name and history</summary><p>It starts with the tempo <code>setcpm(…)</code>, then a <code>$:</code> line for each track.</p></details>
+        </article>
+        <article class="entry" id="openStrudel">
+            <h3>open all tracks in strudel.cc <span class="badge l2">Normal</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/openStrudel.png?v=b8eddd93" width="206" height="106" alt="open all tracks in strudel.cc" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Opens all the tracks which are playing in <b>strudel.cc</b> (the site where you write Strudel in the browser).</p>
+                    <p class="label">Try it</p>
+                    <p>Press O, and strudel.cc opens in a new tab with the code of the same song.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Keep working on your block song as code (<a href="tutorial.html#code">tutorial column</a>)</li></ul>
+            <p class="label">In Strudel</p>
+            <p class="note">Strudel does not have it: it is a block of this extension.</p>
+            <details class="history"><summary>Name and history</summary><p>strudel.cc is the site of the makers of Strudel. The code travels after the # of the address.</p></details>
         </article>
     </section>
     <section class="card" id="viz">
-        <h2>See the sound</h2>
-        <article class="entry" id="scope">
-            <h3>scope <span class="badge l1">Beginner</span></h3>
-            <p class="blockline">Block: <code>show [scope]</code></p>
-            <p>Shows the <b>shape of the sound wave</b> as a line.</p>
-            <pre><code>s(&quot;sawtooth&quot;)._scope()</code></pre>
-            <p class="history" data-label="Name and history">Short for <b>oscilloscope</b>, a tool for looking at electric waves.</p>
-        </article>
-        <article class="entry" id="pianoroll">
-            <h3>pianoroll <span class="badge l1">Beginner</span></h3>
-            <p class="blockline">Block: <code>show [pianoroll]</code></p>
-            <p>Shows the pitch and length of notes as bars that flow sideways.</p>
+        <h2>Seeing the sound</h2>
+        <article class="entry" id="showViz">
+            <h3>show [ ] <span class="badge l1">Beginner</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/showViz.png?v=c8ce9334" width="172" height="106" alt="show [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Shows <b>a picture of the sound</b> on the stage. Choose the kind of picture in ▼.</p>
+                    <p class="label">Try it</p>
+                    <p>A piano roll appears on the stage, and the notes flow by as bars.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>See melodies on the piano roll, drums on the punch card, sounds on the scope or spectrum</li></ul>
+            <p class="label">In Strudel</p>
             <pre><code>note(&quot;c4 e4 g4&quot;)._pianoroll()</code></pre>
-            <p class="history" data-label="Name and history">Around 1900, player pianos played songs from paper rolls with holes in them. The name comes from how those looked.</p>
+            <div class="items">
+                <p class="label">Names in ▼</p>
+                <section class="item" id="scope">
+                    <h4>scope</h4>
+                    <p>Shows the <b>shape of the sound wave</b> as a line.</p>
+                    <pre><code>s(&quot;sawtooth&quot;)._scope()</code></pre>
+                    <details class="history"><summary>Name and history</summary><p>Short for <b>oscilloscope</b>, a tool for looking at electric waves.</p></details>
+                </section>
+                <section class="item" id="pianoroll">
+                    <h4>pianoroll</h4>
+                    <p>Shows the pitch and length of notes as bars that flow sideways.</p>
+                    <pre><code>note(&quot;c4 e4 g4&quot;)._pianoroll()</code></pre>
+                    <details class="history"><summary>Name and history</summary><p>Around 1900, player pianos played songs from paper rolls with holes in them. The name comes from how those looked.</p></details>
+                </section>
+                <section class="item" id="spectrum">
+                    <h4>spectrum</h4>
+                    <p>Shows how much of each sound is playing, from low to high.</p>
+                    <pre><code>s(&quot;bd hh&quot;)._spectrum()</code></pre>
+                    <details class="history"><summary>Name and history</summary><p>"Spectrum" in English. Light going through a prism splits into rainbow colors. In the same way, this splits sound by pitch so you can see it.</p></details>
+                </section>
+                <section class="item" id="punchcard">
+                    <h4>punchcard</h4>
+                    <p>Shows the piano roll like a card with holes in it.</p>
+                    <pre><code>note(&quot;c4 e4 g4&quot;)._punchcard()</code></pre>
+                    <details class="history"><summary>Name and history</summary><p>A <b>punch card</b> is a card that stores information by where its holes are. In the early 1800s, the Jacquard loom used them to control the patterns of cloth. Later they were used in computers too.</p></details>
+                </section>
+            </div>
+            <details class="history"><summary>Name and history</summary><p>In Strudel, add <code>._pianoroll()</code> or another one after the pattern.</p></details>
         </article>
-        <article class="entry" id="spectrum">
-            <h3>spectrum <span class="badge l1">Beginner</span></h3>
-            <p class="blockline">Block: <code>show [spectrum]</code></p>
-            <p>Shows how much of each sound is playing, from low to high.</p>
-            <pre><code>s(&quot;bd hh&quot;)._spectrum()</code></pre>
-            <p class="history" data-label="Name and history">"Spectrum" in English. Light going through a prism splits into rainbow colors. In the same way, this splits sound by pitch so you can see it.</p>
+        <article class="entry" id="hideViz">
+            <h3>hide the picture of sound <span class="badge l1">Beginner</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/hideViz.png?v=b44e8895" width="193" height="106" alt="hide the picture of sound" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p><b>Hides</b> the picture of the sound on the stage.</p>
+                    <p class="label">Try it</p>
+                    <p>Press H, and the picture goes away.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Go back to the game screen</li></ul>
+            <p class="label">In Strudel</p>
+            <p class="note">Strudel does not have it: it is a block of this extension.</p>
+            <details class="history"><summary>Name and history</summary><p>In Strudel, remove <code>._pianoroll()</code> and the like.</p></details>
         </article>
-        <article class="entry" id="punchcard">
-            <h3>punchcard <span class="badge l1">Beginner</span></h3>
-            <p class="blockline">Block: <code>show [punchcard]</code></p>
-            <p>Shows the piano roll like a card with holes in it.</p>
-            <pre><code>note(&quot;c4 e4 g4&quot;)._punchcard()</code></pre>
-            <p class="history" data-label="Name and history">A <b>punch card</b> is a card that stores information by where its holes are. In the early 1800s, the Jacquard loom used them to control the patterns of cloth. Later they were used in computers too.</p>
+        <article class="entry" id="vizLayer">
+            <h3>put the picture of sound [ ] the sprites <span class="badge l2">Normal</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/vizLayer.png?v=51c9dd58" width="328" height="106" alt="put the picture of sound [ ] the sprites" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Puts the picture of the sound <b>in front of</b> or <b>behind</b> the sprites.</p>
+                    <p class="label">Try it</p>
+                    <p>The picture comes in front of the cat.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Put it behind to use the picture as a backdrop</li></ul>
+            <p class="label">In Strudel</p>
+            <p class="note">Strudel does not have it: it is a block of this extension.</p>
+            <details class="history"><summary>Name and history</summary><p>Strudel does not have it: it is a block for Scratch.</p></details>
         </article>
     </section>
-    <section class="card" id="scale">
-        <h2>Names of scales and chords</h2>
-        <article class="entry" id="major">
-            <h3>major / minor <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>scale [C4] [minor]</code></p>
-            <p>major is a bright scale (major key), minor is a dark scale (minor key).</p>
-            <pre><code>n(&quot;0 2 4&quot;).scale(&quot;C4:minor&quot;)</code></pre>
-            <p class="history" data-label="Name and history">In English, major = "bigger", minor = "smaller". They are named by whether the gap between C and E (a third) is big or small.</p>
-        </article>
-        <article class="entry" id="pentatonic">
-            <h3>major:pentatonic / minor:pentatonic <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>scale [C4] [major:pentatonic]</code></p>
-            <p>A scale with only 5 notes. It sounds nice in any order.</p>
-            <pre><code>n(&quot;0 1 2 3 4&quot;).scale(&quot;C4:major:pentatonic&quot;)</code></pre>
-            <p class="history" data-label="Name and history">From the Greek penta (5) + tonic (tone). The Japanese "yonanuki" scale, which leaves out the 4th and 7th notes, is in the same family.</p>
-        </article>
-        <article class="entry" id="blues">
-            <h3>blues / dorian / chromatic <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>scale [C4] [blues]</code></p>
-            <p>blues is the scale of blues music, dorian is a scale loved in jazz and Celtic music, and chromatic is a scale with every half step.</p>
-            <pre><code>n(&quot;0 1 2 3&quot;).scale(&quot;C4:dorian&quot;)</code></pre>
-            <p class="history" data-label="Name and history"><b>dorian</b> is a scale named after the Dorians of ancient Greece. It came down to us through the church music of the Middle Ages. <b>chromatic</b> comes from the Greek chroma (color).</p>
+    <section class="card" id="drumkit">
+        <h2>Drum sounds</h2>
+        <article class="entry" id="setDrumKit">
+            <h3>(experimental) set drums to [ ] <span class="badge l2">Normal</span></h3>
+            <div class="example">
+                <figure><img src="../dictionary/en/setDrumKit.png?v=047e3629" width="353" height="106" alt="(experimental) set drums to [ ]" loading="lazy"></figure>
+                <div>
+                    <p class="label">What does it do?</p>
+                    <p>Chooses whether the drums are the <b>recorded sounds</b> of strudel.cc (uzu-drumkit) or <b>synthesized sounds</b> (which play without the network). Usually synthesized. It is still an experiment.</p>
+                    <p class="label">Try it</p>
+                    <p>The drums sound the same as in strudel.cc.</p>
+                </div>
+            </div>
+            <p class="label">When to use it</p>
+            <ul class="uses"><li>Make a song with the same sounds as in strudel.cc</li></ul>
+            <p class="label">In Strudel</p>
+            <p class="note">Strudel does not have it: it is a block of this extension.</p>
+            <details class="history"><summary>Name and history</summary><p>uzu-drumkit is the usual drum kit of strudel.cc. With a drum machine (bank), the drums use its sounds.</p></details>
         </article>
     </section>
-    <p style="text-align:center"><a href="tutorial.html">To the tutorial</a> ・ <a href="./">Strudel for Xcratch</a></p>
+    <p style="text-align:center"><a href="tutorial.html">Tutorial</a> ・ <a href="rhythms.html">Rhythm book</a> ・ <a href="./">Strudel for Xcratch</a></p>
 </main>
 <footer>
     <p><a href="./">Strudel for Xcratch</a> — <a href="https://github.com/0x48lab/xcx-strudel/blob/main/LICENSE">AGPL-3.0</a>.

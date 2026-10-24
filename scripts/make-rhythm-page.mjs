@@ -1,16 +1,16 @@
 #!/usr/bin/env node
 /**
  * Make the rhythm book: rhythms.html and en/rhythms.html, from the rhythms and techniques of rhythm-book.mjs.
- * The style is the one of dictionary.html, so that the pages look the same.
- * Run: npm run rhythms
+ * The style is the one of the dictionary, so that the pages look the same.
+ * Run: npm run rhythms (and npm run rhythms:shots before it when the tracks change)
  */
 import path from 'path';
 import fs from 'fs-extra';
 import {BREAK, DRUMS, RHYTHMS, STEPS, TECHNIQUES, gridOf} from './rhythm-book.mjs';
 import {WORDS} from './words-en.mjs';
+import {bookStyle, imageOf} from './page-style.mjs';
 
 const ROOT = process.cwd();
-const translations = fs.readJsonSync(path.join(ROOT, 'src/vm/extensions/block/translations.json'));
 const SITE = 'https://0x48lab.github.io/xcx-strudel/';
 const EDITOR = 'https://xcratch.github.io/editor/';
 
@@ -27,7 +27,7 @@ const TEXT = {
         lead: '定番の リズムを 鳴らして、改造して、じぶんの 曲に しよう。',
         home: 'Strudel for Xcratch',
         tutorial: 'チュートリアル',
-        dictionary: '関数じてん',
+        dictionary: 'ブロックじてん',
         other: {href: 'en/rhythms.html', label: 'English'},
         level: {2: 'ノーマル', 3: 'マスター'},
         key: 'キー',
@@ -53,7 +53,7 @@ const TEXT = {
         more: 'ほかの わざ: キックで ほかの 音を へこませる「ポンピング」と、だんだん もりあげる「ビルドアップ」は、<a href="tutorial.html#step13">チュートリアル 13章</a>に あるよ。',
         breakNote: `${BREAK.breakKey} キーと ${BREAK.dropKey} キー(「トラック [キック] を止める」と「トラック [キック] で鳴らす」)`,
         toc: 'さくいん',
-        back: '<a href="tutorial.html">チュートリアルへ</a> ・ <a href="dictionary.html">関数じてん</a> ・ <a href="./">Strudel for Xcratch</a>'
+        back: '<a href="tutorial.html">チュートリアルへ</a> ・ <a href="dictionary.html">ブロックじてん</a> ・ <a href="./">Strudel for Xcratch</a>'
     },
     en: {
         lang: 'en',
@@ -63,7 +63,7 @@ const TEXT = {
         lead: 'Play standard rhythms, remake them, and make them your own songs.',
         home: 'Strudel for Xcratch',
         tutorial: 'Tutorial',
-        dictionary: 'Function dictionary',
+        dictionary: 'Block dictionary',
         other: {href: '../rhythms.html', label: '日本語'},
         level: {2: 'Normal', 3: 'Master'},
         key: 'Key',
@@ -89,7 +89,7 @@ const TEXT = {
         more: 'More tricks: pumping, where the kick pushes the other sounds down, and the build-up are in <a href="tutorial.html#step13">step 13 of the tutorial</a>.',
         breakNote: `Keys ${BREAK.breakKey} and ${BREAK.dropKey} (stop track [kick] and play on track [kick])`,
         toc: 'Contents',
-        back: '<a href="tutorial.html">Tutorial</a> ・ <a href="dictionary.html">Function dictionary</a> ・ <a href="./">Strudel for Xcratch</a>'
+        back: '<a href="tutorial.html">Tutorial</a> ・ <a href="dictionary.html">Block dictionary</a> ・ <a href="./">Strudel for Xcratch</a>'
     }
 };
 
@@ -105,50 +105,24 @@ const STYLE = `
 .grid td.on { background: var(--accent); }
 .grid td.on.alt { background: var(--purple); }
 .grid-wrap { overflow-x: auto; }
-.blocks { margin: 6px 0 0; padding: 8px 12px; list-style: none; border-radius: 8px; background: var(--code-bg); font-size: 14px; line-height: 1.7; overflow-wrap: anywhere; }
-.blocks ul { margin: 0; padding-left: 1.4em; list-style: none; border-left: 3px solid var(--border); }
-.slot { display: inline-block; padding: 0 6px; margin: 0 2px; border-radius: 999px; background: var(--card); border: 1px solid var(--border); font-family: ui-monospace, Menlo, monospace; font-size: 13px; }
+.blocks { margin: 6px 0 0; overflow-x: auto; }
+.blocks img { max-width: none; }
 .badge.bpm { background: #4c97ff; }
 .badge.key { background: var(--muted); }
 `;
 
 /**
- * A block as it reads in the editor, with its inputs filled.
+ * Screenshot of the blocks of a track, taken by scripts/shoot-rhythms.mjs.
  * @param {string} lang - 'ja' or 'en'
- * @param {string} opcode - opcode
- * @param {object} args - inputs
+ * @param {string} id - id of the rhythm or the technique
+ * @param {string} alt - text of the image
  * @returns {string} - HTML
  */
-const blockText = (lang, opcode, args) => {
-    const t = translations[lang];
-    const menu = (group, value) => t[`strudel.menu.${group}.${value}`] || value;
-    const value = (name, v) => {
-        if (v && v.wave) {
-            const [shape, min, max, cycles] = v.wave;
-            return `(${blockText(lang, 'wave', {SHAPE: shape, MIN: min, MAX: max, CYCLES: cycles})})`;
-        }
-        if (name === 'EFFECT') return menu('effect', v);
-        if (name === 'TRANSFORM') return menu('transform', v);
-        if (name === 'SHAPE') return menu('shape', v);
-        return v;
-    };
-    return escape(t[`strudel.${opcode}`]).replace(/\[([A-Z]+)\]/g, (whole, name) => {
-        const v = value(name, args[name]);
-        return v && v.startsWith && v.startsWith('(') ? v : `<span class="slot">${escape(v)}</span>`;
-    });
-};
-
-/**
- * Blocks of a track in the C block "play on track".
- * @param {string} lang - 'ja' or 'en'
- * @param {string} name - track name
- * @param {Array} track - blocks
- * @returns {string} - HTML
- */
-const blocksHtml = (lang, name, track) => {
-    const list = steps => `<ul>${steps.map(([opcode, args, inner]) => `<li>${blockText(lang, opcode, args)}` +
-        `${inner ? list(inner) : ''}</li>`).join('')}</ul>`;
-    return `<ul class="blocks"><li>${blockText(lang, 'track', {TRACK: name})}${list(track)}</li></ul>`;
+const blocksHtml = (lang, id, alt) => {
+    const image = `rhythms/${lang === 'en' ? 'en/' : ''}${id}.png`;
+    const {width, height, hash} = imageOf(path.join(ROOT, image));
+    return `<figure class="blocks"><img src="${lang === 'en' ? '../' : ''}${image}?v=${hash}" width="${width}" ` +
+        `height="${height}" alt="${escape(alt)}" loading="lazy"></figure>`;
 };
 
 /**
@@ -187,7 +161,7 @@ const page = lang => {
             ${gridHtml(lang, r.track)}
             <p>${r.about[lang]}</p>
             <p class="label">${t.blocks}</p>
-            ${blocksHtml(lang, trackName(lang, 'ドラム'), r.track)}
+            ${blocksHtml(lang, r.id, `${t.blocks}: ${r.name[lang]}`)}
             <p class="label">${t.code}</p>
             <pre><code>${escape(r.code)}</code></pre>
             ${tipsHtml(t, r.tips[lang])}
@@ -198,7 +172,7 @@ const page = lang => {
             <h3>${escape(x.name[lang])} <span class="badge l${x.level}">${t.level[x.level]}</span> <span class="badge key">${t.key} ${x.key}</span></h3>
             <p>${x.about[lang]}</p>
             <p class="label">${t.blocks}(${escape(t.track(trackName(lang, x.trackName)))})</p>
-            ${blocksHtml(lang, trackName(lang, x.trackName), x.track)}
+            ${blocksHtml(lang, x.id, `${t.blocks}: ${x.name[lang]}`)}
             <p class="label">${t.code}</p>
             <pre><code>${escape(x.code)}</code></pre>
             ${tipsHtml(t, x.tips[lang])}
@@ -211,7 +185,7 @@ const page = lang => {
         </article>`;
     const toc = (items, extra = []) => `<ul class="toc">${items.map(x => `<li><a href="#${x.id}">${escape(x.name[lang])}</a></li>`)
         .concat(extra).join('')}</ul>`;
-    const style = fs.readFileSync(path.join(ROOT, 'dictionary.html'), 'utf8').match(/<style>([\s\S]*?)<\/style>/)[1];
+    const style = bookStyle();
     return `<!doctype html>
 <html lang="${t.lang}">
 <head>

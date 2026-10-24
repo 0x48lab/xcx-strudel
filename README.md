@@ -12,7 +12,8 @@ Available in English, Japanese and Japanese (Hiragana).
 - English: https://0x48lab.github.io/xcx-strudel/en/ (tutorial: https://0x48lab.github.io/xcx-strudel/en/tutorial.html)
 - [新規プロジェクト / New project](https://xcratch.github.io/editor/?extension=https://0x48lab.github.io/xcx-strudel/dist/strudel.mjs) — 拡張機能が入った状態で Xcratch エディターが開きます
 - [チュートリアル / Tutorial](https://0x48lab.github.io/xcx-strudel/tutorial.html) — スクリーンショット付きの 13 ステップ。リストとリズムで曲を書く、自分の声をビートにする、EDM・トランスの音作り、ジャズ・ソウルの和音まで(日本語)
-- [リズム図鑑 / Rhythm book](https://0x48lab.github.io/xcx-strudel/rhythms.html) — ハウス・ディスコ・8ビート・ブーンバップ・トラップ・UKガラージ・ドラムンベース・レゲトンの定番リズムを16マスの図で示し、強弱・裏打ち・ゴーストノート・ユークリッド・フィル・フィルター・ランダム・ブレイクのテクニックを4つ打ちに1つずつ足して聞きくらべる。作品 [rhythms.sb3](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/rhythms.sb3) と [techniques.sb3](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/techniques.sb3) で鳴らせる。ページは `npm run rhythms` で `scripts/rhythm-book.mjs` から作る
+- [ブロックじてん / Block dictionary](https://0x48lab.github.io/xcx-strudel/dictionary.html) — パレットの順に、ブロック1つずつの使い方(ブロックの絵、何が起きるか、試し方、よく使う場面、Strudel のコード)と名前の由来。例は [dictionary.sb3](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/dictionary.sb3) にまとめてある。ページは `npm run dictionary`(と、例を変えたら `npm run dictionary:shots`)で `scripts/dictionary-book.mjs` から作る
+- [リズム図鑑 / Rhythm book](https://0x48lab.github.io/xcx-strudel/rhythms.html) — ハウス・ディスコ・8ビート・ブーンバップ・トラップ・UKガラージ・ドラムンベース・レゲトンの定番リズムを16マスの図で示し、強弱・裏打ち・ゴーストノート・ユークリッド・フィル・フィルター・ランダム・ブレイクのテクニックを4つ打ちに1つずつ足して聞きくらべる。作品 [rhythms.sb3](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/rhythms.sb3) と [techniques.sb3](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/techniques.sb3) で鳴らせる。ページは `npm run rhythms`(と、トラックを変えたらブロックの絵を撮る `npm run rhythms:shots`)で `scripts/rhythm-book.mjs` から作る
 - サンプル作品(エディタでブロックを見る)
   - [ビギナー: ビートと おどる ねこ](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/demo.sb3)
   - [ノーマル: おんかいで メロディ](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/melody.sb3) — スペース・↑・↓・R キーでメロディが変わる
@@ -25,7 +26,7 @@ Available in English, Japanese and Japanese (Hiragana).
 
 - C型の「トラック [ ] で鳴らす」ブロックが Strudel の1行(1トラック)。中に積んだブロックを上から順に読むと、そのまま Strudel のメソッドチェーンになる(`s [hh]` の下に `fast [8]` → `s("hh").fast(8)`)
 - ブロックの形ごとに役割が1つ: C型 = トラック、中に積む命令ブロック = 音源と変形・効果、丸いブロック = 値(リストの中身、ゆれる値、乱数)
-- 英語表示のブロックとメニューは Strudel の関数名(`seq` `stack` `fast` `lpf` など)。日本語・ひらがな表示は、意味がわかる日本語(「はやくする」「重ねる」「ひくい音だけ通す」)か、音楽で使うカタカナ(「アルペジオ」「ディレイ」)で書く。音の名前(`bd` `sine` など)はそのまま。どの関数になるかは関数じてんと書き出したコードでわかる
+- 英語表示のブロックとメニューは Strudel の関数名(`seq` `stack` `fast` `lpf` など)。日本語・ひらがな表示は、意味がわかる日本語(「はやくする」「重ねる」「ひくい音だけ通す」)か、音楽で使うカタカナ(「アルペジオ」「ディレイ」)で書く。音の名前(`bd` `sine` など)はそのまま。どの関数になるかはブロックじてんと書き出したコードでわかる
 - ビギナーでは `s [bd ▼]` `note [c4 ▼]` `seq` `stack` `cat` の ▼ で音を選び、`fast` で速くする。ノーマルからは `s [ ]` `note [ ]` にミニ記法を書ける
 - エフェクト(lpf, hpf, room, delay, gain, pan, crush, speed, attack, release, distort, fm, vowel など)、変形(rev, ply, every)、音階(n + scale)
 - ミニ記法(`bd*2 [~ sd] <hh oh>`)をそのまま書くこともできる

@@ -11,6 +11,9 @@
     "version": "node ./scripts/version-build.mjs && git add dist",
     "demo": "node ./scripts/make-demo.mjs && node ./scripts/make-samples.mjs && node ./scripts/make-demo.mjs --en && node ./scripts/make-samples.mjs --en",
     "rhythms": "node ./scripts/make-rhythm-page.mjs",
+    "rhythms:shots": "node ./scripts/shoot-rhythms.mjs && node ./scripts/shoot-rhythms.mjs --en",
+    "dictionary": "node ./scripts/make-dictionary.mjs && node ./scripts/make-dictionary.mjs --en && node ./scripts/make-dictionary-page.mjs",
+    "dictionary:shots": "node ./scripts/shoot-dictionary.mjs && node ./scripts/shoot-dictionary.mjs --en",
     "tutorial": "node ./scripts/make-tutorial.mjs && node ./scripts/make-tutorial.mjs --en",
     "tutorial:shots": "node ./scripts/shoot-tutorial.mjs && node ./scripts/shoot-tutorial.mjs --en && node ./scripts/stamp-images.mjs"
   },

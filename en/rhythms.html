@@ -158,6 +158,7 @@ pre code { padding: 0; background: none; }
 .wide img { max-width: none; }
 footer { text-align: center; color: var(--muted); font-size: 14px; padding: 0 16px 32px; }
 footer a { color: inherit; }
+
 /* dictionary */
 .toc { display: flex; flex-wrap: wrap; gap: 6px 10px; padding: 0; list-style: none; }
 .toc a { display: inline-block; padding: 2px 8px; border: 1px solid var(--border); border-radius: 999px; text-decoration: none; color: inherit; font-family: ui-monospace, Menlo, monospace; font-size: 14px; }
@@ -183,9 +184,8 @@ main a { color: var(--accent); }
 .grid td.on { background: var(--accent); }
 .grid td.on.alt { background: var(--purple); }
 .grid-wrap { overflow-x: auto; }
-.blocks { margin: 6px 0 0; padding: 8px 12px; list-style: none; border-radius: 8px; background: var(--code-bg); font-size: 14px; line-height: 1.7; overflow-wrap: anywhere; }
-.blocks ul { margin: 0; padding-left: 1.4em; list-style: none; border-left: 3px solid var(--border); }
-.slot { display: inline-block; padding: 0 6px; margin: 0 2px; border-radius: 999px; background: var(--card); border: 1px solid var(--border); font-family: ui-monospace, Menlo, monospace; font-size: 13px; }
+.blocks { margin: 6px 0 0; overflow-x: auto; }
+.blocks img { max-width: none; }
 .badge.bpm { background: #4c97ff; }
 .badge.key { background: var(--muted); }
 </style>
@@ -195,7 +195,7 @@ main a { color: var(--accent); }
     <p class="lang"><a href="../rhythms.html" data-keep-hash>日本語</a></p>
     <img src="../icon.svg" alt="" width="64" height="64" style="display:block;margin:0 auto 8px">
     <h1>Rhythm book</h1>
-    <p>Play standard rhythms, remake them, and make them your own songs.<br><a href="./">Strudel for Xcratch</a> ・ <a href="tutorial.html">Tutorial</a> ・ <a href="dictionary.html">Function dictionary</a></p>
+    <p>Play standard rhythms, remake them, and make them your own songs.<br><a href="./">Strudel for Xcratch</a> ・ <a href="tutorial.html">Tutorial</a> ・ <a href="dictionary.html">Block dictionary</a></p>
 </header>
 <main>
     <section class="card" id="about">
@@ -227,7 +227,7 @@ main a { color: var(--accent); }
             <div class="grid-wrap"><table class="grid"><thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead><tbody><tr><th>kick</th><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td></tr><tr><th>open hat</th><td class="beat"></td><td></td><td class="on alt"></td><td></td><td class="beat"></td><td></td><td class="on alt"></td><td></td><td class="beat"></td><td></td><td class="on alt"></td><td></td><td class="beat"></td><td></td><td class="on alt"></td><td></td></tr><tr><th>clap</th><td class="beat"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td></tr></tbody></table></div>
             <p>The kick plays on every beat: four on the floor. The open hat between the kicks (on the off-beat) makes it house.</p>
             <p class="label">Blocks</p>
-            <ul class="blocks"><li>play on track <span class="slot">drums</span><ul><li>s <span class="slot">bd*4</span></li><li>stack<ul><li>s <span class="slot">[~ oh]*4</span></li></ul></li><li>stack<ul><li>s <span class="slot">[~ cp]*2</span></li></ul></li><li>bank <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <figure class="blocks"><img src="../rhythms/en/house.png?v=5480c133" width="205" height="354" alt="Blocks: House" loading="lazy"></figure>
             <p class="label">In Strudel</p>
             <pre><code>stack(s(&quot;bd*4&quot;), s(&quot;[~ oh]*4&quot;), s(&quot;[~ cp]*2&quot;)).bank(&quot;RolandTR909&quot;)</code></pre>
             <div class="try"><strong>Remake it</strong><ul><li>Change the open hat to <code>hh*16</code> for sixteenth notes</li><li>Make the clap <code>[~ cp]*4</code> for more claps</li><li>Change the drum machine to <code>RolandTR808</code> for a softer sound</li></ul></div>
@@ -238,7 +238,7 @@ main a { color: var(--accent); }
             <div class="grid-wrap"><table class="grid"><thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead><tbody><tr><th>kick</th><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td></tr><tr><th>hi-hat</th><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td></tr><tr><th>open hat</th><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td></tr><tr><th>snare</th><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td></tr></tbody></table></div>
             <p>The hats play closed and open in turns over the four-on-the-floor kick. The snare on beats 2 and 4 makes you move.</p>
             <p class="label">Blocks</p>
-            <ul class="blocks"><li>play on track <span class="slot">drums</span><ul><li>s <span class="slot">bd*4</span></li><li>stack<ul><li>s <span class="slot">[hh oh]*4</span></li></ul></li><li>stack<ul><li>s <span class="slot">[~ sd]*2</span></li></ul></li><li>bank <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <figure class="blocks"><img src="../rhythms/en/disco.png?v=67940501" width="205" height="354" alt="Blocks: Disco" loading="lazy"></figure>
             <p class="label">In Strudel</p>
             <pre><code>stack(s(&quot;bd*4&quot;), s(&quot;[hh oh]*4&quot;), s(&quot;[~ sd]*2&quot;)).bank(&quot;RolandTR909&quot;)</code></pre>
             <div class="try"><strong>Remake it</strong><ul><li>Stack <code>[~ cp]*2</code> on the snare for a fatter sound</li><li>Raise the BPM to 124 and compare it with house</li><li>Make the hats <code>[hh hh oh hh]*2</code> for fewer open hats</li></ul></div>
@@ -249,7 +249,7 @@ main a { color: var(--accent); }
             <div class="grid-wrap"><table class="grid"><thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead><tbody><tr><th>kick</th><td class="beat on"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td></td><td></td></tr><tr><th>snare</th><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td></tr><tr><th>hi-hat</th><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td></tr></tbody></table></div>
             <p>The hi-hat plays eight eighth notes: the base of rock and pop. The kick plays on beats 1 and 3, the snare on 2 and 4. Moving a kick changes the feel.</p>
             <p class="label">Blocks</p>
-            <ul class="blocks"><li>play on track <span class="slot">drums</span><ul><li>s <span class="slot">bd</span></li><li>beat <span class="slot">0,8,10</span> <span class="slot">16</span></li><li>stack<ul><li>s <span class="slot">[~ sd]*2</span></li></ul></li><li>stack<ul><li>s <span class="slot">hh*8</span></li></ul></li><li>bank <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <figure class="blocks"><img src="../rhythms/en/rock.png?v=7517e67d" width="205" height="392" alt="Blocks: Eight beat" loading="lazy"></figure>
             <p class="label">In Strudel</p>
             <pre><code>stack(s(&quot;bd&quot;).beat(&quot;0,8,10&quot;, 16), s(&quot;[~ sd]*2&quot;), s(&quot;hh*8&quot;)).bank(&quot;RolandTR909&quot;)</code></pre>
             <div class="try"><strong>Remake it</strong><ul><li>Make the kick steps <code>0,6,8,10</code> for a stumbling kick</li><li>Make the hats <code>hh*16</code> for a sixteen beat</li><li>Raise the BPM to 160 for punk speed</li></ul></div>
@@ -260,7 +260,7 @@ main a { color: var(--accent); }
             <div class="grid-wrap"><table class="grid"><thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead><tbody><tr><th>kick</th><td class="beat on"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td class="on"></td><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td></td><td></td></tr><tr><th>snare</th><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td></tr><tr><th>hi-hat</th><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td></tr></tbody></table></div>
             <p>Slow hip hop. The kick plays off the beats (steps 7 and 10), which gives it a nodding groove.</p>
             <p class="label">Blocks</p>
-            <ul class="blocks"><li>play on track <span class="slot">drums</span><ul><li>s <span class="slot">bd</span></li><li>beat <span class="slot">0,7,10</span> <span class="slot">16</span></li><li>stack<ul><li>s <span class="slot">[~ sd]*2</span></li></ul></li><li>stack<ul><li>s <span class="slot">hh*8</span></li></ul></li><li>bank <span class="slot">RolandTR808</span></li></ul></li></ul>
+            <figure class="blocks"><img src="../rhythms/en/boombap.png?v=702e6888" width="205" height="392" alt="Blocks: Boom bap" loading="lazy"></figure>
             <p class="label">In Strudel</p>
             <pre><code>stack(s(&quot;bd&quot;).beat(&quot;0,7,10&quot;, 16), s(&quot;[~ sd]*2&quot;), s(&quot;hh*8&quot;)).bank(&quot;RolandTR808&quot;)</code></pre>
             <div class="try"><strong>Remake it</strong><ul><li>Make the kick steps <code>0,3,7,10</code> for more kicks</li><li>Add gain <code>[.4 .8]*4</code> to the hats for loud and soft hits</li><li>Use the shuffle of step 11 (<code>[hh ~ hh]*4</code>) to make it swing</li></ul></div>
@@ -271,7 +271,7 @@ main a { color: var(--accent); }
             <div class="grid-wrap"><table class="grid"><thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead><tbody><tr><th>kick</th><td class="beat on"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td></td><td class="on"></td><td class="beat"></td><td></td><td></td><td></td></tr><tr><th>snare</th><td class="beat"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td></tr><tr><th>hi-hat</th><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td></tr></tbody></table></div>
             <p>The snare plays only once, on beat 3, so it sounds slow even at 140 BPM (half time). Every two cycles the hats get twice as fast and roll.</p>
             <p class="label">Blocks</p>
-            <ul class="blocks"><li>play on track <span class="slot">drums</span><ul><li>s <span class="slot">bd</span></li><li>beat <span class="slot">0,6,11</span> <span class="slot">16</span></li><li>stack<ul><li>s <span class="slot">sd</span></li><li>beat <span class="slot">8</span> <span class="slot">16</span></li></ul></li><li>stack<ul><li>s <span class="slot">hh*8</span></li><li>every <span class="slot">2</span> <span class="slot">ply 2</span></li></ul></li><li>bank <span class="slot">RolandTR808</span></li></ul></li></ul>
+            <figure class="blocks"><img src="../rhythms/en/trap.png?v=3fbc4678" width="207" height="468" alt="Blocks: Trap" loading="lazy"></figure>
             <p class="label">In Strudel</p>
             <pre><code>stack(s(&quot;bd&quot;).beat(&quot;0,6,11&quot;, 16), s(&quot;sd&quot;).beat(&quot;8&quot;, 16), s(&quot;hh*8&quot;).every(2, x =&gt; x.ply(2))).bank(&quot;RolandTR808&quot;)</code></pre>
             <div class="try"><strong>Remake it</strong><ul><li>Set every of the hats to 4 for fewer rolls</li><li>Add speed <code>.8</code> to the kick to make it lower</li><li>Use sometimes (master level) to make the rolls random</li></ul></div>
@@ -282,7 +282,7 @@ main a { color: var(--accent); }
             <div class="grid-wrap"><table class="grid"><thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead><tbody><tr><th>kick</th><td class="beat on"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td></td><td></td></tr><tr><th>snare</th><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td></tr><tr><th>hi-hat</th><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td></tr></tbody></table></div>
             <p>The kicks of four on the floor are taken out, except beat 1 and a bit after beat 3 (step 10). The kick walks in two steps, so it is also called 2-step.</p>
             <p class="label">Blocks</p>
-            <ul class="blocks"><li>play on track <span class="slot">drums</span><ul><li>s <span class="slot">bd</span></li><li>beat <span class="slot">0,10</span> <span class="slot">16</span></li><li>stack<ul><li>s <span class="slot">[~ sd]*2</span></li></ul></li><li>stack<ul><li>s <span class="slot">[~ hh]*4</span></li></ul></li><li>bank <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <figure class="blocks"><img src="../rhythms/en/garage.png?v=28f8838a" width="205" height="392" alt="Blocks: UK garage" loading="lazy"></figure>
             <p class="label">In Strudel</p>
             <pre><code>stack(s(&quot;bd&quot;).beat(&quot;0,10&quot;, 16), s(&quot;[~ sd]*2&quot;), s(&quot;[~ hh]*4&quot;)).bank(&quot;RolandTR909&quot;)</code></pre>
             <div class="try"><strong>Remake it</strong><ul><li>Make the kick steps <code>0,10,11</code> so that it stumbles</li><li>Stack <code>hh*16</code> with gain <code>.3</code> on the hats</li><li>Raise the BPM to 172 and compare it with drum and bass, the next rhythm</li></ul></div>
@@ -293,7 +293,7 @@ main a { color: var(--accent); }
             <div class="grid-wrap"><table class="grid"><thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead><tbody><tr><th>kick</th><td class="beat on"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td></td><td></td></tr><tr><th>snare</th><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td></tr><tr><th>hi-hat</th><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td></tr></tbody></table></div>
             <p>A very fast rhythm of about 170 BPM. The kick and the snare are the same 2-step as UK garage: only the speed makes it another genre.</p>
             <p class="label">Blocks</p>
-            <ul class="blocks"><li>play on track <span class="slot">drums</span><ul><li>s <span class="slot">bd</span></li><li>beat <span class="slot">0,10</span> <span class="slot">16</span></li><li>stack<ul><li>s <span class="slot">[~ sd]*2</span></li></ul></li><li>stack<ul><li>s <span class="slot">hh*8</span></li></ul></li><li>bank <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <figure class="blocks"><img src="../rhythms/en/dnb.png?v=563df112" width="205" height="392" alt="Blocks: Drum and bass" loading="lazy"></figure>
             <p class="label">In Strudel</p>
             <pre><code>stack(s(&quot;bd&quot;).beat(&quot;0,10&quot;, 16), s(&quot;[~ sd]*2&quot;), s(&quot;hh*8&quot;)).bank(&quot;RolandTR909&quot;)</code></pre>
             <div class="try"><strong>Remake it</strong><ul><li>Add every <code>4</code> <code>ply 2</code> to the hats to make them faster once in four cycles</li><li>Make the kick steps <code>0,10,11</code></li><li>Stack <code>sd</code> on steps <code>7,15</code> with gain <code>.2</code> on the snare for ghost notes</li></ul></div>
@@ -304,7 +304,7 @@ main a { color: var(--accent); }
             <div class="grid-wrap"><table class="grid"><thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead><tbody><tr><th>kick</th><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td></tr><tr><th>snare</th><td class="beat"></td><td></td><td></td><td class="on alt"></td><td class="beat"></td><td></td><td class="on alt"></td><td></td><td class="beat"></td><td></td><td></td><td class="on alt"></td><td class="beat"></td><td></td><td class="on alt"></td><td></td></tr><tr><th>hi-hat</th><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td></tr></tbody></table></div>
             <p>Over four-on-the-floor kicks, the snare plays on steps 3 and 6, and 11 and 14. In each half bar (8 steps), the kick on 0 and the snares cut it into 3, 3 and 2 steps. This offset is the Latin groove.</p>
             <p class="label">Blocks</p>
-            <ul class="blocks"><li>play on track <span class="slot">drums</span><ul><li>s <span class="slot">bd*4</span></li><li>stack<ul><li>s <span class="slot">sd</span></li><li>beat <span class="slot">3,6,11,14</span> <span class="slot">16</span></li></ul></li><li>stack<ul><li>s <span class="slot">hh*8</span></li></ul></li><li>bank <span class="slot">RolandTR808</span></li></ul></li></ul>
+            <figure class="blocks"><img src="../rhythms/en/reggaeton.png?v=51436678" width="210" height="392" alt="Blocks: Reggaeton" loading="lazy"></figure>
             <p class="label">In Strudel</p>
             <pre><code>stack(s(&quot;bd*4&quot;), s(&quot;sd&quot;).beat(&quot;3,6,11,14&quot;, 16), s(&quot;hh*8&quot;)).bank(&quot;RolandTR808&quot;)</code></pre>
             <div class="try"><strong>Remake it</strong><ul><li>Change the snare to <code>rim</code> for a lighter sound</li><li>Make the snare steps <code>3,6,11,13,14</code> for more hits</li><li>Take out the kick and hear the 3-3-2 offset of the snare alone</li></ul></div>
@@ -319,7 +319,7 @@ main a { color: var(--accent); }
             <h3>Loud and soft <span class="badge l2">Normal</span> <span class="badge key">Key 1</span></h3>
             <p>A pattern in gain changes the loudness of each sound. All at the same loudness sounds like a machine; soft and loud in turns sounds like a person playing.</p>
             <p class="label">Blocks(track &quot;ticks&quot;)</p>
-            <ul class="blocks"><li>play on track <span class="slot">ticks</span><ul><li>s <span class="slot">hh*16</span></li><li><span class="slot">gain</span> <span class="slot">[.2 .6]*8</span></li><li>bank <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <figure class="blocks"><img src="../rhythms/en/gain.png?v=63fd275d" width="205" height="198" alt="Blocks: Loud and soft" loading="lazy"></figure>
             <p class="label">In Strudel</p>
             <pre><code>s(&quot;hh*16&quot;).gain(&quot;[.2 .6]*8&quot;).bank(&quot;RolandTR909&quot;)</code></pre>
             <div class="try"><strong>Remake it</strong><ul><li>Change <code>[.2 .6]*8</code> to <code>[.2 .2 .6 .2]*4</code> for fewer loud hits</li></ul></div>
@@ -328,7 +328,7 @@ main a { color: var(--accent); }
             <h3>Off-beat bass <span class="badge l2">Normal</span> <span class="badge key">Key 2</span></h3>
             <p>The kick plays on the beats, so the bass goes between them, on the off-beats. The low sounds do not clash, and both are clear.</p>
             <p class="label">Blocks(track &quot;bass&quot;)</p>
-            <ul class="blocks"><li>play on track <span class="slot">bass</span><ul><li>note <span class="slot">[~ c2]*4</span></li><li>s <span class="slot">sawtooth</span></li><li><span class="slot">lpf</span> <span class="slot">600</span></li></ul></li></ul>
+            <figure class="blocks"><img src="../rhythms/en/offbeat.png?v=5c015515" width="177" height="198" alt="Blocks: Off-beat bass" loading="lazy"></figure>
             <p class="label">In Strudel</p>
             <pre><code>note(&quot;[~ c2]*4&quot;).s(&quot;sawtooth&quot;).lpf(600)</code></pre>
             <div class="try"><strong>Remake it</strong><ul><li>Change <code>[~ c2]*4</code> to <code>&lt;[~ c2]*4 [~ g1]*4&gt;</code> to change the note every cycle</li></ul></div>
@@ -337,7 +337,7 @@ main a { color: var(--accent); }
             <h3>Ghost notes <span class="badge l2">Normal</span> <span class="badge key">Key 3</span></h3>
             <p>Very soft snares hide between the usual snares. You hardly hear them, but they add a small swing to the rhythm. They are hidden like ghosts.</p>
             <p class="label">Blocks(track &quot;snare&quot;)</p>
-            <ul class="blocks"><li>play on track <span class="slot">snare</span><ul><li>s <span class="slot">[~ sd]*2</span></li><li>stack<ul><li>s <span class="slot">sd</span></li><li>beat <span class="slot">7,9,14</span> <span class="slot">16</span></li><li><span class="slot">gain</span> <span class="slot">.2</span></li></ul></li><li>bank <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <figure class="blocks"><img src="../rhythms/en/ghost.png?v=cfe0aef0" width="205" height="333" alt="Blocks: Ghost notes" loading="lazy"></figure>
             <p class="label">In Strudel</p>
             <pre><code>stack(s(&quot;[~ sd]*2&quot;), s(&quot;sd&quot;).beat(&quot;7,9,14&quot;, 16).gain(&quot;.2&quot;)).bank(&quot;RolandTR909&quot;)</code></pre>
             <div class="try"><strong>Remake it</strong><ul><li>Set the gain of the ghosts to <code>.5</code> and hear the difference</li></ul></div>
@@ -346,7 +346,7 @@ main a { color: var(--accent); }
             <h3>Offset with euclid <span class="badge l3">Master</span> <span class="badge key">Key 4</span></h3>
             <p>Three sounds spread as evenly as possible on eight steps make an offset rhythm of 3, 3, 2. Stacked on four on the floor, it adds a catch to the straight rhythm.</p>
             <p class="label">Blocks(track &quot;rim&quot;)</p>
-            <ul class="blocks"><li>play on track <span class="slot">rim</span><ul><li>s <span class="slot">rim</span></li><li>euclid <span class="slot">3</span> <span class="slot">8</span></li><li>bank <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <figure class="blocks"><img src="../rhythms/en/euclid.png?v=d7d67897" width="205" height="198" alt="Blocks: Offset with euclid" loading="lazy"></figure>
             <p class="label">In Strudel</p>
             <pre><code>s(&quot;rim&quot;).euclid(3, 8).bank(&quot;RolandTR909&quot;)</code></pre>
             <div class="try"><strong>Remake it</strong><ul><li>Change <code>3</code> <code>8</code> to <code>5</code> <code>8</code> or <code>7</code> <code>16</code></li></ul></div>
@@ -355,7 +355,7 @@ main a { color: var(--accent); }
             <h3>Fills <span class="badge l2">Normal</span> <span class="badge key">Key 5</span></h3>
             <p>Once in four cycles, each clap plays twice. The ear gets bored when nothing changes; a change now and then marks a section.</p>
             <p class="label">Blocks(track &quot;clap&quot;)</p>
-            <ul class="blocks"><li>play on track <span class="slot">clap</span><ul><li>s <span class="slot">[~ cp]*2</span></li><li>every <span class="slot">4</span> <span class="slot">ply 2</span></li><li>bank <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <figure class="blocks"><img src="../rhythms/en/fill.png?v=90e104a0" width="205" height="198" alt="Blocks: Fills" loading="lazy"></figure>
             <p class="label">In Strudel</p>
             <pre><code>s(&quot;[~ cp]*2&quot;).every(4, x =&gt; x.ply(2)).bank(&quot;RolandTR909&quot;)</code></pre>
             <div class="try"><strong>Remake it</strong><ul><li>Change "ply 2" to "fast 2" or "rev"</li></ul></div>
@@ -364,7 +364,7 @@ main a { color: var(--accent); }
             <h3>Open the filter slowly <span class="badge l3">Master</span> <span class="badge key">Key 6</span></h3>
             <p>A wave in lpf changes the sound from dull to bright and back over eight cycles. The same loop sounds exciting when the sound moves.</p>
             <p class="label">Blocks(track &quot;bass&quot;)</p>
-            <ul class="blocks"><li>play on track <span class="slot">bass</span><ul><li>note <span class="slot">[~ c2]*4</span></li><li>s <span class="slot">sawtooth</span></li><li><span class="slot">lpf</span> (<span class="slot">sine</span> range <span class="slot">200</span> <span class="slot">3000</span> slow <span class="slot">8</span>)</li></ul></li></ul>
+            <figure class="blocks"><img src="../rhythms/en/filter.png?v=0bd69666" width="404" height="198" alt="Blocks: Open the filter slowly" loading="lazy"></figure>
             <p class="label">In Strudel</p>
             <pre><code>note(&quot;[~ c2]*4&quot;).s(&quot;sawtooth&quot;).lpf(sine.range(200, 3000).slow(8))</code></pre>
             <div class="try"><strong>Remake it</strong><ul><li>Change the shape of the wave to <code>saw</code>, which gets brighter and then drops back</li></ul></div>
@@ -373,7 +373,7 @@ main a { color: var(--accent); }
             <h3>Drop at random <span class="badge l3">Master</span> <span class="badge key">Key 7</span></h3>
             <p>30% of the sixteenth-note hats are dropped at random. Each cycle is a bit different, so the loop sounds alive.</p>
             <p class="label">Blocks(track &quot;ticks&quot;)</p>
-            <ul class="blocks"><li>play on track <span class="slot">ticks</span><ul><li>s <span class="slot">hh*16</span></li><li>degradeBy <span class="slot">30</span> %</li><li><span class="slot">gain</span> <span class="slot">.5</span></li><li>bank <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <figure class="blocks"><img src="../rhythms/en/random.png?v=be14fcce" width="205" height="236" alt="Blocks: Drop at random" loading="lazy"></figure>
             <p class="label">In Strudel</p>
             <pre><code>s(&quot;hh*16&quot;).degradeBy(0.3).gain(&quot;.5&quot;).bank(&quot;RolandTR909&quot;)</code></pre>
             <div class="try"><strong>Remake it</strong><ul><li>Change 30 to 60 for more gaps</li></ul></div>
@@ -386,7 +386,7 @@ main a { color: var(--accent); }
         </article>
         <p class="note">More tricks: pumping, where the kick pushes the other sounds down, and the build-up are in <a href="tutorial.html#step13">step 13 of the tutorial</a>.</p>
     </section>
-    <p style="text-align:center"><a href="tutorial.html">Tutorial</a> ・ <a href="dictionary.html">Function dictionary</a> ・ <a href="./">Strudel for Xcratch</a></p>
+    <p style="text-align:center"><a href="tutorial.html">Tutorial</a> ・ <a href="dictionary.html">Block dictionary</a> ・ <a href="./">Strudel for Xcratch</a></p>
 </main>
 <footer>
     <p><a href="./">Strudel for Xcratch</a> — <a href="https://github.com/0x48lab/xcx-strudel/blob/main/LICENSE">AGPL-3.0</a>.

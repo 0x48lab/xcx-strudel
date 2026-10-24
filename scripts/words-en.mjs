@@ -8,6 +8,7 @@ import {RHYTHM_WORDS} from './rhythm-book.mjs';
 export const WORDS = {
     ...RHYTHM_WORDS,
     // track, list and message names
+    'れい': 'example',
     'えんそう': 'play',
     'こえ': 'voice',
     'アシッド': 'acid',

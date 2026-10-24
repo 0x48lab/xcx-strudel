@@ -413,6 +413,56 @@ export const strudelBlocks = b => {
     };
 };
 
+/**
+ * Blocks of a track written as the tests write them: [opcode, args] or [opcode, args, blocks in the C block].
+ * A value can be {wave: [shape, min, max, cycles]} or {random: [min, max, steps, seed, length]}.
+ * @param {object} $ - blocks of the extension, from strudelBlocks
+ * @param {Array} steps - blocks from the top
+ * @returns {Array<string>} - block IDs
+ */
+export const fromSteps = ($, steps) => steps.map(([opcode, args, inner]) => {
+    const value = v => {
+        if (v && v.wave) return $.wave(...v.wave);
+        if (v && v.random) return $.randomSteps(...v.random);
+        return v;
+    };
+    switch (opcode) {
+    case 'sMenu': return $.sMenu(args.SOUND);
+    case 'noteMenu': return $.noteMenu(args.NOTE);
+    case 's': return $.s(value(args.CODE));
+    case 'note': return $.note(value(args.CODE));
+    case 'n': return $.n(value(args.CODE));
+    case 'seq': return $.seq(args.A, args.B, args.C, args.D);
+    case 'stack': return $.stack(args.A, args.B);
+    case 'cat': return $.cat(args.A, args.B);
+    case 'chord': return $.chord(args.ROOT, args.CHORD);
+    case 'fast': return $.fast(args.TIMES);
+    case 'slow': return $.slow(args.CYCLES);
+    case 'scale': return $.scale(args.ROOT, args.SCALE);
+    case 'struct': return $.struct(args.RHYTHM);
+    case 'beat': return $.beat(args.BEATS, args.STEPS);
+    case 'bank': return $.bank(args.MACHINE);
+    case 'effect': return $.effect(args.EFFECT, value(args.VALUE));
+    case 'add': return $.add(value(args.VALUE));
+    case 'rev': return $.rev();
+    case 'ply': return $.ply(args.TIMES);
+    case 'every': return $.every(args.CYCLES, args.TRANSFORM);
+    case 'degradeBy': return $.degradeBy(args.PERCENT);
+    case 'sometimes': return $.sometimes(args.TRANSFORM);
+    case 'euclid': return $.euclid(args.PULSES, args.STEPS);
+    case 'jux': return $.jux(args.TRANSFORM);
+    case 'off': return $.off(args.TIME, args.TRANSFORM);
+    case 'superimpose': return $.superimpose(args.TRANSFORM);
+    case 'chop': return $.chop(args.PIECES);
+    case 'transpose': return $.transpose(args.SEMITONES);
+    case 'arp': return $.arp(args.ORDER);
+    case 'acidenv': return $.acidenv(args.AMOUNT);
+    case 'trancegate': return $.trancegate(args.DENSITY, args.SEED, args.LENGTH);
+    case 'stackBranch': return $.stackBranch(fromSteps($, inner));
+    default: throw new Error(`no block for ${opcode}`);
+    }
+});
+
 /** Rough heights of blocks in the workspace, to keep scripts apart. */
 const HEIGHT = {hat: 80, command: 56, branchTop: 56, branchBottom: 32, gap: 48};
 
