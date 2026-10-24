@@ -22,8 +22,10 @@ Available in English, Japanese and Japanese (Hiragana).
 
 ## できること / Features
 
+- C型の「トラック [ ] で鳴らす」ブロックが Strudel の1行(1トラック)。中に積んだブロックを上から順に読むと、そのまま Strudel のメソッドチェーンになる(`s [hh]` の下に `fast [8]` → `s("hh").fast(8)`)
+- ブロックの形ごとに役割が1つ: C型 = トラック、中に積む命令ブロック = 音源と変形・効果、丸いブロック = 値(リストの中身、ゆれる値、乱数)
 - ブロックとメニューには Strudel の関数名・音の名前をそのまま使う(`seq` `stack` `cat` `fast` `lpf` `bd` など)。Strudel に名前がない Scratch 側の操作(トラックで鳴らす、止める など)だけ日本語
-- ドラム・音・休みを `seq` `stack` `cat` `fast` で組み立てて、トラックごとに鳴らす
+- ビギナーでは `s [bd ▼]` `note [c4 ▼]` `seq` `stack` `cat` の ▼ で音を選び、`fast` で速くする。ノーマルからは `s [ ]` `note [ ]` にミニ記法を書ける
 - エフェクト(lpf, hpf, room, delay, gain, pan, crush, speed, attack, release, distort, fm, vowel など)、変形(rev, ply, every)、音階(n + scale)
 - ミニ記法(`bd*2 [~ sd] <hh oh>`)をそのまま書くこともできる
 - Scratch のリストの中身を、1サイクルずつ・順番に・同時に並べてミニ記法にできる(長いコード進行やメロディを1小節ずつ書ける)
@@ -31,12 +33,17 @@ Available in English, Japanese and Japanese (Hiragana).
 - スプライトの音(録音した声など)をサンプルとして使う
 - オシロスコープとピアノロールをステージに表示する
 - 「拍がきたとき」「[bd]が鳴ったとき」でスプライトを音に合わせて動かす
-- 値を返すブロックをクリックすると、同じ音を鳴らす Strudel のコードが表示される
 - 全部のトラックを Strudel のコードとして書き出したり、strudel.cc で開いたりできる
 - 信号(sine など)、乱数(irand)、degradeBy、euclid、jux、sometimes、off、superimpose、和音と arp(マスター)
 - `acidenv` と `trancegate`([Switch Angel](https://github.com/switchangel) さんの [strudel-scripts](https://github.com/switchangel/strudel-scripts) の関数が元)、`duck` / `orbit` によるポンピング(サイドチェイン)、ノイズ、supersaw の厚み(unison / detune / spread)(マスター)
 
 ブロックは「ビギナー」「ノーマル」「マスター」のレベルで表示を切り替えられます。
+
+### v0.4.0 の非互換 / Breaking change in v0.4.0
+
+v0.4.0 でブロックを作り直しました。丸いブロックを入れ子にする形(「〜をトラック〜で鳴らす」、`fast [ ] [音]` など)をやめて、C型の「トラック [ ] で鳴らす」の中にブロックを積む形にしました。古いブロックは削除したため、**v0.3.0 までに保存した作品は、開いてもスクリプトが表示されず、音も鳴りません**。新しいブロックで組み直してください。
+
+v0.4.0 replaces the nested round blocks ("play [ ] on track [ ]", `fast [ ] [pattern]` and others) with the C block "play on track [ ]" and blocks stacked in it. The old blocks are removed, so **projects saved with v0.3.0 or earlier open without their scripts and play nothing**. Build them again with the new blocks.
 
 ## How to Use in Xcratch
 

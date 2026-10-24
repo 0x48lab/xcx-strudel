@@ -183,6 +183,7 @@ main a { color: var(--accent); }
 <main>
     <section class="card" id="about">
         <p>この 拡張機能の ブロックや ▼の 名前は、ぜんぶ <a href="https://strudel.cc/" target="_blank" rel="noopener">Strudel</a> の 関数や 音の 名前と 同じだよ。この じてんでは、1つ 1つの 名前が <b>どんな ものか</b>、そして <b>どこから 来た 名前か</b>(かんたんな れきし)を しょうかいするよ。</p>
+        <p>「ブロック:」は、「トラック [ ] で鳴らす」の 中に 入れる ブロックの すがただよ。中の ブロックは 上から じゅんばんに、Strudel の <code>.fast(4)</code> のような 1だんずつに なるよ。</p>
 <h3>Strudel の 名前は どこから 来たの?</h3>
 <p>Strudel の もとに なったのは、<b>TidalCycles</b>(タイダルサイクルズ)という 音楽の プログラミング言語だよ。イギリスの <b>Alex McLean</b>(アレックス・マクリーン)さんが 2009年ごろに Haskell という 言語で つくり、その場で コードを 書きかえながら 演奏する「<b>ライブコーディング</b>」の 道具として 世界中で つかわれてきた。</p>
 <p>2022年、<b>Felix Roos</b>(フェリックス・ロース)さんと Alex McLean さんが、TidalCycles の しくみを JavaScript に うつして、ブラウザだけで 鳴らせるように した。これが Strudel だよ。だから <code>fast</code> <code>rev</code> <code>every</code> <code>jux</code> などの 名前の 多くは、TidalCycles から 受けついだ ものなんだ。「サイクル」で 時間を 数える 考えかたも、Tidal<b>Cycles</b> の 名前の とおりだね。</p>
@@ -296,21 +297,21 @@ main a { color: var(--accent); }
         </article>
         <article class="entry" id="fast">
             <h3>fast <span class="badge l1">ビギナー</span></h3>
-            <p class="blockline">ブロック: <code>fast [4] [hh]</code></p>
+            <p class="blockline">ブロック: <code>fast [4]</code></p>
             <p>パターンを <b>N倍の 速さ</b>に する。1つの 音なら、1サイクルに N回 鳴る。</p>
             <pre><code>s(&quot;hh&quot;).fast(4)</code></pre>
             <p class="history" data-label="なまえと れきし">TidalCycles から ある 基本の 名前。ミニ記法の <code>*</code> と 同じ(<code>"hh*4"</code>)。</p>
         </article>
         <article class="entry" id="slow">
             <h3>slow <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>slow [2] [c4]</code></p>
+            <p class="blockline">ブロック: <code>slow [2]</code></p>
             <p>パターンを <b>N倍 ゆっくり</b> に して、Nサイクルに のばす。</p>
             <pre><code>note(&quot;c4&quot;).slow(2)</code></pre>
             <p class="history" data-label="なまえと れきし"><code>fast</code> の 反対。ミニ記法の <code>/</code> と 同じ(<code>"c4/2"</code>)。</p>
         </article>
         <article class="entry" id="struct">
             <h3>struct <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>struct [x ~ x x] [和音]</code></p>
+            <p class="blockline">ブロック: <code>struct [x ~ x x]</code></p>
             <p><code>x</code> と <code>~</code> で 書いた リズムで、音を <b>きざむ</b>。和音を リズムに のせる ときに 便利。</p>
             <pre><code>note(&quot;[c3,e3,g3]&quot;).struct(&quot;x ~ x x&quot;)</code></pre>
             <p class="history" data-label="なまえと れきし"><b>structure</b>(つくり、骨組み)の 略。リズムの「骨組み」だけを ほかの パターンから かりてくる、という 意味だよ。</p>
@@ -320,28 +321,28 @@ main a { color: var(--accent); }
         <h2>音を えらぶ</h2>
         <article class="entry" id="s">
             <h3>s <span class="badge l1">ビギナー</span></h3>
-            <p class="blockline">ブロック: <code>s [sawtooth] [c4] / s [bd sd]</code></p>
+            <p class="blockline">ブロック: <code>s [bd ▼]</code> / <code>s [bd sd]</code></p>
             <p>鳴らす <b>音の 種類</b>を きめる。ドラムの 名前(<code>bd</code>)も、シンセの 波の 形(<code>sawtooth</code>)も、ぜんぶ s で えらぶよ。</p>
             <pre><code>s(&quot;bd sd&quot;)  /  note(&quot;c4&quot;).s(&quot;sawtooth&quot;)</code></pre>
             <p class="history" data-label="なまえと れきし"><b>sound</b>(音)の 略。TidalCycles の 音源 SuperDirt で つかわれていた 名前を そのまま 受けついでいる。</p>
         </article>
         <article class="entry" id="note">
-            <h3>note <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>note [c4 e4 g4]</code></p>
+            <h3>note <span class="badge l1">ビギナー</span></h3>
+            <p class="blockline">ブロック: <code>note [c4 ▼]</code> / <code>note [c4 e4 g4]</code></p>
             <p>音の <b>高さ</b>を 音名(<code>c4</code>)や 数字(60 = c4)で 書く。</p>
             <pre><code>note(&quot;c4 e4 g4&quot;)</code></pre>
             <p class="history" data-label="なまえと れきし">英語で「音符」。数字は MIDI(1983年に きまった 電子楽器の 共通ルール)の 番号で、60 が まんなかの ド。</p>
         </article>
         <article class="entry" id="n">
             <h3>n + scale <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>n [0 2 4] scale [C4] [major]</code></p>
+            <p class="blockline">ブロック: <code>n [0 2 4]</code> + <code>scale [C4] [major]</code></p>
             <p><code>n</code> で 番号を 書き、<code>scale</code> で その 番号を 音階の 音に かえる。0 が 1番目の 音。番号で 書くと、どんな 音階でも はずれない。</p>
             <pre><code>n(&quot;0 2 4&quot;).scale(&quot;C4:major&quot;)</code></pre>
             <p class="history" data-label="なまえと れきし"><b>n</b> は <b>number</b>(番号)。scale は 英語で「音階」(もとは ラテン語の scala =「はしご」。音が はしごの 段の ように ならぶから)。</p>
         </article>
         <article class="entry" id="bank">
             <h3>bank <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>bank [RolandTR909] [bd*4]</code></p>
+            <p class="blockline">ブロック: <code>bank [RolandTR909]</code></p>
             <p>ドラムの 音を、ドラムマシンの 機種の 音に かえる。</p>
             <pre><code>s(&quot;bd*4&quot;).bank(&quot;RolandTR909&quot;)</code></pre>
             <p class="history" data-label="なまえと れきし"><b>sample bank</b>(サンプルの 倉庫)から。<b>TR-808</b>(1980年)と <b>TR-909</b>(1983年)は ローランドの ドラムマシンで、ヒップホップや ハウス、テクノの 音を つくった 名機だよ。</p>
@@ -362,21 +363,21 @@ main a { color: var(--accent); }
         </article>
         <article class="entry" id="waves">
             <h3>sine square sawtooth triangle <span class="badge l1">ビギナー</span></h3>
-            <p class="blockline">ブロック: <code>s [sawtooth] [c4]</code></p>
+            <p class="blockline">ブロック: <code>s [sawtooth ▼]</code></p>
             <p>シンセサイザーの 基本の 波の 形。sine = やわらかい、square = ピコピコ、sawtooth = ギザギザで 明るい、triangle = すっきり。</p>
             <pre><code>note(&quot;c4&quot;).s(&quot;sawtooth&quot;)</code></pre>
             <p class="history" data-label="なまえと れきし">どれも 波の 形の 名前。sine は 数学の 正弦(サイン)波、square は 四角、sawtooth は「ノコギリの 歯」、triangle は 三角。1960年代の アナログシンセから ずっと つかわれている。</p>
         </article>
         <article class="entry" id="supersaw">
-            <h3>supersaw <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>s [supersaw] [和音]</code></p>
+            <h3>supersaw <span class="badge l1">ビギナー</span></h3>
+            <p class="blockline">ブロック: <code>s [supersaw ▼]</code></p>
             <p>ノコギリ波を 何本も 少しずつ ずらして かさねた、分厚くて キラキラした 音。</p>
             <pre><code>note(&quot;[a3,c4,e4]&quot;).s(&quot;supersaw&quot;)</code></pre>
             <p class="history" data-label="なまえと れきし">1997年ごろに 出た ローランドの シンセ <b>JP-8000</b> の 機能の 名前。7本の ノコギリ波を かさねる この 音が、トランスという 音楽の 代表的な 音に なった。</p>
         </article>
         <article class="entry" id="white">
-            <h3>white <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>▼ の white</code></p>
+            <h3>white <span class="badge l1">ビギナー</span></h3>
+            <p class="blockline">ブロック: <code>s [white ▼]</code></p>
             <p>ザーッという <b>ノイズ</b>。ビルドアップで だんだん 大きく する 音(ライザー)に つかう。</p>
             <pre><code>s(&quot;white*16&quot;)</code></pre>
             <p class="history" data-label="なまえと れきし"><b>ホワイトノイズ</b>。白い 光に すべての 色が まざっている ように、すべての 高さの 音が 同じ くらい まざっているから「白」と よばれる。</p>
@@ -386,91 +387,91 @@ main a { color: var(--accent); }
         <h2>パターンを かえる</h2>
         <article class="entry" id="add">
             <h3>add <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>add [7] [音]</code></p>
+            <p class="blockline">ブロック: <code>add [7]</code></p>
             <p>音の 高さ(番号)に 数を <b>たす</b>。<code>"&lt;0 2 4&gt;"</code> の ように パターンも たせる。</p>
             <pre><code>note(&quot;c4&quot;).add(note(&quot;&lt;0 7&gt;&quot;))</code></pre>
             <p class="history" data-label="なまえと れきし">英語で「たす」。</p>
         </article>
         <article class="entry" id="transpose">
             <h3>transpose <span class="badge l3">マスター</span></h3>
-            <p class="blockline">ブロック: <code>transpose [12] [音]</code></p>
+            <p class="blockline">ブロック: <code>transpose [12]</code></p>
             <p>音を <b>半音 N個ぶん</b> 上げる(マイナスなら 下げる)。12 で 1オクターブ。</p>
             <pre><code>note(&quot;c4&quot;).transpose(12)</code></pre>
             <p class="history" data-label="なまえと れきし">音楽の ことばで「移調」。歌いやすい 高さに 曲ぜんたいを ずらす ときに つかう。</p>
         </article>
         <article class="entry" id="rev">
             <h3>rev <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>rev [音]</code></p>
+            <p class="blockline">ブロック: <code>rev</code></p>
             <p>パターンを <b>逆さま</b>に、うしろから 鳴らす。</p>
             <pre><code>s(&quot;bd hh sd hh&quot;).rev()</code></pre>
             <p class="history" data-label="なまえと れきし"><b>reverse</b>(逆)の 略。</p>
         </article>
         <article class="entry" id="ply">
             <h3>ply <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>ply [2] [音]</code></p>
+            <p class="blockline">ブロック: <code>ply [2]</code></p>
             <p>パターンの 1つ 1つの 音を <b>N回ずつ</b> くりかえす。</p>
             <pre><code>s(&quot;bd sd&quot;).ply(2)</code></pre>
             <p class="history" data-label="なまえと れきし">英語で「(糸の)より、重ね」。1本の 糸を 何重にも する イメージだよ。TidalCycles から ある 名前。</p>
         </article>
         <article class="entry" id="every">
             <h3>every <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>every [4] [rev] [音]</code></p>
+            <p class="blockline">ブロック: <code>every [4] [rev]</code></p>
             <p><b>Nサイクルに 1回</b> だけ、▼の 関数を かける。</p>
             <pre><code>note(&quot;c4 e4 g4&quot;).every(4, x =&gt; x.rev())</code></pre>
             <p class="history" data-label="なまえと れきし">英語で「〜ごとに」。TidalCycles の はじめの ころから ある、いちばん 有名な 関数の 1つ。</p>
         </article>
         <article class="entry" id="sometimes">
             <h3>sometimes <span class="badge l3">マスター</span></h3>
-            <p class="blockline">ブロック: <code>sometimes [transpose 12] [音]</code></p>
+            <p class="blockline">ブロック: <code>sometimes [transpose 12]</code></p>
             <p><b>ときどき</b>(半分 くらいの 音に)▼の 関数を かける。</p>
             <pre><code>note(&quot;c4*8&quot;).sometimes(x =&gt; x.transpose(12))</code></pre>
             <p class="history" data-label="なまえと れきし">英語で「ときどき」。仲間に <code>often</code>(よく)、<code>rarely</code>(たまに)も あるよ。</p>
         </article>
         <article class="entry" id="degradeBy">
             <h3>degradeBy <span class="badge l3">マスター</span></h3>
-            <p class="blockline">ブロック: <code>degradeBy [30] % [音]</code></p>
+            <p class="blockline">ブロック: <code>degradeBy [30] %</code></p>
             <p>音を <b>確率で</b> 休ませる。ハイハットを 少し まばらに すると 人が たたいた ように 聞こえる。</p>
             <pre><code>s(&quot;hh*16&quot;).degradeBy(0.3)</code></pre>
             <p class="history" data-label="なまえと れきし"><b>degrade</b> は「質を 落とす、こわす」。ミニ記法の <code>?</code> と 同じ(<code>"hh*16?"</code>)。</p>
         </article>
         <article class="entry" id="euclid">
             <h3>euclid <span class="badge l3">マスター</span></h3>
-            <p class="blockline">ブロック: <code>euclid [3] [8] [bd]</code></p>
+            <p class="blockline">ブロック: <code>euclid [3] [8]</code></p>
             <p>Nこの 音を、Mこの マスに <b>できるだけ 均等に</b> ちらす。(3, 8) は 世界中の 音楽で 聞こえる リズム。</p>
             <pre><code>s(&quot;bd&quot;).euclid(3, 8)</code></pre>
             <p class="history" data-label="なまえと れきし">計算幾何学者の ゴドフリー・トゥーサンさんが、2つの 数の 最大公約数を もとめる「<b>ユークリッドの 互除法</b>」(2300年ほど 前の 古代ギリシャの 数学)と 同じ 手順で、キューバや アフリカの 伝統的な リズムが つくれる ことを 2004〜2005年ごろの 論文で 示した。もとの 手順は、物理学者の ビョークランドさんが 加速器の タイミングを きめる ために つかっていた ものだよ。</p>
         </article>
         <article class="entry" id="jux">
             <h3>jux <span class="badge l3">マスター</span></h3>
-            <p class="blockline">ブロック: <code>jux [rev] [音]</code></p>
+            <p class="blockline">ブロック: <code>jux [rev]</code></p>
             <p>音を 左右に 分けて、<b>右だけ</b>に ▼の 関数を かける。左右で ちがう 音が 鳴って 広がる。</p>
             <pre><code>s(&quot;bd hh sd hh&quot;).jux(x =&gt; x.rev())</code></pre>
             <p class="history" data-label="なまえと れきし"><b>juxtapose</b>(ならべて おく)の 略。TidalCycles 生まれの 名前。</p>
         </article>
         <article class="entry" id="off">
             <h3>off <span class="badge l3">マスター</span></h3>
-            <p class="blockline">ブロック: <code>off [1/8] [transpose 7] [音]</code></p>
+            <p class="blockline">ブロック: <code>off [1/8] [transpose 7]</code></p>
             <p>少し <b>おくらせて</b>、▼の 関数を かけた ものを かさねる。やまびこの ような、ずれた 音が できる。</p>
             <pre><code>note(&quot;c4 e4&quot;).off(0.125, x =&gt; x.transpose(7))</code></pre>
             <p class="history" data-label="なまえと れきし">英語で「ずれて、はなれて」。TidalCycles から ある 名前。</p>
         </article>
         <article class="entry" id="superimpose">
             <h3>superimpose <span class="badge l3">マスター</span></h3>
-            <p class="blockline">ブロック: <code>superimpose [transpose 12] [音]</code></p>
+            <p class="blockline">ブロック: <code>superimpose [transpose 12]</code></p>
             <p>▼の 関数を かけた ものを、もとの パターンに <b>かさねる</b>。</p>
             <pre><code>note(&quot;c4 e4&quot;).superimpose(x =&gt; x.transpose(12))</code></pre>
             <p class="history" data-label="なまえと れきし">英語で「重ねあわせる」。写真を 二重に うつす 技法(スーパーインポーズ)と 同じ ことば。</p>
         </article>
         <article class="entry" id="chop">
             <h3>chop <span class="badge l3">マスター</span></h3>
-            <p class="blockline">ブロック: <code>chop [4] [音]</code></p>
+            <p class="blockline">ブロック: <code>chop [4]</code></p>
             <p>1つの 音を <b>Nこに 切って</b>、細かく 鳴らす。</p>
             <pre><code>s(&quot;bd&quot;).chop(4)</code></pre>
             <p class="history" data-label="なまえと れきし">英語で「切る、きざむ」。録音した 音を 細かく 切って ならべなおすのは、1980年代の サンプラーから 広まった ヒップホップの わざだよ。</p>
         </article>
         <article class="entry" id="arp">
             <h3>arp <span class="badge l3">マスター</span></h3>
-            <p class="blockline">ブロック: <code>arp [0 1 2 1] [和音]</code></p>
+            <p class="blockline">ブロック: <code>arp [0 1 2 1]</code></p>
             <p>和音の 音を、番号の 順に <b>1つずつ</b> 鳴らす(アルペジオ)。</p>
             <pre><code>note(&quot;[c4,e4,g4]&quot;).arp(&quot;0 1 2 1&quot;)</code></pre>
             <p class="history" data-label="なまえと れきし"><b>arpeggio</b>(アルペジオ)の 略。イタリア語の arpa(ハープ)から。ハープの ように 和音を ばらして 弾く ことだよ。</p>
@@ -497,105 +498,105 @@ main a { color: var(--accent); }
         <h2>効果(エフェクト)</h2>
         <article class="entry" id="lpf">
             <h3>lpf / hpf <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>lpf [600] [音]</code></p>
+            <p class="blockline">ブロック: <code>[lpf ▼] [600]</code></p>
             <p><b>lpf</b> は 高い 音を けずって こもらせる。<b>hpf</b> は 低い 音を けずって シャカシャカに する。数字は どこから けずるか(Hz)。</p>
             <pre><code>s(&quot;sawtooth&quot;).lpf(600)</code></pre>
             <p class="history" data-label="なまえと れきし"><b>l</b>ow-<b>p</b>ass <b>f</b>ilter(低い 音を 通す フィルター)、<b>h</b>igh-<b>p</b>ass <b>f</b>ilter。1960年代に ロバート・モーグさんが つくった シンセの フィルターが 有名。</p>
         </article>
         <article class="entry" id="lpq">
             <h3>lpq <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>lpq [12] [音]</code></p>
+            <p class="blockline">ブロック: <code>[lpq ▼] [12]</code></p>
             <p>フィルターの 境目を 強調して、「ミョーン」と <b>くせの ある 音</b>に する(レゾナンス)。</p>
             <pre><code>s(&quot;sawtooth&quot;).lpf(400).lpq(12)</code></pre>
             <p class="history" data-label="なまえと れきし"><b>q</b> は 電気の ことばで「Q値(きれの するどさ)」。</p>
         </article>
         <article class="entry" id="lpenv">
             <h3>lpenv / lpd / lps <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>lpenv [4] [音]</code></p>
+            <p class="blockline">ブロック: <code>[lpenv ▼] [4]</code></p>
             <p>音が 鳴るたびに フィルターを <b>開いて 閉じる</b>。lpd は 閉じるまでの 時間、lps は 残る 量。アシッドの「ビヨッ」は これ。</p>
             <pre><code>note(&quot;a1*8&quot;).s(&quot;sawtooth&quot;).lpf(200).lpenv(4)</code></pre>
             <p class="history" data-label="なまえと れきし"><b>env</b> = <b>env</b>elope(エンベロープ、音の 形の 変化)。<b>d</b> = decay、<b>s</b> = sustain(下の ADSR を 見てね)。</p>
         </article>
         <article class="entry" id="adsr">
             <h3>attack decay sustain release <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>attack [.5] [音]</code></p>
+            <p class="blockline">ブロック: <code>[attack ▼] [.5]</code></p>
             <p>音量の <b>形</b>。attack = 鳴りはじめの ゆっくりさ、decay = 下がる 時間、sustain = 残る 大きさ、release = 鳴りおわりの 余韻。</p>
             <pre><code>note(&quot;c4&quot;).s(&quot;sine&quot;).attack(.5).release(2)</code></pre>
             <p class="history" data-label="なまえと れきし">4つの 頭文字で「<b>ADSR</b>」。1960年代に、電子音楽の 研究者 ウラジミール・ウサチェフスキーさんが 考えたと いわれ、今の ほとんどの シンセに ある。</p>
         </article>
         <article class="entry" id="room">
             <h3>room <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>room [.5] [音]</code></p>
+            <p class="blockline">ブロック: <code>[room ▼] [.5]</code></p>
             <p><b>ひびき</b>(リバーブ)。広い 部屋で 鳴らした ように なる。</p>
             <pre><code>s(&quot;sd&quot;).room(.5)</code></pre>
             <p class="history" data-label="なまえと れきし">英語で「部屋」。部屋の 大きさで ひびきかたが かわる ことから。</p>
         </article>
         <article class="entry" id="delay">
             <h3>delay / delaytime / delayfeedback <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>delay [.4] [音]</code></p>
+            <p class="blockline">ブロック: <code>[delay ▼] [.4]</code></p>
             <p><b>やまびこ</b>。少し おくれて 同じ 音が くりかえす。delaytime は 間かく、delayfeedback は くりかえしの 多さ。</p>
             <pre><code>note(&quot;c4 e4&quot;).delay(.4).delaytime(.25)</code></pre>
             <p class="history" data-label="なまえと れきし">英語で「おくれ」。むかしは 録音テープを ループさせて やまびこを つくっていた(ローランドの Space Echo、1974年 など)。</p>
         </article>
         <article class="entry" id="gain">
             <h3>gain <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>gain [.8] [音]</code></p>
+            <p class="blockline">ブロック: <code>[gain ▼] [.8]</code></p>
             <p><b>音の 大きさ</b>。1 が ふつう。</p>
             <pre><code>s(&quot;hh*8&quot;).gain(.6)</code></pre>
             <p class="history" data-label="なまえと れきし">英語で「増やす、もうけ」。電気の 信号を 何倍に するか、という 意味の ことば。</p>
         </article>
         <article class="entry" id="pan">
             <h3>pan <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>pan [0] [音]</code></p>
+            <p class="blockline">ブロック: <code>[pan ▼] [0]</code></p>
             <p><b>左右の 位置</b>。0 が 左、0.5 が まんなか、1 が 右。</p>
             <pre><code>s(&quot;hh*8&quot;).pan(sine.range(0, 1))</code></pre>
             <p class="history" data-label="なまえと れきし"><b>panorama</b>(パノラマ、見わたす けしき)から。音を 左右の けしきの どこに おくか、という 意味。</p>
         </article>
         <article class="entry" id="crush">
             <h3>crush <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>crush [4] [音]</code></p>
+            <p class="blockline">ブロック: <code>[crush ▼] [4]</code></p>
             <p>音を <b>ガリガリ</b> に する(ビットクラッシャー)。数字が 小さいほど あらい。</p>
             <pre><code>s(&quot;bd sd&quot;).crush(4)</code></pre>
             <p class="history" data-label="なまえと れきし">音の 細かさ(ビット数)を 「つぶす」 から crush。むかしの ゲーム機の 8ビットの 音に 近く なる。</p>
         </article>
         <article class="entry" id="distort">
             <h3>distort <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>distort [2] [音]</code></p>
+            <p class="blockline">ブロック: <code>[distort ▼] [2]</code></p>
             <p><b>ひずみ</b>(ディストーション)。音を 歪ませて 太く、あらく する。</p>
             <pre><code>note(&quot;a1&quot;).s(&quot;sawtooth&quot;).distort(2)</code></pre>
             <p class="history" data-label="なまえと れきし">エレキギターの「ひずみ」と 同じ。1950〜60年代、アンプの 音量を 上げすぎて 音が こわれたのが、かっこいい 音として 広まった。</p>
         </article>
         <article class="entry" id="speed">
             <h3>speed <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>speed [2] [音]</code></p>
+            <p class="blockline">ブロック: <code>[speed ▼] [2]</code></p>
             <p>録音した 音の <b>再生の 速さ</b>。2 で 2倍 速く 高く、-1 で 逆再生。</p>
             <pre><code>s(&quot;bd&quot;).speed(2)</code></pre>
             <p class="history" data-label="なまえと れきし">レコードや テープを 速く まわすと 音が 高く なる のと 同じ しくみ。</p>
         </article>
         <article class="entry" id="clip">
             <h3>clip <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>clip [.3] [音]</code></p>
+            <p class="blockline">ブロック: <code>[clip ▼] [.3]</code></p>
             <p>音の <b>長さ</b>。1 で 次の 音まで、0.3 で 短く 切る。</p>
             <pre><code>note(&quot;c4 e4&quot;).s(&quot;square&quot;).clip(.3)</code></pre>
             <p class="history" data-label="なまえと れきし">英語で「切りとる」。</p>
         </article>
         <article class="entry" id="vowel">
             <h3>vowel <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>vowel [a] [音]</code></p>
+            <p class="blockline">ブロック: <code>[vowel ▼] [a]</code></p>
             <p>音を「あ・い・う・え・お」の ような <b>声の 響き</b>に する。</p>
             <pre><code>s(&quot;sawtooth&quot;).vowel(&quot;&lt;a e i o&gt;&quot;)</code></pre>
             <p class="history" data-label="なまえと れきし">英語で「母音」。人の 声の 母音を つくる 響き(フォルマント)を まねる フィルター。</p>
         </article>
         <article class="entry" id="unison">
             <h3>unison / detune / spread <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>unison [7] [supersaw]</code></p>
+            <p class="blockline">ブロック: <code>[unison ▼] [7]</code></p>
             <p>supersaw の <b>厚み</b>。unison は かさねる 本数、detune は 高さの ずれ、spread は 左右の 広がり。</p>
             <pre><code>note(&quot;a3&quot;).s(&quot;supersaw&quot;).unison(7).detune(.4).spread(.8)</code></pre>
             <p class="history" data-label="なまえと れきし"><b>unison</b>(ユニゾン)は ラテン語で「1つの 音」。何人もが 同じ 音を 歌う ことだよ。<b>detune</b> は「チューニングを はずす」。</p>
         </article>
         <article class="entry" id="fm">
             <h3>fm <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>fm [2] [音]</code></p>
+            <p class="blockline">ブロック: <code>[fm ▼] [2]</code></p>
             <p>音を <b>金属っぽく</b>、ベルや エレピの ような 音に する(FM合成)。</p>
             <pre><code>note(&quot;c4&quot;).s(&quot;sine&quot;).fm(2)</code></pre>
             <p class="history" data-label="なまえと れきし"><b>f</b>requency <b>m</b>odulation(周波数変調。FM ラジオと 同じ ことば)。1967年に スタンフォード大学の ジョン・チャウニングさんが 発見し、1983年の ヤマハ <b>DX7</b> で 世界中に 広まった。</p>
@@ -605,28 +606,28 @@ main a { color: var(--accent); }
         <h2>クラブミュージックの わざ</h2>
         <article class="entry" id="orbit">
             <h3>orbit <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>orbit [2] [音]</code></p>
+            <p class="blockline">ブロック: <code>[orbit ▼] [2]</code></p>
             <p>音が 通る <b>通り道</b>(1〜8)を きめる。ひびきや やまびこ、duck は 通り道ごとに かかる。</p>
             <pre><code>note(&quot;a1*8&quot;).s(&quot;sawtooth&quot;).orbit(2)</code></pre>
             <p class="history" data-label="なまえと れきし">英語で「軌道」。TidalCycles の 音源 SuperDirt で、トラックごとの 効果が まざらない ように 分ける しくみの 名前だよ。</p>
         </article>
         <article class="entry" id="duck">
             <h3>duck / duckattack / duckdepth <span class="badge l2">ノーマル</span></h3>
-            <p class="blockline">ブロック: <code>duck [2] [bd*4]</code></p>
+            <p class="blockline">ブロック: <code>[duck ▼] [2]</code></p>
             <p>キックが 鳴るたびに、ほかの 通り道(orbit)の 音を <b>しぼませる</b>。音が 息を する ように「ポンプ」する。</p>
             <pre><code>s(&quot;bd*4&quot;).duck(&quot;2:3&quot;).duckattack(.2).duckdepth(.8)</code></pre>
             <p class="history" data-label="なまえと れきし">英語で「ひょいと 頭を 下げる」。ラジオで 話す ときに 音楽を 小さく する わざ「ダッキング」から。クラブミュージックでは「サイドチェイン」「ポンピング」とも いい、2000年代の フレンチハウスや EDM で 流行した。</p>
         </article>
         <article class="entry" id="acidenv">
             <h3>acidenv <span class="badge l3">マスター</span></h3>
-            <p class="blockline">ブロック: <code>acidenv [.6] [音]</code></p>
+            <p class="blockline">ブロック: <code>acidenv [.6]</code></p>
             <p>ノコギリ波と フィルターを セットに して、<b>アシッド</b>の「ビヨビヨ」した 音に する。</p>
             <pre><code>(ブロックだけ。書き出すと s・lpf・lpenv・lps・lpd・lpq が ならぶ)</code></pre>
             <p class="history" data-label="なまえと れきし">1981年の ローランド <b>TB-303</b> は、ベースの かわりの 機械として 売れなかった。でも 1987年、シカゴの Phuture が つまみを ぐるぐる 回して つくった「Acid Tracks」から「アシッドハウス」が 生まれた。名前は Switch Angel さんの strudel-scripts の 関数 <code>acidenv</code> から もらったよ。</p>
         </article>
         <article class="entry" id="trancegate">
             <h3>trancegate <span class="badge l3">マスター</span></h3>
-            <p class="blockline">ブロック: <code>trancegate [.8] [45] [1] [和音]</code></p>
+            <p class="blockline">ブロック: <code>trancegate [.8] [45] [1]</code></p>
             <p>長い 和音を 細かく <b>きざんで</b>、トランスの「タタタタ」と いう 音に する。</p>
             <pre><code>(ブロックだけ。書き出すと struct・fillGaps・clip に なる)</code></pre>
             <p class="history" data-label="なまえと れきし">トランスという 音楽で 1990年代の おわりごろから よく つかわれる「ゲート」(音を 開け閉めする 門)の わざ。名前は Switch Angel さんの strudel-scripts の 関数 <code>trancegate</code> から。</p>

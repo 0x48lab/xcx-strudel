@@ -210,7 +210,7 @@ footer a { color: inherit; }
             </li>
         </ol>
         <div class="side">
-            <figure><img src="tutorial/palette.png?v=649db44f" width="311" height="900" alt="ストゥルーデルのブロックの一覧" loading="lazy"></figure>
+            <figure><img src="tutorial/palette.png?v=8f6aca03" width="311" height="900" alt="ストゥルーデルのブロックの一覧" loading="lazy"></figure>
             <div>
                 <p>左に「ストゥルーデル」が ふえたら せいこう。うずまきの マークが ついた みどりの ブロックが ならぶよ。</p>
                 <p>さいしょは「ビギナー」レベルの ブロックだけが 出ているよ。いちばん 上の ブロックで「ノーマル」「マスター」に すると、ブロックが ふえるよ。</p>
@@ -222,15 +222,15 @@ footer a { color: inherit; }
 
     <section class="card" id="step1">
         <h2><span class="num">1</span>音を 1つ 鳴らそう</h2>
-        <figure><img src="tutorial/step1-1.png?v=5d5bf233" width="291" height="106" alt="みどりの旗が押されたとき、bd をトラック1で鳴らす" loading="lazy"></figure>
-        <p>「<b>〜をトラック〜で鳴らす</b>」が いちばん 大事な ブロック。みどりの はたを おすと、<code>bd</code>(バスドラム)が「ドン、ドン…」と ずっと くりかえし 鳴るよ。止めるときは 赤い ボタン。</p>
-        <p>▼ を おすと、ほかの 音を えらべるよ。ドラムの 音(<code>sd</code> スネア、<code>hh</code> ハイハット、<code>cp</code> 手拍子 など)と、ドレミの 音(<code>c4</code> が ド、<code>d4</code> が レ …)と、休みの <code>~</code> が あるよ。名前は ぜんぶ Strudel と 同じ だよ。</p>
-        <figure><img src="tutorial/menu-sound.png?v=91d7023c" width="325" height="383" alt="音をえらぶメニュー。bd、sd、hh など" loading="lazy"></figure>
+        <figure><img src="tutorial/step1-1.png?v=28036ba8" width="193" height="166" alt="みどりの旗が押されたとき、トラック 1 で鳴らす。中に s bd" loading="lazy"></figure>
+        <p>「<b>トラック [ ] で鳴らす</b>」が いちばん 大事な ブロック。「C」の かたちに 口が あいていて、<b>中に 入れた ブロックが 1つの トラックの 音</b>に なるよ。ここでは 中に「<b>s</b>」(sound。音の しゅるいを えらぶ)ブロックが 入っているね。みどりの はたを おすと、<code>bd</code>(バスドラム)が「ドン、ドン…」と ずっと くりかえし 鳴るよ。止めるときは 赤い ボタン。</p>
+        <p>「s」の ▼ を おすと、ほかの 音を えらべるよ。ドラムの 音(<code>sd</code> スネア、<code>hh</code> ハイハット、<code>cp</code> 手拍子 など)と、シンセサイザーの 音(<code>sine</code>・<code>square</code>・<code>sawtooth</code>・<code>triangle</code>・<code>supersaw</code>)と、休みの <code>~</code> が あるよ。名前は ぜんぶ Strudel と 同じ だよ。</p>
+        <figure><img src="tutorial/menu-sound.png?v=96514566" width="209" height="421" alt="s ブロックの、音をえらぶメニュー。bd、sd、hh など" loading="lazy"></figure>
         <div class="try">
             <strong>やってみよう</strong>
             <ul>
                 <li><code>sd</code> や <code>cp</code> に かえてみよう。鳴らしたまま かえても いいよ。</li>
-                <li><code>c4</code>(ド)を えらぶと、どんな 音が するかな?</li>
+                <li>「s」を トラックから 外して、かわりに「<b>note</b>」(音の 高さ)ブロックを 入れてみよう。<code>c4</code> が ド、<code>d4</code> が レ だよ。</li>
             </ul>
         </div>
         <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/step1.sb3" target="_blank" rel="noopener">このステップを ひらく</a></div>
@@ -238,8 +238,8 @@ footer a { color: inherit; }
 
     <section class="card" id="step2">
         <h2><span class="num">2</span>順番に ならべよう</h2>
-        <figure><img src="tutorial/step2-1.png?v=77e1cae3" width="577" height="144" alt="テンポを110にして、seq bd ~ sd ~ をトラック ドラム で鳴らす" loading="lazy"></figure>
-        <p>「<b>seq</b>」(順番に ならべる)ブロックを「鳴らす」の ▼ の ところに はめこむと、4つの 音が じゅんばんに 鳴るよ。「ドン・ッ・タン・ッ」の ビートの できあがり。</p>
+        <figure><img src="tutorial/step2-1.png?v=5f0a8564" width="271" height="203" alt="テンポを110にして、トラック ドラム で鳴らす。中に seq bd ~ sd ~" loading="lazy"></figure>
+        <p>トラックの 中に「<b>seq</b>」(順番に ならべる)ブロックを 入れると、4つの 音が じゅんばんに 鳴るよ。「ドン・ッ・タン・ッ」の ビートの できあがり。「seq」の ▼ では、ドラムの 音と ドレミの 音と 休みの <code>~</code> を えらべるよ。</p>
         <h3>サイクルって なに?</h3>
         <p>Strudel では、くりかえしの ひとまとまりを「<b>サイクル</b>」と よぶよ。「seq」に 入れた 音は、1サイクルの 中に ぴったり おさまるように ならぶ。だから 4つなら 4等分、8つなら 8等分に なるよ。はやさを かえたいときは「テンポを〜BPMにする」を つかってね。</p>
         <p>トラックの 名前(ここでは「ドラム」)は、じぶんで すきに つけていいよ。</p>
@@ -255,15 +255,16 @@ footer a { color: inherit; }
 
     <section class="card" id="step3">
         <h2><span class="num">3</span>トラックを かさねよう</h2>
-        <figure><img src="tutorial/step3-1.png?v=79665c89" width="577" height="182" alt="ドラムのトラックに加えて、fast 8 hh を鳴らすトラック" loading="lazy"></figure>
-        <p>「鳴らす」ブロックを もう1つ つなげて、<b>ちがう トラック名</b>を つけると、2つの 音が いっしょに 鳴るよ。バンドで 楽器が ふえていく かんじだね。</p>
-        <p>「<b>fast</b>」(はやく する)は、1サイクルの 中で 同じ 音を なんども 鳴らす ブロック。<code>fast 8</code> で <code>hh</code> を 8回 きざむと、ぐっと ノリが よくなるよ。</p>
+        <figure><img src="tutorial/step3-1.png?v=cb749254" width="271" height="338" alt="ドラムのトラックに加えて、トラック ハイハット の中に s hh と fast 8" loading="lazy"></figure>
+        <p>トラックの ブロックを もう1つ つなげて、<b>ちがう トラック名</b>を つけると、2つの 音が いっしょに 鳴るよ。バンドで 楽器が ふえていく かんじだね。</p>
+        <p>「<b>fast</b>」(はやく する)は、1サイクルの 中で 同じ 音を なんども 鳴らす ブロック。「s hh」の <b>下に つむ</b>と、<code>hh</code> を 8回 きざんで、ぐっと ノリが よくなるよ。</p>
+        <p>トラックの 中の ブロックは、<b>上から じゅんばんに</b> 読むよ。さいしょに 音(ここでは <code>hh</code>)を きめて、その 下に「どう かえるか」(ここでは <code>fast 8</code>)を つんでいくんだ。</p>
         <p>同じ トラック名で もう一度 鳴らすと、前の 音と <b>入れかわる</b>よ。これは つぎの ステップ5で つかうよ。</p>
         <div class="try">
             <strong>やってみよう</strong>
             <ul>
                 <li>「fast」の 数を 16 や 3 に してみよう。</li>
-                <li>「<b>stack</b>」(同時に かさねる)ブロックで、<code>bd</code> と <code>cr</code>(シンバル)を いっしょに 鳴らしてみよう。</li>
+                <li>「s hh」の かわりに「<b>stack</b>」(同時に かさねる)ブロックを 入れて、<code>bd</code> と <code>cr</code>(シンバル)を いっしょに 鳴らしてみよう。</li>
             </ul>
         </div>
         <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/step3.sb3" target="_blank" rel="noopener">このステップを ひらく</a></div>
@@ -271,18 +272,19 @@ footer a { color: inherit; }
 
     <section class="card" id="step4">
         <h2><span class="num">4</span>メロディを つくろう</h2>
-        <figure><a href="tutorial/step4-1.png?v=640e05f7" target="_blank" rel="noopener"><img src="tutorial/step4-1.png?v=640e05f7" width="1126" height="230" alt="s triangle で、cat に seq c4 e4 g4 c5 と seq a4 g4 e4 d4 を入れて鳴らす" loading="lazy"></a><figcaption>おすと 大きく 見られるよ</figcaption></figure>
-        <p>3つめの トラック「メロディ」を ふやしたよ。ブロックが いれこに なっているので、内がわから 見ていこう。</p>
+        <figure><a href="tutorial/step4-1.png?v=9daf588d" target="_blank" rel="noopener"><img src="tutorial/step4-1.png?v=9daf588d" width="281" height="473" alt="トラック メロディ の中に seq c4 e4 g4 c5 と s triangle" loading="lazy"></a><figcaption>おすと 大きく 見られるよ</figcaption></figure>
+        <p>3つめの トラック「メロディ」を ふやしたよ。上から 読んでいこう。</p>
         <ol>
-            <li>「seq c4 e4 g4 c5」(ド ミ ソ 高いド)と「seq a4 g4 e4 d4」(ラ ソ ミ レ)で、2つの フレーズを つくる。</li>
-            <li>「<b>cat</b>」(交互に つなぐ)に 2つを 入れると、1サイクルごとに こうたいで 鳴るよ。</li>
-            <li>「<b>s</b>」(sound。音の しゅるいを えらぶ)で、音の しゅるい(ねいろ)を えらぶ。<code>triangle</code>(すっきりした 音)、<code>sawtooth</code>(ギザギザの 音)、<code>square</code>(ピコピコ音)、<code>sine</code>(やわらかい 音)などが あるよ。</li>
+            <li>「seq c4 e4 g4 c5」で、ド ミ ソ 高いド の フレーズを つくる。</li>
+            <li>その 下の「<b>s</b>」で、音の しゅるい(ねいろ)を えらぶ。<code>triangle</code>(すっきりした 音)、<code>sawtooth</code>(ギザギザの 音)、<code>square</code>(ピコピコ音)、<code>sine</code>(やわらかい 音)などが あるよ。</li>
         </ol>
+        <p>ステップ1では「s」が 音そのものを きめたけど、音の 高さの 下に つむと、<b>その 高さを どの 音で 鳴らすか</b>を きめるんだ。</p>
         <div class="try">
             <strong>やってみよう</strong>
             <ul>
                 <li>「s」の 音色を <code>sawtooth</code> や <code>square</code> に かえてみよう。</li>
                 <li><code>c4</code> や <code>e4</code> を かえて、じぶんの メロディを つくろう。</li>
+                <li>「seq」の かわりに「<b>cat</b>」(1サイクルごとに 交互に 鳴らす)を 入れてみよう。<code>c4</code> と <code>g4</code> なら、ド・ソ・ド・ソ… と 1サイクルずつ かわるよ。</li>
             </ul>
         </div>
         <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/step4.sb3" target="_blank" rel="noopener">このステップを ひらく</a></div>
@@ -290,11 +292,11 @@ footer a { color: inherit; }
 
     <section class="card" id="step5">
         <h2><span class="num">5</span>キーで 曲を かえよう</h2>
-        <figure><img src="tutorial/step5-1.png?v=79665c89" width="577" height="182" alt="はたでドラムとハイハットを鳴らす" loading="lazy"></figure>
+        <figure><img src="tutorial/step5-1.png?v=cb749254" width="271" height="338" alt="はたでドラムとハイハットを鳴らす" loading="lazy"></figure>
         <div class="row">
-            <figure><img src="tutorial/step5-2.png?v=d4cf0e87" width="620" height="106" alt="スペースキーで、ドラムのトラックを seq bd bd sd cp にかえる" loading="lazy"></figure>
-            <figure><img src="tutorial/step5-3.png?v=9ffb9bdc" width="233" height="106" alt="sキーで、ハイハットのトラックを止める" loading="lazy"></figure>
-            <figure><img src="tutorial/step5-4.png?v=a8d86c81" width="197" height="106" alt="0キーで、すべてのトラックを止める" loading="lazy"></figure>
+            <figure><img src="tutorial/step5-2.png?v=7f4d403b" width="284" height="166" alt="スペースキーで、トラック ドラム を seq bd bd sd cp で鳴らす" loading="lazy"></figure>
+            <figure><img src="tutorial/step5-3.png?v=fc94bf7f" width="233" height="106" alt="sキーで、ハイハットのトラックを止める" loading="lazy"></figure>
+            <figure><img src="tutorial/step5-4.png?v=5a8c1062" width="197" height="106" alt="0キーで、すべてのトラックを止める" loading="lazy"></figure>
         </div>
         <p>演奏しながら 曲を かえるのが、Strudel の いちばん 楽しい ところ。これを「<b>ライブコーディング</b>」と いうよ。</p>
         <ul>
@@ -315,17 +317,17 @@ footer a { color: inherit; }
 
     <section class="card" id="step6">
         <h2><span class="num">6</span>音を 目で 見よう</h2>
-        <figure><a href="tutorial/step6-1.png?v=9567685c" target="_blank" rel="noopener"><img src="tutorial/step6-1.png?v=9567685c" width="1126" height="268" alt="3つのトラックを鳴らして、pianoroll を表示する" loading="lazy"></a><figcaption>おすと 大きく 見られるよ</figcaption></figure>
+        <figure><a href="tutorial/step6-1.png?v=4b339ffb" target="_blank" rel="noopener"><img src="tutorial/step6-1.png?v=4b339ffb" width="281" height="511" alt="3つのトラックを鳴らして、pianoroll を表示する" loading="lazy"></a><figcaption>おすと 大きく 見られるよ</figcaption></figure>
         <div class="row">
-            <figure><img src="tutorial/step6-2.png?v=ba1f5990" width="231" height="106" alt="1キーで scope を表示する" loading="lazy"></figure>
-            <figure><img src="tutorial/step6-3.png?v=cfe44c19" width="220" height="106" alt="2キーで spectrum を表示する" loading="lazy"></figure>
-            <figure><img src="tutorial/step6-4.png?v=b2e50215" width="167" height="106" alt="3キーで音の絵を隠す" loading="lazy"></figure>
+            <figure><img src="tutorial/step6-2.png?v=37ccd247" width="187" height="106" alt="1キーで scope を表示する" loading="lazy"></figure>
+            <figure><img src="tutorial/step6-3.png?v=a11b38d7" width="204" height="106" alt="2キーで spectrum を表示する" loading="lazy"></figure>
+            <figure><img src="tutorial/step6-4.png?v=dd0de01c" width="167" height="106" alt="3キーで音の絵を隠す" loading="lazy"></figure>
         </div>
         <p>「<b>〜を表示する</b>」で、鳴っている 音を ステージに 絵で 出せるよ。▼ で <code>scope</code>・<code>pianoroll</code>・<code>spectrum</code>・<code>punchcard</code> を えらべるよ。</p>
         <div class="row">
-            <figure><img src="tutorial/stage-pianoroll.png?v=c27d4156" width="480" height="360" alt="pianoroll(ピアノロール)の絵" loading="lazy"><figcaption><code>pianoroll</code>(ピアノロール):どの 音が いつ 鳴るか</figcaption></figure>
-            <figure><img src="tutorial/stage-scope.png?v=fdbac25c" width="480" height="360" alt="scope(オシロスコープ)の絵" loading="lazy"><figcaption><code>scope</code>(オシロスコープ):音の 波の かたち</figcaption></figure>
-            <figure><img src="tutorial/stage-spectrum.png?v=7be1aee8" width="480" height="360" alt="spectrum(スペクトラム)の絵" loading="lazy"><figcaption><code>spectrum</code>(スペクトラム):ひくい音〜高い音の 大きさ</figcaption></figure>
+            <figure><img src="tutorial/stage-pianoroll.png?v=00ecd727" width="480" height="360" alt="pianoroll(ピアノロール)の絵" loading="lazy"><figcaption><code>pianoroll</code>(ピアノロール):どの 音が いつ 鳴るか</figcaption></figure>
+            <figure><img src="tutorial/stage-scope.png?v=ce57704b" width="480" height="360" alt="scope(オシロスコープ)の絵" loading="lazy"><figcaption><code>scope</code>(オシロスコープ):音の 波の かたち</figcaption></figure>
+            <figure><img src="tutorial/stage-spectrum.png?v=18f10201" width="480" height="360" alt="spectrum(スペクトラム)の絵" loading="lazy"><figcaption><code>spectrum</code>(スペクトラム):ひくい音〜高い音の 大きさ</figcaption></figure>
         </div>
         <p>pianoroll は、まんなかの たての 線の ところが「いま」。上に あるほど 高い 音だよ。音の 絵は スプライトの うしろに 出るので、ねこも ちゃんと 見えるよ。</p>
         <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/step6.sb3" target="_blank" rel="noopener">このステップを ひらく</a></div>
@@ -335,7 +337,7 @@ footer a { color: inherit; }
         <h2><span class="num">7</span>ねこを おどらせよう</h2>
         <div class="row">
             <figure><img src="tutorial/step7-2.png?v=76b0f535" width="148" height="101" alt="拍がきたとき、次のコスチュームにする" loading="lazy"></figure>
-            <figure><img src="tutorial/step7-3.png?v=68fe8db0" width="221" height="166" alt="bd が鳴ったとき、大きさを120%にして0.1秒待ち、100%にもどす" loading="lazy"></figure>
+            <figure><img src="tutorial/step7-3.png?v=7b1bc5c5" width="181" height="166" alt="bd が鳴ったとき、大きさを120%にして0.1秒待ち、100%にもどす" loading="lazy"></figure>
         </div>
         <p>音に あわせて スプライトを うごかす ブロックが あるよ。</p>
         <ul>
@@ -355,10 +357,10 @@ footer a { color: inherit; }
 
     <section class="card" id="step8">
         <h2><span class="num">8</span>ノーマルレベル:ミニ記法・効果・音階</h2>
-        <figure><a href="tutorial/step8-1.png?v=74c580ef" target="_blank" rel="noopener"><img src="tutorial/step8-1.png?v=74c580ef" width="955" height="274" alt="ノーマルのブロックを表示して、s で書いたドラム、lpf をつけた note のベース、n scale のメロディを鳴らす" loading="lazy"></a><figcaption>おすと 大きく 見られるよ</figcaption></figure>
-        <p>いちばん 上の ブロックを「<b>ノーマル</b>」に すると、ブロックが ふえるよ。</p>
+        <figure><a href="tutorial/step8-1.png?v=83767033" target="_blank" rel="noopener"><img src="tutorial/step8-1.png?v=83767033" width="272" height="587" alt="ノーマルのブロックを表示して、s で書いたドラム、note と s sawtooth と lpf のベース、n と scale と s piano のメロディを鳴らす" loading="lazy"></a><figcaption>おすと 大きく 見られるよ</figcaption></figure>
+        <p>いちばん 上の ブロックを「<b>ノーマル</b>」に すると、ブロックが ふえるよ。▼ で えらぶ「s [bd ▼]」「note [c4 ▼]」は、<b>文字を 書ける</b>「s [ ]」「note [ ]」に 入れかわるよ。</p>
         <h3>ミニ記法</h3>
-        <p>文字を 入れる「<b>s</b>」ブロックと「<b>note</b>」(音の 高さを 書く)ブロックは、Strudel と 同じ ミニ記法で 音を ならべる ブロック。この 作品の ドラムは <code>bd*2 [~ sd] &lt;hh oh&gt; sd</code>、ベースは <code>&lt;c2 a1 f1 g1&gt;*2</code> だよ(ブロックの 中では 長い 文字は「…」で 省略されて 見えるよ)。</p>
+        <p>文字を 書く「<b>s</b>」ブロックと「<b>note</b>」(音の 高さを 書く)ブロックには、Strudel と 同じ ミニ記法で 音を ならべて 書けるよ。この 作品の ドラムは <code>bd*2 [~ sd] &lt;hh oh&gt; sd</code>、ベースは <code>&lt;c2 a1 f1 g1&gt;*2</code> だよ(ブロックの 中では 長い 文字は「…」で 省略されて 見えるよ)。</p>
         <table>
             <tr><th>書きかた</th><th>いみ</th><th>れい</th></tr>
             <tr><td><code>bd sd</code></td><td>スペースで くぎると 順番に 鳴る</td><td><code>bd hh sd hh</code></td></tr>
@@ -370,8 +372,8 @@ footer a { color: inherit; }
         </table>
         <h3>効果と 音階</h3>
         <ul>
-            <li>効果の ブロック:▼ で えらんだ 効果の 名前が、<code>lpf 600 [音]</code> のように ブロックの 先頭に 出るよ。<code>lpf</code>(高い 音を けずって こもらせる)、<code>room</code>(ひびき)、<code>delay</code>(やまびこ) など。ベースは「lpf 600」で やわらかい 音に しているよ。</li>
-            <li>「<b>n 〜 scale 〜 〜</b>」(音階の 何番目の 音か):音階の 何番目の 音かを 数字で 書く。<code>major:pentatonic</code>(ヨナ抜き長音階)なら、どの 数字でも きれいに 聞こえるよ。「s」で えらべる <code>piano</code> は、本物の ピアノの 音を 自動で 読みこむよ。</li>
+            <li>効果の ブロック「<b>[lpf ▼] [600]</b>」:▼ で 効果を えらんで、となりに 値を 書くよ。<code>lpf</code>(高い 音を けずって こもらせる)、<code>room</code>(ひびき)、<code>delay</code>(やまびこ) など。ベースは「s sawtooth」の 下に「lpf 600」を つんで、やわらかい 音に しているよ。</li>
+            <li>「<b>n</b>」と「<b>scale</b>」(音階):「n」で 音階の 何番目の 音かを 数字で 書いて、その 下の「scale」で 音階を えらぶ。<code>major:pentatonic</code>(ヨナ抜き長音階)なら、どの 数字でも きれいに 聞こえるよ。「s」で えらべる <code>piano</code> は、本物の ピアノの 音を 自動で 読みこむよ。</li>
         </ul>
         <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/step8.sb3" target="_blank" rel="noopener">このステップを ひらく</a></div>
     </section>
@@ -394,7 +396,7 @@ footer a { color: inherit; }
         <p>この リストの 和音は、ファ・ソ・ミ・ラ の 和音を じゅんばんに 鳴らす「<b>王道進行</b>」。J-POP で とても よく つかわれる 進行だよ。</p>
 
         <h3>2. リストを 鳴らす</h3>
-        <figure class="wide"><img src="tutorial/step9-2.png?v=f20cdf7f" width="916" height="117" alt="1キーで、リスト コード の中身を1サイクルに1つずつならべて note に入れ、s piano でトラック ピアノで鳴らす" loading="lazy"></figure>
+        <figure class="wide"><img src="tutorial/step9-2.png?v=a6b1256d" width="490" height="203" alt="1キーで、トラック ピアノ の中に、リスト コード の中身を1サイクルに1つずつならべた note と s piano" loading="lazy"></figure>
         <p>「<b>リスト [ ] の中身を [ ] ならべる</b>」ブロックを、「note」ブロックの 文字の ところに はめこむよ。リストの 項目が つながって、1つの ミニ記法に なるんだ。</p>
         <table>
             <tr><th>▼ で えらぶ ならべかた</th><th>できる ミニ記法</th><th>つかいどころ</th></tr>
@@ -405,8 +407,8 @@ footer a { color: inherit; }
         <p>1 キーを おすと、和音が 1小節ずつ「ジャーン」と のびて 鳴るよ。キーを おす 前に、ステージの <b>リストの 外</b>を クリックしてね(リストの 中を クリックすると、キーが リストの 書きかえに なっちゃうよ)。</p>
 
         <h3>3. リズムで 刻む</h3>
-        <figure class="wide"><img src="tutorial/step9-3.png?v=258d55b4" width="1463" height="122" alt="2キーで、リストの和音を struct [x ~] [~ x] [x x] [~ x] で刻み、s piano で鳴らす" loading="lazy"></figure>
-        <p>「<b>struct</b>」(リズムの かたちで 刻む)ブロックは、<code>x</code> の ところだけ 音を 鳴らすよ。<code>~</code> は 休み。和音は そのままで、リズムだけ つけられるんだ。</p>
+        <figure class="wide"><img src="tutorial/step9-3.png?v=5ddae116" width="512" height="241" alt="2キーで、リストの和音の note の下に、リスト リズム を順番にならべた struct と s piano" loading="lazy"></figure>
+        <p>「note」の 下に つんだ「<b>struct</b>」(リズムの かたちで 刻む)ブロックは、<code>x</code> の ところだけ 音を 鳴らすよ。<code>~</code> は 休み。和音は そのままで、リズムだけ つけられるんだ。</p>
         <p>リズムも リストに 入っているよ。リスト「リズム」の 項目は <code>x ~</code>、<code>~ x</code>、<code>x x</code>、<code>~ x</code> の 4つ。「<b>1サイクルの中に順番に</b>」ならべると、<b>1項目が 1拍</b>に なるよ。1拍を 2つに 分けて「タン・ウン」「ウン・タン」と 書いているんだ。2 キーで ピアノが 入れかわって、はずむように なるよ。</p>
         <table>
             <tr><th>拍</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
@@ -419,9 +421,9 @@ footer a { color: inherit; }
 s("[bd [~ bd] ~ ~], [~ ~ sd ~], [hh*8]")</code></pre>
 
         <h3>4. ベース・メロディ・ドラムを かさねる</h3>
-        <figure class="wide"><img src="tutorial/step9-4.png?v=b1ba7b72" width="1250" height="122" alt="3キーで、リスト ベース を s sawtooth、lpf 400 にしてトラック ベースで鳴らす" loading="lazy"></figure>
-        <figure class="wide"><img src="tutorial/step9-5.png?v=2eeca412" width="1249" height="122" alt="4キーで、リスト メロディ を s triangle、room .3 にしてトラック メロディで鳴らす" loading="lazy"></figure>
-        <figure><img src="tutorial/step9-6.png?v=9349482d" width="701" height="112" alt="5キーで、s ブロックにならべたドラムを鳴らす" loading="lazy"></figure>
+        <figure class="wide"><img src="tutorial/step9-4.png?v=a319ef2a" width="489" height="241" alt="3キーで、トラック ベース の中に、リスト ベース の note と s sawtooth と lpf 400" loading="lazy"></figure>
+        <figure class="wide"><img src="tutorial/step9-5.png?v=7adbbb30" width="500" height="241" alt="4キーで、トラック メロディ の中に、リスト メロディ の note と s triangle と room .3" loading="lazy"></figure>
+        <figure><img src="tutorial/step9-6.png?v=214c0d46" width="441" height="166" alt="5キーで、トラック ドラム の中に、リスト ドラム をぜんぶ同時にならべた s" loading="lazy"></figure>
         <p>ベースと メロディも、それぞれ リストに 1小節ずつ 入っているよ。3・4・5 キーで かさねていこう。0 キーで ぜんぶ 止まるよ。</p>
         <p>ドラムは「<b>ぜんぶ同時に</b>」ならべるよ。リスト「ドラム」は <b>1項目が 1つの 楽器の 行</b>。ドラムマシンの 画面のように、楽器ごとに リズムを 書いて かさねるんだ。</p>
         <table>
@@ -469,15 +471,15 @@ s("[bd [~ bd] ~ ~], [~ ~ sd ~], [hh*8]")</code></pre>
         </div>
 
         <h3>2. 声を 鳴らす</h3>
-        <figure><img src="tutorial/step10-2.png?v=72e47f30" width="410" height="106" alt="1キーで、スプライトの音 Meow をトラック こえ で鳴らす" loading="lazy"></figure>
-        <p>「<b>スプライトの音 [ ]</b>」ブロックの ▼ で、鳴らしたい 音を えらぶよ。録音した 声も ここに 出てくるよ。このブロックは、ドラムの 音と 同じように「鳴らす」や「seq」の ▼ の ところに はめこめるよ。</p>
+        <figure><img src="tutorial/step10-2.png?v=7f50037c" width="219" height="166" alt="1キーで、トラック こえ の中に スプライトの音 Meow" loading="lazy"></figure>
+        <p>トラックの 中に「<b>スプライトの音 [ ]</b>」ブロックを 入れて、▼ で 鳴らしたい 音を えらぶよ。録音した 声も ここに 出てくるよ。「s」と 同じように、トラックの いちばん 上に 入れる 音の ブロックだよ。</p>
 
         <h3>3. くりかえして 短く する</h3>
-        <figure><img src="tutorial/step10-3.png?v=7f29f896" width="827" height="117" alt="2キーで、fast 4 のスプライトの音に clip .5 をつけてトラック こえ で鳴らす" loading="lazy"></figure>
+        <figure><img src="tutorial/step10-3.png?v=fd9e60ae" width="219" height="241" alt="2キーで、スプライトの音の下に fast 4 と clip .5" loading="lazy"></figure>
         <p>「fast 4」で 1サイクルに 4回。声が 長くて かさなるときは、効果の「<b>clip</b>」(音の 長さ)で 短く 切ろう。</p>
 
         <h3>4. 高さを かえる</h3>
-        <figure class="wide"><img src="tutorial/step10-4.png?v=3cb372ae" width="1127" height="122" alt="3キーで、fast 4 した声に speed 1 1.5 2 -1 をつけて鳴らす" loading="lazy"></figure>
+        <figure class="wide"><img src="tutorial/step10-4.png?v=b53b65b2" width="219" height="279" alt="3キーで、スプライトの音の下に fast 4 と clip .5 と speed 1 1.5 2 -1" loading="lazy"></figure>
         <p>効果の「<b>speed</b>」(再生の 速さ)で 声の 高さが かわるよ。<code>1 1.5 2 -1</code> と 書くと、4回の 声が じゅんばんに この 高さに なるよ。</p>
         <table>
             <tr><th>speed</th><th>どうなる?</th></tr>
@@ -487,16 +489,14 @@ s("[bd [~ bd] ~ ~], [~ ~ sd ~], [hh*8]")</code></pre>
             <tr><td><code>-1</code></td><td>さかさまに 鳴る(逆再生)</td></tr>
         </table>
 
-        <h3>5. ドラムと まぜる</h3>
-        <figure><img src="tutorial/step10-5.png?v=0c8475c7" width="860" height="112" alt="4キーで、seq bd スプライトの音 sd スプライトの音 をトラック ビート で鳴らす" loading="lazy"></figure>
-        <p>「seq」の ▼ の ところにも「スプライトの音」を はめられるよ。「ドン・ニャー・タン・ニャー」の ビートの できあがり。</p>
-        <figure><img src="tutorial/step10-6.png?v=8ea883da" width="934" height="117" alt="5キーで、スプライトの音に speed &lt;1 .5&gt; と room .8 をつけてトラック こえ で鳴らす" loading="lazy"></figure>
-        <p>5 キーは、1小節ごとに 高さを かえて「room」を つけた 声。0 キーで ぜんぶ 止まるよ。</p>
+        <h3>5. ひびきを つける</h3>
+        <figure><img src="tutorial/step10-5.png?v=685b0b1c" width="219" height="241" alt="4キーで、スプライトの音の下に speed &lt;1 .5&gt; と room .8" loading="lazy"></figure>
+        <p>4 キーは、1小節ごとに 高さを かえて「room」(ひびき)を つけた 声。0 キーで ぜんぶ 止まるよ。</p>
         <div class="try">
             <strong>やってみよう</strong>
             <ul>
                 <li>じぶんの 声を 録音して、ぜんぶの「スプライトの音」の ▼ を その 声に かえてみよう。</li>
-                <li>「ドン」「パッ」「チー」を べつべつに 録音して、<code>bd</code>・<code>sd</code>・<code>hh</code> の かわりに してみよう。</li>
+                <li>「ドン」「パッ」を べつべつに 録音して、2つの トラックで かさねてみよう。「パッ」の トラックは「fast 2」と 効果の「speed」で、ずらして 鳴らすと おもしろいよ。</li>
                 <li>マスターレベルの「<b>chop</b>」(音を こまかく 切る)を つかうと、長い 声を こまかく 切って 刻めるよ。</li>
             </ul>
         </div>
@@ -523,7 +523,7 @@ s("[bd [~ bd] ~ ~], [~ ~ sd ~], [hh*8]")</code></pre>
         <p>ピアノは <b>根音(ルート)</b>を はぶいているよ。根音は ベースが ひくので、ピアノは ひびきの 色を つける 音だけを ひいているんだ。</p>
 
         <h3>シャッフルの リズム</h3>
-        <figure class="wide"><img src="tutorial/step11-2.png?v=d23af2d8" width="1463" height="122" alt="1キーで、リスト コード を struct [x ~ ~] [~ ~ x] [x ~ x] [~ ~ ~] で刻み、s piano でトラック ピアノで鳴らす" loading="lazy"></figure>
+        <figure class="wide"><img src="tutorial/step11-2.png?v=33563608" width="512" height="241" alt="1キーで、トラック ピアノ の中に、リスト コード の note と、リスト リズム の struct と s piano" loading="lazy"></figure>
         <p>この 曲は 1拍を <b>3つ</b>に 分けているよ。「タッ・タ」と はねる <b>シャッフル</b>だよ。ステップ9と 同じように、リズムも ドラムも リストに 入っているよ。</p>
         <table>
             <tr><th>リスト</th><th>ならべかた</th><th>項目</th></tr>
@@ -531,9 +531,9 @@ s("[bd [~ bd] ~ ~], [~ ~ sd ~], [hh*8]")</code></pre>
             <tr><td>ドラム</td><td>ぜんぶ同時に(1項目 = 1つの 楽器)</td><td><code>[bd ~ ~] [~ ~ bd] [~ ~ bd] [~ ~ ~]</code><br><code>[~ ~ ~] [sd ~ ~] [~ ~ ~] [sd ~ ~]</code><br><code>[hh ~ hh]*4</code></td></tr>
         </table>
         <p>ベースと メロディの リストも、1拍を 3つに 分けて 書いているよ。</p>
-        <figure class="wide"><img src="tutorial/step11-3.png?v=64bdae67" width="1250" height="122" alt="2キーで、リスト ベース を s sawtooth、lpf 350 にしてトラック ベースで鳴らす" loading="lazy"></figure>
-        <figure class="wide"><img src="tutorial/step11-4.png?v=223cc3aa" width="1249" height="122" alt="3キーで、リスト メロディ を s triangle、room .4 にしてトラック メロディで鳴らす" loading="lazy"></figure>
-        <figure class="wide"><img src="tutorial/step11-5.png?v=e7f2bdc8" width="1212" height="122" alt="4キーで、ドラムとハイハットを bank RolandTR808 で鳴らす" loading="lazy"></figure>
+        <figure class="wide"><img src="tutorial/step11-3.png?v=493610f5" width="489" height="241" alt="2キーで、トラック ベース の中に、リスト ベース の note と s sawtooth と lpf 350" loading="lazy"></figure>
+        <figure class="wide"><img src="tutorial/step11-4.png?v=64f45cb5" width="500" height="241" alt="3キーで、トラック メロディ の中に、リスト メロディ の note と s triangle と room .4" loading="lazy"></figure>
+        <figure class="wide"><img src="tutorial/step11-5.png?v=824b7838" width="441" height="241" alt="4キーで、トラック ドラム の中に、リスト ドラム の s と bank RolandTR808 と gain .8" loading="lazy"></figure>
         <div class="try">
             <strong>やってみよう</strong>
             <ul>
@@ -549,13 +549,14 @@ s("[bd [~ bd] ~ ~], [~ ~ sd ~], [hh*8]")</code></pre>
 
     <section class="card" id="step12">
         <h2><span class="num">12</span>マスターレベル:アシッドと トランスゲート</h2>
-        <figure><a href="tutorial/step12-1.png?v=24b83520" target="_blank" rel="noopener"><img src="tutorial/step12-1.png?v=24b83520" width="1153" height="360" alt="マスターのブロックで、euclid、bank、sine range、acidenv、trancegate を使う" loading="lazy"></a><figcaption>おすと 大きく 見られるよ</figcaption></figure>
+        <figure><a href="tutorial/step12-1.png?v=fdbb1834" target="_blank" rel="noopener"><img src="tutorial/step12-1.png?v=fdbb1834" width="392" height="835" alt="マスターのブロックで、euclid、bank、sine range、acidenv、和音、trancegate を使う" loading="lazy"></a><figcaption>おすと 大きく 見られるよ</figcaption></figure>
         <p>「<b>マスター</b>」に すると、クラブミュージックで つかう わざが つかえるよ。</p>
         <ul>
-            <li>「<b>euclid</b>」(ユークリッドリズムで ちらす):<code>euclid 5 8</code> で 8拍に 5回、のように 音を できるだけ 均等に ちらす。世界中の 民族音楽に 出てくる リズムだよ。</li>
+            <li>「<b>euclid</b>」(ユークリッドリズムで ちらす):「s bd」の 下に つんだ <code>euclid 5 8</code> で 8拍に 5回、のように 音を できるだけ 均等に ちらす。世界中の 民族音楽に 出てくる リズムだよ。</li>
             <li>「<b>bank</b>」(ドラムマシンを えらぶ):<code>RolandTR909</code> などの 有名な ドラムマシンの 音に する。</li>
-            <li>「<b>range</b>」の ブロック(ゆれる 値):<code>sine range 0 1 slow 2</code> のように、波の かたち(<code>sine</code> なめらか、<code>saw</code> だんだん 上がる など)と はんいと 速さを えらぶ。数字の かわりに 入れると、値が 波のように ゆれる。ここでは <code>pan</code>(左右の いち)に 入れて、ハイハットが 左右に ゆれるよ。</li>
+            <li>「<b>range</b>」の ブロック(ゆれる 値):<code>sine range 0 1 slow 2</code> のように、波の かたち(<code>sine</code> なめらか、<code>saw</code> だんだん 上がる など)と はんいと 速さを えらぶ。数字の かわりに 入れると、値が 波のように ゆれる。ここでは 効果の <code>pan</code>(左右の いち)の 値に 入れて、ハイハットが 左右に ゆれるよ。丸い ブロックは、こういう「値」に 入れる ブロックだよ。</li>
             <li>「<b>acidenv</b>」(アシッドな 音に する):ビヨビヨした ベースの 音(TB-303 ふう)。名前は Switch Angel さんの strudel-scripts に ある acidenv 関数から もらったよ。</li>
+            <li>「<b>和音</b>」:<code>A3</code> の <code>minor</code> のように、根音と 和音の しゅるいを えらんで 和音を 鳴らす。</li>
             <li>「<b>trancegate</b>」(トランスゲートで 刻む):のばした 和音を 細かく 刻む。<code>trancegate 密度 seed 長さ</code> の 2つめの 数字(seed)を かえると、刻みかたが かわるよ。名前は Switch Angel さんの trancegate 関数から もらったよ。</li>
         </ul>
         <div class="try">
@@ -575,7 +576,7 @@ s("[bd [~ bd] ~ ~], [~ ~ sd ~], [hh*8]")</code></pre>
         <h2><span class="num">コラム</span>ブロックを Strudel の コードに しよう</h2>
         <p>ここまで くんできた ブロックは、ぜんぶ 本物の <a href="https://strudel.cc/" target="_blank" rel="noopener">Strudel</a> の コードに できるよ。応用編では、ブロックの となりに「Strudel では」として コードも のせているので、さきに 読みかたを 知っておこう。</p>
         <div class="row">
-            <figure><img src="tutorial/step12-2.png?v=9806eb46" width="356" height="106" alt="cキーで、全部のトラックのStrudelコードを言う" loading="lazy"></figure>
+            <figure><img src="tutorial/step12-2.png?v=351f4cc3" width="356" height="106" alt="cキーで、全部のトラックのStrudelコードを言う" loading="lazy"></figure>
             <figure><img src="tutorial/step12-3.png?v=e1913d22" width="243" height="106" alt="oキーで、全部のトラックをstrudel.ccで開く" loading="lazy"></figure>
         </div>
         <ul>
@@ -586,24 +587,26 @@ s("[bd [~ bd] ~ ~], [~ ~ sd ~], [hh*8]")</code></pre>
         <h3>ブロックと コードの 対応</h3>
         <table>
             <tr><th>ブロック</th><th>Strudel の コード</th></tr>
-            <tr><td>〜をトラック〜で鳴らす</td><td><code>$: …</code>(1行に 1トラック)</td></tr>
+            <tr><td>トラック 〜 で鳴らす(C の かたち)</td><td><code>$: …</code>(1行に 1トラック)</td></tr>
+            <tr><td>トラックの 中に つんだ ブロック</td><td>上から じゅんばんに、左から <code>.</code> で つなぐ</td></tr>
             <tr><td>テンポを〜BPMにする</td><td><code>setcpm(…)</code>(1分間の サイクル数)</td></tr>
-            <tr><td>seq 〜 / stack 〜 / cat 〜</td><td><code>seq(s("bd"), s("sd"))</code> / <code>stack(…)</code> / <code>cat(…)</code></td></tr>
+            <tr><td>seq 〜 / stack 〜 / cat 〜(いちばん 上)</td><td><code>seq(s("bd"), s("sd"))</code> / <code>stack(…)</code> / <code>cat(…)</code></td></tr>
             <tr><td>fast 〜 / slow 〜</td><td><code>.fast(4)</code> / <code>.slow(2)</code></td></tr>
-            <tr><td>s 〜 / note 〜(文字を 入れる ブロック)</td><td><code>s("bd sd")</code> / <code>note("c3 e3")</code></td></tr>
+            <tr><td>s 〜 / note 〜(いちばん 上)</td><td><code>s("bd sd")</code> / <code>note("c3 e3")</code></td></tr>
             <tr><td>リストの中身を 1サイクルに1つずつ ならべる</td><td><code>"&lt;[項目1] [項目2] …&gt;"</code></td></tr>
-            <tr><td>s 〜 [音](音色を えらぶ)</td><td><code>.s("piano")</code></td></tr>
-            <tr><td>lpf 600 [音]、room .5 [音] など(効果)</td><td><code>.lpf(600)</code> <code>.room(.5)</code> など</td></tr>
-            <tr><td>struct 〜 [音]</td><td><code>.struct("x ~ x x")</code></td></tr>
-            <tr><td>bank 〜 [音]</td><td><code>.bank("RolandTR909")</code></td></tr>
+            <tr><td>s 〜(note などの 下に つむ。音色を えらぶ)</td><td><code>.s("piano")</code></td></tr>
+            <tr><td>[lpf ▼] [600]、[room ▼] [.5] など(効果)</td><td><code>.lpf(600)</code> <code>.room(.5)</code> など</td></tr>
+            <tr><td>struct 〜</td><td><code>.struct("x ~ x x")</code></td></tr>
+            <tr><td>bank 〜</td><td><code>.bank("RolandTR909")</code></td></tr>
         </table>
         <h3>関数って なに?</h3>
         <p><b>関数</b>は、パターンを 受け取って、かえた パターンを かえす しかけだよ。コードの <code>.</code> の あとの 名前が 関数の 名前、<code>()</code> の 中が 関数に わたす 値(<b>引数</b>)。</p>
         <pre><code>note("c3 e3 g3").transpose(12)   // transpose 関数に 12 を わたす → 1オクターブ 上の パターン
 note("c3 e3 g3").lpf(600)        // lpf 関数に 600 を わたす → こもった 音の パターン</code></pre>
-        <p>つなげて 書くと、左から じゅんばんに かかるよ。ブロックを 入れ子に するのと 同じだね。</p>
-        <h3>ブロックは 外がわから 読む</h3>
-        <p>ブロックの 名前は Strudel の 関数の 名前と 同じ。入れ子の ブロックは、<b>外がわの ブロックから</b> 読むよ。ステップ13の リードの ブロックは、外がわから <code>room .8 [ unison 7 [ superimpose transpose 12 [ … ] ] ]</code> と ならんでいるね。これは Strudel の 関数の 書きかた <code>room(.8, unison(7, superimpose(…)))</code> と 同じで、<code>.</code> で つなげて 書くと <code>….superimpose(…).unison(7).room(.8)</code> に なるよ。ブロックでは 外がわ(左)に ある 関数が、コードでは いちばん 右に くるんだ。音に かかる じゅんばんは どちらも 同じで、<b>音に 近い 内がわから</b> かかるよ。</p>
+        <p>つなげて 書くと、左から じゅんばんに かかるよ。トラックの 中に ブロックを 上から つむのと 同じだね。</p>
+        <h3>ブロックは 上から 読む</h3>
+        <p>ブロックの 名前は Strudel の 関数の 名前と 同じ。トラックの 中の ブロックを <b>上から じゅんばんに</b> 読むと、そのまま コードに なるよ。ステップ13の リードの トラックは、上から <code>n</code>・<code>scale</code>・<code>s supersaw</code>・<code>superimpose transpose 12</code>・<code>unison 7</code>・<code>room .8</code> と ならんでいるね。コードでは <code>n(…).scale(…).s("supersaw").superimpose(…).unison(7).room(.8)</code> に なるよ。</p>
+        <p>いちばん 上の ブロック(<code>s</code>・<code>note</code>・<code>n</code>・<code>seq</code> など)で 音を つくって、その 下の ブロックが じゅんばんに 音を かえていくんだ。いちばん 上より 下に ある「s」や「note」は、<code>.s(…)</code> のように 音色や 高さを かえる ブロックに なるよ。</p>
         <h3>関数を わたす 関数</h3>
         <p>マスターレベルの <b>sometimes</b>・<b>every</b>・<b>jux</b>・<b>off</b>・<b>superimpose</b> は、引数として「<b>関数</b>」を もらう 関数だよ(<b>高階関数</b>と いうよ)。▼で えらぶ <code>rev</code> や <code>transpose 12</code> も 1つ 1つが 関数。ブロックが「<b>いつ・どこに</b> かけるか」、▼が「<b>何を</b> するか」を きめるんだ。</p>
         <table>
@@ -651,35 +654,35 @@ note("c3 e3 g3").lpf(600)        // lpf 関数に 600 を わたす → こも�
         <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/step13.sb3" target="_blank" rel="noopener">応用編を ひらく</a></div>
 
         <h3>1. キック:4つ打ち</h3>
-        <figure><img src="tutorial/step13-2.png?v=f9edf32c" width="643" height="112" alt="1キーで、bank RolandTR909 の s bd*4 をトラック キックで鳴らす" loading="lazy"></figure>
+        <figure><img src="tutorial/step13-2.png?v=daa6dd6f" width="213" height="203" alt="1キーで、トラック キック の中に s bd*4 と bank RolandTR909" loading="lazy"></figure>
         <p>1小節に 4回「ドン・ドン・ドン・ドン」。これが ダンスミュージックの 心臓だよ。TR-909 は、ハウスや テクノで 使われてきた 有名な ドラムマシンの 音。</p>
         <p class="label">Strudel では</p><pre><code>s("bd*4").bank("RolandTR909")</code></pre>
 
         <h3>2. 裏打ちベース</h3>
-        <figure class="wide"><img src="tutorial/step13-3.png?v=4b82286a" width="1250" height="122" alt="2キーで、note のベースを s sawtooth、lpf 500、orbit 2 にしてトラック ベースで鳴らす" loading="lazy"></figure>
+        <figure class="wide"><img src="tutorial/step13-3.png?v=2803558b" width="489" height="279" alt="2キーで、トラック ベース の中に、リスト ベース の note と s sawtooth と lpf 500 と orbit 2" loading="lazy"></figure>
         <p>リスト「ベース」の <code>[~ a1]*4</code> は「休み・ラ」を 4回。キックの <b>あいだ(裏拍)</b>だけで 鳴るので、キックと ぶつからずに「ドッ・ベッ・ドッ・ベッ」と はずむよ。<code>&lt; &gt;</code> で 1小節ごとに ラ→ファ→ド→ソ と かわる。「lpf 500」で 高い 音を けずって、低音だけに しているよ。さいごの「orbit 2」(音の 通り道)は 7. ポンピングで せつめいするよ。</p>
         <p class="label">Strudel では</p><pre><code>note("&lt;[~ a1]*4 [~ f1]*4 [~ c2]*4 [~ g1]*4&gt;").s("sawtooth").lpf(500).orbit(2)</code></pre>
         <p class="try-inline">いじってみよう:リスト「ベース」の <code>[~ a1]*4</code> を <code>[~ a1 a1 a1]*4</code> に すると、トランスで よく 聞く「転がる ベース」に なるよ。</p>
 
         <h3>3. トランスゲートの パッド</h3>
-        <figure class="wide"><img src="tutorial/step13-4.png?v=aa1ff314" width="1637" height="128" alt="3キーで、和音を s supersaw にして trancegate で刻み、room と orbit 2 をつけてトラック パッドで鳴らす" loading="lazy"></figure>
+        <figure class="wide"><img src="tutorial/step13-4.png?v=ed12dacd" width="490" height="317" alt="3キーで、トラック パッド の中に、リスト コード の note と s supersaw と trancegate と room と orbit 2" loading="lazy"></figure>
         <p>リスト「コード」の <b>和音</b>を、<code>supersaw</code>(ギザギザ音を 何本も 重ねた 分厚い 音)で のばし、「trancegate」で 細かく 刻むよ。「room」で 広い ホールに いるような 音に。</p>
         <p class="label">Strudel では</p><pre><code>note("&lt;[a3,c4,e4,a4] [f3,a3,c4,f4] [c4,e4,g4,c5] [g3,b3,d4,g4]&gt;").s("supersaw")
   .trancegate(.8, 45, 1).room(.6).orbit(2)</code></pre>
         <p class="note">「trancegate」は この 拡張機能が 用意した ブロックだよ(名前は Switch Angel さんの trancegate 関数から もらったよ)。strudel.cc で 開くと、同じ 動きを する Strudel の 関数(struct と fillGaps)に 書きかわるよ。</p>
 
         <h3>4. アルペジオの プラック</h3>
-        <figure class="wide"><img src="tutorial/step13-5.png?v=4232d7bb" width="1784" height="133" alt="4キーで、和音を arp でばらして鳴らし、s square、clip .3、delay .4、orbit 2 でトラック プラックで鳴らす" loading="lazy"></figure>
+        <figure class="wide"><img src="tutorial/step13-5.png?v=38d56701" width="490" height="355" alt="4キーで、トラック プラック の中に、リスト コード の note と arp と s square と clip .3 と delay .4 と orbit 2" loading="lazy"></figure>
         <p>パッドと 同じ リスト「コード」の 和音を「ばらして」1つずつ 鳴らすのが <b>アルペジオ</b>。ブロックは「<b>arp</b>」(和音を ばらして 鳴らす)だよ。「clip .3」で 短く 切ると、弦を はじいたような「ポン」という 音(プラック)に なるよ。「delay」で 音が おくれて くりかえされ、きらきら 広がるよ。</p>
         <p class="label">Strudel では</p><pre><code>note("&lt;[a3,c4,e4,a4] [f3,a3,c4,f4] [c4,e4,g4,c5] [g3,b3,d4,g4]&gt;")
   .arp("0 1 2 3 2 1 2 3").s("square").clip(.3).delay(.4).orbit(2)</code></pre>
 
         <h3>5. 分厚い リード</h3>
-        <figure class="wide"><img src="tutorial/step13-6.png?v=d1c3e38c" width="1927" height="133" alt="5キーで、n scale のメロディを s supersaw にして、superimpose transpose 12 で1オクターブ上を重ね、unison 7、room .8、orbit 2 でトラック リードで鳴らす" loading="lazy"></figure>
+        <figure class="wide"><img src="tutorial/step13-6.png?v=3b166085" width="474" height="392" alt="5キーで、トラック リード の中に、リスト リード の n と scale と s supersaw と superimpose transpose 12 と unison 7 と room .8 と orbit 2" loading="lazy"></figure>
         <p>メロディを 目立たせる わざが 3つ 入っているよ。</p>
         <ul>
             <li><b>unison 7</b>(厚み):ギザギザ音を 7本、少しずつ 音の 高さを ずらして 重ねる。人が 大ぜいで 歌うと 声が 太く 聞こえるのと 同じ しくみ。</li>
-            <li><b>superimpose(重ねる)transpose 12(1オクターブ 上げる)</b>:同じ メロディを 1オクターブ 高い 音でも 鳴らして、きらっと させる。▼の 中身(transpose 12)を、元の メロディに 重ねる 関数だよ。</li>
+            <li><b>superimpose(重ねる)transpose 12(1オクターブ 上げる)</b>:同じ メロディを 1オクターブ 高い 音でも 鳴らして、きらっと させる。▼の 中身(transpose 12)を かけた ものを、元の メロディに 重ねる 関数だよ。</li>
             <li><b>room .8</b>:大きな ひびきで、遠くまで 広がる 感じを 出す。</li>
         </ul>
         <p class="label">Strudel では</p><pre><code>n("&lt;[7 ~ 9 11] [12 11 ~ 9] [11 ~ 9 7] [8 ~ 9 6]&gt;*2").scale("A3:minor")
@@ -687,19 +690,19 @@ note("c3 e3 g3").lpf(600)        // lpf 関数に 600 を わたす → こも�
         <p class="try-inline">いじってみよう:unison を 1 と 7 で 聞きくらべよう。「分厚い」の いみが すぐ わかるよ。効果の <code>detune</code>(音の ずれ)と <code>spread</code>(左右の 広がり)も ためしてね。</p>
 
         <h3>6. ビルドアップと ドロップ</h3>
-        <figure class="wide"><img src="tutorial/step13-7.png?v=d99b3f48" width="1920" height="171" alt="6キーで、sd を細かくしながら saw range で大きくし、white の hpf をだんだん上げてトラック ライザーで鳴らす" loading="lazy"></figure>
+        <figure class="wide"><img src="tutorial/step13-7.png?v=c1c4fc3c" width="505" height="452" alt="6キーで、トラック スネア と トラック ライザー を鳴らす。gain と hpf に saw range を入れる" loading="lazy"></figure>
         <p>サビの 前に 気分を もりあげる 部分を「<b>ビルドアップ</b>」と いうよ。</p>
         <ul>
             <li><b>スネア</b>:リスト「ビルドアップ」の <code>sd*4</code> → <code>sd*8</code> → <code>sd*16</code> → <code>sd*32</code> で、1小節ごとに 2倍ずつ 細かくなる。<code>saw</code>(だんだん 上がって、ストンと もどる 波)の「range」ブロックを <code>gain</code>(音の 大きさ)に 入れて、音も 大きく なっていくよ。</li>
             <li><b>ライザー</b>:<code>white</code>(ホワイトノイズ)は ザーッという 音。<code>hpf</code>(低い 音を けずって シャカシャカに する)の 値を 300 から 9000 まで 上げると、低い 音が けずられて「シューーッ」と 上がっていく 音に なるよ。</li>
         </ul>
-        <figure><img src="tutorial/step13-8.png?v=f556e5df" width="224" height="144" alt="スペースキーで、スネアとライザーのトラックを止める" loading="lazy"></figure>
+        <figure><img src="tutorial/step13-8.png?v=f1c395b1" width="224" height="144" alt="スペースキーで、スネアとライザーのトラックを止める" loading="lazy"></figure>
         <p>もりあがったところで スペースキー! ビルドアップが 止まって、のこりの 部品が どーんと 鳴る。これが「<b>ドロップ</b>」。ゆれる 値は <code>slow 4</code> で 4サイクルに 1まわり するので、上がりきった ところで おすと 気持ちいいよ。</p>
         <p class="label">Strudel では</p><pre><code>s("&lt;sd*4 sd*8 sd*16 sd*32&gt;").bank("RolandTR909").gain(saw.range(.3, 1).slow(4))
 s("white*16").hpf(saw.range(300, 9000).slow(4)).gain(saw.range(0, .4).slow(4))</code></pre>
 
         <h3>7. ポンピング</h3>
-        <figure class="wide"><img src="tutorial/step13-9.png?v=4e315722" width="978" height="117" alt="7キーで、duckdepth .85、duckattack .2、duck 2、bank RolandTR909、s bd*4 をトラック キックで鳴らす" loading="lazy"></figure>
+        <figure class="wide"><img src="tutorial/step13-9.png?v=6b1e49c9" width="213" height="317" alt="7キーで、トラック キック の中に s bd*4 と bank RolandTR909 と duck 2 と duckattack .2 と duckdepth .85" loading="lazy"></figure>
         <p>EDM らしさの いちばんの ひみつ。キックが 鳴るたびに、<b>ほかの トラックの 音を 一しゅん 小さく</b>して、すぐ もどすよ。音全体が「ワウ・ワウ」と 息を するように うねるんだ。プロは「サイドチェイン」と よんでいるよ。</p>
         <p>Strudel の 音は「<b>orbit</b>」(オービット。音の 通り道)を 通って 流れるよ。何も しないと みんな orbit 1。この 作品では、ベース・パッド・プラック・リードに 効果の「orbit 2」を つけて、orbit 2 の 通り道に 分けておいたんだ。キックは orbit 1 の まま。そして キックに、つぎの 3つの 効果を つけるよ。</p>
         <ul>
@@ -710,7 +713,7 @@ s("white*16").hpf(saw.range(300, 9000).slow(4)).gain(saw.range(0, .4).slow(4))</
         <p>同じ「キック」トラックなので、7 を おすと ふつうの キックと 入れかわる。1 と 7 を 何回か おして 聞きくらべてね。</p>
         <p class="label">Strudel では</p><pre><code>s("bd*4").bank("RolandTR909").duck("2").duckattack(".2").duckdepth(".85")</code></pre>
         <p class="note">ベース・パッド・プラック・リードの コードの さいごに <code>.orbit(2)</code> が ついているのは、この ポンピングの ためだよ。orbit 2 に いない 音(キックや ビルドアップ)は しぼまないよ。</p>
-        <figure><img src="tutorial/step13-10.png?v=1340670c" width="197" height="106" alt="0キーで、すべてのトラックを止める" loading="lazy"></figure>
+        <figure><img src="tutorial/step13-10.png?v=f20c7868" width="197" height="106" alt="0キーで、すべてのトラックを止める" loading="lazy"></figure>
 
         <h3>つぎは コードで</h3>
         <p>部品を ぜんぶ 鳴らしてから「全部のトラックを strudel.cc で開く」ブロック(コラム)を つかうと、この 曲が そのまま Strudel の コードに なるよ。コードの 数字を 1つずつ かえて、Ctrl+Enter で 鳴らしてみよう。部品の 行の さいごに <code>.hush()</code> を つけると、その 部品だけ 消せるよ。</p>

@@ -183,6 +183,7 @@ main a { color: var(--accent); }
 <main>
     <section class="card" id="about">
         <p>The names of the blocks and ▼ menus in this extension are all the same as the function and sound names in <a href="https://strudel.cc/" target="_blank" rel="noopener">Strudel</a>. This dictionary tells you <b>what each name does</b> and <b>where the name comes from</b> (a short history).</p>
+        <p>"Block:" shows the block which you put in the "play on track [ ]" block. The blocks in it, from top to bottom, become the steps such as <code>.fast(4)</code> of Strudel.</p>
 <h3>Where do Strudel's names come from?</h3>
 <p>Strudel is based on <b>TidalCycles</b>, a programming language for music. <b>Alex McLean</b> from the UK made it around 2009 in a language called Haskell. People all over the world use it for "<b>live coding</b>": playing music by changing the code while it runs.</p>
 <p>In 2022, <b>Felix Roos</b> and Alex McLean moved the ideas of TidalCycles into JavaScript, so it can play music right in your web browser. That is Strudel. So many names, like <code>fast</code> <code>rev</code> <code>every</code> <code>jux</code>, come from TidalCycles. Counting time in "cycles" also comes from the name Tidal<b>Cycles</b>.</p>
@@ -296,21 +297,21 @@ main a { color: var(--accent); }
         </article>
         <article class="entry" id="fast">
             <h3>fast <span class="badge l1">Beginner</span></h3>
-            <p class="blockline">Block: <code>fast [4] [hh]</code></p>
+            <p class="blockline">Block: <code>fast [4]</code></p>
             <p>Makes the pattern <b>N times faster</b>. A single sound plays N times in one cycle.</p>
             <pre><code>s(&quot;hh&quot;).fast(4)</code></pre>
             <p class="history" data-label="Name and history">A basic name from TidalCycles. It is the same as <code>*</code> in mini-notation (<code>"hh*4"</code>).</p>
         </article>
         <article class="entry" id="slow">
             <h3>slow <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>slow [2] [c4]</code></p>
+            <p class="blockline">Block: <code>slow [2]</code></p>
             <p>Makes the pattern <b>N times slower</b>, stretching it over N cycles.</p>
             <pre><code>note(&quot;c4&quot;).slow(2)</code></pre>
             <p class="history" data-label="Name and history">The opposite of <code>fast</code>. It is the same as <code>/</code> in mini-notation (<code>"c4/2"</code>).</p>
         </article>
         <article class="entry" id="struct">
             <h3>struct <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>struct [x ~ x x] [chord]</code></p>
+            <p class="blockline">Block: <code>struct [x ~ x x]</code></p>
             <p><b>Chops</b> the sound into the rhythm you write with <code>x</code> and <code>~</code>. Handy for putting a chord on a rhythm.</p>
             <pre><code>note(&quot;[c3,e3,g3]&quot;).struct(&quot;x ~ x x&quot;)</code></pre>
             <p class="history" data-label="Name and history">Short for <b>structure</b> (the frame or skeleton). It means you borrow just the "skeleton" of a rhythm.</p>
@@ -320,28 +321,28 @@ main a { color: var(--accent); }
         <h2>Choose a sound</h2>
         <article class="entry" id="s">
             <h3>s <span class="badge l1">Beginner</span></h3>
-            <p class="blockline">Block: <code>s [sawtooth] [c4] / s [bd sd]</code></p>
+            <p class="blockline">Block: <code>s [bd ▼]</code> / <code>s [bd sd]</code></p>
             <p>Picks the <b>kind of sound</b>. Drum names (<code>bd</code>) and synth wave shapes (<code>sawtooth</code>) are all chosen with s.</p>
             <pre><code>s(&quot;bd sd&quot;)  /  note(&quot;c4&quot;).s(&quot;sawtooth&quot;)</code></pre>
             <p class="history" data-label="Name and history">Short for <b>sound</b>. The name comes straight from SuperDirt, the sound engine of TidalCycles.</p>
         </article>
         <article class="entry" id="note">
-            <h3>note <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>note [c4 e4 g4]</code></p>
+            <h3>note <span class="badge l1">Beginner</span></h3>
+            <p class="blockline">Block: <code>note [c4 ▼]</code> / <code>note [c4 e4 g4]</code></p>
             <p>Writes the <b>pitch</b> (how high or low a sound is) with a note name (<code>c4</code>) or a number (60 = c4).</p>
             <pre><code>note(&quot;c4 e4 g4&quot;)</code></pre>
             <p class="history" data-label="Name and history">"Note" means a musical note. The numbers are MIDI numbers (MIDI is a shared set of rules for electronic instruments, made in 1983). 60 is middle C.</p>
         </article>
         <article class="entry" id="n">
             <h3>n + scale <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>n [0 2 4] scale [C4] [major]</code></p>
+            <p class="blockline">Block: <code>n [0 2 4]</code> + <code>scale [C4] [major]</code></p>
             <p>Write numbers with <code>n</code>, and <code>scale</code> turns each number into a note of the scale. 0 is the first note. With numbers, you never play a wrong note, whatever the scale.</p>
             <pre><code>n(&quot;0 2 4&quot;).scale(&quot;C4:major&quot;)</code></pre>
             <p class="history" data-label="Name and history"><b>n</b> means <b>number</b>. "Scale" comes from the Latin word scala, which means "ladder", because the notes line up like the steps of a ladder.</p>
         </article>
         <article class="entry" id="bank">
             <h3>bank <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>bank [RolandTR909] [bd*4]</code></p>
+            <p class="blockline">Block: <code>bank [RolandTR909]</code></p>
             <p>Changes the drum sounds to the sounds of a certain drum machine.</p>
             <pre><code>s(&quot;bd*4&quot;).bank(&quot;RolandTR909&quot;)</code></pre>
             <p class="history" data-label="Name and history">From <b>sample bank</b> (a storehouse of samples). The <b>TR-808</b> (1980) and <b>TR-909</b> (1983) are Roland drum machines. These famous machines made the sound of hip-hop, house and techno.</p>
@@ -362,21 +363,21 @@ main a { color: var(--accent); }
         </article>
         <article class="entry" id="waves">
             <h3>sine square sawtooth triangle <span class="badge l1">Beginner</span></h3>
-            <p class="blockline">Block: <code>s [sawtooth] [c4]</code></p>
+            <p class="blockline">Block: <code>s [sawtooth ▼]</code></p>
             <p>The basic wave shapes of a synthesizer. sine = soft, square = beepy, sawtooth = jagged and bright, triangle = clean.</p>
             <pre><code>note(&quot;c4&quot;).s(&quot;sawtooth&quot;)</code></pre>
             <p class="history" data-label="Name and history">They are all names of wave shapes. sine is the sine wave from math, square is a square, sawtooth is "the teeth of a saw", and triangle is a triangle. They have been used since the analog synths of the 1960s.</p>
         </article>
         <article class="entry" id="supersaw">
-            <h3>supersaw <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>s [supersaw] [chord]</code></p>
+            <h3>supersaw <span class="badge l1">Beginner</span></h3>
+            <p class="blockline">Block: <code>s [supersaw ▼]</code></p>
             <p>A thick, sparkly sound made by stacking many sawtooth waves, each a little out of tune.</p>
             <pre><code>note(&quot;[a3,c4,e4]&quot;).s(&quot;supersaw&quot;)</code></pre>
             <p class="history" data-label="Name and history">The name of a feature on the Roland <b>JP-8000</b> synth, which came out around 1997. Its sound of 7 stacked sawtooth waves became a typical sound of a kind of music called trance.</p>
         </article>
         <article class="entry" id="white">
-            <h3>white <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>▼ white</code></p>
+            <h3>white <span class="badge l1">Beginner</span></h3>
+            <p class="blockline">Block: <code>s [white ▼]</code></p>
             <p>A "shhh" <b>noise</b>. Used for a riser, a sound that gets louder and louder in a build-up.</p>
             <pre><code>s(&quot;white*16&quot;)</code></pre>
             <p class="history" data-label="Name and history"><b>White noise</b>. White light has all colors mixed in. In the same way, this noise has all pitches mixed in at about the same amount, so it is called "white".</p>
@@ -386,91 +387,91 @@ main a { color: var(--accent); }
         <h2>Change a pattern</h2>
         <article class="entry" id="add">
             <h3>add <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>add [7] [pattern]</code></p>
+            <p class="blockline">Block: <code>add [7]</code></p>
             <p><b>Adds</b> a number to the pitch (number). You can add a pattern too, like <code>"&lt;0 2 4&gt;"</code>.</p>
             <pre><code>note(&quot;c4&quot;).add(note(&quot;&lt;0 7&gt;&quot;))</code></pre>
             <p class="history" data-label="Name and history">It means "to add" in English.</p>
         </article>
         <article class="entry" id="transpose">
             <h3>transpose <span class="badge l3">Master</span></h3>
-            <p class="blockline">Block: <code>transpose [12] [pattern]</code></p>
+            <p class="blockline">Block: <code>transpose [12]</code></p>
             <p>Moves the notes up by <b>N half steps</b> (down if N is negative). 12 is one octave.</p>
             <pre><code>note(&quot;c4&quot;).transpose(12)</code></pre>
             <p class="history" data-label="Name and history">A music word. It means moving a whole song higher or lower, for example to make it easier to sing.</p>
         </article>
         <article class="entry" id="rev">
             <h3>rev <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>rev [pattern]</code></p>
+            <p class="blockline">Block: <code>rev</code></p>
             <p>Plays the pattern <b>backwards</b>, from the end.</p>
             <pre><code>s(&quot;bd hh sd hh&quot;).rev()</code></pre>
             <p class="history" data-label="Name and history">Short for <b>reverse</b>.</p>
         </article>
         <article class="entry" id="ply">
             <h3>ply <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>ply [2] [pattern]</code></p>
+            <p class="blockline">Block: <code>ply [2]</code></p>
             <p>Repeats each sound in the pattern <b>N times</b>.</p>
             <pre><code>s(&quot;bd sd&quot;).ply(2)</code></pre>
             <p class="history" data-label="Name and history">"Ply" means a layer or a twist of thread. Think of making one thread into many layers. The name comes from TidalCycles.</p>
         </article>
         <article class="entry" id="every">
             <h3>every <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>every [4] [rev] [pattern]</code></p>
+            <p class="blockline">Block: <code>every [4] [rev]</code></p>
             <p>Uses the ▼ function only <b>once every N cycles</b>.</p>
             <pre><code>note(&quot;c4 e4 g4&quot;).every(4, x =&gt; x.rev())</code></pre>
             <p class="history" data-label="Name and history">It means "every" in English. One of the most famous functions, there since the early days of TidalCycles.</p>
         </article>
         <article class="entry" id="sometimes">
             <h3>sometimes <span class="badge l3">Master</span></h3>
-            <p class="blockline">Block: <code>sometimes [transpose 12] [pattern]</code></p>
+            <p class="blockline">Block: <code>sometimes [transpose 12]</code></p>
             <p>Uses the ▼ function <b>sometimes</b> (on about half of the sounds).</p>
             <pre><code>note(&quot;c4*8&quot;).sometimes(x =&gt; x.transpose(12))</code></pre>
             <p class="history" data-label="Name and history">It means "sometimes" in English. Its friends are <code>often</code> and <code>rarely</code>.</p>
         </article>
         <article class="entry" id="degradeBy">
             <h3>degradeBy <span class="badge l3">Master</span></h3>
-            <p class="blockline">Block: <code>degradeBy [30] % [pattern]</code></p>
+            <p class="blockline">Block: <code>degradeBy [30] %</code></p>
             <p>Leaves out sounds <b>by chance</b>. If you make a hi-hat a little sparse, it sounds like a person is playing.</p>
             <pre><code>s(&quot;hh*16&quot;).degradeBy(0.3)</code></pre>
             <p class="history" data-label="Name and history"><b>Degrade</b> means "to make worse" or "to break down". It is the same as <code>?</code> in mini-notation (<code>"hh*16?"</code>).</p>
         </article>
         <article class="entry" id="euclid">
             <h3>euclid <span class="badge l3">Master</span></h3>
-            <p class="blockline">Block: <code>euclid [3] [8] [bd]</code></p>
+            <p class="blockline">Block: <code>euclid [3] [8]</code></p>
             <p>Spreads N sounds over M steps <b>as evenly as possible</b>. (3, 8) is a rhythm you can hear in music all over the world.</p>
             <pre><code>s(&quot;bd&quot;).euclid(3, 8)</code></pre>
             <p class="history" data-label="Name and history">Godfried Toussaint, a computational geometry researcher, showed in papers around 2004-2005 that traditional rhythms from Cuba and Africa can be made with the same steps as the "<b>Euclidean algorithm</b>". That is ancient Greek math from about 2300 years ago, for finding the greatest common divisor of two numbers. The original steps were used by Bjorklund, a physicist, to set the timing of a particle accelerator.</p>
         </article>
         <article class="entry" id="jux">
             <h3>jux <span class="badge l3">Master</span></h3>
-            <p class="blockline">Block: <code>jux [rev] [pattern]</code></p>
+            <p class="blockline">Block: <code>jux [rev]</code></p>
             <p>Splits the sound into left and right, and uses the ▼ function <b>only on the right</b>. Left and right play different sounds, so it sounds wide.</p>
             <pre><code>s(&quot;bd hh sd hh&quot;).jux(x =&gt; x.rev())</code></pre>
             <p class="history" data-label="Name and history">Short for <b>juxtapose</b> (to put side by side). A name born in TidalCycles.</p>
         </article>
         <article class="entry" id="off">
             <h3>off <span class="badge l3">Master</span></h3>
-            <p class="blockline">Block: <code>off [1/8] [transpose 7] [pattern]</code></p>
+            <p class="blockline">Block: <code>off [1/8] [transpose 7]</code></p>
             <p>Takes the pattern, <b>delays</b> it a little, uses the ▼ function on it, and stacks it on top. You get a shifted sound, like an echo.</p>
             <pre><code>note(&quot;c4 e4&quot;).off(0.125, x =&gt; x.transpose(7))</code></pre>
             <p class="history" data-label="Name and history">It means "shifted" or "away" in English. The name comes from TidalCycles.</p>
         </article>
         <article class="entry" id="superimpose">
             <h3>superimpose <span class="badge l3">Master</span></h3>
-            <p class="blockline">Block: <code>superimpose [transpose 12] [pattern]</code></p>
+            <p class="blockline">Block: <code>superimpose [transpose 12]</code></p>
             <p><b>Stacks</b> a copy with the ▼ function on top of the original pattern.</p>
             <pre><code>note(&quot;c4 e4&quot;).superimpose(x =&gt; x.transpose(12))</code></pre>
             <p class="history" data-label="Name and history">It means "to lay one thing over another". It is the same word as the photo trick of showing two pictures at once (superimposing).</p>
         </article>
         <article class="entry" id="chop">
             <h3>chop <span class="badge l3">Master</span></h3>
-            <p class="blockline">Block: <code>chop [4] [pattern]</code></p>
+            <p class="blockline">Block: <code>chop [4]</code></p>
             <p><b>Cuts</b> one sound <b>into N pieces</b> and plays them in small bits.</p>
             <pre><code>s(&quot;bd&quot;).chop(4)</code></pre>
             <p class="history" data-label="Name and history">It means "to cut" or "to chop" in English. Cutting recorded sounds into small pieces and rearranging them is a hip-hop trick that spread with the samplers of the 1980s.</p>
         </article>
         <article class="entry" id="arp">
             <h3>arp <span class="badge l3">Master</span></h3>
-            <p class="blockline">Block: <code>arp [0 1 2 1] [chord]</code></p>
+            <p class="blockline">Block: <code>arp [0 1 2 1]</code></p>
             <p>Plays the notes of a chord <b>one at a time</b>, in the order of the numbers (an arpeggio).</p>
             <pre><code>note(&quot;[c4,e4,g4]&quot;).arp(&quot;0 1 2 1&quot;)</code></pre>
             <p class="history" data-label="Name and history">Short for <b>arpeggio</b>. It comes from arpa, the Italian word for harp. It means playing the notes of a chord one by one, like on a harp.</p>
@@ -497,105 +498,105 @@ main a { color: var(--accent); }
         <h2>Effects</h2>
         <article class="entry" id="lpf">
             <h3>lpf / hpf <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>lpf [600] [pattern]</code></p>
+            <p class="blockline">Block: <code>[lpf ▼] [600]</code></p>
             <p><b>lpf</b> cuts the high sounds and makes it muffled. <b>hpf</b> cuts the low sounds and makes it thin and tinny. The number is where the cutting starts (Hz).</p>
             <pre><code>s(&quot;sawtooth&quot;).lpf(600)</code></pre>
             <p class="history" data-label="Name and history"><b>L</b>ow-<b>p</b>ass <b>f</b>ilter (a filter that lets low sounds pass) and <b>h</b>igh-<b>p</b>ass <b>f</b>ilter. The filters in the synths that Robert Moog made in the 1960s are famous.</p>
         </article>
         <article class="entry" id="lpq">
             <h3>lpq <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>lpq [12] [pattern]</code></p>
+            <p class="blockline">Block: <code>[lpq ▼] [12]</code></p>
             <p>Boosts the edge of the filter for a "wowww" sound <b>with a strong character</b> (resonance).</p>
             <pre><code>s(&quot;sawtooth&quot;).lpf(400).lpq(12)</code></pre>
             <p class="history" data-label="Name and history"><b>q</b> is an electronics word: the "Q value" (how sharp the cut is).</p>
         </article>
         <article class="entry" id="lpenv">
             <h3>lpenv / lpd / lps <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>lpenv [4] [pattern]</code></p>
+            <p class="blockline">Block: <code>[lpenv ▼] [4]</code></p>
             <p><b>Opens and closes</b> the filter each time a sound plays. lpd is the time until it closes, lps is how much stays open. The "bwow" of acid music is this.</p>
             <pre><code>note(&quot;a1*8&quot;).s(&quot;sawtooth&quot;).lpf(200).lpenv(4)</code></pre>
             <p class="history" data-label="Name and history"><b>env</b> = <b>env</b>elope (how the shape of a sound changes). <b>d</b> = decay, <b>s</b> = sustain (see ADSR below).</p>
         </article>
         <article class="entry" id="adsr">
             <h3>attack decay sustain release <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>attack [.5] [pattern]</code></p>
+            <p class="blockline">Block: <code>[attack ▼] [.5]</code></p>
             <p>The <b>shape</b> of the volume. attack = how slowly it starts, decay = time to go down, sustain = how loud it stays, release = how it fades out at the end.</p>
             <pre><code>note(&quot;c4&quot;).s(&quot;sine&quot;).attack(.5).release(2)</code></pre>
             <p class="history" data-label="Name and history">The 4 first letters make "<b>ADSR</b>". It is said that Vladimir Ussachevsky, an electronic music researcher, came up with it in the 1960s. Almost every synth today has it.</p>
         </article>
         <article class="entry" id="room">
             <h3>room <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>room [.5] [pattern]</code></p>
+            <p class="blockline">Block: <code>[room ▼] [.5]</code></p>
             <p><b>Echoing space</b> (reverb). It sounds like playing in a big room.</p>
             <pre><code>s(&quot;sd&quot;).room(.5)</code></pre>
             <p class="history" data-label="Name and history">"Room" in English. The sound echoes differently depending on the size of the room.</p>
         </article>
         <article class="entry" id="delay">
             <h3>delay / delaytime / delayfeedback <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>delay [.4] [pattern]</code></p>
+            <p class="blockline">Block: <code>[delay ▼] [.4]</code></p>
             <p>An <b>echo</b>. The same sound repeats a little later. delaytime is the gap, delayfeedback is how many times it repeats.</p>
             <pre><code>note(&quot;c4 e4&quot;).delay(.4).delaytime(.25)</code></pre>
             <p class="history" data-label="Name and history">It means "being late" in English. Long ago, people made echoes by looping recording tape (like the Roland Space Echo, 1974).</p>
         </article>
         <article class="entry" id="gain">
             <h3>gain <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>gain [.8] [pattern]</code></p>
+            <p class="blockline">Block: <code>[gain ▼] [.8]</code></p>
             <p>How <b>loud</b> the sound is. 1 is normal.</p>
             <pre><code>s(&quot;hh*8&quot;).gain(.6)</code></pre>
             <p class="history" data-label="Name and history">In English it means "to increase" or "profit". It is a word for how many times bigger an electric signal is made.</p>
         </article>
         <article class="entry" id="pan">
             <h3>pan <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>pan [0] [pattern]</code></p>
+            <p class="blockline">Block: <code>[pan ▼] [0]</code></p>
             <p><b>Left-right position</b>. 0 is left, 0.5 is the middle, 1 is right.</p>
             <pre><code>s(&quot;hh*8&quot;).pan(sine.range(0, 1))</code></pre>
             <p class="history" data-label="Name and history">From <b>panorama</b> (a wide view). It means where in the left-right view you put the sound.</p>
         </article>
         <article class="entry" id="crush">
             <h3>crush <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>crush [4] [pattern]</code></p>
+            <p class="blockline">Block: <code>[crush ▼] [4]</code></p>
             <p>Makes the sound <b>crunchy</b> (a bitcrusher). The smaller the number, the rougher it gets.</p>
             <pre><code>s(&quot;bd sd&quot;).crush(4)</code></pre>
             <p class="history" data-label="Name and history">It "crushes" the detail of the sound (the number of bits), so it is called crush. It sounds close to the 8-bit sounds of old game consoles.</p>
         </article>
         <article class="entry" id="distort">
             <h3>distort <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>distort [2] [pattern]</code></p>
+            <p class="blockline">Block: <code>[distort ▼] [2]</code></p>
             <p><b>Distortion</b>. Bends the sound to make it fat and rough.</p>
             <pre><code>note(&quot;a1&quot;).s(&quot;sawtooth&quot;).distort(2)</code></pre>
             <p class="history" data-label="Name and history">The same as the distortion of an electric guitar. In the 1950s-60s, amps turned up too loud broke the sound, and people liked it as a cool sound.</p>
         </article>
         <article class="entry" id="speed">
             <h3>speed <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>speed [2] [pattern]</code></p>
+            <p class="blockline">Block: <code>[speed ▼] [2]</code></p>
             <p>The <b>playback speed</b> of a recorded sound. 2 is twice as fast and higher. -1 plays it backwards.</p>
             <pre><code>s(&quot;bd&quot;).speed(2)</code></pre>
             <p class="history" data-label="Name and history">It works the same way as spinning a record or tape faster to make the sound higher.</p>
         </article>
         <article class="entry" id="clip">
             <h3>clip <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>clip [.3] [pattern]</code></p>
+            <p class="blockline">Block: <code>[clip ▼] [.3]</code></p>
             <p>The <b>length</b> of a sound. 1 lasts until the next sound, 0.3 cuts it short.</p>
             <pre><code>note(&quot;c4 e4&quot;).s(&quot;square&quot;).clip(.3)</code></pre>
             <p class="history" data-label="Name and history">It means "to cut off" in English.</p>
         </article>
         <article class="entry" id="vowel">
             <h3>vowel <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>vowel [a] [pattern]</code></p>
+            <p class="blockline">Block: <code>[vowel ▼] [a]</code></p>
             <p>Makes the sound like a <b>voice</b> saying vowels such as "a, e, i, o, u".</p>
             <pre><code>s(&quot;sawtooth&quot;).vowel(&quot;&lt;a e i o&gt;&quot;)</code></pre>
             <p class="history" data-label="Name and history">"Vowel" in English. It is a filter that copies the sounds (formants) that make the vowels of a human voice.</p>
         </article>
         <article class="entry" id="unison">
             <h3>unison / detune / spread <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>unison [7] [supersaw]</code></p>
+            <p class="blockline">Block: <code>[unison ▼] [7]</code></p>
             <p>How <b>thick</b> a supersaw is. unison is the number of stacked waves, detune is how far apart the pitches are, spread is how wide it is left to right.</p>
             <pre><code>note(&quot;a3&quot;).s(&quot;supersaw&quot;).unison(7).detune(.4).spread(.8)</code></pre>
             <p class="history" data-label="Name and history"><b>Unison</b> means "one sound" in Latin. It is when many people sing the same note. <b>Detune</b> means "to put out of tune".</p>
         </article>
         <article class="entry" id="fm">
             <h3>fm <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>fm [2] [pattern]</code></p>
+            <p class="blockline">Block: <code>[fm ▼] [2]</code></p>
             <p>Makes the sound <b>metallic</b>, like a bell or an electric piano (FM synthesis).</p>
             <pre><code>note(&quot;c4&quot;).s(&quot;sine&quot;).fm(2)</code></pre>
             <p class="history" data-label="Name and history"><b>F</b>requency <b>m</b>odulation (the same words as in FM radio). John Chowning at Stanford University discovered it in 1967, and the Yamaha <b>DX7</b> of 1983 spread it around the world.</p>
@@ -605,28 +606,28 @@ main a { color: var(--accent); }
         <h2>Club music tricks</h2>
         <article class="entry" id="orbit">
             <h3>orbit <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>orbit [2] [pattern]</code></p>
+            <p class="blockline">Block: <code>[orbit ▼] [2]</code></p>
             <p>Chooses the <b>path</b> (1-8) the sound goes through. Reverb, echo and duck work separately for each path.</p>
             <pre><code>note(&quot;a1*8&quot;).s(&quot;sawtooth&quot;).orbit(2)</code></pre>
             <p class="history" data-label="Name and history">"Orbit" in English. It is the name of the system in SuperDirt, the sound engine of TidalCycles, that keeps each track's effects apart so they do not mix.</p>
         </article>
         <article class="entry" id="duck">
             <h3>duck / duckattack / duckdepth <span class="badge l2">Normal</span></h3>
-            <p class="blockline">Block: <code>duck [2] [bd*4]</code></p>
+            <p class="blockline">Block: <code>[duck ▼] [2]</code></p>
             <p>Each time the kick plays, the sounds on other paths (orbits) <b>shrink</b>. The sound "pumps" as if it is breathing.</p>
             <pre><code>s(&quot;bd*4&quot;).duck(&quot;2:3&quot;).duckattack(.2).duckdepth(.8)</code></pre>
             <p class="history" data-label="Name and history">"Duck" means "to quickly lower your head". It comes from "ducking", a trick of turning the music down while someone talks on the radio. In club music it is also called "sidechain" or "pumping", and it was popular in 2000s French house and EDM.</p>
         </article>
         <article class="entry" id="acidenv">
             <h3>acidenv <span class="badge l3">Master</span></h3>
-            <p class="blockline">Block: <code>acidenv [.6] [pattern]</code></p>
+            <p class="blockline">Block: <code>acidenv [.6]</code></p>
             <p>Puts a sawtooth wave and a filter together to make the "bwow-bwow" sound of <b>acid</b> music.</p>
             <pre><code>(block only; exported as s, lpf, lpenv, lps, lpd and lpq)</code></pre>
             <p class="history" data-label="Name and history">The Roland <b>TB-303</b> from 1981 was made to replace a bass player, but it did not sell. Then in 1987, Phuture in Chicago made "Acid Tracks" by turning its knobs round and round, and "acid house" was born. The name comes from the function <code>acidenv</code> in Switch Angel's strudel-scripts.</p>
         </article>
         <article class="entry" id="trancegate">
             <h3>trancegate <span class="badge l3">Master</span></h3>
-            <p class="blockline">Block: <code>trancegate [.8] [45] [1] [chord]</code></p>
+            <p class="blockline">Block: <code>trancegate [.8] [45] [1]</code></p>
             <p><b>Chops</b> a long chord into small pieces for the "ta-ta-ta-ta" sound of trance.</p>
             <pre><code>(block only; exported as struct, fillGaps and clip)</code></pre>
             <p class="history" data-label="Name and history">A "gate" trick (a gate that opens and closes the sound), used a lot in trance music since the late 1990s. The name comes from the function <code>trancegate</code> in Switch Angel's strudel-scripts.</p>

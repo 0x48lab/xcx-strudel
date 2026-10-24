@@ -263,12 +263,12 @@ const shootPalette = async page => {
     });
     await shot(page, levelBlock, 'level-block');
 
-    // open the sound dropdown of the "play" block
+    // open the sound dropdown of the "s" block in the track
     await shootScripts(page, 'step1');
     const field = await page.evaluate(() => {
         const ws = Blockly.getMainWorkspace();
-        const play = ws.getAllBlocks().find(b => b.type === 'strudel_playTrack');
-        const menu = play.getInputTargetBlock('PATTERN');
+        const sound = ws.getAllBlocks().find(b => b.type === 'strudel_sMenu');
+        const menu = sound.getInputTargetBlock('SOUND');
         const r = menu.getSvgRoot().getBoundingClientRect();
         return {x: r.left + (r.width / 2), y: r.top + (r.height / 2)};
     });
@@ -276,7 +276,7 @@ const shootPalette = async page => {
     await page.waitForTimeout(800);
     const block = await page.evaluate(() => {
         const ws = Blockly.getMainWorkspace();
-        const r = ws.getAllBlocks().find(b => b.type === 'strudel_playTrack').getSvgRoot().getBoundingClientRect();
+        const r = ws.getAllBlocks().find(b => b.type === 'strudel_track').getSvgRoot().getBoundingClientRect();
         return {x: r.left, y: r.top, width: r.width, height: r.height};
     });
     const drop = await rectOf(page, '.blocklyDropDownDiv');
