@@ -11,7 +11,7 @@ Available in English, Japanese and Japanese (Hiragana).
 - https://0x48lab.github.io/xcx-strudel/ — ブラウザですぐ遊べます(緑の旗を押してください)
 - English: https://0x48lab.github.io/xcx-strudel/en/ (tutorial: https://0x48lab.github.io/xcx-strudel/en/tutorial.html)
 - [新規プロジェクト / New project](https://xcratch.github.io/editor/?extension=https://0x48lab.github.io/xcx-strudel/dist/strudel.mjs) — 拡張機能が入った状態で Xcratch エディターが開きます
-- [チュートリアル / Tutorial](https://0x48lab.github.io/xcx-strudel/tutorial.html) — スクリーンショット付きの 13 ステップ。リストとリズムで曲を書く、自分の声をビートにする、EDM・トランスの音作り、ジャズ・ソウルの和音まで(日本語)
+- [チュートリアル / Tutorial](https://0x48lab.github.io/xcx-strudel/tutorial.html) — スクリーンショット付きの 14 ステップ。リストとリズムで曲を書く、自分の声をビートにする、EDM・トランスの音作り、ジャズ・ソウルの和音、4つ打ちをかっこよくするテクニックまで(日本語)
 - [ブロックじてん / Block dictionary](https://0x48lab.github.io/xcx-strudel/dictionary.html) — パレットの順に、ブロック1つずつの使い方(ブロックの絵、何が起きるか、試し方、よく使う場面、Strudel のコード)と名前の由来。例は [dictionary.sb3](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/dictionary.sb3) にまとめてある。ページは `npm run dictionary`(と、例を変えたら `npm run dictionary:shots`)で `scripts/dictionary-book.mjs` から作る
 - [リズム図鑑 / Rhythm book](https://0x48lab.github.io/xcx-strudel/rhythms.html) — ハウス・ディスコ・8ビート・ブーンバップ・トラップ・UKガラージ・ドラムンベース・レゲトンの定番リズムを16マスの図で示し、強弱・裏打ち・ゴーストノート・ユークリッド・フィル・フィルター・ランダム・ブレイクのテクニックを4つ打ちに1つずつ足して聞きくらべる。作品 [rhythms.sb3](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/rhythms.sb3) と [techniques.sb3](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/techniques.sb3) で鳴らせる。ページは `npm run rhythms`(と、トラックを変えたらブロックの絵を撮る `npm run rhythms:shots`)で `scripts/rhythm-book.mjs` から作る
 - サンプル作品(エディタでブロックを見る)

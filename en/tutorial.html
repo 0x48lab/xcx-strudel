@@ -186,6 +186,7 @@ footer a { color: inherit; }
             <li><a href="#step12">Master level: acid and trance gate</a></li>
             <li class="column-item"><a href="#code">Column: turn blocks into Strudel code</a></li>
             <li value="13"><a href="#step13">Advanced: sounds of EDM and trance</a></li>
+            <li><a href="#step14">Beyond four on the floor: make the rhythm cool</a></li>
         </ol>
         <p>"Open this step" in each step opens the finished project. Touch the blocks and change the sounds.</p>
     </nav>
@@ -638,10 +639,92 @@ s("white*16").hpf(saw.range(300, 9000).slow(4)).gain(saw.range(0, .4).slow(4))</
 
         <h3>Next: code</h3>
         <p>Play all parts and use "open all tracks in strudel.cc" (see the column) to turn this song into Strudel code. Change one number at a time and press Ctrl+Enter. Add <code>.hush()</code> at the end of a part to mute it.</p>
-        <p>Rhythms of other genres, and techniques which make rhythms cool, are in the <a href="rhythms.html">rhythm book</a>. Play the standard rhythms and remake them.</p>
+        <p>In the next step, step 14, you try techniques which make a four-on-the-floor rhythm cool.</p>
         <div class="buttons">
             <a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step13.sb3" target="_blank" rel="noopener">Open the advanced lesson</a>
             <a class="button secondary" href="https://strudel.cc/" target="_blank" rel="noopener">strudel.cc</a>
+        </div>
+    </section>
+    <section class="card" id="step14">
+        <h2><span class="num">14</span>Beyond four on the floor: make the rhythm cool</h2>
+        <p>You can make four on the floor, but it sounds a bit flat? Do not drop it: <b>add things on top, little by little</b>. In house and techno the kick stays four on the floor all the time. The cool part comes from what is around it: offsets, loud and soft, movement and change.</p>
+        <p>In this step you add techniques one by one to the house beat and hear what each one changes. The tempo is 124 BPM, and the stage shows a punch card, where you can see where the drums play.</p>
+        <figure><img src="../tutorial/en/step14-1.png?v=b99ed93a" width="249" height="247" alt="The green flag shows master blocks, sets tempo to 124, broadcasts base rhythm and shows the punch card" loading="lazy"></figure>
+        <table>
+            <tr><th>Key</th><th>Technique</th><th>Key</th><th>Technique</th></tr>
+            <tr><td>1</td><td>Loud and soft</td><td>6</td><td>Open the filter slowly</td></tr>
+            <tr><td>2</td><td>Off-beat bass</td><td>7</td><td>Drop at random</td></tr>
+            <tr><td>3</td><td>Ghost notes</td><td>8 / 9</td><td>Break / drop</td></tr>
+            <tr><td>4</td><td>Offset with euclid</td><td>Space</td><td>Back to the base rhythm</td></tr>
+            <tr><td>5</td><td>Fills</td><td>0</td><td>Stop everything</td></tr>
+        </table>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step14.sb3" target="_blank" rel="noopener">Open this step</a></div>
+
+        <h3>The base rhythm: house four on the floor</h3>
+        <figure><img src="../tutorial/en/step14-2.png?v=a092ce28" width="205" height="511" alt="When base rhythm is received, stop all tracks and play kick bd*4, hats [~ oh]*4 and clap [~ cp]*2 with the TR909" loading="lazy"></figure>
+        <p>The kick plays on every beat with <code>bd*4</code>, the open hat between the beats (on the off-beats) with <code>[~ oh]*4</code>, and the clap on beats 2 and 4 with <code>[~ cp]*2</code>. Each drum has its own track, so a technique can change or add one track at a time. Space always brings you back here.</p>
+        <p class="label">In Strudel</p><pre><code>$: s("bd*4").bank("RolandTR909")
+$: s("[~ oh]*4").bank("RolandTR909")
+$: s("[~ cp]*2").bank("RolandTR909")</code></pre>
+
+        <h3>1. Loud and soft</h3>
+        <figure><img src="../tutorial/en/step14-3.png?v=a9f17a45" width="205" height="241" alt="Key 1 plays on track ticks: s hh*16, gain [.2 .6]*8 and bank RolandTR909" loading="lazy"></figure>
+        <p>Sixteenth-note hats go on the track "ticks". A pattern in gain, <code>[.2 .6]*8</code>, makes them soft and loud in turns. All at the same loudness sounds like a machine; with loud and soft, it sounds like a person playing.</p>
+        <p class="label">In Strudel</p><pre><code>s("hh*16").gain("[.2 .6]*8").bank("RolandTR909")</code></pre>
+        <p class="try-inline">Try it: change <code>[.2 .6]*8</code> to <code>[.2 .2 .6 .2]*4</code> for fewer loud hits and another feel.</p>
+
+        <h3>2. Off-beat bass</h3>
+        <figure><img src="../tutorial/en/step14-4.png?v=ebc43f62" width="177" height="241" alt="Key 2 plays on track bass: note [~ c2]*4, s sawtooth and lpf 600" loading="lazy"></figure>
+        <p>The kick plays on the beats, so the bass goes between them, on the off-beats. The low sounds do not clash, so both are clear and they bounce: boom, bass, boom, bass. It is the same idea as the off-beat bass of step 13.</p>
+        <p class="label">In Strudel</p><pre><code>note("[~ c2]*4").s("sawtooth").lpf(600)</code></pre>
+        <p class="try-inline">Try it: change <code>[~ c2]*4</code> to <code>&lt;[~ c2]*4 [~ g1]*4&gt;</code> to change the note every bar.</p>
+
+        <h3>3. Ghost notes</h3>
+        <figure><img src="../tutorial/en/step14-5.png?v=0c51c0fd" width="205" height="376" alt="Key 3 plays on track snare: s [~ sd]*2, a stack with s sd, beat 7,9,14 16 and gain .2, and bank RolandTR909 below" loading="lazy"></figure>
+        <p>Very soft snares (gain <code>.2</code>) hide between the usual snares. You hardly hear them, but they add a small swing to the rhythm. They are hidden like ghosts. The blocks in the stack change only the sound in it; the bank below changes all of them.</p>
+        <p class="label">In Strudel</p><pre><code>stack(s("[~ sd]*2"), s("sd").beat("7,9,14", 16).gain(".2")).bank("RolandTR909")</code></pre>
+        <p class="try-inline">Try it: set the gain of the ghosts to <code>.5</code> and hear the difference.</p>
+
+        <h3>4. Offset with euclid</h3>
+        <figure><img src="../tutorial/en/step14-6.png?v=8c57cde8" width="205" height="241" alt="Key 4 plays on track rim: s rim, euclid 3 8 and bank RolandTR909" loading="lazy"></figure>
+        <p>Three sounds spread as evenly as possible on eight steps make an offset rhythm of 3, 3, 2. Stacked on the straight four on the floor, it adds a catch that makes you move.</p>
+        <p class="label">In Strudel</p><pre><code>s("rim").euclid(3, 8).bank("RolandTR909")</code></pre>
+        <p class="try-inline">Try it: change <code>3</code> <code>8</code> to <code>5</code> <code>8</code> or <code>7</code> <code>16</code>.</p>
+
+        <h3>5. Fills</h3>
+        <figure><img src="../tutorial/en/step14-7.png?v=75664909" width="205" height="241" alt="Key 5 plays on track clap: s [~ cp]*2, every 4 ply 2 and bank RolandTR909" loading="lazy"></figure>
+        <p>Once in four cycles, each clap plays twice. The ear gets bored when nothing changes; a change now and then marks a section. It takes the place of the track "clap".</p>
+        <p class="label">In Strudel</p><pre><code>s("[~ cp]*2").every(4, x => x.ply(2)).bank("RolandTR909")</code></pre>
+        <p class="try-inline">Try it: change "ply 2" to "fast 2" or "rev".</p>
+
+        <h3>6. Open the filter slowly</h3>
+        <figure class="wide"><img src="../tutorial/en/step14-8.png?v=1849aad1" width="404" height="241" alt="Key 6 plays on track bass: note [~ c2]*4, s sawtooth and lpf with sine range 200 3000 slow 8" loading="lazy"></figure>
+        <p>A wave in lpf changes the sound from dull to bright and back over eight cycles. The same loop sounds exciting when the sound moves. It takes the place of the bass of 2.</p>
+        <p class="label">In Strudel</p><pre><code>note("[~ c2]*4").s("sawtooth").lpf(sine.range(200, 3000).slow(8))</code></pre>
+        <p class="try-inline">Try it: change the shape of the wave to saw, which gets brighter and then drops back.</p>
+
+        <h3>7. Drop at random</h3>
+        <figure><img src="../tutorial/en/step14-9.png?v=55cd3ab1" width="205" height="279" alt="Key 7 plays on track ticks: s hh*16, degradeBy 30 %, gain .5 and bank RolandTR909" loading="lazy"></figure>
+        <p>30% of the sixteenth-note hats are dropped at random. Each cycle is a bit different, so the loop sounds alive. It takes the place of the ticks of 1.</p>
+        <p class="label">In Strudel</p><pre><code>s("hh*16").degradeBy(0.3).gain(".5").bank("RolandTR909")</code></pre>
+        <p class="try-inline">Try it: change 30 to 60 for more gaps.</p>
+
+        <h3>8. Break and drop</h3>
+        <div class="row">
+            <figure><img src="../tutorial/en/step14-10.png?v=d5dfcab2" width="163" height="106" alt="Key 8 stops track kick" loading="lazy"></figure>
+            <figure><img src="../tutorial/en/step14-11.png?v=9b0b7dea" width="205" height="203" alt="Key 9 plays on track kick: s bd*4 and bank RolandTR909" loading="lazy"></figure>
+        </div>
+        <p>Key 8 stops the kick (break) and key 9 brings it back (drop). While the kick is gone, the ear waits for it, so its return is exciting. The longer the break, the better the drop. Press 8, wait four cycles, then press 9; next time wait eight cycles and compare.</p>
+        <div class="row">
+            <figure><img src="../tutorial/en/step14-12.png?v=2a97b879" width="187" height="101" alt="Space broadcasts base rhythm" loading="lazy"></figure>
+            <figure><img src="../tutorial/en/step14-13.png?v=b6a96273" width="163" height="106" alt="Key 0 stops all tracks" loading="lazy"></figure>
+        </div>
+
+        <h3>Next: the rhythm book</h3>
+        <p>The techniques work on other rhythms too. The <a href="rhythms.html">rhythm book</a> has eight standard rhythms, such as disco, boom bap, trap, drum and bass and reggaeton. Add these techniques to a rhythm you like and make it your own song. Pumping, where the kick pushes the other sounds down, and the build-up are in step 13.</p>
+        <div class="buttons">
+            <a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step14.sb3" target="_blank" rel="noopener">Open this step</a>
+            <a class="button secondary" href="rhythms.html">Rhythm book</a>
         </div>
     </section>
 </main>

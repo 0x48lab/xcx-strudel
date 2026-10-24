@@ -186,6 +186,7 @@ footer a { color: inherit; }
             <li><a href="#step12">マスターレベル:アシッドと トランスゲート</a></li>
             <li class="column-item"><a href="#code">コラム:ブロックを Strudel の コードに しよう</a></li>
             <li value="13"><a href="#step13">応用編:EDM・トランスの 音づくり</a></li>
+            <li><a href="#step14">4つ打ちから 次へ:リズムを かっこよく する</a></li>
         </ol>
         <p>どのステップも「このステップを ひらく」を おすと、できあがりの 作品が ひらくよ。ブロックを さわって、音を かえてみよう。</p>
     </nav>
@@ -717,10 +718,92 @@ s("white*16").hpf(saw.range(300, 9000).slow(4)).gain(saw.range(0, .4).slow(4))</
 
         <h3>つぎは コードで</h3>
         <p>部品を ぜんぶ 鳴らしてから「全部のトラックを strudel.cc で開く」ブロック(コラム)を つかうと、この 曲が そのまま Strudel の コードに なるよ。コードの 数字を 1つずつ かえて、Ctrl+Enter で 鳴らしてみよう。部品の 行の さいごに <code>.hush()</code> を つけると、その 部品だけ 消せるよ。</p>
-        <p>ほかの ジャンルの リズムや、リズムを かっこよく する テクニックは「<a href="rhythms.html">リズム図鑑</a>」に あるよ。定番の リズムを 鳴らして、改造してみよう。</p>
+        <p>つぎの ステップ14では、4つ打ちの リズムを かっこよく する テクニックを ためすよ。</p>
         <div class="buttons">
             <a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/step13.sb3" target="_blank" rel="noopener">応用編を ひらく</a>
             <a class="button secondary" href="https://strudel.cc/" target="_blank" rel="noopener">strudel.cc</a>
+        </div>
+    </section>
+    <section class="card" id="step14">
+        <h2><span class="num">14</span>4つ打ちから 次へ:リズムを かっこよく する</h2>
+        <p>4つ打ちは 作れたけど、なんだか 単調…。そんな ときは、4つ打ちを やめるのでは なく、<b>上に 少しずつ 足して いく</b>のが 近道だよ。ハウスや テクノも、キックは ずっと 4つ打ちの まま。かっこよさは、まわりの「ズレ」「強弱」「動き」「変化」から 生まれるんだ。</p>
+        <p>この ステップでは、ハウスの 4つ打ちに テクニックを 1つずつ 足して、何が かわるか 耳で くらべよう。テンポは 124 BPM、ステージには ドラムの 鳴る 場所が 見える パンチカードを 出すよ。</p>
+        <figure><img src="tutorial/step14-1.png?v=8c74ab56" width="273" height="247" alt="はたで マスターのブロックを表示し、テンポを124にして、もとの リズム を送り、パンチカードを表示する" loading="lazy"></figure>
+        <table>
+            <tr><th>キー</th><th>テクニック</th><th>キー</th><th>テクニック</th></tr>
+            <tr><td>1</td><td>強弱を つける</td><td>6</td><td>フィルターを ゆっくり 開く</td></tr>
+            <tr><td>2</td><td>裏打ちの ベース</td><td>7</td><td>ランダムに ぬく</td></tr>
+            <tr><td>3</td><td>ゴーストノート</td><td>8 / 9</td><td>ブレイク / ドロップ</td></tr>
+            <tr><td>4</td><td>ユークリッドで ずらす</td><td>スペース</td><td>もとの リズムに もどす</td></tr>
+            <tr><td>5</td><td>フィル</td><td>0</td><td>ぜんぶ 止める</td></tr>
+        </table>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/step14.sb3" target="_blank" rel="noopener">このステップを ひらく</a></div>
+
+        <h3>もとの リズム:ハウスの 4つ打ち</h3>
+        <figure><img src="tutorial/step14-2.png?v=61f8212c" width="244" height="511" alt="もとの リズム を受け取ったとき、すべてのトラックを止めて、キック bd*4、ハイハット [~ oh]*4、クラップ [~ cp]*2 を TR909 で鳴らす" loading="lazy"></figure>
+        <p>キックは 1拍ずつ <code>bd*4</code>、オープンハイハットは 拍の あいだ(裏)で <code>[~ oh]*4</code>、クラップは 2拍目と 4拍目に <code>[~ cp]*2</code>。トラックを 楽器ごとに 分けて あるので、テクニックで 1本ずつ 入れかえたり 足したり できるよ。スペースキーで いつでも ここに もどれる。</p>
+        <p class="label">Strudel では</p><pre><code>$: s("bd*4").bank("RolandTR909")
+$: s("[~ oh]*4").bank("RolandTR909")
+$: s("[~ cp]*2").bank("RolandTR909")</code></pre>
+
+        <h3>1. 強弱を つける</h3>
+        <figure><img src="tutorial/step14-3.png?v=7a7740d6" width="244" height="241" alt="1キーで、トラック きざみ の中に 音 hh*16 と 音の大きさ [.2 .6]*8 と ドラムマシン RolandTR909" loading="lazy"></figure>
+        <p>16分の ハイハットを「きざみ」トラックに 足す。「音の大きさ」に <code>[.2 .6]*8</code> と パターンを 書くと、小さい 音と 大きい 音が 交互に なる。ぜんぶ 同じ 大きさだと 機械っぽい けれど、強弱が あると 人が たたいている ように 聞こえるよ。</p>
+        <p class="label">Strudel では</p><pre><code>s("hh*16").gain("[.2 .6]*8").bank("RolandTR909")</code></pre>
+        <p class="try-inline">いじってみよう:<code>[.2 .6]*8</code> を <code>[.2 .2 .6 .2]*4</code> に すると、強い 音が へって ノリが かわるよ。</p>
+
+        <h3>2. 裏打ちの ベース</h3>
+        <figure><img src="tutorial/step14-4.png?v=03749714" width="233" height="241" alt="2キーで、トラック ベース の中に 音の高さ [~ c2]*4 と 音 sawtooth と ひくい音だけ通す 600" loading="lazy"></figure>
+        <p>キックが 拍の 頭(表)で 鳴るので、ベースは その あいだ(裏)に 置く。低い 音どうしが ぶつからないので、キックも ベースも はっきり 聞こえて「ドッ・ベッ・ドッ・ベッ」と はずむよ。13章の 裏打ちベースと 同じ 考えかた。</p>
+        <p class="label">Strudel では</p><pre><code>note("[~ c2]*4").s("sawtooth").lpf(600)</code></pre>
+        <p class="try-inline">いじってみよう:<code>[~ c2]*4</code> を <code>&lt;[~ c2]*4 [~ g1]*4&gt;</code> に すると、1小節ごとに 音が かわるよ。</p>
+
+        <h3>3. ゴーストノート</h3>
+        <figure><img src="tutorial/step14-5.png?v=869da83e" width="244" height="376" alt="3キーで、トラック スネア の中に 音 [~ sd]*2 と、重ねる の中に 音 sd と マスで鳴らす 7,9,14 16 と 音の大きさ .2、下に ドラムマシン RolandTR909" loading="lazy"></figure>
+        <p>ふつうの スネアの あいだに、とても 小さい スネア(音の大きさ <code>.2</code>)を かくして 入れる。はっきりとは 聞こえない けれど、リズムに こまかい ゆれが 出るよ。おばけ(ゴースト)の ように かくれた 音、という 意味。「重ねる」の 中の ブロックは 中の 音だけに かかり、下の「ドラムマシン」は ぜんぶに かかるよ。</p>
+        <p class="label">Strudel では</p><pre><code>stack(s("[~ sd]*2"), s("sd").beat("7,9,14", 16).gain(".2")).bank("RolandTR909")</code></pre>
+        <p class="try-inline">いじってみよう:ゴーストの「音の大きさ」を <code>.5</code> に して、ちがいを 聞いてみよう。</p>
+
+        <h3>4. ユークリッドで ずらす</h3>
+        <figure><img src="tutorial/step14-6.png?v=61fdba30" width="244" height="241" alt="4キーで、トラック リム の中に 音 rim と ユークリッド 3 8 と ドラムマシン RolandTR909" loading="lazy"></figure>
+        <p>8つの マスに 3つの 音を できるだけ 均等に ならべると、3・3・2 の ズレた リズムに なる。まっすぐな 4つ打ちの 上に 重ねると、ひっかかりが 出て 体が ゆれるよ。</p>
+        <p class="label">Strudel では</p><pre><code>s("rim").euclid(3, 8).bank("RolandTR909")</code></pre>
+        <p class="try-inline">いじってみよう:<code>3</code> <code>8</code> を <code>5</code> <code>8</code> や <code>7</code> <code>16</code> に かえてみよう。</p>
+
+        <h3>5. フィル</h3>
+        <figure><img src="tutorial/step14-7.png?v=886a09c7" width="305" height="241" alt="5キーで、トラック クラップ の中に 音 [~ cp]*2 と サイクルごとに変える 4 くりかえし と ドラムマシン RolandTR909" loading="lazy"></figure>
+        <p>4サイクルに 1回だけ、クラップを 2回ずつ 鳴らす。ずっと 同じ だと 耳が あきるので、ときどき かわる 場所を 作ると「ここで 区切り」と わかるよ。もとの「クラップ」トラックと 入れかわる。</p>
+        <p class="label">Strudel では</p><pre><code>s("[~ cp]*2").every(4, x => x.ply(2)).bank("RolandTR909")</code></pre>
+        <p class="try-inline">いじってみよう:「くりかえし」を「はやく」や「ぎゃく」に かえてみよう。</p>
+
+        <h3>6. フィルターを ゆっくり 開く</h3>
+        <figure class="wide"><img src="tutorial/step14-8.png?v=4e149f42" width="588" height="241" alt="6キーで、トラック ベース の中に 音の高さ [~ c2]*4 と 音 sawtooth と ひくい音だけ通す に ゆれる値 なめらかな波 200 から 3000 8 サイクル" loading="lazy"></figure>
+        <p>「ひくい音だけ通す」の 値に「ゆれる値」を 入れると、こもった 音から 明るい 音へ、8サイクル かけて ゆっくり かわる。同じ ループでも、音が 動くと もりあがって 聞こえるよ。2 の ベースと 入れかわる。</p>
+        <p class="label">Strudel では</p><pre><code>note("[~ c2]*4").s("sawtooth").lpf(sine.range(200, 3000).slow(8))</code></pre>
+        <p class="try-inline">いじってみよう:「ゆれる値」の 形を「のこぎりの波」に すると、だんだん 明るく なって ストンと もどるよ。</p>
+
+        <h3>7. ランダムに ぬく</h3>
+        <figure><img src="tutorial/step14-9.png?v=bcbdea08" width="244" height="279" alt="7キーで、トラック きざみ の中に 音 hh*16 と ランダムに抜く 30 % と 音の大きさ .5 と ドラムマシン RolandTR909" loading="lazy"></figure>
+        <p>16分の ハイハットの うち、30% を ランダムに ぬく。毎回 少しずつ ちがう ので、ループなのに 生きている ように 聞こえるよ。1 の「きざみ」と 入れかわる。</p>
+        <p class="label">Strudel では</p><pre><code>s("hh*16").degradeBy(0.3).gain(".5").bank("RolandTR909")</code></pre>
+        <p class="try-inline">いじってみよう:30 を 60 に すると、すきまが ふえるよ。</p>
+
+        <h3>8. ブレイクと ドロップ</h3>
+        <div class="row">
+            <figure><img src="tutorial/step14-10.png?v=f791db3b" width="213" height="106" alt="8キーで、トラック キック を止める" loading="lazy"></figure>
+            <figure><img src="tutorial/step14-11.png?v=7228ce03" width="244" height="203" alt="9キーで、トラック キック で 音 bd*4 と ドラムマシン RolandTR909 を鳴らす" loading="lazy"></figure>
+        </div>
+        <p>8 キーで キックを 止めて(ブレイク)、9 キーで もどす(ドロップ)。キックが ない あいだ 耳が キックを 待つので、もどった ときに もりあがる。止める 時間が 長いほど、もどった ときが 気持ちいいよ。8 を おしてから 4サイクル、つぎは 8サイクル 待って くらべてみよう。</p>
+        <div class="row">
+            <figure><img src="tutorial/step14-12.png?v=ab9fa23b" width="202" height="101" alt="スペースキーで、もとの リズム を送る" loading="lazy"></figure>
+            <figure><img src="tutorial/step14-13.png?v=f20c7868" width="197" height="106" alt="0キーで、すべてのトラックを止める" loading="lazy"></figure>
+        </div>
+
+        <h3>つぎは リズム図鑑で</h3>
+        <p>テクニックは ほかの リズムにも つかえるよ。「<a href="rhythms.html">リズム図鑑</a>」には、ディスコ・ブーンバップ・トラップ・ドラムンベース・レゲトンなど 8つの 定番の リズムが ある。好きな リズムに ここの テクニックを 足して、じぶんの 曲に しよう。キックで ほかの 音を へこませる ポンピングと、だんだん もりあげる ビルドアップは 13章に あるよ。</p>
+        <div class="buttons">
+            <a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/step14.sb3" target="_blank" rel="noopener">このステップを ひらく</a>
+            <a class="button secondary" href="rhythms.html">リズム図鑑</a>
         </div>
     </section>
 </main>

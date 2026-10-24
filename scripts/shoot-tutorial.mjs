@@ -4,6 +4,7 @@
  * Files of this repository (the extension and the tutorial projects) are served from
  * the local copy, so the screenshots show the current build.
  * Run: npm run tutorial && npm run build && npm run tutorial:shots
+ * (node scripts/shoot-tutorial.mjs --step=14 [--en] takes only the scripts of a step)
  */
 import path from 'path';
 import fs from 'fs-extra';
@@ -37,7 +38,9 @@ const UI = EN ? {
 };
 const SITE = 'https://0x48lab.github.io/xcx-strudel/';
 const EDITOR = 'https://xcratch.github.io/editor/';
-const STEPS = 13;
+const STEPS = 14;
+/** With --step=N, only the scripts of step N are taken. */
+const ONLY = (process.argv.find(arg => arg.startsWith('--step=')) || '').slice('--step='.length);
 
 /** Space around a shot, in CSS pixels. */
 const PAD = 10;
@@ -308,16 +311,19 @@ const shootViz = async page => {
 fs.ensureDirSync(OUT);
 const {browser, page} = await launch();
 try {
-    await shootSetup(page);
-    await shootPalette(page);
+    if (!ONLY) await shootSetup(page);
+    if (!ONLY) await shootPalette(page);
     for (let step = 2; step <= STEPS; step++) {
+        if (ONLY && String(step) !== ONLY) continue;
         console.log(`step${step}`);
         await open(page, `step${step}`);
         await shootScripts(page, `step${step}`);
     }
-    await shootLists(page);
-    await shootRecord(page);
-    await shootViz(page);
+    if (!ONLY) {
+        await shootLists(page);
+        await shootRecord(page);
+        await shootViz(page);
+    }
 } finally {
     await browser.close();
 }

@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 /**
- * Make the projects of the tutorial: projects/tutorial/step1.sb3 ... step13.sb3.
+ * Make the projects of the tutorial: projects/tutorial/step1.sb3 ... step14.sb3.
  * Each step is a small project which tutorial.html shows and links to.
  * Run: npm run tutorial
  */
 import path from 'path';
-import {Blocks, strudelBlocks, writeProject} from './sb3-builder.mjs';
+import {Blocks, fromSteps, strudelBlocks, writeProject} from './sb3-builder.mjs';
 import {PIANO_RHYTHM, SOUL} from './soul-song.mjs';
+import {BASE, BREAK, TECHNIQUES} from './rhythm-book.mjs';
 
 const out = name => path.resolve(process.cwd(), `projects/tutorial/${name}.sb3`);
 
@@ -255,6 +256,24 @@ const STEPS = {
             ])]],
             ['0', [b.strudel('stopAll')]]
         ], 260);
+    },
+    // techniques of the rhythm book on the house beat, the same as projects/techniques.sb3
+    step14: b => {
+        const $ = strudelBlocks(b);
+        const flag = flagAt(b, 24);
+        b.stack([flag, level(b, '3'), tempo(b, 124), b.broadcast('もとの リズム'),
+            b.strudel('showViz', {}, {VIZ: 'punchcard'}),
+            b.say('1〜7 キーで テクニックを 足そう。8 で ブレイク、9 で ドロップ、スペースで もとに もどす。0 で とめる', 8)]);
+        b.stack([b.whenReceive('もとの リズム', [24, 300]), b.strudel('stopAll'),
+            ...BASE.map(t => $.track(t.name, fromSteps($, t.track)))]);
+        const kick = BASE.find(t => t.name === 'キック');
+        onKeys(b, [
+            ...TECHNIQUES.map(t => [t.key, [$.track(t.trackName, fromSteps($, t.track))]]),
+            [BREAK.breakKey, [b.strudel('stopTrack', {TRACK: ['text', 'キック']})]],
+            [BREAK.dropKey, [$.track('キック', fromSteps($, kick.track))]],
+            ['space', [b.broadcast('もとの リズム')]],
+            ['0', [b.strudel('stopAll')]]
+        ], 760);
     }
 };
 
