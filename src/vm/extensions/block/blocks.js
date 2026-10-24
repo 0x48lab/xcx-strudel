@@ -240,6 +240,17 @@ export const BLOCKS = [
         }
     },
     {
+        opcode: 'beat',
+        blockType: BlockType.COMMAND,
+        level: LEVEL.STANDARD,
+        inTrack: true,
+        text: 'beat [BEATS] [STEPS]',
+        arguments: {
+            BEATS: {type: ArgumentType.STRING, defaultValue: '0,7,10'},
+            STEPS: {type: ArgumentType.NUMBER, defaultValue: 16}
+        }
+    },
+    {
         opcode: 'bank',
         blockType: BlockType.COMMAND,
         level: LEVEL.STANDARD,

@@ -779,6 +779,31 @@ describe('list and rhythm blocks', () => {
         expect(haps.map(hap => hap.whole.begin.valueOf()).sort()).toEqual([0, 0, 5 / 6, 5 / 6]);
     });
 
+    test('beat plays the sound on the steps', () => {
+        const n = build(ext, [['s', {CODE: 'bd'}], ['beat', {BEATS: ' 0,7,10 ', STEPS: 16}]]);
+        expect(String(n)).toBe('s("bd").beat("0,7,10", 16)');
+        expect(compile(n).queryArc(0, 1).map(hap => hap.whole.begin.valueOf() * 16)).toEqual([0, 7, 10]);
+    });
+
+    test('beat drops a step with ? sometimes', () => {
+        const n = build(ext, [['s', {CODE: 'bd'}], ['beat', {BEATS: '0,7?,10', STEPS: 16}]]);
+        const steps = c => compile(n).queryArc(c, c + 1).map(hap => (hap.whole.begin.valueOf() - c) * 16);
+        const all = [0, 1, 2, 3].map(steps);
+        all.forEach(s => {
+            expect(s).toEqual(expect.arrayContaining([0, 10]));
+        });
+        expect(all.some(s => s.includes(7))).toBe(true);
+        expect(all.some(s => !s.includes(7))).toBe(true);
+    });
+
+    test.each([[0, 1], [100, 64], [7.6, 8]])('beat in %j steps uses %j steps', (steps, used) => {
+        expect(codeOf(ext, [['s', {CODE: 'bd'}], ['beat', {BEATS: '0', STEPS: steps}]])).toBe(`s("bd").beat("0", ${used})`);
+    });
+
+    test.each(['0, evil()', 'x ~ x', '0; alert(1)', '0*100'])('beat steps %j are not played', beats => {
+        expect(() => compile(build(ext, [['s', {CODE: 'bd'}], ['beat', {BEATS: beats, STEPS: 16}]]))).toThrow();
+    });
+
     test.each(['x evil()', 'note("a")', 'x; alert(1)'])('a rhythm %j is not played', rhythm => {
         expect(() => compile(build(ext, [['note', {CODE: 'c4'}], ['struct', {RHYTHM: rhythm}]]))).toThrow();
     });

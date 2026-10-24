@@ -64,6 +64,8 @@ const BANK_NAME = /^[a-z0-9]+$/i;
 const VOWEL_CODE = /^[aeiou\s<>[\]~,*!@/.-]+$/;
 // a rhythm of x and ~ in mini-notation, such as "[x ~ ~] [~ ~ x]" or "x(3,8)"
 const RHYTHM_CODE = /^[x~\s<>[\](),*!@/.\d]+$/;
+// steps of a beat in mini-notation, such as "0,7?,10" or "<0 4>,12"
+const BEAT_CODE = /^[\d\s<>[\],*!@/.|?~]+$/;
 const SCALE_NAME = /^[A-G](?:#|b)?\d?:[a-z]+(?::[a-z]+)*$/;
 
 /**
@@ -76,6 +78,7 @@ const METHODS = {
     ply: [number(1, 8)],
     rev: [],
     struct: [letters(RHYTHM_CODE)],
+    beat: [letters(BEAT_CODE), integer(1, LIMIT.MODIFIER)],
     every: [number(1, 16), TRANSFORM],
     s: [name(SOUND_NAME)],
     scale: [name(SCALE_NAME)],

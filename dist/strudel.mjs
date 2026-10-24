@@ -926,6 +926,7 @@ var en$1 = {
 	"strudel.fast": "fast [TIMES]",
 	"strudel.scale": "scale [ROOT] [SCALE]",
 	"strudel.struct": "struct [RHYTHM]",
+	"strudel.beat": "beat [BEATS] [STEPS]",
 	"strudel.bank": "bank [MACHINE]",
 	"strudel.add": "add [VALUE]",
 	"strudel.rev": "rev",
@@ -1094,6 +1095,7 @@ var ja$1 = {
 	"strudel.fast": "fast [TIMES]",
 	"strudel.scale": "scale [ROOT] [SCALE]",
 	"strudel.struct": "struct [RHYTHM]",
+	"strudel.beat": "beat [BEATS] [STEPS]",
 	"strudel.bank": "bank [MACHINE]",
 	"strudel.add": "add [VALUE]",
 	"strudel.rev": "rev",
@@ -1265,6 +1267,7 @@ var translations = {
 	"strudel.fast": "fast [TIMES]",
 	"strudel.scale": "scale [ROOT] [SCALE]",
 	"strudel.struct": "struct [RHYTHM]",
+	"strudel.beat": "beat [BEATS] [STEPS]",
 	"strudel.bank": "bank [MACHINE]",
 	"strudel.add": "add [VALUE]",
 	"strudel.rev": "rev",
@@ -6534,6 +6537,22 @@ var BLOCKS = [{
     RHYTHM: {
       type: ArgumentType.STRING,
       defaultValue: 'x ~ x x'
+    }
+  }
+}, {
+  opcode: 'beat',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.STANDARD,
+  inTrack: true,
+  text: 'beat [BEATS] [STEPS]',
+  arguments: {
+    BEATS: {
+      type: ArgumentType.STRING,
+      defaultValue: '0,7,10'
+    },
+    STEPS: {
+      type: ArgumentType.NUMBER,
+      defaultValue: 16
     }
   }
 }, {
@@ -15645,6 +15664,8 @@ var BANK_NAME = /^[a-z0-9]+$/i;
 var VOWEL_CODE = /^[aeiou\s<>[\]~,*!@/.-]+$/;
 // a rhythm of x and ~ in mini-notation, such as "[x ~ ~] [~ ~ x]" or "x(3,8)"
 var RHYTHM_CODE = /^[x~\s<>[\](),*!@/.\d]+$/;
+// steps of a beat in mini-notation, such as "0,7?,10" or "<0 4>,12"
+var BEAT_CODE = /^[\d\s<>[\],*!@/.|?~]+$/;
 var SCALE_NAME = /^[A-G](?:#|b)?\d?:[a-z]+(?::[a-z]+)*$/;
 
 /**
@@ -15657,6 +15678,7 @@ var METHODS = {
   ply: [number(1, 8)],
   rev: [],
   struct: [letters(RHYTHM_CODE)],
+  beat: [letters(BEAT_CODE), integer(1, LIMIT.MODIFIER)],
   every: [number(1, 16), TRANSFORM],
   s: [name(SOUND_NAME)],
   scale: [name(SCALE_NAME)],
@@ -20769,6 +20791,14 @@ var ExtensionBlocks = /*#__PURE__*/function () {
     value: function struct(args, util) {
       this.chain(util, function (n) {
         return methodNode(n, 'struct', [Cast.toString(args.RHYTHM).trim()]);
+      });
+    }
+  }, {
+    key: "beat",
+    value: function beat(args, util) {
+      var steps = Math.round(clamp(args.STEPS, 1, LIMIT.MODIFIER));
+      this.chain(util, function (n) {
+        return methodNode(n, 'beat', [Cast.toString(args.BEATS).trim(), steps]);
       });
     }
   }, {

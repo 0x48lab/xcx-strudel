@@ -199,6 +199,7 @@ main a { color: var(--accent); }
             <li><a href="#fast">fast</a></li>
             <li><a href="#slow">slow</a></li>
             <li><a href="#struct">struct</a></li>
+            <li><a href="#beat">beat</a></li>
         </ul>
         <h3><a href="#sound">音を えらぶ</a></h3>
         <ul class="toc">
@@ -315,6 +316,13 @@ main a { color: var(--accent); }
             <p><code>x</code> と <code>~</code> で 書いた リズムで、音を <b>きざむ</b>。和音を リズムに のせる ときに 便利。</p>
             <pre><code>note(&quot;[c3,e3,g3]&quot;).struct(&quot;x ~ x x&quot;)</code></pre>
             <p class="history" data-label="なまえと れきし"><b>structure</b>(つくり、骨組み)の 略。リズムの「骨組み」だけを ほかの パターンから かりてくる、という 意味だよ。</p>
+        </article>
+        <article class="entry" id="beat">
+            <h3>beat <span class="badge l2">ノーマル</span></h3>
+            <p class="blockline">ブロック: <code>beat [0,7,10] [16]</code></p>
+            <p>1サイクルを <b>Nこの マス</b>に 分けて、番号の マスで 鳴らす。0 が 1番目の マス。<code>,</code> で 番号を ならべ、<code>7?</code> の ように <code>?</code> を つけると その マスは ときどき 鳴らない。</p>
+            <pre><code>s(&quot;bd&quot;).beat(&quot;0,7?,10&quot;, 16)</code></pre>
+            <p class="history" data-label="なまえと れきし">英語で「拍」。16マスに 音を おいていく やりかたは、TR-808 などの ドラムマシンが 16この ボタンで リズムを 組んだ のと 同じ 考えかただよ。</p>
         </article>
     </section>
     <section class="card" id="sound">

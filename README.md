@@ -29,7 +29,7 @@ Available in English, Japanese and Japanese (Hiragana).
 - エフェクト(lpf, hpf, room, delay, gain, pan, crush, speed, attack, release, distort, fm, vowel など)、変形(rev, ply, every)、音階(n + scale)
 - ミニ記法(`bd*2 [~ sd] <hh oh>`)をそのまま書くこともできる
 - Scratch のリストの中身を、1サイクルずつ・順番に・同時に並べてミニ記法にできる(長いコード進行やメロディを1小節ずつ書ける)
-- `struct` ブロックで、和音などを `x ~` のリズムで鳴らせる
+- `struct` ブロックで、和音などを `x ~` のリズムで鳴らせる。`beat` ブロックで、16マスなどの何番目で鳴らすかを番号で書ける(`beat [0,7?,10] [16]`)
 - スプライトの音(録音した声など)をサンプルとして使う
 - オシロスコープとピアノロールをステージに表示する
 - 「拍がきたとき」「[bd]が鳴ったとき」でスプライトを音に合わせて動かす

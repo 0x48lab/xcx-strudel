@@ -199,6 +199,7 @@ main a { color: var(--accent); }
             <li><a href="#fast">fast</a></li>
             <li><a href="#slow">slow</a></li>
             <li><a href="#struct">struct</a></li>
+            <li><a href="#beat">beat</a></li>
         </ul>
         <h3><a href="#sound">Choose a sound</a></h3>
         <ul class="toc">
@@ -315,6 +316,13 @@ main a { color: var(--accent); }
             <p><b>Chops</b> the sound into the rhythm you write with <code>x</code> and <code>~</code>. Handy for putting a chord on a rhythm.</p>
             <pre><code>note(&quot;[c3,e3,g3]&quot;).struct(&quot;x ~ x x&quot;)</code></pre>
             <p class="history" data-label="Name and history">Short for <b>structure</b> (the frame or skeleton). It means you borrow just the "skeleton" of a rhythm.</p>
+        </article>
+        <article class="entry" id="beat">
+            <h3>beat <span class="badge l2">Normal</span></h3>
+            <p class="blockline">Block: <code>beat [0,7,10] [16]</code></p>
+            <p>Cuts a cycle into <b>N steps</b> and plays on the numbered steps. 0 is the first step. List the numbers with <code>,</code>, and add <code>?</code> like <code>7?</code> to drop that step sometimes.</p>
+            <pre><code>s(&quot;bd&quot;).beat(&quot;0,7?,10&quot;, 16)</code></pre>
+            <p class="history" data-label="Name and history">English for the pulse of music. Putting sounds on 16 steps is how drum machines such as the TR-808 build rhythms with their 16 step buttons.</p>
         </article>
     </section>
     <section class="card" id="sound">

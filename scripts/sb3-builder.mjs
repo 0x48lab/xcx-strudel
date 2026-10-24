@@ -378,6 +378,7 @@ export const strudelBlocks = b => {
         slow: cycles => b.strudel('slow', {CYCLES: number(cycles)}),
         scale: (root, scale) => b.strudel('scale', {ROOT: ['root', root], SCALE: ['scale', scale]}),
         struct: rhythm => b.strudel('struct', {RHYTHM: text(rhythm)}),
+        beat: (beats, steps) => b.strudel('beat', {BEATS: text(beats), STEPS: number(steps)}),
         bank: machine => b.strudel('bank', {MACHINE: ['machine', machine]}),
         effect: (name, value) => b.strudel('effect', {VALUE: text(value)}, {EFFECT: name}),
         add: value => b.strudel('add', {VALUE: text(value)}),

@@ -534,6 +534,11 @@ class ExtensionBlocks {
         this.chain(util, n => methodNode(n, 'struct', [Cast.toString(args.RHYTHM).trim()]));
     }
 
+    beat (args, util) {
+        const steps = Math.round(clamp(args.STEPS, 1, LIMIT.MODIFIER));
+        this.chain(util, n => methodNode(n, 'beat', [Cast.toString(args.BEATS).trim(), steps]));
+    }
+
     bank (args, util) {
         this.chain(util, n => methodNode(n, 'bank', [Cast.toString(args.MACHINE)]));
     }
