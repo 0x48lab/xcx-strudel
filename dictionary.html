@@ -176,17 +176,26 @@ main a { color: var(--accent); }
 
 /* block dictionary */
 .entry h3 { font-family: inherit; }
-.entry h3 .fn { font-family: ui-monospace, Menlo, monospace; font-size: 15px; font-weight: normal; color: var(--muted); }
+.entry h3 .fn { font-size: 14px; font-weight: normal; color: var(--muted); }
 .example { display: grid; grid-template-columns: minmax(0, auto) minmax(220px, 1fr); gap: 8px 24px; align-items: start; }
 .example figure { margin: 6px 0 0; overflow-x: auto; }
 .example figure img { max-width: none; }
 @media (max-width: 720px) { .example { grid-template-columns: 1fr; } }
 .entry ul.uses { margin: 4px 0 0; padding-left: 1.4em; }
-.items { margin: 12px 0 0; padding: 4px 16px 12px; border: 1px dashed var(--border); border-radius: 12px; }
-.item { border-top: 1px solid var(--border); padding-top: 8px; margin-top: 10px; scroll-margin-top: 12px; }
-.item:first-of-type { border-top: none; }
-.item h4 { margin: 0 0 4px; font-size: 16px; font-family: ui-monospace, Menlo, monospace; overflow-wrap: anywhere; }
-.item h4 small { font-family: system-ui, sans-serif; font-weight: normal; color: var(--muted); }
+.items-wrap { overflow-x: auto; }
+table.items { margin: 4px 0 0; font-size: 15px; }
+table.items td:first-child { width: 34%; }
+table.items td code { white-space: nowrap; }
+table.items pre { margin: 6px 0 0; font-size: 13px; }
+@media (max-width: 640px) {
+    /* on phones, the name of each row is above its text */
+    table.items thead { display: none; }
+    table.items tr, table.items td { display: block; width: auto; }
+    table.items td:first-child { width: auto; border-bottom: none; padding-bottom: 0; background: var(--code-bg); }
+}
+table.items tr { scroll-margin-top: 12px; }
+table.items tr:target td { background: var(--try-bg); }
+.entry h3 .fn code { font-size: 14px; }
 details.history { margin: 8px 0 0; padding: 8px 12px; border-left: 4px solid var(--purple); background: var(--code-bg); border-radius: 0 8px 8px 0; font-size: 15px; }
 details.history::before { content: none; }
 details.history summary { cursor: pointer; font-weight: bold; font-size: 13px; color: var(--purple); }
@@ -256,7 +265,7 @@ details.history p { margin: 6px 0 0; }
     <section class="card" id="tracks">
         <h2>トラックと テンポ</h2>
         <article class="entry" id="track">
-            <h3>トラック [ ] で鳴らす <span class="fn">$:</span> <span class="badge l1">ビギナー</span></h3>
+            <h3>トラック [ ] で鳴らす <span class="fn">Strudel: <code>$:</code></span> <span class="badge l1">ビギナー</span></h3>
             <div class="example">
                 <figure><img src="dictionary/track.png?v=9d097f6c" width="202" height="160" alt="トラック [ ] で鳴らす" loading="lazy"></figure>
                 <div>
@@ -273,7 +282,7 @@ details.history p { margin: 6px 0 0; }
             <details class="history"><summary>なまえと れきし</summary><p>中の ブロックは 上から じゅんばんに、Strudel の <code>.fast(4)</code> のような 1だんずつに なる。トラック 1本が Strudel の <code>$:</code> の 1行に あたるよ。</p></details>
         </article>
         <article class="entry" id="stopTrack">
-            <h3>トラック [ ] を止める <span class="fn">hush</span> <span class="badge l1">ビギナー</span></h3>
+            <h3>トラック [ ] を止める <span class="fn">Strudel: <code>hush</code></span> <span class="badge l1">ビギナー</span></h3>
             <div class="example">
                 <figure><img src="dictionary/stopTrack.png?v=866b6d50" width="213" height="106" alt="トラック [ ] を止める" loading="lazy"></figure>
                 <div>
@@ -290,7 +299,7 @@ details.history p { margin: 6px 0 0; }
             <details class="history"><summary>なまえと れきし</summary><p>Strudel では、その 行を 消すか、行の さいごに <code>.hush()</code>(だまらせる)を つける。</p></details>
         </article>
         <article class="entry" id="stopAll">
-            <h3>すべてのトラックを止める <span class="fn">hush</span> <span class="badge l1">ビギナー</span></h3>
+            <h3>すべてのトラックを止める <span class="fn">Strudel: <code>hush</code></span> <span class="badge l1">ビギナー</span></h3>
             <div class="example">
                 <figure><img src="dictionary/stopAll.png?v=f20c7868" width="197" height="106" alt="すべてのトラックを止める" loading="lazy"></figure>
                 <div>
@@ -307,7 +316,7 @@ details.history p { margin: 6px 0 0; }
             <details class="history"><summary>なまえと れきし</summary><p><b>hush</b> は 英語で「しーっ、静かに」。strudel.cc では Ctrl + . でも 止まるよ。</p></details>
         </article>
         <article class="entry" id="setBpm">
-            <h3>テンポを [ ] BPMにする <span class="fn">setcpm</span> <span class="badge l1">ビギナー</span></h3>
+            <h3>テンポを [ ] BPMにする <span class="fn">Strudel: <code>setcpm</code></span> <span class="badge l1">ビギナー</span></h3>
             <div class="example">
                 <figure><img src="dictionary/setBpm.png?v=72d06ac5" width="207" height="106" alt="テンポを [ ] BPMにする" loading="lazy"></figure>
                 <div>
@@ -324,7 +333,7 @@ details.history p { margin: 6px 0 0; }
             <details class="history"><summary>なまえと れきし</summary><p><b>BPM</b> = <b>b</b>eats <b>p</b>er <b>m</b>inute(1分間の 拍の 数)。Strudel は サイクルで 数えるので、1サイクルが 4拍なら <code>setcpm(90/4)</code>(1分間に 22.5 サイクル)と 書くよ。</p></details>
         </article>
         <article class="entry" id="setBeatsPerCycle">
-            <h3>サイクルの拍の数を [ ] にする <span class="fn">setcpm</span> <span class="badge l2">ノーマル</span></h3>
+            <h3>サイクルの拍の数を [ ] にする <span class="fn">Strudel: <code>setcpm</code></span> <span class="badge l2">ノーマル</span></h3>
             <div class="example">
                 <figure><img src="dictionary/setBeatsPerCycle.png?v=af107221" width="234" height="203" alt="サイクルの拍の数を [ ] にする" loading="lazy"></figure>
                 <div>
@@ -345,7 +354,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
     <section class="card" id="sounds">
         <h2>音を えらぶ</h2>
         <article class="entry" id="s">
-            <h3>音 [ ] <span class="fn">s</span> <span class="badge l1">ビギナー</span></h3>
+            <h3>音 [ ] <span class="fn">Strudel: <code>s</code></span> <span class="badge l1">ビギナー</span></h3>
             <div class="example">
                 <figure><img src="dictionary/s.png?v=98ea9efc" width="202" height="122" alt="音 [ ]" loading="lazy"></figure>
                 <div>
@@ -359,43 +368,21 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <ul class="uses"><li>ドラムの リズムを 書く(<a href="rhythms.html">リズム図鑑</a>)</li><li>「音の高さ」の 下に 置いて、ピアノや シンセの 音に する</li></ul>
             <p class="label">Strudel では</p>
             <pre><code>s(&quot;bd hh sd hh&quot;)</code></pre>
-            <div class="items">
-                <p class="label">▼ の 名前</p>
-                <section class="item" id="drums">
-                    <h4>bd sd hh oh cp rim lt mt ht cr</h4>
-                    <p>ドラムの 音の 名前。bd = バスドラム、sd = スネア、hh = ハイハット、oh = オープンハイハット、cp = クラップ(手拍子)、rim = リム、lt / mt / ht = 低い / 中くらい / 高い タム、cr = クラッシュシンバル。</p>
-                    <pre><code>s(&quot;bd hh sd hh&quot;)</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p>ドラムマシンの つまみに 書かれていた 略語が もとで、TidalCycles の 音の フォルダ名として 広まった。<b>bd</b> = <b>b</b>ass <b>d</b>rum、<b>sd</b> = <b>s</b>nare <b>d</b>rum、<b>hh</b> = <b>h</b>i-<b>h</b>at。</p></details>
-                </section>
-                <section class="item" id="sbd">
-                    <h4>sbd</h4>
-                    <p>シンセサイザーで つくった キック(<b>s</b>ynth <b>b</b>ass <b>d</b>rum)。録音した 音ではなく、計算で 鳴らしているよ。</p>
-                    <pre><code>s(&quot;sbd!4&quot;)</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p>音が 低い 方へ すべり 落ちる「ドゥン」という キックは、TR-808 の キックと 同じ しくみ(高さを すばやく 下げる)。</p></details>
-                </section>
-                <section class="item" id="waves">
-                    <h4>sine square sawtooth triangle</h4>
-                    <p>シンセサイザーの 基本の 波の 形。sine = やわらかい、square = ピコピコ、sawtooth = ギザギザで 明るい、triangle = すっきり。</p>
-                    <pre><code>note(&quot;c4&quot;).s(&quot;sawtooth&quot;)</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p>どれも 波の 形の 名前。sine は 数学の 正弦(サイン)波、square は 四角、sawtooth は「ノコギリの 歯」、triangle は 三角。1960年代の アナログシンセから ずっと つかわれている。</p></details>
-                </section>
-                <section class="item" id="supersaw">
-                    <h4>supersaw</h4>
-                    <p>ノコギリ波を 何本も 少しずつ ずらして かさねた、分厚くて キラキラした 音。</p>
-                    <pre><code>note(&quot;[a3,c4,e4]&quot;).s(&quot;supersaw&quot;)</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p>1997年ごろに 出た ローランドの シンセ <b>JP-8000</b> の 機能の 名前。7本の ノコギリ波を かさねる この 音が、トランスという 音楽の 代表的な 音に なった。</p></details>
-                </section>
-                <section class="item" id="white">
-                    <h4>white</h4>
-                    <p>ザーッという <b>ノイズ</b>。ビルドアップで だんだん 大きく する 音(ライザー)に つかう。</p>
-                    <pre><code>s(&quot;white*16&quot;)</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p><b>ホワイトノイズ</b>。白い 光に すべての 色が まざっている ように、すべての 高さの 音が 同じ くらい まざっているから「白」と よばれる。</p></details>
-                </section>
-            </div>
-            <details class="history"><summary>なまえと れきし</summary><p><b>sound</b>(音)の 略。TidalCycles の 音源 SuperDirt で つかわれていた 名前を そのまま 受けついでいる。</p></details>
+            <p class="label">えらべる 名前</p>
+            <div class="items-wrap"><table class="items">
+                <thead><tr><th>名前</th><th>何が 起きる?</th></tr></thead>
+                <tbody>
+                    <tr id="drums"><td><code>bd</code> <code>sd</code> <code>hh</code> <code>oh</code> <code>cp</code> <code>rim</code> <code>lt</code> <code>mt</code> <code>ht</code> <code>cr</code></td><td>ドラムの 音の 名前。bd = バスドラム、sd = スネア、hh = ハイハット、oh = オープンハイハット、cp = クラップ(手拍子)、rim = リム、lt / mt / ht = 低い / 中くらい / 高い タム、cr = クラッシュシンバル。<pre><code>s(&quot;bd hh sd hh&quot;)</code></pre></td></tr>
+                    <tr id="sbd"><td><code>sbd</code></td><td>シンセサイザーで つくった キック(<b>s</b>ynth <b>b</b>ass <b>d</b>rum)。録音した 音ではなく、計算で 鳴らしているよ。<pre><code>s(&quot;sbd!4&quot;)</code></pre></td></tr>
+                    <tr id="waves"><td><code>sine</code> <code>square</code> <code>sawtooth</code> <code>triangle</code></td><td>シンセサイザーの 基本の 波の 形。sine = やわらかい、square = ピコピコ、sawtooth = ギザギザで 明るい、triangle = すっきり。<pre><code>note(&quot;c4&quot;).s(&quot;sawtooth&quot;)</code></pre></td></tr>
+                    <tr id="supersaw"><td><code>supersaw</code></td><td>ノコギリ波を 何本も 少しずつ ずらして かさねた、分厚くて キラキラした 音。<pre><code>note(&quot;[a3,c4,e4]&quot;).s(&quot;supersaw&quot;)</code></pre></td></tr>
+                    <tr id="white"><td><code>white</code></td><td>ザーッという <b>ノイズ</b>。ビルドアップで だんだん 大きく する 音(ライザー)に つかう。<pre><code>s(&quot;white*16&quot;)</code></pre></td></tr>
+                </tbody>
+            </table></div>
+            <details class="history"><summary>なまえと れきし</summary><p><b>sound</b>(音)の 略。TidalCycles の 音源 SuperDirt で つかわれていた 名前を そのまま 受けついでいる。</p><p><b>bd sd hh oh cp rim lt mt ht cr</b>: ドラムマシンの つまみに 書かれていた 略語が もとで、TidalCycles の 音の フォルダ名として 広まった。<b>bd</b> = <b>b</b>ass <b>d</b>rum、<b>sd</b> = <b>s</b>nare <b>d</b>rum、<b>hh</b> = <b>h</b>i-<b>h</b>at。</p><p><b>sbd</b>: 音が 低い 方へ すべり 落ちる「ドゥン」という キックは、TR-808 の キックと 同じ しくみ(高さを すばやく 下げる)。</p><p><b>sine square sawtooth triangle</b>: どれも 波の 形の 名前。sine は 数学の 正弦(サイン)波、square は 四角、sawtooth は「ノコギリの 歯」、triangle は 三角。1960年代の アナログシンセから ずっと つかわれている。</p><p><b>supersaw</b>: 1997年ごろに 出た ローランドの シンセ <b>JP-8000</b> の 機能の 名前。7本の ノコギリ波を かさねる この 音が、トランスという 音楽の 代表的な 音に なった。</p><p><b>white</b>: <b>ホワイトノイズ</b>。白い 光に すべての 色が まざっている ように、すべての 高さの 音が 同じ くらい まざっているから「白」と よばれる。</p></details>
         </article>
         <article class="entry" id="note">
-            <h3>音の高さ [ ] <span class="fn">note</span> <span class="badge l1">ビギナー</span></h3>
+            <h3>音の高さ [ ] <span class="fn">Strudel: <code>note</code></span> <span class="badge l1">ビギナー</span></h3>
             <div class="example">
                 <figure><img src="dictionary/note.png?v=1e703675" width="202" height="160" alt="音の高さ [ ]" loading="lazy"></figure>
                 <div>
@@ -412,7 +399,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <details class="history"><summary>なまえと れきし</summary><p>英語で「音符」。数字は MIDI(1983年に きまった 電子楽器の 共通ルール)の 番号で、60 が まんなかの ド。</p></details>
         </article>
         <article class="entry" id="n">
-            <h3>音階の番号 [ ] <span class="fn">n</span> <span class="badge l2">ノーマル</span></h3>
+            <h3>音階の番号 [ ] <span class="fn">Strudel: <code>n</code></span> <span class="badge l2">ノーマル</span></h3>
             <div class="example">
                 <figure><img src="dictionary/n.png?v=a79ba5ed" width="211" height="198" alt="音階の番号 [ ]" loading="lazy"></figure>
                 <div>
@@ -429,7 +416,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <details class="history"><summary>なまえと れきし</summary><p><b>n</b> は <b>number</b>(番号)。</p></details>
         </article>
         <article class="entry" id="seq">
-            <h3>順番に [ ] [ ] [ ] [ ] <span class="fn">seq</span> <span class="badge l1">ビギナー</span></h3>
+            <h3>順番に [ ] [ ] [ ] [ ] <span class="fn">Strudel: <code>seq</code></span> <span class="badge l1">ビギナー</span></h3>
             <div class="example">
                 <figure><img src="dictionary/seq.png?v=5bae1d36" width="297" height="122" alt="順番に [ ] [ ] [ ] [ ]" loading="lazy"></figure>
                 <div>
@@ -446,7 +433,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <details class="history"><summary>なまえと れきし</summary><p><b>sequence</b>(シーケンス、ならび)の 略。音を 順番に 鳴らす 機械「シーケンサー」と 同じ ことばだよ。ミニ記法では 空白で 区切って ならべる(<code>"bd hh sd hh"</code>)。</p></details>
         </article>
         <article class="entry" id="stack">
-            <h3>重ねる [ ] [ ] <span class="fn">stack</span> <span class="badge l1">ビギナー</span></h3>
+            <h3>重ねる [ ] [ ] <span class="fn">Strudel: <code>stack</code></span> <span class="badge l1">ビギナー</span></h3>
             <div class="example">
                 <figure><img src="dictionary/stack.png?v=f0eb3708" width="205" height="160" alt="重ねる [ ] [ ]" loading="lazy"></figure>
                 <div>
@@ -463,7 +450,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <details class="history"><summary>なまえと れきし</summary><p>英語で「つみかさねる」。ミニ記法では <code>,</code>(カンマ)で 同じ ことが できるよ(<code>"bd, hh"</code>)。</p></details>
         </article>
         <article class="entry" id="stackBranch">
-            <h3>重ねる(C型) <span class="fn">stackBranch</span> <span class="badge l2">ノーマル</span></h3>
+            <h3>重ねる(C型) <span class="fn">Strudel: <code>stackBranch</code></span> <span class="badge l2">ノーマル</span></h3>
             <div class="example">
                 <figure><img src="dictionary/stackBranch.png?v=bc77c361" width="244" height="257" alt="重ねる(C型)" loading="lazy"></figure>
                 <div>
@@ -480,7 +467,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <details class="history"><summary>なまえと れきし</summary><p>Strudel の <code>stack( , )</code> の カンマ 1つ分が、このブロック 1つ分。トラックを 分けると 1本ずつ 止められ、stack で 重ねると まとめて 止まるよ。</p></details>
         </article>
         <article class="entry" id="cat">
-            <h3>サイクルごとに [ ] [ ] <span class="fn">cat</span> <span class="badge l1">ビギナー</span></h3>
+            <h3>サイクルごとに [ ] [ ] <span class="fn">Strudel: <code>cat</code></span> <span class="badge l1">ビギナー</span></h3>
             <div class="example">
                 <figure><img src="dictionary/cat.png?v=a868cd33" width="245" height="160" alt="サイクルごとに [ ] [ ]" loading="lazy"></figure>
                 <div>
@@ -535,7 +522,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
         <h2>音を かえる</h2>
         <p>ここからの ブロックは、トラックの 中で 音の ブロックの <b>下に</b> 積む。上から じゅんばんに かかるよ。</p>
         <article class="entry" id="fast">
-            <h3>はやくする [ ] <span class="fn">fast</span> <span class="badge l1">ビギナー</span></h3>
+            <h3>はやくする [ ] <span class="fn">Strudel: <code>fast</code></span> <span class="badge l1">ビギナー</span></h3>
             <div class="example">
                 <figure><img src="dictionary/fast.png?v=31c3c0cb" width="202" height="160" alt="はやくする [ ]" loading="lazy"></figure>
                 <div>
@@ -552,7 +539,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <details class="history"><summary>なまえと れきし</summary><p>TidalCycles から ある 基本の 名前。ミニ記法の <code>*</code> と 同じ(<code>"hh*8"</code>)。</p></details>
         </article>
         <article class="entry" id="slow">
-            <h3>おそくする [ ] <span class="fn">slow</span> <span class="badge l2">ノーマル</span></h3>
+            <h3>おそくする [ ] <span class="fn">Strudel: <code>slow</code></span> <span class="badge l2">ノーマル</span></h3>
             <div class="example">
                 <figure><img src="dictionary/slow.png?v=496c418f" width="202" height="198" alt="おそくする [ ]" loading="lazy"></figure>
                 <div>
@@ -569,7 +556,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <details class="history"><summary>なまえと れきし</summary><p><code>fast</code> の 反対。ミニ記法の <code>/</code> と 同じ(<code>"c4/2"</code>)。</p></details>
         </article>
         <article class="entry" id="scale">
-            <h3>音階 [ ] [ ] <span class="fn">scale</span> <span class="badge l2">ノーマル</span></h3>
+            <h3>音階 [ ] [ ] <span class="fn">Strudel: <code>scale</code></span> <span class="badge l2">ノーマル</span></h3>
             <div class="example">
                 <figure><img src="dictionary/scale.png?v=62e18b2b" width="211" height="198" alt="音階 [ ] [ ]" loading="lazy"></figure>
                 <div>
@@ -583,31 +570,19 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <ul class="uses"><li>同じ 番号の まま 音階を かえて、曲の 気分を かえる</li></ul>
             <p class="label">Strudel では</p>
             <pre><code>n(&quot;0 1 2 3 4&quot;).scale(&quot;C4:minor&quot;).s(&quot;piano&quot;)</code></pre>
-            <div class="items">
-                <p class="label">▼ の 名前</p>
-                <section class="item" id="major">
-                    <h4>major minor</h4>
-                    <p>major は 明るい 音階(長調)、minor は 暗い 音階(短調)。</p>
-                    <pre><code>n(&quot;0 2 4&quot;).scale(&quot;C4:minor&quot;)</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p>英語で major =「大きい」、minor =「小さい」。ドと ミの 間(3度)が 大きいか 小さいかで 名前が ついた。</p></details>
-                </section>
-                <section class="item" id="pentatonic">
-                    <h4>major:pentatonic minor:pentatonic</h4>
-                    <p>5つの 音だけの 音階。どう ならべても きれいに 聞こえる。</p>
-                    <pre><code>n(&quot;0 1 2 3 4&quot;).scale(&quot;C4:major:pentatonic&quot;)</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p>ギリシャ語の penta(5)+ tonic(音)。日本の「ヨナ抜き音階」も その 仲間(4番目と 7番目を ぬく)。</p></details>
-                </section>
-                <section class="item" id="blues">
-                    <h4>blues dorian chromatic</h4>
-                    <p>blues は ブルースの 音階、dorian は ジャズや ケルト音楽で 好まれる 音階、chromatic は 半音を ぜんぶ ならべた 音階。</p>
-                    <pre><code>n(&quot;0 1 2 3&quot;).scale(&quot;C4:dorian&quot;)</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p><b>dorian</b> は 古代ギリシャの ドーリア人から 名前を とった 音階で、中世の 教会音楽を へて 今に つたわる。<b>chromatic</b> は ギリシャ語の chroma(色)から。</p></details>
-                </section>
-            </div>
-            <details class="history"><summary>なまえと れきし</summary><p>英語で「音階」。もとは ラテン語の scala =「はしご」。音が はしごの 段の ように ならぶから。</p></details>
+            <p class="label">えらべる 名前</p>
+            <div class="items-wrap"><table class="items">
+                <thead><tr><th>名前</th><th>何が 起きる?</th></tr></thead>
+                <tbody>
+                    <tr id="major"><td><code>major</code> <code>minor</code></td><td>major は 明るい 音階(長調)、minor は 暗い 音階(短調)。<pre><code>n(&quot;0 2 4&quot;).scale(&quot;C4:minor&quot;)</code></pre></td></tr>
+                    <tr id="pentatonic"><td><code>major:pentatonic</code> <code>minor:pentatonic</code></td><td>5つの 音だけの 音階。どう ならべても きれいに 聞こえる。<pre><code>n(&quot;0 1 2 3 4&quot;).scale(&quot;C4:major:pentatonic&quot;)</code></pre></td></tr>
+                    <tr id="blues"><td><code>blues</code> <code>dorian</code> <code>chromatic</code></td><td>blues は ブルースの 音階、dorian は ジャズや ケルト音楽で 好まれる 音階、chromatic は 半音を ぜんぶ ならべた 音階。<pre><code>n(&quot;0 1 2 3&quot;).scale(&quot;C4:dorian&quot;)</code></pre></td></tr>
+                </tbody>
+            </table></div>
+            <details class="history"><summary>なまえと れきし</summary><p>英語で「音階」。もとは ラテン語の scala =「はしご」。音が はしごの 段の ように ならぶから。</p><p><b>major minor</b>: 英語で major =「大きい」、minor =「小さい」。ドと ミの 間(3度)が 大きいか 小さいかで 名前が ついた。</p><p><b>major:pentatonic minor:pentatonic</b>: ギリシャ語の penta(5)+ tonic(音)。日本の「ヨナ抜き音階」も その 仲間(4番目と 7番目を ぬく)。</p><p><b>blues dorian chromatic</b>: <b>dorian</b> は 古代ギリシャの ドーリア人から 名前を とった 音階で、中世の 教会音楽を へて 今に つたわる。<b>chromatic</b> は ギリシャ語の chroma(色)から。</p></details>
         </article>
         <article class="entry" id="struct">
-            <h3>リズムで鳴らす [ ] <span class="fn">struct</span> <span class="badge l2">ノーマル</span></h3>
+            <h3>リズムで鳴らす [ ] <span class="fn">Strudel: <code>struct</code></span> <span class="badge l2">ノーマル</span></h3>
             <div class="example">
                 <figure><img src="dictionary/struct.png?v=f8c761c1" width="208" height="198" alt="リズムで鳴らす [ ]" loading="lazy"></figure>
                 <div>
@@ -624,7 +599,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <details class="history"><summary>なまえと れきし</summary><p><b>structure</b>(つくり、骨組み)の 略。リズムの「骨組み」だけを ほかの パターンから かりてくる、という 意味だよ。</p></details>
         </article>
         <article class="entry" id="beat">
-            <h3>マスで鳴らす [ ] [ ] <span class="fn">beat</span> <span class="badge l2">ノーマル</span></h3>
+            <h3>マスで鳴らす [ ] [ ] <span class="fn">Strudel: <code>beat</code></span> <span class="badge l2">ノーマル</span></h3>
             <div class="example">
                 <figure><img src="dictionary/beat.png?v=afb899f3" width="227" height="160" alt="マスで鳴らす [ ] [ ]" loading="lazy"></figure>
                 <div>
@@ -641,7 +616,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <details class="history"><summary>なまえと れきし</summary><p>英語で「拍」。16マスに 音を おいていく やりかたは、TR-808 などの ドラムマシンが 16この ボタンで リズムを 組んだ のと 同じ 考えかただよ。</p></details>
         </article>
         <article class="entry" id="bank">
-            <h3>ドラムマシン [ ] <span class="fn">bank</span> <span class="badge l2">ノーマル</span></h3>
+            <h3>ドラムマシン [ ] <span class="fn">Strudel: <code>bank</code></span> <span class="badge l2">ノーマル</span></h3>
             <div class="example">
                 <figure><img src="dictionary/bank.png?v=092d7255" width="244" height="160" alt="ドラムマシン [ ]" loading="lazy"></figure>
                 <div>
@@ -672,115 +647,33 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <ul class="uses"><li>ベースを こもらせる、ドラムに ひびきを つける、ハイハットの 音量を 小さく する</li><li>1つの 音に 効果を いくつも 重ねる(上から じゅんばんに かかる)</li></ul>
             <p class="label">Strudel では</p>
             <pre><code>note(&quot;c2*4&quot;).s(&quot;sawtooth&quot;).lpf(600)</code></pre>
-            <div class="items">
-                <p class="label">▼ の 名前</p>
-                <section class="item" id="lpf">
-                    <h4>lpf hpf <small>ひくい音だけ通す / たかい音だけ通す</small></h4>
-                    <p><b>lpf</b> は 高い 音を けずって こもらせる。<b>hpf</b> は 低い 音を けずって シャカシャカに する。数字は どこから けずるか(Hz)。</p>
-                    <pre><code>s(&quot;sawtooth&quot;).lpf(600)</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p><b>l</b>ow-<b>p</b>ass <b>f</b>ilter(低い 音を 通す フィルター)、<b>h</b>igh-<b>p</b>ass <b>f</b>ilter。1960年代に ロバート・モーグさんが つくった シンセの フィルターが 有名。</p></details>
-                </section>
-                <section class="item" id="lpq">
-                    <h4>lpq <small>レゾナンス</small></h4>
-                    <p>フィルターの 境目を 強調して、「ミョーン」と <b>くせの ある 音</b>に する(レゾナンス)。</p>
-                    <pre><code>s(&quot;sawtooth&quot;).lpf(400).lpq(12)</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p><b>q</b> は 電気の ことばで「Q値(きれの するどさ)」。</p></details>
-                </section>
-                <section class="item" id="lpenv">
-                    <h4>lpenv lpd lps <small>フィルターの動き / フィルターのディケイ / フィルターのサステイン</small></h4>
-                    <p>音が 鳴るたびに フィルターを <b>開いて 閉じる</b>。lpd は 閉じるまでの 時間、lps は 残る 量。アシッドの「ビヨッ」は これ。</p>
-                    <pre><code>note(&quot;a1*8&quot;).s(&quot;sawtooth&quot;).lpf(200).lpenv(4)</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p><b>env</b> = <b>env</b>elope(エンベロープ、音の 形の 変化)。<b>d</b> = decay、<b>s</b> = sustain(下の ADSR を 見てね)。</p></details>
-                </section>
-                <section class="item" id="adsr">
-                    <h4>attack decay sustain release <small>アタック / ディケイ / サステイン / リリース</small></h4>
-                    <p>音量の <b>形</b>。attack = 鳴りはじめの ゆっくりさ、decay = 下がる 時間、sustain = 残る 大きさ、release = 鳴りおわりの 余韻。</p>
-                    <pre><code>note(&quot;c4&quot;).s(&quot;sine&quot;).attack(.5).release(2)</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p>4つの 頭文字で「<b>ADSR</b>」。1960年代に、電子音楽の 研究者 ウラジミール・ウサチェフスキーさんが 考えたと いわれ、今の ほとんどの シンセに ある。</p></details>
-                </section>
-                <section class="item" id="room">
-                    <h4>room <small>ひびき</small></h4>
-                    <p><b>ひびき</b>(リバーブ)。広い 部屋で 鳴らした ように なる。</p>
-                    <pre><code>s(&quot;sd&quot;).room(.5)</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p>英語で「部屋」。部屋の 大きさで ひびきかたが かわる ことから。</p></details>
-                </section>
-                <section class="item" id="delay">
-                    <h4>delay delaytime delayfeedback <small>ディレイ / ディレイの間隔 / ディレイの回数</small></h4>
-                    <p><b>やまびこ</b>。少し おくれて 同じ 音が くりかえす。delaytime は 間かく、delayfeedback は くりかえしの 多さ。</p>
-                    <pre><code>note(&quot;c4 e4&quot;).delay(.4).delaytime(.25)</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p>英語で「おくれ」。むかしは 録音テープを ループさせて やまびこを つくっていた(ローランドの Space Echo、1974年 など)。</p></details>
-                </section>
-                <section class="item" id="gain">
-                    <h4>gain <small>音の大きさ</small></h4>
-                    <p><b>音の 大きさ</b>。1 が ふつう。</p>
-                    <pre><code>s(&quot;hh*8&quot;).gain(.6)</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p>英語で「増やす、もうけ」。電気の 信号を 何倍に するか、という 意味の ことば。</p></details>
-                </section>
-                <section class="item" id="pan">
-                    <h4>pan <small>パン</small></h4>
-                    <p><b>左右の 位置</b>。0 が 左、0.5 が まんなか、1 が 右。</p>
-                    <pre><code>s(&quot;hh*8&quot;).pan(sine.range(0, 1))</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p><b>panorama</b>(パノラマ、見わたす けしき)から。音を 左右の けしきの どこに おくか、という 意味。</p></details>
-                </section>
-                <section class="item" id="crush">
-                    <h4>crush <small>クラッシュ</small></h4>
-                    <p>音を <b>ガリガリ</b> に する(ビットクラッシャー)。数字が 小さいほど あらい。</p>
-                    <pre><code>s(&quot;bd sd&quot;).crush(4)</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p>音の 細かさ(ビット数)を 「つぶす」 から crush。むかしの ゲーム機の 8ビットの 音に 近く なる。</p></details>
-                </section>
-                <section class="item" id="distort">
-                    <h4>distort <small>ディストーション</small></h4>
-                    <p><b>ひずみ</b>(ディストーション)。音を 歪ませて 太く、あらく する。</p>
-                    <pre><code>note(&quot;a1&quot;).s(&quot;sawtooth&quot;).distort(2)</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p>エレキギターの「ひずみ」と 同じ。1950〜60年代、アンプの 音量を 上げすぎて 音が こわれたのが、かっこいい 音として 広まった。</p></details>
-                </section>
-                <section class="item" id="speed">
-                    <h4>speed <small>再生の速さ</small></h4>
-                    <p>録音した 音の <b>再生の 速さ</b>。2 で 2倍 速く 高く、-1 で 逆再生。</p>
-                    <pre><code>s(&quot;bd&quot;).speed(2)</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p>レコードや テープを 速く まわすと 音が 高く なる のと 同じ しくみ。</p></details>
-                </section>
-                <section class="item" id="clip">
-                    <h4>clip <small>音の長さ</small></h4>
-                    <p>音の <b>長さ</b>。1 で 次の 音まで、0.3 で 短く 切る。</p>
-                    <pre><code>note(&quot;c4 e4&quot;).s(&quot;square&quot;).clip(.3)</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p>英語で「切りとる」。</p></details>
-                </section>
-                <section class="item" id="vowel">
-                    <h4>vowel <small>母音</small></h4>
-                    <p>音を「あ・い・う・え・お」の ような <b>声の 響き</b>に する。</p>
-                    <pre><code>s(&quot;sawtooth&quot;).vowel(&quot;&lt;a e i o&gt;&quot;)</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p>英語で「母音」。人の 声の 母音を つくる 響き(フォルマント)を まねる フィルター。</p></details>
-                </section>
-                <section class="item" id="unison">
-                    <h4>unison detune spread <small>ユニゾン / デチューン / 左右の広がり</small></h4>
-                    <p>supersaw の <b>厚み</b>。unison は かさねる 本数、detune は 高さの ずれ、spread は 左右の 広がり。</p>
-                    <pre><code>note(&quot;a3&quot;).s(&quot;supersaw&quot;).unison(7).detune(.4).spread(.8)</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p><b>unison</b>(ユニゾン)は ラテン語で「1つの 音」。何人もが 同じ 音を 歌う ことだよ。<b>detune</b> は「チューニングを はずす」。</p></details>
-                </section>
-                <section class="item" id="fm">
-                    <h4>fm <small>FM</small></h4>
-                    <p>音を <b>金属っぽく</b>、ベルや エレピの ような 音に する(FM合成)。</p>
-                    <pre><code>note(&quot;c4&quot;).s(&quot;sine&quot;).fm(2)</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p><b>f</b>requency <b>m</b>odulation(周波数変調。FM ラジオと 同じ ことば)。1967年に スタンフォード大学の ジョン・チャウニングさんが 発見し、1983年の ヤマハ <b>DX7</b> で 世界中に 広まった。</p></details>
-                </section>
-                <section class="item" id="orbit">
-                    <h4>orbit <small>オービット</small></h4>
-                    <p>音が 通る <b>通り道</b>(1〜8)を きめる。ひびきや やまびこ、duck は 通り道ごとに かかる。</p>
-                    <pre><code>note(&quot;a1*8&quot;).s(&quot;sawtooth&quot;).orbit(2)</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p>英語で「軌道」。TidalCycles の 音源 SuperDirt で、トラックごとの 効果が まざらない ように 分ける しくみの 名前だよ。</p></details>
-                </section>
-                <section class="item" id="duck">
-                    <h4>duck duckattack duckdepth <small>ダック / ダックの戻り / ダックの深さ</small></h4>
-                    <p>キックが 鳴るたびに、ほかの 通り道(orbit)の 音を <b>しぼませる</b>。音が 息を する ように「ポンプ」する。</p>
-                    <pre><code>s(&quot;bd*4&quot;).duck(&quot;2:3&quot;).duckattack(.2).duckdepth(.8)</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p>英語で「ひょいと 頭を 下げる」。ラジオで 話す ときに 音楽を 小さく する わざ「ダッキング」から。クラブミュージックでは「サイドチェイン」「ポンピング」とも いい、2000年代の フレンチハウスや EDM で 流行した。</p></details>
-                </section>
-            </div>
-            <details class="history"><summary>なまえと れきし</summary><p>▼ の 名前は 日本語や カタカナ だけど、1つ 1つが Strudel の 関数に なる。下の 一覧で どの 関数かを しらべよう。</p></details>
+            <p class="label">えらべる 名前</p>
+            <div class="items-wrap"><table class="items">
+                <thead><tr><th>名前</th><th>何が 起きる?</th></tr></thead>
+                <tbody>
+                    <tr id="lpf"><td><b>ひくい音だけ通す / たかい音だけ通す</b><br><code>lpf</code> <code>hpf</code></td><td><b>lpf</b> は 高い 音を けずって こもらせる。<b>hpf</b> は 低い 音を けずって シャカシャカに する。数字は どこから けずるか(Hz)。<pre><code>s(&quot;sawtooth&quot;).lpf(600)</code></pre></td></tr>
+                    <tr id="lpq"><td><b>レゾナンス</b><br><code>lpq</code></td><td>フィルターの 境目を 強調して、「ミョーン」と <b>くせの ある 音</b>に する(レゾナンス)。<pre><code>s(&quot;sawtooth&quot;).lpf(400).lpq(12)</code></pre></td></tr>
+                    <tr id="lpenv"><td><b>フィルターの動き / フィルターのディケイ / フィルターのサステイン</b><br><code>lpenv</code> <code>lpd</code> <code>lps</code></td><td>音が 鳴るたびに フィルターを <b>開いて 閉じる</b>。lpd は 閉じるまでの 時間、lps は 残る 量。アシッドの「ビヨッ」は これ。<pre><code>note(&quot;a1*8&quot;).s(&quot;sawtooth&quot;).lpf(200).lpenv(4)</code></pre></td></tr>
+                    <tr id="adsr"><td><b>アタック / ディケイ / サステイン / リリース</b><br><code>attack</code> <code>decay</code> <code>sustain</code> <code>release</code></td><td>音量の <b>形</b>。attack = 鳴りはじめの ゆっくりさ、decay = 下がる 時間、sustain = 残る 大きさ、release = 鳴りおわりの 余韻。<pre><code>note(&quot;c4&quot;).s(&quot;sine&quot;).attack(.5).release(2)</code></pre></td></tr>
+                    <tr id="room"><td><b>ひびき</b><br><code>room</code></td><td><b>ひびき</b>(リバーブ)。広い 部屋で 鳴らした ように なる。<pre><code>s(&quot;sd&quot;).room(.5)</code></pre></td></tr>
+                    <tr id="delay"><td><b>ディレイ / ディレイの間隔 / ディレイの回数</b><br><code>delay</code> <code>delaytime</code> <code>delayfeedback</code></td><td><b>やまびこ</b>。少し おくれて 同じ 音が くりかえす。delaytime は 間かく、delayfeedback は くりかえしの 多さ。<pre><code>note(&quot;c4 e4&quot;).delay(.4).delaytime(.25)</code></pre></td></tr>
+                    <tr id="gain"><td><b>音の大きさ</b><br><code>gain</code></td><td><b>音の 大きさ</b>。1 が ふつう。<pre><code>s(&quot;hh*8&quot;).gain(.6)</code></pre></td></tr>
+                    <tr id="pan"><td><b>パン</b><br><code>pan</code></td><td><b>左右の 位置</b>。0 が 左、0.5 が まんなか、1 が 右。<pre><code>s(&quot;hh*8&quot;).pan(sine.range(0, 1))</code></pre></td></tr>
+                    <tr id="crush"><td><b>クラッシュ</b><br><code>crush</code></td><td>音を <b>ガリガリ</b> に する(ビットクラッシャー)。数字が 小さいほど あらい。<pre><code>s(&quot;bd sd&quot;).crush(4)</code></pre></td></tr>
+                    <tr id="distort"><td><b>ディストーション</b><br><code>distort</code></td><td><b>ひずみ</b>(ディストーション)。音を 歪ませて 太く、あらく する。<pre><code>note(&quot;a1&quot;).s(&quot;sawtooth&quot;).distort(2)</code></pre></td></tr>
+                    <tr id="speed"><td><b>再生の速さ</b><br><code>speed</code></td><td>録音した 音の <b>再生の 速さ</b>。2 で 2倍 速く 高く、-1 で 逆再生。<pre><code>s(&quot;bd&quot;).speed(2)</code></pre></td></tr>
+                    <tr id="clip"><td><b>音の長さ</b><br><code>clip</code></td><td>音の <b>長さ</b>。1 で 次の 音まで、0.3 で 短く 切る。<pre><code>note(&quot;c4 e4&quot;).s(&quot;square&quot;).clip(.3)</code></pre></td></tr>
+                    <tr id="vowel"><td><b>母音</b><br><code>vowel</code></td><td>音を「あ・い・う・え・お」の ような <b>声の 響き</b>に する。<pre><code>s(&quot;sawtooth&quot;).vowel(&quot;&lt;a e i o&gt;&quot;)</code></pre></td></tr>
+                    <tr id="unison"><td><b>ユニゾン / デチューン / 左右の広がり</b><br><code>unison</code> <code>detune</code> <code>spread</code></td><td>supersaw の <b>厚み</b>。unison は かさねる 本数、detune は 高さの ずれ、spread は 左右の 広がり。<pre><code>note(&quot;a3&quot;).s(&quot;supersaw&quot;).unison(7).detune(.4).spread(.8)</code></pre></td></tr>
+                    <tr id="fm"><td><b>FM</b><br><code>fm</code></td><td>音を <b>金属っぽく</b>、ベルや エレピの ような 音に する(FM合成)。<pre><code>note(&quot;c4&quot;).s(&quot;sine&quot;).fm(2)</code></pre></td></tr>
+                    <tr id="orbit"><td><b>オービット</b><br><code>orbit</code></td><td>音が 通る <b>通り道</b>(1〜8)を きめる。ひびきや やまびこ、duck は 通り道ごとに かかる。<pre><code>note(&quot;a1*8&quot;).s(&quot;sawtooth&quot;).orbit(2)</code></pre></td></tr>
+                    <tr id="duck"><td><b>ダック / ダックの戻り / ダックの深さ</b><br><code>duck</code> <code>duckattack</code> <code>duckdepth</code></td><td>キックが 鳴るたびに、ほかの 通り道(orbit)の 音を <b>しぼませる</b>。音が 息を する ように「ポンプ」する。<pre><code>s(&quot;bd*4&quot;).duck(&quot;2:3&quot;).duckattack(.2).duckdepth(.8)</code></pre></td></tr>
+                </tbody>
+            </table></div>
+            <details class="history"><summary>なまえと れきし</summary><p>▼ の 名前は 日本語や カタカナ だけど、1つ 1つが Strudel の 関数に なる。下の 一覧で どの 関数かを しらべよう。</p><p><b>lpf hpf</b>: <b>l</b>ow-<b>p</b>ass <b>f</b>ilter(低い 音を 通す フィルター)、<b>h</b>igh-<b>p</b>ass <b>f</b>ilter。1960年代に ロバート・モーグさんが つくった シンセの フィルターが 有名。</p><p><b>lpq</b>: <b>q</b> は 電気の ことばで「Q値(きれの するどさ)」。</p><p><b>lpenv lpd lps</b>: <b>env</b> = <b>env</b>elope(エンベロープ、音の 形の 変化)。<b>d</b> = decay、<b>s</b> = sustain(下の ADSR を 見てね)。</p><p><b>attack decay sustain release</b>: 4つの 頭文字で「<b>ADSR</b>」。1960年代に、電子音楽の 研究者 ウラジミール・ウサチェフスキーさんが 考えたと いわれ、今の ほとんどの シンセに ある。</p><p><b>room</b>: 英語で「部屋」。部屋の 大きさで ひびきかたが かわる ことから。</p><p><b>delay delaytime delayfeedback</b>: 英語で「おくれ」。むかしは 録音テープを ループさせて やまびこを つくっていた(ローランドの Space Echo、1974年 など)。</p><p><b>gain</b>: 英語で「増やす、もうけ」。電気の 信号を 何倍に するか、という 意味の ことば。</p><p><b>pan</b>: <b>panorama</b>(パノラマ、見わたす けしき)から。音を 左右の けしきの どこに おくか、という 意味。</p><p><b>crush</b>: 音の 細かさ(ビット数)を 「つぶす」 から crush。むかしの ゲーム機の 8ビットの 音に 近く なる。</p><p><b>distort</b>: エレキギターの「ひずみ」と 同じ。1950〜60年代、アンプの 音量を 上げすぎて 音が こわれたのが、かっこいい 音として 広まった。</p><p><b>speed</b>: レコードや テープを 速く まわすと 音が 高く なる のと 同じ しくみ。</p><p><b>clip</b>: 英語で「切りとる」。</p><p><b>vowel</b>: 英語で「母音」。人の 声の 母音を つくる 響き(フォルマント)を まねる フィルター。</p><p><b>unison detune spread</b>: <b>unison</b>(ユニゾン)は ラテン語で「1つの 音」。何人もが 同じ 音を 歌う ことだよ。<b>detune</b> は「チューニングを はずす」。</p><p><b>fm</b>: <b>f</b>requency <b>m</b>odulation(周波数変調。FM ラジオと 同じ ことば)。1967年に スタンフォード大学の ジョン・チャウニングさんが 発見し、1983年の ヤマハ <b>DX7</b> で 世界中に 広まった。</p><p><b>orbit</b>: 英語で「軌道」。TidalCycles の 音源 SuperDirt で、トラックごとの 効果が まざらない ように 分ける しくみの 名前だよ。</p><p><b>duck duckattack duckdepth</b>: 英語で「ひょいと 頭を 下げる」。ラジオで 話す ときに 音楽を 小さく する わざ「ダッキング」から。クラブミュージックでは「サイドチェイン」「ポンピング」とも いい、2000年代の フレンチハウスや EDM で 流行した。</p></details>
         </article>
         <article class="entry" id="add">
-            <h3>音を上げ下げ [ ] <span class="fn">add</span> <span class="badge l2">ノーマル</span></h3>
+            <h3>音を上げ下げ [ ] <span class="fn">Strudel: <code>add</code></span> <span class="badge l2">ノーマル</span></h3>
             <div class="example">
                 <figure><img src="dictionary/add.png?v=1c77864a" width="211" height="236" alt="音を上げ下げ [ ]" loading="lazy"></figure>
                 <div>
@@ -797,7 +690,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <details class="history"><summary>なまえと れきし</summary><p>英語で「たす」。</p></details>
         </article>
         <article class="entry" id="rev">
-            <h3>ぎゃくにする <span class="fn">rev</span> <span class="badge l2">ノーマル</span></h3>
+            <h3>ぎゃくにする <span class="fn">Strudel: <code>rev</code></span> <span class="badge l2">ノーマル</span></h3>
             <div class="example">
                 <figure><img src="dictionary/rev.png?v=6a43f172" width="202" height="198" alt="ぎゃくにする" loading="lazy"></figure>
                 <div>
@@ -814,7 +707,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <details class="history"><summary>なまえと れきし</summary><p><b>reverse</b>(逆)の 略。</p></details>
         </article>
         <article class="entry" id="ply">
-            <h3>くりかえす [ ] <span class="fn">ply</span> <span class="badge l2">ノーマル</span></h3>
+            <h3>くりかえす [ ] <span class="fn">Strudel: <code>ply</code></span> <span class="badge l2">ノーマル</span></h3>
             <div class="example">
                 <figure><img src="dictionary/ply.png?v=83395210" width="202" height="160" alt="くりかえす [ ]" loading="lazy"></figure>
                 <div>
@@ -831,7 +724,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <details class="history"><summary>なまえと れきし</summary><p>英語で「(糸の)より、重ね」。1本の 糸を 何重にも する イメージだよ。TidalCycles から ある 名前。</p></details>
         </article>
         <article class="entry" id="every">
-            <h3>サイクルごとに変える [ ] [ ] <span class="fn">every</span> <span class="badge l2">ノーマル</span></h3>
+            <h3>サイクルごとに変える [ ] [ ] <span class="fn">Strudel: <code>every</code></span> <span class="badge l2">ノーマル</span></h3>
             <div class="example">
                 <figure><img src="dictionary/every.png?v=063202f3" width="283" height="198" alt="サイクルごとに変える [ ] [ ]" loading="lazy"></figure>
                 <div>
@@ -848,7 +741,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <details class="history"><summary>なまえと れきし</summary><p>英語で「〜ごとに」。TidalCycles の はじめの ころから ある、いちばん 有名な 関数の 1つ。</p></details>
         </article>
         <article class="entry" id="degradeBy">
-            <h3>ランダムに抜く [ ] % <span class="fn">degradeBy</span> <span class="badge l3">マスター</span></h3>
+            <h3>ランダムに抜く [ ] % <span class="fn">Strudel: <code>degradeBy</code></span> <span class="badge l3">マスター</span></h3>
             <div class="example">
                 <figure><img src="dictionary/degradeBy.png?v=a246de6f" width="202" height="160" alt="ランダムに抜く [ ] %" loading="lazy"></figure>
                 <div>
@@ -865,7 +758,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <details class="history"><summary>なまえと れきし</summary><p><b>degrade</b> は「質を 落とす、こわす」。ミニ記法の <code>?</code> と 同じ(<code>"hh*16?"</code>)。</p></details>
         </article>
         <article class="entry" id="sometimes">
-            <h3>ときどき変える [ ] <span class="fn">sometimes</span> <span class="badge l3">マスター</span></h3>
+            <h3>ときどき変える [ ] <span class="fn">Strudel: <code>sometimes</code></span> <span class="badge l3">マスター</span></h3>
             <div class="example">
                 <figure><img src="dictionary/sometimes.png?v=483daf34" width="259" height="198" alt="ときどき変える [ ]" loading="lazy"></figure>
                 <div>
@@ -882,7 +775,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <details class="history"><summary>なまえと れきし</summary><p>英語で「ときどき」。仲間に <code>often</code>(よく)、<code>rarely</code>(たまに)も あるよ。</p></details>
         </article>
         <article class="entry" id="euclid">
-            <h3>ユークリッド [ ] [ ] <span class="fn">euclid</span> <span class="badge l3">マスター</span></h3>
+            <h3>ユークリッド [ ] [ ] <span class="fn">Strudel: <code>euclid</code></span> <span class="badge l3">マスター</span></h3>
             <div class="example">
                 <figure><img src="dictionary/euclid.png?v=ea1a5697" width="209" height="160" alt="ユークリッド [ ] [ ]" loading="lazy"></figure>
                 <div>
@@ -899,7 +792,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <details class="history"><summary>なまえと れきし</summary><p>計算幾何学者の ゴドフリー・トゥーサンさんが、2つの 数の 最大公約数を もとめる「<b>ユークリッドの 互除法</b>」(2300年ほど 前の 古代ギリシャの 数学)と 同じ 手順で、キューバや アフリカの 伝統的な リズムが つくれる ことを 2004〜2005年ごろの 論文で 示した。もとの 手順は、物理学者の ビョークランドさんが 加速器の タイミングを きめる ために つかっていた ものだよ。</p></details>
         </article>
         <article class="entry" id="jux">
-            <h3>ジャックス [ ] <span class="fn">jux</span> <span class="badge l3">マスター</span></h3>
+            <h3>ジャックス [ ] <span class="fn">Strudel: <code>jux</code></span> <span class="badge l3">マスター</span></h3>
             <div class="example">
                 <figure><img src="dictionary/jux.png?v=6ffd238f" width="202" height="160" alt="ジャックス [ ]" loading="lazy"></figure>
                 <div>
@@ -916,7 +809,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <details class="history"><summary>なまえと れきし</summary><p><b>juxtapose</b>(ならべて おく)の 略。TidalCycles 生まれの 名前。</p></details>
         </article>
         <article class="entry" id="off">
-            <h3>ずらして重ねる [ ] [ ] <span class="fn">off</span> <span class="badge l3">マスター</span></h3>
+            <h3>ずらして重ねる [ ] [ ] <span class="fn">Strudel: <code>off</code></span> <span class="badge l3">マスター</span></h3>
             <div class="example">
                 <figure><img src="dictionary/off.png?v=8d586be0" width="271" height="198" alt="ずらして重ねる [ ] [ ]" loading="lazy"></figure>
                 <div>
@@ -933,7 +826,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <details class="history"><summary>なまえと れきし</summary><p>英語で「ずれて、はなれて」。TidalCycles から ある 名前。</p></details>
         </article>
         <article class="entry" id="superimpose">
-            <h3>スーパーインポーズ [ ] <span class="fn">superimpose</span> <span class="badge l3">マスター</span></h3>
+            <h3>スーパーインポーズ [ ] <span class="fn">Strudel: <code>superimpose</code></span> <span class="badge l3">マスター</span></h3>
             <div class="example">
                 <figure><img src="dictionary/superimpose.png?v=0e32b823" width="278" height="198" alt="スーパーインポーズ [ ]" loading="lazy"></figure>
                 <div>
@@ -950,7 +843,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <details class="history"><summary>なまえと れきし</summary><p>英語で「重ねあわせる」。写真を 二重に うつす 技法(スーパーインポーズ)と 同じ ことば。</p></details>
         </article>
         <article class="entry" id="chop">
-            <h3>チョップ [ ] <span class="fn">chop</span> <span class="badge l3">マスター</span></h3>
+            <h3>チョップ [ ] <span class="fn">Strudel: <code>chop</code></span> <span class="badge l3">マスター</span></h3>
             <div class="example">
                 <figure><img src="dictionary/chop.png?v=0f3de6af" width="202" height="160" alt="チョップ [ ]" loading="lazy"></figure>
                 <div>
@@ -967,7 +860,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <details class="history"><summary>なまえと れきし</summary><p>英語で「切る、きざむ」。録音した 音を 細かく 切って ならべなおすのは、1980年代の サンプラーから 広まった ヒップホップの わざだよ。</p></details>
         </article>
         <article class="entry" id="transpose">
-            <h3>音をずらす [ ] <span class="fn">transpose</span> <span class="badge l3">マスター</span></h3>
+            <h3>音をずらす [ ] <span class="fn">Strudel: <code>transpose</code></span> <span class="badge l3">マスター</span></h3>
             <div class="example">
                 <figure><img src="dictionary/transpose.png?v=7aca23a2" width="202" height="198" alt="音をずらす [ ]" loading="lazy"></figure>
                 <div>
@@ -984,7 +877,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <details class="history"><summary>なまえと れきし</summary><p>音楽の ことばで「移調」。歌いやすい 高さに 曲ぜんたいを ずらす ときに つかう。</p></details>
         </article>
         <article class="entry" id="arp">
-            <h3>アルペジオ [ ] <span class="fn">arp</span> <span class="badge l3">マスター</span></h3>
+            <h3>アルペジオ [ ] <span class="fn">Strudel: <code>arp</code></span> <span class="badge l3">マスター</span></h3>
             <div class="example">
                 <figure><img src="dictionary/arp.png?v=5d50cf8b" width="211" height="198" alt="アルペジオ [ ]" loading="lazy"></figure>
                 <div>
@@ -1056,7 +949,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <details class="history"><summary>なまえと れきし</summary><p>Strudel には リストが ないので、書き出すと ミニ記法の <code>&lt; &gt;</code>(1サイクルずつ)、<code>[ ]</code>(順番に)、<code>,</code>(同時に)に なるよ。</p></details>
         </article>
         <article class="entry" id="range">
-            <h3>ゆれる値 [ ] [ ] から [ ] [ ] サイクル <span class="fn">range</span> <span class="badge l3">マスター</span></h3>
+            <h3>ゆれる値 [ ] [ ] から [ ] [ ] サイクル <span class="fn">Strudel: <code>range</code></span> <span class="badge l3">マスター</span></h3>
             <div class="example">
                 <figure><img src="dictionary/range.png?v=9a4d9c96" width="588" height="198" alt="ゆれる値 [ ] [ ] から [ ] [ ] サイクル" loading="lazy"></figure>
                 <div>
@@ -1073,7 +966,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <details class="history"><summary>なまえと れきし</summary><p>シンセサイザーの「<b>LFO</b>」(ゆっくり ゆれる 波)と 同じ はたらき。波の 形の <b>ゆらゆら</b>(perlin)は ケン・パーリンさんが 1983年に つくった「なめらかな 乱数」で、映画の CG を 自然に 見せる ために 生まれ、1997年に アカデミー賞(科学技術賞)を もらった。</p></details>
         </article>
         <article class="entry" id="irand">
-            <h3>乱数 [ ] から [ ] を [ ] こ たね [ ] 長さ [ ] <span class="fn">irand</span> <span class="badge l3">マスター</span></h3>
+            <h3>乱数 [ ] から [ ] を [ ] こ たね [ ] 長さ [ ] <span class="fn">Strudel: <code>irand</code></span> <span class="badge l3">マスター</span></h3>
             <div class="example">
                 <figure><img src="dictionary/irand.png?v=6b3858a1" width="486" height="198" alt="乱数 [ ] から [ ] を [ ] こ たね [ ] 長さ [ ]" loading="lazy"></figure>
                 <div>
@@ -1215,34 +1108,17 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <ul class="uses"><li>メロディは ピアノロール、ドラムは パンチカード、音色は スコープや スペクトルで 見る</li></ul>
             <p class="label">Strudel では</p>
             <pre><code>note(&quot;c4 e4 g4&quot;)._pianoroll()</code></pre>
-            <div class="items">
-                <p class="label">▼ の 名前</p>
-                <section class="item" id="scope">
-                    <h4>scope <small>スコープ</small></h4>
-                    <p>音の <b>波の 形</b>を 線で 見せる。</p>
-                    <pre><code>s(&quot;sawtooth&quot;)._scope()</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p><b>oscilloscope</b>(オシロスコープ)の 略。電気の 波を 見る 測定器。</p></details>
-                </section>
-                <section class="item" id="pianoroll">
-                    <h4>pianoroll <small>ピアノロール</small></h4>
-                    <p>音の 高さと 長さを、横に 流れる 帯で 見せる。</p>
-                    <pre><code>note(&quot;c4 e4 g4&quot;)._pianoroll()</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p>1900年ごろの 自動ピアノは、穴の あいた 紙の ロール(巻物)で 曲を 演奏した。その 見た目が もとに なった 名前。</p></details>
-                </section>
-                <section class="item" id="spectrum">
-                    <h4>spectrum <small>スペクトル</small></h4>
-                    <p>低い 音から 高い 音まで、どれが どれくらい 鳴っているかを 見せる。</p>
-                    <pre><code>s(&quot;bd hh&quot;)._spectrum()</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p>英語で「スペクトル」。光を プリズムに 通すと 虹色に 分かれる ように、音を 高さごとに 分けて 見る。</p></details>
-                </section>
-                <section class="item" id="punchcard">
-                    <h4>punchcard <small>パンチカード</small></h4>
-                    <p>ピアノロールを 穴の あいた カードの ように 見せる。</p>
-                    <pre><code>note(&quot;c4 e4 g4&quot;)._punchcard()</code></pre>
-                    <details class="history"><summary>なまえと れきし</summary><p><b>パンチカード</b>は 穴の 位置で 情報を あらわす カード。1800年代の はじめ、ジャカールの 織機が 布の 模様を あやつる のに つかい、のちに コンピューターにも つかわれた。</p></details>
-                </section>
-            </div>
-            <details class="history"><summary>なまえと れきし</summary><p>Strudel では パターンの うしろに <code>._pianoroll()</code> などを つける。</p></details>
+            <p class="label">えらべる 名前</p>
+            <div class="items-wrap"><table class="items">
+                <thead><tr><th>名前</th><th>何が 起きる?</th></tr></thead>
+                <tbody>
+                    <tr id="scope"><td><b>スコープ</b><br><code>scope</code></td><td>音の <b>波の 形</b>を 線で 見せる。<pre><code>s(&quot;sawtooth&quot;)._scope()</code></pre></td></tr>
+                    <tr id="pianoroll"><td><b>ピアノロール</b><br><code>pianoroll</code></td><td>音の 高さと 長さを、横に 流れる 帯で 見せる。<pre><code>note(&quot;c4 e4 g4&quot;)._pianoroll()</code></pre></td></tr>
+                    <tr id="spectrum"><td><b>スペクトル</b><br><code>spectrum</code></td><td>低い 音から 高い 音まで、どれが どれくらい 鳴っているかを 見せる。<pre><code>s(&quot;bd hh&quot;)._spectrum()</code></pre></td></tr>
+                    <tr id="punchcard"><td><b>パンチカード</b><br><code>punchcard</code></td><td>ピアノロールを 穴の あいた カードの ように 見せる。<pre><code>note(&quot;c4 e4 g4&quot;)._punchcard()</code></pre></td></tr>
+                </tbody>
+            </table></div>
+            <details class="history"><summary>なまえと れきし</summary><p>Strudel では パターンの うしろに <code>._pianoroll()</code> などを つける。</p><p><b>scope</b>: <b>oscilloscope</b>(オシロスコープ)の 略。電気の 波を 見る 測定器。</p><p><b>pianoroll</b>: 1900年ごろの 自動ピアノは、穴の あいた 紙の ロール(巻物)で 曲を 演奏した。その 見た目が もとに なった 名前。</p><p><b>spectrum</b>: 英語で「スペクトル」。光を プリズムに 通すと 虹色に 分かれる ように、音を 高さごとに 分けて 見る。</p><p><b>punchcard</b>: <b>パンチカード</b>は 穴の 位置で 情報を あらわす カード。1800年代の はじめ、ジャカールの 織機が 布の 模様を あやつる のに つかい、のちに コンピューターにも つかわれた。</p></details>
         </article>
         <article class="entry" id="hideViz">
             <h3>音の絵を隠す <span class="badge l1">ビギナー</span></h3>

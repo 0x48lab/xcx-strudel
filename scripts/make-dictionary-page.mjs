@@ -62,7 +62,9 @@ const TEXT = {
         uses: 'よく つかう 場面',
         code: 'Strudel では',
         noCode: 'Strudel には ない、この 拡張だけの ブロック だよ。',
-        items: '▼ の 名前',
+        items: 'えらべる 名前',
+        itemName: '名前',
+        itemWhat: '何が 起きる?',
         history: 'なまえと れきし',
         open: 'れいを ぜんぶ 開く',
         toc: 'さくいん',
@@ -92,7 +94,9 @@ const TEXT = {
         uses: 'When to use it',
         code: 'In Strudel',
         noCode: 'Strudel does not have it: it is a block of this extension.',
-        items: 'Names in ▼',
+        items: 'Names you can use',
+        itemName: 'Name',
+        itemWhat: 'What does it do?',
         history: 'Name and history',
         open: 'Open all the examples',
         toc: 'Index',
@@ -113,17 +117,26 @@ const TEXT = {
 const STYLE = `
 /* block dictionary */
 .entry h3 { font-family: inherit; }
-.entry h3 .fn { font-family: ui-monospace, Menlo, monospace; font-size: 15px; font-weight: normal; color: var(--muted); }
+.entry h3 .fn { font-size: 14px; font-weight: normal; color: var(--muted); }
 .example { display: grid; grid-template-columns: minmax(0, auto) minmax(220px, 1fr); gap: 8px 24px; align-items: start; }
 .example figure { margin: 6px 0 0; overflow-x: auto; }
 .example figure img { max-width: none; }
 @media (max-width: 720px) { .example { grid-template-columns: 1fr; } }
 .entry ul.uses { margin: 4px 0 0; padding-left: 1.4em; }
-.items { margin: 12px 0 0; padding: 4px 16px 12px; border: 1px dashed var(--border); border-radius: 12px; }
-.item { border-top: 1px solid var(--border); padding-top: 8px; margin-top: 10px; scroll-margin-top: 12px; }
-.item:first-of-type { border-top: none; }
-.item h4 { margin: 0 0 4px; font-size: 16px; font-family: ui-monospace, Menlo, monospace; overflow-wrap: anywhere; }
-.item h4 small { font-family: system-ui, sans-serif; font-weight: normal; color: var(--muted); }
+.items-wrap { overflow-x: auto; }
+table.items { margin: 4px 0 0; font-size: 15px; }
+table.items td:first-child { width: 34%; }
+table.items td code { white-space: nowrap; }
+table.items pre { margin: 6px 0 0; font-size: 13px; }
+@media (max-width: 640px) {
+    /* on phones, the name of each row is above its text */
+    table.items thead { display: none; }
+    table.items tr, table.items td { display: block; width: auto; }
+    table.items td:first-child { width: auto; border-bottom: none; padding-bottom: 0; background: var(--code-bg); }
+}
+table.items tr { scroll-margin-top: 12px; }
+table.items tr:target td { background: var(--try-bg); }
+.entry h3 .fn code { font-size: 14px; }
 details.history { margin: 8px 0 0; padding: 8px 12px; border-left: 4px solid var(--purple); background: var(--code-bg); border-radius: 0 8px 8px 0; font-size: 15px; }
 details.history::before { content: none; }
 details.history summary { cursor: pointer; font-weight: bold; font-size: 13px; color: var(--purple); }
@@ -151,18 +164,32 @@ const functionName = entry => {
     return entry.id;
 };
 
-const itemHtml = (lang, t, entry, item) => {
+/**
+ * The names in a menu of a block as a table.
+ * @param {string} lang - 'ja' or 'en'
+ * @param {object} t - texts of the page
+ * @param {object} entry - entry with items
+ * @returns {string} - HTML
+ */
+const itemsHtml = (lang, t, entry) => {
     const menu = ITEM_MENUS[entry.id];
-    const labels = menu ? item.name.split(' ')
-        .map(name => translations[lang][`strudel.menu.${menu}.${name}`])
-        .filter(label => label && lang !== 'en') : [];
+    const nameOf = item => {
+        const labels = menu && lang !== 'en' ? item.name.split(' ')
+            .map(name => translations[lang][`strudel.menu.${menu}.${name}`]).filter(Boolean) : [];
+        const names = item.name.split(' ').map(name => `<code>${escape(name)}</code>`).join(' ');
+        return labels.length ? `<b>${escape(labels.join(' / '))}</b><br>${names}` : names;
+    };
+    const rows = entry.items.map(item => `
+                    <tr id="${item.id}"><td>${nameOf(item)}</td><td>${item.what[lang]}` +
+        `<pre><code>${escape(item.code)}</code></pre></td></tr>`)
+        .join('');
     return `
-                <section class="item" id="${item.id}">
-                    <h4>${escape(item.name)}${labels.length ? ` <small>${escape(labels.join(' / '))}</small>` : ''}</h4>
-                    <p>${item.what[lang]}</p>
-                    <pre><code>${escape(item.code)}</code></pre>
-                    <details class="history"><summary>${t.history}</summary><p>${item.history[lang]}</p></details>
-                </section>`;
+            <p class="label">${t.items}</p>
+            <div class="items-wrap"><table class="items">
+                <thead><tr><th>${t.itemName}</th><th>${t.itemWhat}</th></tr></thead>
+                <tbody>${rows}
+                </tbody>
+            </table></div>`;
 };
 
 const entryHtml = (lang, t, entry) => {
@@ -173,13 +200,12 @@ const entryHtml = (lang, t, entry) => {
     const code = entry.code ?
         `<p class="label">${t.code}</p>\n            <pre><code>${escape(entry.code)}</code></pre>` :
         `<p class="label">${t.code}</p>\n            <p class="note">${t.noCode}</p>`;
-    const items = entry.items ? `
-            <div class="items">
-                <p class="label">${t.items}</p>${entry.items.map(item => itemHtml(lang, t, entry, item)).join('')}
-            </div>` : '';
+    const items = entry.items ? itemsHtml(lang, t, entry) : '';
+    // the history of the names in the menu is in the history of the block, so that an entry has one history
+    const histories = (entry.items || []).map(item => `<p><b>${escape(item.name)}</b>: ${item.history[lang]}</p>`).join('');
     return `
         <article class="entry" id="${entry.id}">
-            <h3>${escape(blockName(lang, entry))}${fn ? ` <span class="fn">${escape(fn)}</span>` : ''} <span class="badge l${entry.level}">${t.level[entry.level]}</span></h3>
+            <h3>${escape(blockName(lang, entry))}${fn ? ` <span class="fn">Strudel: <code>${escape(fn)}</code></span>` : ''} <span class="badge l${entry.level}">${t.level[entry.level]}</span></h3>
             <div class="example">
                 <figure><img src="${src}" width="${width}" height="${height}" alt="${escape(blockName(lang, entry))}" loading="lazy"></figure>
                 <div>
@@ -192,7 +218,7 @@ const entryHtml = (lang, t, entry) => {
             <p class="label">${t.uses}</p>
             <ul class="uses">${entry.uses[lang].map(use => `<li>${use}</li>`).join('')}</ul>
             ${code}${items}
-            <details class="history"><summary>${t.history}</summary><p>${entry.history[lang]}</p></details>
+            <details class="history"><summary>${t.history}</summary><p>${entry.history[lang]}</p>${histories}</details>
         </article>`;
 };
 
