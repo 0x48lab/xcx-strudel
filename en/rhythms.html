@@ -59,6 +59,11 @@ header a { color: #fff; }
 header .button { padding: 8px 18px; background: #fff; color: var(--purple); }
 header .button:hover { background: #f1ecff; }
 header .button[aria-current="page"] { background: var(--accent); color: #fff; }
+/* a cycle cut into beats */
+.cycle { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; max-width: 420px; margin: 12px 0; text-align: center; font-size: 14px; }
+.cycle .whole { grid-column: 1 / -1; padding: 6px; border-radius: 8px; background: var(--purple); color: #fff; font-weight: bold; }
+.cycle .beat { padding: 6px 0; border-radius: 8px; background: var(--code-bg); }
+.cycle .beat code { display: block; margin-top: 2px; background: none; font-size: 15px; }
 main { max-width: 960px; margin: 0 auto; padding: 24px 16px 48px; }
 .card {
     background: var(--card);
@@ -212,7 +217,7 @@ main a { color: var(--accent); }
 <main>
     <section class="card" id="about">
         <h2>How to read this book</h2>
-        <p>Every rhythm in this book is <b>one bar (4 beats) in a cycle</b>. A beat is cut into 4, so a bar has <b>16 steps</b>, and the pictures show on which steps the sounds play. The numbers on the top are the step numbers (0-15), and the sounds play on the colored steps.</p>
+        <p>Every rhythm in this book is <b>one bar (4 beats) in a cycle</b> (<a href="tutorial.html#cycle">what is a cycle?</a>). A beat is cut into 4, so a bar has <b>16 steps</b>, and the pictures show on which steps the sounds play. The numbers on the top are the step numbers (0-15), and the sounds play on the colored steps.</p>
         <h3>Two ways to write a rhythm</h3>
         <p>When a sound <b>repeats at the same distance</b>, write it with <code>*</code> in the s block: <code>bd*4</code> plays on each of the 4 beats, <code>[~ oh]*4</code> plays 4 times between the beats (on the off-beats).</p>
         <p>When a sound plays <b>here and there</b>, write the step numbers in the beat block: <code>0,7,10</code> plays on steps 0, 7 and 10.</p>

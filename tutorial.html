@@ -58,6 +58,11 @@ header a { color: #fff; }
 header .button { padding: 8px 18px; background: #fff; color: var(--purple); }
 header .button:hover { background: #f1ecff; }
 header .button[aria-current="page"] { background: var(--accent); color: #fff; }
+/* a cycle cut into beats */
+.cycle { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; max-width: 420px; margin: 12px 0; text-align: center; font-size: 14px; }
+.cycle .whole { grid-column: 1 / -1; padding: 6px; border-radius: 8px; background: var(--purple); color: #fff; font-weight: bold; }
+.cycle .beat { padding: 6px 0; border-radius: 8px; background: var(--code-bg); }
+.cycle .beat code { display: block; margin-top: 2px; background: none; font-size: 15px; }
 main { max-width: 960px; margin: 0 auto; padding: 24px 16px 48px; }
 .card {
     background: var(--card);
@@ -253,8 +258,18 @@ footer a { color: inherit; }
         <h2><span class="num">2</span>順番に ならべよう</h2>
         <figure><img src="tutorial/step2-1.png?v=1a9ab763" width="285" height="203" alt="テンポを110にして、トラック ドラム で鳴らす。中に seq bd ~ sd ~" loading="lazy"></figure>
         <p>トラックの 中に「<b>順番に</b>」(seq。順番に ならべる)ブロックを 入れると、4つの 音が じゅんばんに 鳴るよ。「ドン・ッ・タン・ッ」の ビートの できあがり。「順番に」の ▼ では、ドラムの 音と ドレミの 音と 休みの <code>~</code> を えらべるよ。</p>
-        <h3>サイクルって なに?</h3>
-        <p>Strudel では、くりかえしの ひとまとまりを「<b>サイクル</b>」と よぶよ。「順番に」に 入れた 音は、1サイクルの 中に ぴったり おさまるように ならぶ。だから 4つなら 4等分、8つなら 8等分に なるよ。はやさを かえたいときは「テンポを〜BPMにする」を つかってね。</p>
+        <h3 id="cycle">サイクルって なに?</h3>
+        <p>Strudel では、くりかえしの ひとまとまりを「<b>サイクル</b>」と よぶよ。この 拡張では、<b>1サイクル = 4拍 = 1小節</b>。ドラムが「1、2、3、4」と 数える あいだが 1サイクルで、それが ずっと くりかえされるんだ。</p>
+        <div class="cycle" aria-label="1サイクルは 4拍。順番に bd ~ sd ~ なら 1拍ずつ 鳴る">
+            <div class="whole">1サイクル = 1小節</div>
+            <div class="beat">1拍目<code>bd</code></div>
+            <div class="beat">2拍目<code>~</code></div>
+            <div class="beat">3拍目<code>sd</code></div>
+            <div class="beat">4拍目<code>~</code></div>
+        </div>
+        <p>「順番に」に 入れた 音は、1サイクルの 中に ぴったり おさまるように ならぶ。だから 4つなら 1つが 1拍、8つなら 1つが 半拍に なるよ。音の 数を ふやしても、1サイクルの 長さは かわらない。こまかく なるだけ なんだ。</p>
+        <p>1サイクルの 長さを きめるのは テンポ。「テンポを〜BPMにする」の BPM は 1分間の 拍の 数だから、120 BPM なら 1拍が 0.5秒、1サイクル(4拍)が 2秒 だよ。</p>
+        <p class="note">これからの ステップで「1サイクルに 8回」「1小節ずつ」と 出てきたら、この 図を 思い出してね。ノーマルの「サイクルの拍の数を [ ] にする」で 3 に すると、1サイクルが 3拍(3拍子の 1小節)に なるよ。</p>
         <p>トラックの 名前(ここでは「ドラム」)は、じぶんで すきに つけていいよ。</p>
         <div class="try">
             <strong>やってみよう</strong>

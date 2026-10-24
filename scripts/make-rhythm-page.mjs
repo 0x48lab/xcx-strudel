@@ -35,7 +35,7 @@ const TEXT = {
         track: name => `「${name}」トラック`,
         about: `
         <h2>図鑑の 見かた</h2>
-        <p>この 図鑑の リズムは、どれも <b>1サイクルが 1小節</b>(4拍)だよ。1拍を 4つに わけた <b>16マス</b>で、どこで 音が 鳴るかを 図に しているよ。上の 数字が マスの 番号(0〜15)で、色が ついた マスで 音が 鳴る。</p>
+        <p>この 図鑑の リズムは、どれも <b>1サイクルが 1小節</b>(4拍)だよ(<a href="tutorial.html#cycle">サイクルって なに?</a>)。1拍を 4つに わけた <b>16マス</b>で、どこで 音が 鳴るかを 図に しているよ。上の 数字が マスの 番号(0〜15)で、色が ついた マスで 音が 鳴る。</p>
         <h3>リズムの 2つの 書きかた</h3>
         <p><b>同じ 間かくで くりかえす</b> ときは、「音」の 欄に <code>*</code> で 書く。<code>bd*4</code> は 1拍ずつ 4回、<code>[~ oh]*4</code> は 拍の あいだ(裏)で 4回。</p>
         <p><b>ばらばらの 場所で 鳴らす</b> ときは、「マスで鳴らす」に マスの 番号を 書く。<code>0,7,10</code> なら 0番目、7番目、10番目の マスで 鳴るよ。</p>
@@ -68,7 +68,7 @@ const TEXT = {
         track: name => `track "${name}"`,
         about: `
         <h2>How to read this book</h2>
-        <p>Every rhythm in this book is <b>one bar (4 beats) in a cycle</b>. A beat is cut into 4, so a bar has <b>16 steps</b>, and the pictures show on which steps the sounds play. The numbers on the top are the step numbers (0-15), and the sounds play on the colored steps.</p>
+        <p>Every rhythm in this book is <b>one bar (4 beats) in a cycle</b> (<a href="tutorial.html#cycle">what is a cycle?</a>). A beat is cut into 4, so a bar has <b>16 steps</b>, and the pictures show on which steps the sounds play. The numbers on the top are the step numbers (0-15), and the sounds play on the colored steps.</p>
         <h3>Two ways to write a rhythm</h3>
         <p>When a sound <b>repeats at the same distance</b>, write it with <code>*</code> in the s block: <code>bd*4</code> plays on each of the 4 beats, <code>[~ oh]*4</code> plays 4 times between the beats (on the off-beats).</p>
         <p>When a sound plays <b>here and there</b>, write the step numbers in the beat block: <code>0,7,10</code> plays on steps 0, 7 and 10.</p>

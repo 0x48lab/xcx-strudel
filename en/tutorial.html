@@ -58,6 +58,11 @@ header a { color: #fff; }
 header .button { padding: 8px 18px; background: #fff; color: var(--purple); }
 header .button:hover { background: #f1ecff; }
 header .button[aria-current="page"] { background: var(--accent); color: #fff; }
+/* a cycle cut into beats */
+.cycle { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; max-width: 420px; margin: 12px 0; text-align: center; font-size: 14px; }
+.cycle .whole { grid-column: 1 / -1; padding: 6px; border-radius: 8px; background: var(--purple); color: #fff; font-weight: bold; }
+.cycle .beat { padding: 6px 0; border-radius: 8px; background: var(--code-bg); }
+.cycle .beat code { display: block; margin-top: 2px; background: none; font-size: 15px; }
 main { max-width: 960px; margin: 0 auto; padding: 24px 16px 48px; }
 .card {
     background: var(--card);
@@ -241,8 +246,18 @@ footer a { color: inherit; }
         <h2><span class="num">2</span>Sounds in order</h2>
         <figure><img src="../tutorial/en/step2-1.png?v=5aef3ca1" width="271" height="203" alt="Set tempo to 110, and play on track drums, with seq bd ~ sd ~ in it" loading="lazy"></figure>
         <p>Put the "<b>seq</b>" block (sequence: sounds in order) in the track, and four sounds play one after another: "boom, -, tap, -". That is a beat. ▼ of "seq" has drums, notes and <code>~</code> (rest).</p>
-        <h3>What is a cycle?</h3>
-        <p>In Strudel a loop is called a "<b>cycle</b>". The sounds of "seq" fit exactly into one cycle: four sounds share it in four, eight sounds in eight. Use "set tempo to [ ] BPM" to change the speed.</p>
+        <h3 id="cycle">What is a cycle?</h3>
+        <p>In Strudel a loop is called a "<b>cycle</b>". In this extension, <b>a cycle = 4 beats = a bar</b>. The time in which the drums count "1, 2, 3, 4" is one cycle, and it repeats again and again.</p>
+        <div class="cycle" aria-label="A cycle has 4 beats. seq bd ~ sd ~ plays one on each beat">
+            <div class="whole">a cycle = a bar</div>
+            <div class="beat">beat 1<code>bd</code></div>
+            <div class="beat">beat 2<code>~</code></div>
+            <div class="beat">beat 3<code>sd</code></div>
+            <div class="beat">beat 4<code>~</code></div>
+        </div>
+        <p>The sounds of "seq" fit exactly into one cycle: four sounds get a beat each, eight sounds half a beat each. More sounds do not make the cycle longer; they only make the steps finer.</p>
+        <p>The tempo sets how long a cycle is. BPM in "set tempo to [ ] BPM" means beats in a minute, so at 120 BPM a beat is 0.5 seconds and a cycle (4 beats) is 2 seconds.</p>
+        <p class="note">When the next steps say "8 times in a cycle" or "a bar at a time", remember this picture. With "set beats in a cycle to [ ]" (Normal) set to 3, a cycle has 3 beats (a bar in three).</p>
         <p>You can name the track (here "drums") as you like.</p>
         <div class="try"><strong>Try it</strong><ul><li>Change a <code>~</code> to <code>hh</code>. What happens?</li><li>Set the tempo to 80 or 140.</li></ul></div>
         <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/tutorial/en/step2.sb3" target="_blank" rel="noopener">Open this step</a></div>
