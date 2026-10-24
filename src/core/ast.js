@@ -58,8 +58,9 @@ const letters = pattern => ({kind: 'letters', pattern});
 const TRANSFORM = {kind: 'transform'};
 // an orbit or orbits such as 2 or "2:3:4", for duck
 const ORBITS = {kind: 'orbits'};
+// mini-notation of any values, such as "<c3 e3>/2" or "bd:1 sd:2"
+const MINI = {kind: 'mini'};
 
-const SOUND_NAME = /^[a-z0-9_]+$/i;
 const BANK_NAME = /^[a-z0-9]+$/i;
 const VOWEL_CODE = /^[aeiou\s<>[\]~,*!@/.-]+$/;
 // a rhythm of x and ~ in mini-notation, such as "[x ~ ~] [~ ~ x]" or "x(3,8)"
@@ -80,7 +81,9 @@ const METHODS = {
     struct: [letters(RHYTHM_CODE)],
     beat: [letters(BEAT_CODE), integer(1, LIMIT.MODIFIER)],
     every: [number(1, 16), TRANSFORM],
-    s: [name(SOUND_NAME)],
+    s: [MINI],
+    note: [MINI],
+    n: [MINI],
     scale: [name(SCALE_NAME)],
     lpf: [value(20, 20000)],
     hpf: [value(20, 20000)],
@@ -199,8 +202,10 @@ export const controlOf = n => {
         return controls.find(c => c === 'note' || c === 'n') || controls.find(c => c) || null;
     }
     case 'method':
-        // scale turns steps into notes
-        return n.fn === 'scale' ? 'note' : controlOf(n.target);
+        // scale turns steps into notes, and .note() and .n() set the values
+        if (n.fn === 'scale') return 'note';
+        if (n.fn === 'note' || n.fn === 'n') return n.fn;
+        return controlOf(n.target);
     case 'random':
         return 'n';
     default:
@@ -356,7 +361,9 @@ export const soundsOf = (n, found = {names: new Set(), bank: false}) => {
         break;
     case 'method':
         soundsOf(n.target, found);
-        if (n.fn === 's' && typeof n.args[0] === 'string') found.names.add(n.args[0].toLowerCase());
+        if (n.fn === 's' && typeof n.args[0] === 'string') {
+            (n.args[0].match(/[A-Za-z][\w]*/g) || []).forEach(word => found.names.add(word.toLowerCase()));
+        }
         if (n.fn === 'bank') found.bank = true;
         break;
     default:
@@ -694,6 +701,10 @@ const checkArg = (fn, spec, a) => {
             !a.split(':').every(x => orbit(Number(x)))) fail();
         return mini(a.replace(/\s+/g, ''));
     }
+    case 'mini':
+        if (typeof a !== 'string' || a.trim() === '') fail();
+        checkMini(a);
+        return mini(a);
     case 'letters':
         // mini-notation of letters such as "<a e i>"
         if (typeof a !== 'string' || !spec.pattern.test(a)) fail();

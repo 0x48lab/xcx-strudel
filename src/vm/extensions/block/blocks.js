@@ -70,24 +70,6 @@ export const BLOCKS = [
         }
     },
     {
-        opcode: 'loadSamples',
-        blockType: BlockType.COMMAND,
-        level: LEVEL.STANDARD,
-        text: 'load Strudel sounds [BANK]',
-        arguments: {
-            BANK: {type: ArgumentType.STRING, menu: 'bank', defaultValue: 'drums'}
-        }
-    },
-    {
-        opcode: 'setDrumKit',
-        blockType: BlockType.COMMAND,
-        level: LEVEL.STANDARD,
-        text: 'set drums to [KIT]',
-        arguments: {
-            KIT: {type: ArgumentType.STRING, menu: 'drumKit', defaultValue: 'uzu'}
-        }
-    },
-    {
         opcode: 'setBeatsPerCycle',
         blockType: BlockType.COMMAND,
         level: LEVEL.STANDARD,
@@ -545,6 +527,16 @@ export const BLOCKS = [
         arguments: {
             LAYER: {type: ArgumentType.STRING, menu: 'layer', defaultValue: 'back'}
         }
+    },
+    '---',
+    {
+        opcode: 'setDrumKit',
+        blockType: BlockType.COMMAND,
+        level: LEVEL.STANDARD,
+        text: '(experimental) set drums to [KIT]',
+        arguments: {
+            KIT: {type: ArgumentType.STRING, menu: 'drumKit', defaultValue: 'uzu'}
+        }
     }
 ];
 
@@ -685,13 +677,6 @@ const EFFECT_ITEMS = [
     ['duckdepth', 'duckdepth']
 ];
 
-const BANK_ITEMS = [
-    ['drums', 'drum machines'],
-    ['piano', 'piano'],
-    ['dirt', 'Dirt-Samples (casio, jazz ...)'],
-    ['vcsl', 'VCSL instruments']
-];
-
 const DRUM_KIT_ITEMS = [
     ['uzu', 'uzu-drumkit (recorded)'],
     ['synth', 'synthesized (no network)']
@@ -800,7 +785,6 @@ export const MENUS = {
     root: {acceptReporters: true, group: 'root', items: ROOT_ITEMS},
     scale: {acceptReporters: true, group: 'scale', items: SCALE_ITEMS},
     effect: {acceptReporters: false, group: 'effect', items: EFFECT_ITEMS},
-    bank: {acceptReporters: false, group: 'bank', items: BANK_ITEMS},
     drumKit: {acceptReporters: false, group: 'drumKit', items: DRUM_KIT_ITEMS},
     machine: {acceptReporters: true, group: 'machine', items: MACHINE_ITEMS},
     transform: {acceptReporters: false, group: 'transform', items: TRANSFORM_ITEMS},

@@ -1,6 +1,8 @@
 import {blockClass} from '../../src/vm/extensions/block/index.js';
 import {BLOCKS, LEVEL, MENUS, levelOf} from '../../src/vm/extensions/block/blocks.js';
 import {compile} from '../../src/core/ast.js';
+import {s} from '@strudel/core';
+import {mini} from '@strudel/mini';
 import {build, codeOf, makeUtil, playTrack} from '../helpers/track.js';
 import translations from '../../src/vm/extensions/block/translations.json';
 import entryTranslations from '../../src/gui/lib/libraries/extensions/entry/translations.json';
@@ -802,6 +804,27 @@ describe('list and rhythm blocks', () => {
 
     test.each(['0, evil()', 'x ~ x', '0; alert(1)', '0*100'])('beat steps %j are not played', beats => {
         expect(() => compile(build(ext, [['s', {CODE: 'bd'}], ['beat', {BEATS: beats, STEPS: 16}]]))).toThrow();
+    });
+
+    test('note and n below the top are methods, in the order of Strudel code', () => {
+        const n = build(ext, [['s', {CODE: 'supersaw!8'}], ['note', {CODE: '<C# f d# [d# a#2]>/2'}],
+            ['add', {VALUE: '-12'}]]);
+        expect(String(n)).toBe('s("supersaw!8").note("<C# f d# [d# a#2]>/2").add(note(-12))');
+        const original = s(mini('supersaw!8')).note(mini('<C# f d# [d# a#2]>/2').sub(12));
+        const events = p => p.queryArc(0, 8).map(hap => [hap.whole.begin.valueOf(), hap.value.s, hap.value.note]);
+        expect(events(compile(n))).toEqual(events(original));
+        expect(codeOf(ext, [['s', {CODE: 'piano'}], ['n', {CODE: '0 2'}], ['scale', {ROOT: 'C4', SCALE: 'major'}]]))
+            .toBe('s("piano").n("0 2").scale("C4:major")');
+    });
+
+    test('s below the top takes mini-notation, such as sd:2', () => {
+        const n = build(ext, [['note', {CODE: 'c3 e3'}], ['s', {CODE: 'sd:2 <hh:1 hh:2>'}]]);
+        expect(String(n)).toBe('note("c3 e3").s("sd:2 <hh:1 hh:2>")');
+        expect(compile(n).queryArc(0, 1).map(hap => [hap.value.s, hap.value.n])).toEqual([['sd', 2], ['hh', 1]]);
+    });
+
+    test('a rest below the top does not change the pattern', () => {
+        expect(codeOf(ext, [['s', {CODE: 'bd'}], ['note', {CODE: '~'}], ['n', {CODE: ' '}]])).toBe('s("bd")');
     });
 
     test('the drum kit block changes the kit of the engine, and ignores unknown kits', async () => {

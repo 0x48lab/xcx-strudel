@@ -44,7 +44,11 @@ Available in English, Japanese and Japanese (Hiragana).
 
 v0.4.0 でブロックを作り直しました。丸いブロックを入れ子にする形(「〜をトラック〜で鳴らす」、`fast [ ] [音]` など)をやめて、C型の「トラック [ ] で鳴らす」の中にブロックを積む形にしました。古いブロックは削除したため、**v0.3.0 までに保存した作品は、開いてもスクリプトが表示されず、音も鳴りません**。新しいブロックで組み直してください。
 
+「Strudelの音を読み込む」ブロックも削除しました。使われている音は鳴らす前に自動で読み込まれます。
+
 v0.4.0 replaces the nested round blocks ("play [ ] on track [ ]", `fast [ ] [pattern]` and others) with the C block "play on track [ ]" and blocks stacked in it. The old blocks are removed, so **projects saved with v0.3.0 or earlier open without their scripts and play nothing**. Build them again with the new blocks.
+
+The block "load Strudel sounds" is removed too. Sounds which a pattern uses are loaded before it plays.
 
 ## How to Use in Xcratch
 
@@ -60,7 +64,7 @@ https://0x48lab.github.io/xcx-strudel/dist/strudel.mjs
 ## 音源について / Sounds
 
 - ドラム(bd sd hh oh cp rim lt mt ht cr)は、ネットワークなしで鳴る合成ドラムです。
-- 「ドラムの音を [uzu-drumkit (録音)] にする」ブロックを置くと、strudel.cc と同じ [tidalcycles/uzu-drumkit](https://github.com/tidalcycles/uzu-drumkit)(Unlicense)の録音を GitHub から読み込んで鳴らします。`bd:1` のような番号で録音を選べ、rd cb sh tb brk misc も鳴ります。読み込めないときは合成ドラムが鳴ります。
+- パレットの一番下にある「(実験的) ドラムの音を [uzu-drumkit (録音)] にする」ブロック(ノーマル以上)を置くと、strudel.cc と同じ [tidalcycles/uzu-drumkit](https://github.com/tidalcycles/uzu-drumkit)(Unlicense)の録音を GitHub から読み込んで鳴らします。`bd:1` のような番号で録音を選べ、rd cb sh tb brk misc も鳴ります。読み込めないときは合成ドラムが鳴ります。
 - 内蔵シンセ(sine, square, sawtooth, triangle など)は、ネットワークなしで鳴ります。
 - ピアノやドラムマシンなどは、使われている音に合わせて次のサンプルを GitHub から読み込みます。読み込み先はここに挙げたものに限られています。
   - [felixroos/dough-samples](https://github.com/felixroos/dough-samples) のサンプルマップ

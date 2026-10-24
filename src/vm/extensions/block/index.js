@@ -431,21 +431,31 @@ class ExtensionBlocks {
     }
 
     /**
-     * s() at the top of a track starts the pattern with sounds, and .s() below sets the sound of notes.
-     * @param {*} value - sounds
+     * s(), note() and n() at the top of a track start the pattern,
+     * and below they are methods, such as s("supersaw!8").note("c3 e3").
+     * @param {*} value - mini-notation
+     * @param {string} control - 's', 'note' or 'n'
      * @param {object} util - utility of the block
      */
-    sound (value, util) {
+    startOrChain (value, control, util) {
         const track = this.trackOf(util);
         if (!track) return;
         const code = Cast.toString(value).trim();
         if (track.node) {
-            // a rest or an empty text, such as an empty list, does not change the sound of notes
-            if (code && code !== '~') track.node = methodNode(track.node, 's', [code]);
+            // a rest or an empty text, such as an empty list, does not change the pattern
+            if (code && code !== '~') track.node = methodNode(track.node, control, [code]);
             return;
         }
         // an empty text, such as an empty list, is a rest
-        track.node = code && code !== '~' ? miniNode(code, 's') : silenceNode();
+        track.node = code && code !== '~' ? miniNode(code, control) : silenceNode();
+    }
+
+    /**
+     * @param {*} value - sounds
+     * @param {object} util - utility of the block
+     */
+    sound (value, util) {
+        this.startOrChain(value, 's', util);
     }
 
     sMenu (args, util) {
@@ -461,8 +471,7 @@ class ExtensionBlocks {
      * @param {object} util - utility of the block
      */
     notes (value, util) {
-        const code = Cast.toString(value).trim();
-        this.startWith(util, () => (code && code !== '~' ? miniNode(code, 'note') : silenceNode()));
+        this.startOrChain(value, 'note', util);
     }
 
     noteMenu (args, util) {
@@ -479,8 +488,7 @@ class ExtensionBlocks {
             this.startWith(util, () => asSteps(args.CODE));
             return;
         }
-        const code = Cast.toString(args.CODE).trim();
-        this.startWith(util, () => (code ? miniNode(code, 'n') : silenceNode()));
+        this.startOrChain(args.CODE, 'n', util);
     }
 
     seq (args, util) {
@@ -767,10 +775,6 @@ class ExtensionBlocks {
         const kit = Cast.toString(args.KIT);
         if (!DRUM_KITS.includes(kit)) return;
         return this.engine.setDrumKit(kit).catch(e => console.warn('[strudel]', e));
-    }
-
-    loadSamples (args) {
-        return this.loadBank(Cast.toString(args.BANK)).catch(e => console.warn('[strudel]', e));
     }
 
     wave (args) {

@@ -786,7 +786,7 @@ var en$1 = {
 	"strudel.stopTrack": "stop track [TRACK]",
 	"strudel.stopAll": "stop all tracks",
 	"strudel.setBpm": "set tempo to [BPM] BPM",
-	"strudel.setDrumKit": "set drums to [KIT]",
+	"strudel.setDrumKit": "(experimental) set drums to [KIT]",
 	"strudel.setBeatsPerCycle": "set beats in a cycle to [BEATS]",
 	"strudel.slow": "slow [CYCLES]",
 	"strudel.whenBeat": "when a beat comes",
@@ -855,15 +855,10 @@ var en$1 = {
 	"strudel.menu.viz.pianoroll": "pianoroll",
 	"strudel.menu.layer.back": "behind",
 	"strudel.menu.layer.front": "in front of",
-	"strudel.loadSamples": "load Strudel sounds [BANK]",
 	"strudel.menu.effect.speed": "speed",
 	"strudel.menu.effect.attack": "attack",
 	"strudel.menu.effect.release": "release",
 	"strudel.menu.effect.vowel": "vowel",
-	"strudel.menu.bank.drums": "drum machines",
-	"strudel.menu.bank.piano": "piano",
-	"strudel.menu.bank.dirt": "Dirt-Samples (casio, jazz ...)",
-	"strudel.menu.bank.vcsl": "VCSL instruments",
 	"strudel.menu.drumKit.uzu": "uzu-drumkit (recorded)",
 	"strudel.menu.drumKit.synth": "synthesized (no network)",
 	"strudel.menu.machine.RolandTR909": "RolandTR909",
@@ -959,7 +954,7 @@ var ja$1 = {
 	"strudel.stopTrack": "トラック [TRACK] を止める",
 	"strudel.stopAll": "すべてのトラックを止める",
 	"strudel.setBpm": "テンポを [BPM] BPMにする",
-	"strudel.setDrumKit": "ドラムの音を [KIT] にする",
+	"strudel.setDrumKit": "(実験的) ドラムの音を [KIT] にする",
 	"strudel.setBeatsPerCycle": "サイクルの拍の数を [BEATS] にする",
 	"strudel.slow": "slow [CYCLES]",
 	"strudel.whenBeat": "拍がきたとき",
@@ -1028,15 +1023,10 @@ var ja$1 = {
 	"strudel.menu.viz.pianoroll": "pianoroll",
 	"strudel.menu.layer.back": "後ろ",
 	"strudel.menu.layer.front": "前",
-	"strudel.loadSamples": "Strudelの音 [BANK] を読み込む",
 	"strudel.menu.effect.speed": "speed",
 	"strudel.menu.effect.attack": "attack",
 	"strudel.menu.effect.release": "release",
 	"strudel.menu.effect.vowel": "vowel",
-	"strudel.menu.bank.drums": "ドラムマシン",
-	"strudel.menu.bank.piano": "ピアノ",
-	"strudel.menu.bank.dirt": "Dirtサンプル (casio, jazz など)",
-	"strudel.menu.bank.vcsl": "いろいろな楽器 (VCSL)",
 	"strudel.menu.drumKit.uzu": "uzu-drumkit (録音)",
 	"strudel.menu.drumKit.synth": "合成 (ネットなしで鳴る)",
 	"strudel.menu.machine.RolandTR909": "RolandTR909",
@@ -1135,7 +1125,7 @@ var translations = {
 	"strudel.stopTrack": "トラック [TRACK] を とめる",
 	"strudel.stopAll": "すべての トラックを とめる",
 	"strudel.setBpm": "テンポを [BPM] BPMに する",
-	"strudel.setDrumKit": "ドラムの おとを [KIT] にする",
+	"strudel.setDrumKit": "(じっけんてき) ドラムの おとを [KIT] にする",
 	"strudel.setBeatsPerCycle": "サイクルの はくの かずを [BEATS] に する",
 	"strudel.slow": "slow [CYCLES]",
 	"strudel.whenBeat": "はくが きたとき",
@@ -1204,15 +1194,10 @@ var translations = {
 	"strudel.menu.viz.pianoroll": "pianoroll",
 	"strudel.menu.layer.back": "うしろ",
 	"strudel.menu.layer.front": "まえ",
-	"strudel.loadSamples": "Strudelの おと [BANK] を よみこむ",
 	"strudel.menu.effect.speed": "speed",
 	"strudel.menu.effect.attack": "attack",
 	"strudel.menu.effect.release": "release",
 	"strudel.menu.effect.vowel": "vowel",
-	"strudel.menu.bank.drums": "ドラムマシン",
-	"strudel.menu.bank.piano": "ピアノ",
-	"strudel.menu.bank.dirt": "Dirtサンプル (casio, jazz など)",
-	"strudel.menu.bank.vcsl": "いろいろな がっき (VCSL)",
 	"strudel.menu.drumKit.uzu": "uzu-drumkit (ろくおん)",
 	"strudel.menu.drumKit.synth": "ごうせい (ネットなしで なる)",
 	"strudel.menu.machine.RolandTR909": "RolandTR909",
@@ -6314,30 +6299,6 @@ var BLOCKS = [{
     }
   }
 }, {
-  opcode: 'loadSamples',
-  blockType: BlockType.COMMAND,
-  level: LEVEL.STANDARD,
-  text: 'load Strudel sounds [BANK]',
-  arguments: {
-    BANK: {
-      type: ArgumentType.STRING,
-      menu: 'bank',
-      defaultValue: 'drums'
-    }
-  }
-}, {
-  opcode: 'setDrumKit',
-  blockType: BlockType.COMMAND,
-  level: LEVEL.STANDARD,
-  text: 'set drums to [KIT]',
-  arguments: {
-    KIT: {
-      type: ArgumentType.STRING,
-      menu: 'drumKit',
-      defaultValue: 'uzu'
-    }
-  }
-}, {
   opcode: 'setBeatsPerCycle',
   blockType: BlockType.COMMAND,
   level: LEVEL.STANDARD,
@@ -6954,6 +6915,18 @@ var BLOCKS = [{
       defaultValue: 'back'
     }
   }
+}, '---', {
+  opcode: 'setDrumKit',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.STANDARD,
+  text: '(experimental) set drums to [KIT]',
+  arguments: {
+    KIT: {
+      type: ArgumentType.STRING,
+      menu: 'drumKit',
+      defaultValue: 'uzu'
+    }
+  }
 }];
 var DRUM_ITEMS = [['bd', 'bd'], ['sd', 'sd'], ['hh', 'hh'], ['oh', 'oh'], ['cp', 'cp'], ['rim', 'rim'], ['lt', 'lt'], ['mt', 'mt'], ['ht', 'ht'], ['cr', 'cr'], ['sbd', 'sbd']];
 var NOTE_ITEMS = [['c4', 'c4'], ['d4', 'd4'], ['e4', 'e4'], ['f4', 'f4'], ['g4', 'g4'], ['a4', 'a4'], ['b4', 'b4'], ['c5', 'c5']];
@@ -7000,7 +6973,6 @@ var EFFECTS = {
   duckdepth: [0, 1]
 };
 var EFFECT_ITEMS = [['lpf', 'lpf'], ['hpf', 'hpf'], ['room', 'room'], ['delay', 'delay'], ['gain', 'gain'], ['pan', 'pan'], ['crush', 'crush'], ['speed', 'speed'], ['attack', 'attack'], ['release', 'release'], ['clip', 'clip'], ['decay', 'decay'], ['sustain', 'sustain'], ['delaytime', 'delaytime'], ['delayfeedback', 'delayfeedback'], ['lpq', 'lpq'], ['lpenv', 'lpenv'], ['lpd', 'lpd'], ['lps', 'lps'], ['unison', 'unison'], ['detune', 'detune'], ['spread', 'spread'], ['distort', 'distort'], ['fm', 'fm'], ['vowel', 'vowel'], ['orbit', 'orbit'], ['duck', 'duck'], ['duckattack', 'duckattack'], ['duckdepth', 'duckdepth']];
-var BANK_ITEMS = [['drums', 'drum machines'], ['piano', 'piano'], ['dirt', 'Dirt-Samples (casio, jazz ...)'], ['vcsl', 'VCSL instruments']];
 var DRUM_KIT_ITEMS = [['uzu', 'uzu-drumkit (recorded)'], ['synth', 'synthesized (no network)']];
 var MACHINE_ITEMS = ['RolandTR909', 'RolandTR808', 'RolandTR707', 'LinnDrum', 'OberheimDMX', 'KorgMinipops', 'CasioRZ1', 'BossDR55'].map(function (m) {
   return [m, m];
@@ -7109,11 +7081,6 @@ var MENUS = {
     acceptReporters: false,
     group: 'effect',
     items: EFFECT_ITEMS
-  },
-  bank: {
-    acceptReporters: false,
-    group: 'bank',
-    items: BANK_ITEMS
   },
   drumKit: {
     acceptReporters: false,
@@ -15697,7 +15664,10 @@ var TRANSFORM = {
 var ORBITS = {
   kind: 'orbits'
 };
-var SOUND_NAME = /^[a-z0-9_]+$/i;
+// mini-notation of any values, such as "<c3 e3>/2" or "bd:1 sd:2"
+var MINI = {
+  kind: 'mini'
+};
 var BANK_NAME = /^[a-z0-9]+$/i;
 var VOWEL_CODE = /^[aeiou\s<>[\]~,*!@/.-]+$/;
 // a rhythm of x and ~ in mini-notation, such as "[x ~ ~] [~ ~ x]" or "x(3,8)"
@@ -15718,7 +15688,9 @@ var METHODS = {
   struct: [letters(RHYTHM_CODE)],
   beat: [letters(BEAT_CODE), integer(1, LIMIT.MODIFIER)],
   every: [number(1, 16), TRANSFORM],
-  s: [name(SOUND_NAME)],
+  s: [MINI],
+  note: [MINI],
+  n: [MINI],
   scale: [name(SCALE_NAME)],
   lpf: [value(20, 20000)],
   hpf: [value(20, 20000)],
@@ -15863,8 +15835,10 @@ var _controlOf = function controlOf(n) {
         }) || null;
       }
     case 'method':
-      // scale turns steps into notes
-      return n.fn === 'scale' ? 'note' : _controlOf(n.target);
+      // scale turns steps into notes, and .note() and .n() set the values
+      if (n.fn === 'scale') return 'note';
+      if (n.fn === 'note' || n.fn === 'n') return n.fn;
+      return _controlOf(n.target);
     case 'random':
       return 'n';
     default:
@@ -16070,7 +16044,11 @@ var _soundsOf = function soundsOf(n) {
       break;
     case 'method':
       _soundsOf(n.target, found);
-      if (n.fn === 's' && typeof n.args[0] === 'string') found.names.add(n.args[0].toLowerCase());
+      if (n.fn === 's' && typeof n.args[0] === 'string') {
+        (n.args[0].match(/[A-Za-z][\w]*/g) || []).forEach(function (word) {
+          return found.names.add(word.toLowerCase());
+        });
+      }
       if (n.fn === 'bank') found.bank = true;
       break;
   }
@@ -16436,6 +16414,10 @@ var checkArg = function checkArg(fn, spec, a) {
         })) fail();
         return te(a.replace(/\s+/g, ''));
       }
+    case 'mini':
+      if (typeof a !== 'string' || a.trim() === '') fail();
+      checkMini(a);
+      return te(a);
     case 'letters':
       // mini-notation of letters such as "<a e i>"
       if (typeof a !== 'string' || !spec.pattern.test(a)) fail();
@@ -20849,23 +20831,35 @@ var ExtensionBlocks = /*#__PURE__*/function () {
     }
 
     /**
-     * s() at the top of a track starts the pattern with sounds, and .s() below sets the sound of notes.
+     * s(), note() and n() at the top of a track start the pattern,
+     * and below they are methods, such as s("supersaw!8").note("c3 e3").
+     * @param {*} value - mini-notation
+     * @param {string} control - 's', 'note' or 'n'
+     * @param {object} util - utility of the block
+     */
+  }, {
+    key: "startOrChain",
+    value: function startOrChain(value, control, util) {
+      var track = this.trackOf(util);
+      if (!track) return;
+      var code = Cast.toString(value).trim();
+      if (track.node) {
+        // a rest or an empty text, such as an empty list, does not change the pattern
+        if (code && code !== '~') track.node = methodNode(track.node, control, [code]);
+        return;
+      }
+      // an empty text, such as an empty list, is a rest
+      track.node = code && code !== '~' ? miniNode(code, control) : silenceNode();
+    }
+
+    /**
      * @param {*} value - sounds
      * @param {object} util - utility of the block
      */
   }, {
     key: "sound",
     value: function sound(value, util) {
-      var track = this.trackOf(util);
-      if (!track) return;
-      var code = Cast.toString(value).trim();
-      if (track.node) {
-        // a rest or an empty text, such as an empty list, does not change the sound of notes
-        if (code && code !== '~') track.node = methodNode(track.node, 's', [code]);
-        return;
-      }
-      // an empty text, such as an empty list, is a rest
-      track.node = code && code !== '~' ? miniNode(code, 's') : silenceNode();
+      this.startOrChain(value, 's', util);
     }
   }, {
     key: "sMenu",
@@ -20885,10 +20879,7 @@ var ExtensionBlocks = /*#__PURE__*/function () {
   }, {
     key: "notes",
     value: function notes(value, util) {
-      var code = Cast.toString(value).trim();
-      this.startWith(util, function () {
-        return code && code !== '~' ? miniNode(code, 'note') : silenceNode();
-      });
+      this.startOrChain(value, 'note', util);
     }
   }, {
     key: "noteMenu",
@@ -20910,10 +20901,7 @@ var ExtensionBlocks = /*#__PURE__*/function () {
         });
         return;
       }
-      var code = Cast.toString(args.CODE).trim();
-      this.startWith(util, function () {
-        return code ? miniNode(code, 'n') : silenceNode();
-      });
+      this.startOrChain(args.CODE, 'n', util);
     }
   }, {
     key: "seq",
@@ -21319,13 +21307,6 @@ var ExtensionBlocks = /*#__PURE__*/function () {
       var kit = Cast.toString(args.KIT);
       if (!DRUM_KITS.includes(kit)) return;
       return this.engine.setDrumKit(kit).catch(function (e) {
-        return console.warn('[strudel]', e);
-      });
-    }
-  }, {
-    key: "loadSamples",
-    value: function loadSamples(args) {
-      return this.loadBank(Cast.toString(args.BANK)).catch(function (e) {
         return console.warn('[strudel]', e);
       });
     }
