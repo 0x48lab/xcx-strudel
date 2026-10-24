@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strudel for Xcratch リズム図鑑</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="alternate" hreflang="ja" href="https://0x48lab.github.io/xcx-strudel/rhythms.html">
+<link rel="alternate" hreflang="en" href="https://0x48lab.github.io/xcx-strudel/en/rhythms.html">
+<meta name="description" content="定番の ドラムの リズムと、リズムを かっこよく する テクニックを、Strudel for Xcratch の ブロックで 鳴らして 改造しよう。">
+<!-- made by scripts/make-rhythm-page.mjs from scripts/rhythm-book.mjs: edit them, not this file -->
+<style>
+:root {
+    --bg: #f9f9fb;
+    --card: #ffffff;
+    --text: #2b2d42;
+    --muted: #5c6075;
+    --accent: #0fbd8c;
+    --accent-dark: #0b9a72;
+    --purple: #855cd6;
+    --border: #e1e3ea;
+    --code-bg: #f1f2f6;
+    --try-bg: #fff6d9;
+    --try-border: #ffcf4d;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #16171d;
+        --card: #1f2029;
+        --text: #eceef5;
+        --muted: #a9adbf;
+        --border: #33354a;
+        --code-bg: #2a2c3a;
+        --try-bg: #3a3320;
+        --try-border: #8a6d1f;
+    }
+}
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Hiragino Sans", "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.8;
+}
+header {
+    background: linear-gradient(135deg, var(--purple), #4c97ff);
+    color: #fff;
+    padding: 32px 16px 28px;
+    text-align: center;
+}
+header h1 { margin: 0; font-size: clamp(26px, 5.5vw, 40px); }
+header p { margin: 8px auto 0; max-width: 640px; font-size: 17px; }
+header a { color: #fff; }
+.lang { max-width: 960px; margin: -24px auto 8px !important; text-align: right; font-size: 15px; }
+.lang a { color: #fff; font-weight: bold; }
+main { max-width: 960px; margin: 0 auto; padding: 24px 16px 48px; }
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+h2 { margin: 0 0 12px; font-size: 22px; line-height: 1.5; }
+h2 .num {
+    display: inline-block;
+    min-width: 36px;
+    margin-right: 8px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    text-align: center;
+}
+h3 { margin: 20px 0 8px; font-size: 18px; }
+p { margin: 8px 0; }
+figure { margin: 12px 0; }
+figure img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #fff;
+}
+figcaption { color: var(--muted); font-size: 14px; margin-top: 4px; }
+.row { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+.row figure { margin: 0; }
+.side { display: grid; grid-template-columns: 240px 1fr; gap: 24px; align-items: start; }
+@media (max-width: 640px) {
+    .side { grid-template-columns: 1fr; }
+    .side figure img { max-width: 240px; }
+    /* wide scripts keep their size and scroll sideways, so that the blocks can be read */
+    figure { overflow-x: auto; }
+    figure img { max-width: none; }
+}
+code {
+    padding: 2px 6px;
+    border-radius: 6px;
+    background: var(--code-bg);
+    font-size: 0.95em;
+}
+.try {
+    margin: 16px 0 0;
+    padding: 12px 16px;
+    border: 2px dashed var(--try-border);
+    border-radius: 12px;
+    background: var(--try-bg);
+}
+.try strong { display: block; }
+.try ul { margin: 4px 0 0; padding-left: 1.4em; }
+.buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+.button {
+    display: inline-block;
+    padding: 8px 18px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+}
+.button:hover { background: var(--accent-dark); }
+.button.secondary { background: transparent; color: var(--text); border: 2px solid var(--border); }
+nav ol { columns: 2; column-gap: 32px; margin: 0; padding-left: 1.4em; }
+@media (max-width: 640px) { nav ol { columns: 1; } }
+nav a { color: inherit; }
+nav li.column-item { list-style: none; }
+.column { border-style: dashed; }
+.column h2 .num { background: var(--purple); }
+table { border-collapse: collapse; width: 100%; margin: 8px 0; }
+th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { background: var(--code-bg); }
+/* long code in a table cell wraps on phones */
+td code { overflow-wrap: anywhere; }
+.url {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px 12px;
+    background: var(--code-bg);
+    border-radius: 8px;
+}
+pre {
+    margin: 4px 0 12px;
+    padding: 10px 12px;
+    overflow-x: auto;
+    border-radius: 8px;
+    background: var(--code-bg);
+    font-size: 14px;
+    line-height: 1.6;
+}
+pre code { padding: 0; background: none; }
+.label { margin: 8px 0 0; color: var(--muted); font-size: 14px; font-weight: bold; }
+.note { color: var(--muted); font-size: 15px; }
+.try-inline { padding: 8px 12px; border-left: 4px solid var(--try-border); background: var(--try-bg); border-radius: 0 8px 8px 0; }
+.wide { overflow-x: auto; }
+.wide img { max-width: none; }
+footer { text-align: center; color: var(--muted); font-size: 14px; padding: 0 16px 32px; }
+footer a { color: inherit; }
+/* dictionary */
+.toc { display: flex; flex-wrap: wrap; gap: 6px 10px; padding: 0; list-style: none; }
+.toc a { display: inline-block; padding: 2px 8px; border: 1px solid var(--border); border-radius: 999px; text-decoration: none; color: inherit; font-family: ui-monospace, Menlo, monospace; font-size: 14px; }
+.toc a:hover { border-color: var(--accent); }
+.entry { border-top: 1px solid var(--border); padding-top: 12px; margin-top: 18px; scroll-margin-top: 12px; }
+.entry h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin: 0 0 6px; font-family: ui-monospace, Menlo, monospace; overflow-wrap: anywhere; }
+.badge { font-family: system-ui, sans-serif; font-size: 12px; font-weight: bold; padding: 1px 8px; border-radius: 999px; color: #fff; background: var(--accent-dark); }
+.badge.l2 { background: #c77c00; }
+.badge.l3 { background: var(--purple); }
+.blockline { color: var(--muted); font-size: 14px; margin: 0 0 6px; overflow-wrap: anywhere; }
+.history { margin: 8px 0 0; padding: 8px 12px; border-left: 4px solid var(--purple); background: var(--code-bg); border-radius: 0 8px 8px 0; font-size: 15px; }
+.history::before { content: attr(data-label); display: block; font-weight: bold; font-size: 13px; color: var(--purple); }
+.entry pre { margin: 6px 0 0; }
+main a { color: var(--accent); }
+
+/* rhythm book */
+.grid { border-collapse: separate; border-spacing: 2px; width: auto; margin: 8px 0; font-size: 13px; }
+.grid th, .grid td { border: none; padding: 0; background: none; }
+.grid th { padding-right: 8px; font-weight: normal; white-space: nowrap; text-align: right; color: var(--muted); }
+.grid thead th { text-align: center; padding: 0; font-size: 11px; }
+.grid td { width: 18px; height: 18px; border-radius: 4px; background: var(--code-bg); }
+.grid td.beat { background: var(--border); }
+.grid td.on { background: var(--accent); }
+.grid td.on.alt { background: var(--purple); }
+.grid-wrap { overflow-x: auto; }
+.blocks { margin: 6px 0 0; padding: 8px 12px; list-style: none; border-radius: 8px; background: var(--code-bg); font-size: 14px; line-height: 1.7; overflow-wrap: anywhere; }
+.blocks ul { margin: 0; padding-left: 1.4em; list-style: none; border-left: 3px solid var(--border); }
+.slot { display: inline-block; padding: 0 6px; margin: 0 2px; border-radius: 999px; background: var(--card); border: 1px solid var(--border); font-family: ui-monospace, Menlo, monospace; font-size: 13px; }
+.badge.bpm { background: #4c97ff; }
+.badge.key { background: var(--muted); }
+</style>
+</head>
+<body>
+<header>
+    <p class="lang"><a href="en/rhythms.html" data-keep-hash>English</a></p>
+    <img src="icon.svg" alt="" width="64" height="64" style="display:block;margin:0 auto 8px">
+    <h1>リズム図鑑</h1>
+    <p>定番の リズムを 鳴らして、改造して、じぶんの 曲に しよう。<br><a href="./">Strudel for Xcratch</a> ・ <a href="tutorial.html">チュートリアル</a> ・ <a href="dictionary.html">関数じてん</a></p>
+</header>
+<main>
+    <section class="card" id="about">
+        <h2>図鑑の 見かた</h2>
+        <p>この 図鑑の リズムは、どれも <b>1サイクルが 1小節</b>(4拍)だよ。1拍を 4つに わけた <b>16マス</b>で、どこで 音が 鳴るかを 図に しているよ。上の 数字が マスの 番号(0〜15)で、色が ついた マスで 音が 鳴る。</p>
+        <h3>リズムの 2つの 書きかた</h3>
+        <p><b>同じ 間かくで くりかえす</b> ときは、「音」の 欄に <code>*</code> で 書く。<code>bd*4</code> は 1拍ずつ 4回、<code>[~ oh]*4</code> は 拍の あいだ(裏)で 4回。</p>
+        <p><b>ばらばらの 場所で 鳴らす</b> ときは、「マスで鳴らす」に マスの 番号を 書く。<code>0,7,10</code> なら 0番目、7番目、10番目の マスで 鳴るよ。</p>
+        <p>ならべる ことと <code>*</code> の ちがいも おぼえておこう。<code>sd sd sd sd</code> と <code>sd*4</code> は 同じ 音に なる けれど、<code>sd*4 hh</code> は <b>前半に sd が 4つ、後半に hh</b> に なる。<b>ならべた 数が 区切りの 数</b>で、<code>*</code> は <b>1つの 区切りの 中を こまかく する</b> んだ。</p>
+        <p class="note">Xcratch では、13文字 以上の 欄は 12文字と「…」に 省略して 表示される。だから この 図鑑では、楽器ごとに「重ねる」で 分けて、1つの 欄を 12文字 までに しているよ。</p>
+        <div class="buttons">
+            <a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/rhythms.sb3" target="_blank" rel="noopener">リズムを 鳴らす</a>
+            <a class="button secondary" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/techniques.sb3" target="_blank" rel="noopener">テクニックを ためす</a>
+        </div>
+    </section>
+    <nav class="card" aria-label="さくいん">
+        <h2>さくいん</h2>
+        <h3><a href="#rhythms">定番の リズム</a></h3>
+        <ul class="toc"><li><a href="#house">ハウス</a></li><li><a href="#disco">ディスコ</a></li><li><a href="#rock">8ビート</a></li><li><a href="#boombap">ブーンバップ</a></li><li><a href="#trap">トラップ</a></li><li><a href="#garage">UKガラージ</a></li><li><a href="#dnb">ドラムンベース</a></li><li><a href="#reggaeton">レゲトン</a></li></ul>
+        <h3><a href="#techniques">テクニック</a></h3>
+        <ul class="toc"><li><a href="#gain">強弱を つける</a></li><li><a href="#offbeat">裏打ちの ベース</a></li><li><a href="#ghost">ゴーストノート</a></li><li><a href="#euclid">ユークリッドで ずらす</a></li><li><a href="#fill">フィル</a></li><li><a href="#filter">フィルターを ゆっくり 開く</a></li><li><a href="#random">ランダムに ぬく</a></li><li><a href="#break">ブレイクと ドロップ</a></li></ul>
+    </nav>
+    <section class="card" id="rhythms">
+        <h2>定番の リズム</h2>
+        <p>「リズムを 鳴らす」の 作品を 開いて 緑の旗を おすと ハウスが 鳴り、1〜8 キーで リズムが かわるよ。リズムは「ドラム」トラック 1本に 入っているので、欄の 文字や マスの 番号を かえて 改造してみよう。</p>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/rhythms.sb3" target="_blank" rel="noopener">リズムを 鳴らす</a></div>
+        <article class="entry" id="house">
+            <h3>ハウス <span class="badge bpm">BPM 124</span> <span class="badge key">キー 1</span></h3>
+            <div class="grid-wrap"><table class="grid"><thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead><tbody><tr><th>キック</th><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td></tr><tr><th>オープンハイハット</th><td class="beat"></td><td></td><td class="on alt"></td><td></td><td class="beat"></td><td></td><td class="on alt"></td><td></td><td class="beat"></td><td></td><td class="on alt"></td><td></td><td class="beat"></td><td></td><td class="on alt"></td><td></td></tr><tr><th>クラップ</th><td class="beat"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td></tr></tbody></table></div>
+            <p>キックが 1拍ずつ ドン ドン ドン ドン と 鳴る「4つ打ち」。キックの あいだ(裏)で オープンハイハットが ツー と 鳴るのが ハウスらしさ だよ。</p>
+            <p class="label">ブロック</p>
+            <ul class="blocks"><li>トラック <span class="slot">ドラム</span> で鳴らす<ul><li>音 <span class="slot">bd*4</span></li><li>重ねる<ul><li>音 <span class="slot">[~ oh]*4</span></li></ul></li><li>重ねる<ul><li>音 <span class="slot">[~ cp]*2</span></li></ul></li><li>ドラムマシン <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <p class="label">Strudel では</p>
+            <pre><code>stack(s(&quot;bd*4&quot;), s(&quot;[~ oh]*4&quot;), s(&quot;[~ cp]*2&quot;)).bank(&quot;RolandTR909&quot;)</code></pre>
+            <div class="try"><strong>改造してみよう</strong><ul><li>オープンハイハットを <code>hh*16</code> に かえて、16分の きざみに する</li><li>クラップを <code>[~ cp]*4</code> に して、手数を ふやす</li><li>ドラムマシンを <code>RolandTR808</code> に かえて、やわらかい 音に する</li></ul></div>
+            <p class="history" data-label="なまえと れきし">1980年代の アメリカ・シカゴの クラブ「ウェアハウス(Warehouse)」で 生まれた。DJ の フランキー・ナックルズさんが かけていた 音楽が「ハウス」と よばれるように なったよ。キックの 音には ローランドの TR-909 が よく つかわれた。</p>
+        </article>
+        <article class="entry" id="disco">
+            <h3>ディスコ <span class="badge bpm">BPM 118</span> <span class="badge key">キー 2</span></h3>
+            <div class="grid-wrap"><table class="grid"><thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead><tbody><tr><th>キック</th><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td></tr><tr><th>ハイハット</th><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td></tr><tr><th>オープンハイハット</th><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td></tr><tr><th>スネア</th><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td></tr></tbody></table></div>
+            <p>4つ打ちの キックに、ハイハットが チッ ツー チッ ツー と 表と 裏で 交互に 鳴る。2拍目と 4拍目の スネアで 体が ゆれるよ。</p>
+            <p class="label">ブロック</p>
+            <ul class="blocks"><li>トラック <span class="slot">ドラム</span> で鳴らす<ul><li>音 <span class="slot">bd*4</span></li><li>重ねる<ul><li>音 <span class="slot">[hh oh]*4</span></li></ul></li><li>重ねる<ul><li>音 <span class="slot">[~ sd]*2</span></li></ul></li><li>ドラムマシン <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <p class="label">Strudel では</p>
+            <pre><code>stack(s(&quot;bd*4&quot;), s(&quot;[hh oh]*4&quot;), s(&quot;[~ sd]*2&quot;)).bank(&quot;RolandTR909&quot;)</code></pre>
+            <div class="try"><strong>改造してみよう</strong><ul><li>スネアの 上に <code>[~ cp]*2</code> を 重ねて、音を 太く する</li><li>BPM を 124 に 上げて、ハウスと くらべる</li><li>ハイハットを <code>[hh hh oh hh]*2</code> に して、オープンを へらす</li></ul></div>
+            <p class="history" data-label="なまえと れきし">1970年代の ニューヨークで 大はやり した ダンス音楽。名前は フランス語の discothèque(レコードを かける お店)から。ハウスは ディスコを 機械で つくりなおした ものなんだ。</p>
+        </article>
+        <article class="entry" id="rock">
+            <h3>8ビート <span class="badge bpm">BPM 120</span> <span class="badge key">キー 3</span></h3>
+            <div class="grid-wrap"><table class="grid"><thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead><tbody><tr><th>キック</th><td class="beat on"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td></td><td></td></tr><tr><th>スネア</th><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td></tr><tr><th>ハイハット</th><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td></tr></tbody></table></div>
+            <p>ハイハットが 8分音符で 8回 きざむ、ロックや ポップスの 基本。キックは 1拍目と 3拍目、スネアは 2拍目と 4拍目。キックを 1つ ずらすだけで、ノリが かわるよ。</p>
+            <p class="label">ブロック</p>
+            <ul class="blocks"><li>トラック <span class="slot">ドラム</span> で鳴らす<ul><li>音 <span class="slot">bd</span></li><li>マスで鳴らす <span class="slot">0,8,10</span> <span class="slot">16</span></li><li>重ねる<ul><li>音 <span class="slot">[~ sd]*2</span></li></ul></li><li>重ねる<ul><li>音 <span class="slot">hh*8</span></li></ul></li><li>ドラムマシン <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <p class="label">Strudel では</p>
+            <pre><code>stack(s(&quot;bd&quot;).beat(&quot;0,8,10&quot;, 16), s(&quot;[~ sd]*2&quot;), s(&quot;hh*8&quot;)).bank(&quot;RolandTR909&quot;)</code></pre>
+            <div class="try"><strong>改造してみよう</strong><ul><li>キックの マスを <code>0,6,8,10</code> に して、つまずくような キックに する</li><li>ハイハットを <code>hh*16</code> に して、16ビートに する</li><li>BPM を 160 に 上げて、パンクの スピードに する</li></ul></div>
+            <p class="history" data-label="なまえと れきし">1950〜60年代の ロックンロールから 広まった。ビートルズも ローリング・ストーンズも、この リズムが 土台に なっているよ。</p>
+        </article>
+        <article class="entry" id="boombap">
+            <h3>ブーンバップ <span class="badge bpm">BPM 90</span> <span class="badge key">キー 4</span></h3>
+            <div class="grid-wrap"><table class="grid"><thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead><tbody><tr><th>キック</th><td class="beat on"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td class="on"></td><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td></td><td></td></tr><tr><th>スネア</th><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td></tr><tr><th>ハイハット</th><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td></tr></tbody></table></div>
+            <p>ゆっくりの ヒップホップ。キックが 拍の 頭から ずれた 場所(7番目、10番目の マス)で 鳴るので、首を ふりたくなる ゆれが 出るよ。</p>
+            <p class="label">ブロック</p>
+            <ul class="blocks"><li>トラック <span class="slot">ドラム</span> で鳴らす<ul><li>音 <span class="slot">bd</span></li><li>マスで鳴らす <span class="slot">0,7,10</span> <span class="slot">16</span></li><li>重ねる<ul><li>音 <span class="slot">[~ sd]*2</span></li></ul></li><li>重ねる<ul><li>音 <span class="slot">hh*8</span></li></ul></li><li>ドラムマシン <span class="slot">RolandTR808</span></li></ul></li></ul>
+            <p class="label">Strudel では</p>
+            <pre><code>stack(s(&quot;bd&quot;).beat(&quot;0,7,10&quot;, 16), s(&quot;[~ sd]*2&quot;), s(&quot;hh*8&quot;)).bank(&quot;RolandTR808&quot;)</code></pre>
+            <div class="try"><strong>改造してみよう</strong><ul><li>キックの マスを <code>0,3,7,10</code> に して、手数を ふやす</li><li>ハイハットに「音の大きさ」<code>[.4 .8]*4</code> を つけて、強弱を つける</li><li>11章の シャッフル(<code>[hh ~ hh]*4</code>)に して、はねさせる</li></ul></div>
+            <p class="history" data-label="なまえと れきし">1980〜90年代の ニューヨークの ヒップホップ。キックの「ブーン」と スネアの「バップ」の 音から 名前が ついた。レコードから ドラムを 切りとって ならべる「サンプリング」で つくられたよ。</p>
+        </article>
+        <article class="entry" id="trap">
+            <h3>トラップ <span class="badge bpm">BPM 140</span> <span class="badge key">キー 5</span></h3>
+            <div class="grid-wrap"><table class="grid"><thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead><tbody><tr><th>キック</th><td class="beat on"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td></td><td class="on"></td><td class="beat"></td><td></td><td></td><td></td></tr><tr><th>スネア</th><td class="beat"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td></tr><tr><th>ハイハット</th><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td></tr></tbody></table></div>
+            <p>スネアが 3拍目に 1回だけ 鳴るので、BPM 140 でも ゆったり 聞こえる(ハーフタイム)。2サイクルに 1回、ハイハットが 2倍に こまかく なって、チキチキ 連打 するよ。</p>
+            <p class="label">ブロック</p>
+            <ul class="blocks"><li>トラック <span class="slot">ドラム</span> で鳴らす<ul><li>音 <span class="slot">bd</span></li><li>マスで鳴らす <span class="slot">0,6,11</span> <span class="slot">16</span></li><li>重ねる<ul><li>音 <span class="slot">sd</span></li><li>マスで鳴らす <span class="slot">8</span> <span class="slot">16</span></li></ul></li><li>重ねる<ul><li>音 <span class="slot">hh*8</span></li><li>サイクルごとに変える <span class="slot">2</span> <span class="slot">くりかえし</span></li></ul></li><li>ドラムマシン <span class="slot">RolandTR808</span></li></ul></li></ul>
+            <p class="label">Strudel では</p>
+            <pre><code>stack(s(&quot;bd&quot;).beat(&quot;0,6,11&quot;, 16), s(&quot;sd&quot;).beat(&quot;8&quot;, 16), s(&quot;hh*8&quot;).every(2, x =&gt; x.ply(2))).bank(&quot;RolandTR808&quot;)</code></pre>
+            <div class="try"><strong>改造してみよう</strong><ul><li>ハイハットの「サイクルごとに変える」を 4 に して、連打を へらす</li><li>キックに「再生の速さ」<code>.8</code> を つけて、低く する</li><li>マスターレベルの「ときどき変える」で、連打を ランダムに する</li></ul></div>
+            <p class="history" data-label="なまえと れきし">2000年代の アメリカ南部、アトランタの ヒップホップから 生まれた。ローランドの TR-808 の 長く のびる キックと、ハイハットの 連打が 目じるし だよ。</p>
+        </article>
+        <article class="entry" id="garage">
+            <h3>UKガラージ <span class="badge bpm">BPM 132</span> <span class="badge key">キー 6</span></h3>
+            <div class="grid-wrap"><table class="grid"><thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead><tbody><tr><th>キック</th><td class="beat on"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td></td><td></td></tr><tr><th>スネア</th><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td></tr><tr><th>ハイハット</th><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td></tr></tbody></table></div>
+            <p>4つ打ちから キックを ぬいて、1拍目と 3拍目の 少し あと(10番目の マス)だけに した。キックが「ドン……ドン」と 2歩で 歩くので「2ステップ」とも よぶよ。</p>
+            <p class="label">ブロック</p>
+            <ul class="blocks"><li>トラック <span class="slot">ドラム</span> で鳴らす<ul><li>音 <span class="slot">bd</span></li><li>マスで鳴らす <span class="slot">0,10</span> <span class="slot">16</span></li><li>重ねる<ul><li>音 <span class="slot">[~ sd]*2</span></li></ul></li><li>重ねる<ul><li>音 <span class="slot">[~ hh]*4</span></li></ul></li><li>ドラムマシン <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <p class="label">Strudel では</p>
+            <pre><code>stack(s(&quot;bd&quot;).beat(&quot;0,10&quot;, 16), s(&quot;[~ sd]*2&quot;), s(&quot;[~ hh]*4&quot;)).bank(&quot;RolandTR909&quot;)</code></pre>
+            <div class="try"><strong>改造してみよう</strong><ul><li>キックの マスを <code>0,10,11</code> に して、つまずかせる</li><li>ハイハットの 上に <code>hh*16</code> を「音の大きさ」<code>.3</code> で 重ねる</li><li>BPM を 172 に 上げて、つぎの ドラムンベースと くらべる</li></ul></div>
+            <p class="history" data-label="なまえと れきし">1990年代 後半の イギリス・ロンドンで 生まれた。アメリカの ガラージ・ハウスを イギリス風に くずした もので、のちの ダブステップや グライムの もとに なったよ。</p>
+        </article>
+        <article class="entry" id="dnb">
+            <h3>ドラムンベース <span class="badge bpm">BPM 172</span> <span class="badge key">キー 7</span></h3>
+            <div class="grid-wrap"><table class="grid"><thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead><tbody><tr><th>キック</th><td class="beat on"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td></td><td></td></tr><tr><th>スネア</th><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td></tr><tr><th>ハイハット</th><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td></tr></tbody></table></div>
+            <p>BPM 170 くらいの とても 速い リズム。キックと スネアの ならびは UKガラージと 同じ「2ステップ」。速さを かえるだけで、ちがう ジャンルに なるんだ。</p>
+            <p class="label">ブロック</p>
+            <ul class="blocks"><li>トラック <span class="slot">ドラム</span> で鳴らす<ul><li>音 <span class="slot">bd</span></li><li>マスで鳴らす <span class="slot">0,10</span> <span class="slot">16</span></li><li>重ねる<ul><li>音 <span class="slot">[~ sd]*2</span></li></ul></li><li>重ねる<ul><li>音 <span class="slot">hh*8</span></li></ul></li><li>ドラムマシン <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <p class="label">Strudel では</p>
+            <pre><code>stack(s(&quot;bd&quot;).beat(&quot;0,10&quot;, 16), s(&quot;[~ sd]*2&quot;), s(&quot;hh*8&quot;)).bank(&quot;RolandTR909&quot;)</code></pre>
+            <div class="try"><strong>改造してみよう</strong><ul><li>ハイハットに「サイクルごとに変える」<code>4</code>「くりかえし」を つけて、4サイクルに 1回 こまかく する</li><li>キックの マスを <code>0,10,11</code> に する</li><li>スネアの 上に <code>sd</code> を マス <code>7,15</code>、「音の大きさ」<code>.2</code> で 重ねて、ゴーストノートを 入れる</li></ul></div>
+            <p class="history" data-label="なまえと れきし">1990年代の イギリスで、ジャングルという 音楽から 生まれた。むかしの ソウルの レコードの ドラム(とくに「アーメン・ブレイク」)を 速く して 切りきざんだ のが はじまり だよ。</p>
+        </article>
+        <article class="entry" id="reggaeton">
+            <h3>レゲトン <span class="badge bpm">BPM 95</span> <span class="badge key">キー 8</span></h3>
+            <div class="grid-wrap"><table class="grid"><thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead><tbody><tr><th>キック</th><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td></tr><tr><th>スネア</th><td class="beat"></td><td></td><td></td><td class="on alt"></td><td class="beat"></td><td></td><td class="on alt"></td><td></td><td class="beat"></td><td></td><td></td><td class="on alt"></td><td class="beat"></td><td></td><td class="on alt"></td><td></td></tr><tr><th>ハイハット</th><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td></tr></tbody></table></div>
+            <p>4つ打ちの キックに、スネアが 3番目と 6番目、11番目と 14番目の マスで 鳴る。半小節(8マス)を 見ると、キックの 0 から 3マス、3マス、2マスで 区切れる「3・3・2」の ズレ。これが ラテンの ノリ だよ。</p>
+            <p class="label">ブロック</p>
+            <ul class="blocks"><li>トラック <span class="slot">ドラム</span> で鳴らす<ul><li>音 <span class="slot">bd*4</span></li><li>重ねる<ul><li>音 <span class="slot">sd</span></li><li>マスで鳴らす <span class="slot">3,6,11,14</span> <span class="slot">16</span></li></ul></li><li>重ねる<ul><li>音 <span class="slot">hh*8</span></li></ul></li><li>ドラムマシン <span class="slot">RolandTR808</span></li></ul></li></ul>
+            <p class="label">Strudel では</p>
+            <pre><code>stack(s(&quot;bd*4&quot;), s(&quot;sd&quot;).beat(&quot;3,6,11,14&quot;, 16), s(&quot;hh*8&quot;)).bank(&quot;RolandTR808&quot;)</code></pre>
+            <div class="try"><strong>改造してみよう</strong><ul><li>スネアを <code>rim</code> に かえて、軽く する</li><li>スネアの マスを <code>3,6,11,13,14</code> に して、手数を ふやす</li><li>キックを ぬいて、スネアだけで 3・3・2 の ズレを 聞いてみる</li></ul></div>
+            <p class="history" data-label="なまえと れきし">1990年代の プエルトリコで 生まれた。ジャマイカの ダンスホールの 曲「Dem Bow」の リズムが もとに なっていて、この リズムは「デンボウ」と よばれる。半小節を 3・3・2 に 区切る ズレは、キューバの「トレシージョ」という 古い リズムと 同じ だよ。</p>
+        </article>
+    </section>
+    <section class="card" id="techniques">
+        <h2>テクニック</h2>
+        <p>「テクニックを ためす」の 作品を 開いて 緑の旗を おすと、ハウスの 4つ打ち(「キック」「ハイハット」「クラップ」トラック)が 鳴る。1〜7 キーで テクニックを 1つずつ 足して、ちがいを 聞きくらべよう。スペースで もとに もどるよ。</p>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/techniques.sb3" target="_blank" rel="noopener">テクニックを ためす</a></div>
+        <article class="entry" id="gain">
+            <h3>強弱を つける <span class="badge l2">ノーマル</span> <span class="badge key">キー 1</span></h3>
+            <p>「音の大きさ」に パターンを 書くと、1つずつ 大きさが かわる。全部 同じ 大きさだと 機械っぽい けれど、小さい 音と 大きい 音を 交互に すると、人が たたいている ように 聞こえるよ。</p>
+            <p class="label">ブロック(「きざみ」トラック)</p>
+            <ul class="blocks"><li>トラック <span class="slot">きざみ</span> で鳴らす<ul><li>音 <span class="slot">hh*16</span></li><li><span class="slot">音の大きさ</span> <span class="slot">[.2 .6]*8</span></li><li>ドラムマシン <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <p class="label">Strudel では</p>
+            <pre><code>s(&quot;hh*16&quot;).gain(&quot;[.2 .6]*8&quot;).bank(&quot;RolandTR909&quot;)</code></pre>
+            <div class="try"><strong>改造してみよう</strong><ul><li><code>[.2 .6]*8</code> を <code>[.2 .2 .6 .2]*4</code> に して、強い 音を へらす</li></ul></div>
+        </article>
+        <article class="entry" id="offbeat">
+            <h3>裏打ちの ベース <span class="badge l2">ノーマル</span> <span class="badge key">キー 2</span></h3>
+            <p>キックが 拍の 頭(表)で 鳴るので、ベースは その あいだ(裏)に 置く。低い 音どうしが ぶつからないので、どちらも はっきり 聞こえるよ。</p>
+            <p class="label">ブロック(「ベース」トラック)</p>
+            <ul class="blocks"><li>トラック <span class="slot">ベース</span> で鳴らす<ul><li>音の高さ <span class="slot">[~ c2]*4</span></li><li>音 <span class="slot">sawtooth</span></li><li><span class="slot">ひくい音だけ通す</span> <span class="slot">600</span></li></ul></li></ul>
+            <p class="label">Strudel では</p>
+            <pre><code>note(&quot;[~ c2]*4&quot;).s(&quot;sawtooth&quot;).lpf(600)</code></pre>
+            <div class="try"><strong>改造してみよう</strong><ul><li><code>[~ c2]*4</code> を <code>&lt;[~ c2]*4 [~ g1]*4&gt;</code> に して、サイクルごとに 音を かえる</li></ul></div>
+        </article>
+        <article class="entry" id="ghost">
+            <h3>ゴーストノート <span class="badge l2">ノーマル</span> <span class="badge key">キー 3</span></h3>
+            <p>ふつうの スネアの あいだに、とても 小さい スネアを かくして 入れる。はっきりとは 聞こえない けれど、リズムに こまかい ゆれが 出るよ。おばけ(ゴースト)の ように かくれた 音、という 意味。</p>
+            <p class="label">ブロック(「スネア」トラック)</p>
+            <ul class="blocks"><li>トラック <span class="slot">スネア</span> で鳴らす<ul><li>音 <span class="slot">[~ sd]*2</span></li><li>重ねる<ul><li>音 <span class="slot">sd</span></li><li>マスで鳴らす <span class="slot">7,9,14</span> <span class="slot">16</span></li><li><span class="slot">音の大きさ</span> <span class="slot">.2</span></li></ul></li><li>ドラムマシン <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <p class="label">Strudel では</p>
+            <pre><code>stack(s(&quot;[~ sd]*2&quot;), s(&quot;sd&quot;).beat(&quot;7,9,14&quot;, 16).gain(&quot;.2&quot;)).bank(&quot;RolandTR909&quot;)</code></pre>
+            <div class="try"><strong>改造してみよう</strong><ul><li>ゴーストの「音の大きさ」を <code>.5</code> に して、ちがいを 聞く</li></ul></div>
+        </article>
+        <article class="entry" id="euclid">
+            <h3>ユークリッドで ずらす <span class="badge l3">マスター</span> <span class="badge key">キー 4</span></h3>
+            <p>8つの マスに 3つの 音を できるだけ 均等に ならべると、3・3・2 の ズレた リズムに なる。4つ打ちの 上に 重ねると、まっすぐな リズムに ひっかかりが 出るよ。</p>
+            <p class="label">ブロック(「リム」トラック)</p>
+            <ul class="blocks"><li>トラック <span class="slot">リム</span> で鳴らす<ul><li>音 <span class="slot">rim</span></li><li>ユークリッド <span class="slot">3</span> <span class="slot">8</span></li><li>ドラムマシン <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <p class="label">Strudel では</p>
+            <pre><code>s(&quot;rim&quot;).euclid(3, 8).bank(&quot;RolandTR909&quot;)</code></pre>
+            <div class="try"><strong>改造してみよう</strong><ul><li><code>3</code> <code>8</code> を <code>5</code> <code>8</code> や <code>7</code> <code>16</code> に かえる</li></ul></div>
+        </article>
+        <article class="entry" id="fill">
+            <h3>フィル <span class="badge l2">ノーマル</span> <span class="badge key">キー 5</span></h3>
+            <p>4サイクルに 1回だけ、クラップを 2回ずつ 鳴らす。ずっと 同じ だと 耳が あきるので、ときどき かわる 場所を 作ると「ここで 区切り」と わかるよ。</p>
+            <p class="label">ブロック(「クラップ」トラック)</p>
+            <ul class="blocks"><li>トラック <span class="slot">クラップ</span> で鳴らす<ul><li>音 <span class="slot">[~ cp]*2</span></li><li>サイクルごとに変える <span class="slot">4</span> <span class="slot">くりかえし</span></li><li>ドラムマシン <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <p class="label">Strudel では</p>
+            <pre><code>s(&quot;[~ cp]*2&quot;).every(4, x =&gt; x.ply(2)).bank(&quot;RolandTR909&quot;)</code></pre>
+            <div class="try"><strong>改造してみよう</strong><ul><li>「くりかえし」を「はやく」や「ぎゃく」に かえる</li></ul></div>
+        </article>
+        <article class="entry" id="filter">
+            <h3>フィルターを ゆっくり 開く <span class="badge l3">マスター</span> <span class="badge key">キー 6</span></h3>
+            <p>「ひくい音だけ通す」の 値に「ゆれる値」を 入れると、こもった 音から 明るい 音へ、8サイクル かけて ゆっくり かわる。同じ ループでも、音が 動くと もりあがって 聞こえるよ。</p>
+            <p class="label">ブロック(「ベース」トラック)</p>
+            <ul class="blocks"><li>トラック <span class="slot">ベース</span> で鳴らす<ul><li>音の高さ <span class="slot">[~ c2]*4</span></li><li>音 <span class="slot">sawtooth</span></li><li><span class="slot">ひくい音だけ通す</span> (ゆれる値 <span class="slot">なめらかな波</span> <span class="slot">200</span> から <span class="slot">3000</span> <span class="slot">8</span> サイクル)</li></ul></li></ul>
+            <p class="label">Strudel では</p>
+            <pre><code>note(&quot;[~ c2]*4&quot;).s(&quot;sawtooth&quot;).lpf(sine.range(200, 3000).slow(8))</code></pre>
+            <div class="try"><strong>改造してみよう</strong><ul><li>「ゆれる値」の 形を「のこぎりの波」に して、だんだん 明るく なって ストンと もどる ように する</li></ul></div>
+        </article>
+        <article class="entry" id="random">
+            <h3>ランダムに ぬく <span class="badge l3">マスター</span> <span class="badge key">キー 7</span></h3>
+            <p>16分の ハイハットの うち、30% を ランダムに ぬく。毎回 少しずつ ちがう ので、ループなのに 生きている ように 聞こえるよ。</p>
+            <p class="label">ブロック(「きざみ」トラック)</p>
+            <ul class="blocks"><li>トラック <span class="slot">きざみ</span> で鳴らす<ul><li>音 <span class="slot">hh*16</span></li><li>ランダムに抜く <span class="slot">30</span> %</li><li><span class="slot">音の大きさ</span> <span class="slot">.5</span></li><li>ドラムマシン <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <p class="label">Strudel では</p>
+            <pre><code>s(&quot;hh*16&quot;).degradeBy(0.3).gain(&quot;.5&quot;).bank(&quot;RolandTR909&quot;)</code></pre>
+            <div class="try"><strong>改造してみよう</strong><ul><li>30 を 60 に して、すきまを ふやす</li></ul></div>
+        </article>
+        <article class="entry" id="break">
+            <h3>ブレイクと ドロップ <span class="badge l2">ノーマル</span> <span class="badge key">キー 8 9</span></h3>
+            <p>8 キーで キックを 止めて(ブレイク)、9 キーで もどす(ドロップ)。キックが ない あいだ 耳が キックを 待つので、もどった ときに もりあがる。止める 時間が 長いほど、もどった ときが 気持ちいいよ。</p>
+            <p class="blockline">8 キーと 9 キー(「トラック [キック] を止める」と「トラック [キック] で鳴らす」)</p>
+            <div class="try"><strong>改造してみよう</strong><ul><li>8 を おしてから 4サイクル 待って 9 を おす。つぎは 8サイクル 待って くらべる</li></ul></div>
+        </article>
+        <p class="note">ほかの わざ: キックで ほかの 音を へこませる「ポンピング」と、だんだん もりあげる「ビルドアップ」は、<a href="tutorial.html#step13">チュートリアル 13章</a>に あるよ。</p>
+    </section>
+    <p style="text-align:center"><a href="tutorial.html">チュートリアルへ</a> ・ <a href="dictionary.html">関数じてん</a> ・ <a href="./">Strudel for Xcratch</a></p>
+</main>
+<footer>
+    <p><a href="./">Strudel for Xcratch</a> — <a href="https://github.com/0x48lab/xcx-strudel/blob/main/LICENSE">AGPL-3.0</a>.
+    This extension bundles <a href="https://strudel.cc/">Strudel</a> (AGPL-3.0).</p>
+</footer>
+<script>
+// keep the hash when switching the language
+document.querySelectorAll('a[data-keep-hash]').forEach(a => a.addEventListener('click', () => { a.href = a.href.split('#')[0] + location.hash; }));
+</script>
+</body>
+</html>

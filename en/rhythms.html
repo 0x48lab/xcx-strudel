@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strudel for Xcratch rhythm book</title>
+<link rel="icon" href="../icon.svg" type="image/svg+xml">
+<link rel="alternate" hreflang="ja" href="https://0x48lab.github.io/xcx-strudel/rhythms.html">
+<link rel="alternate" hreflang="en" href="https://0x48lab.github.io/xcx-strudel/en/rhythms.html">
+<meta name="description" content="Standard drum rhythms and techniques which make rhythms cool. Play them and remake them with the blocks of Strudel for Xcratch.">
+<!-- made by scripts/make-rhythm-page.mjs from scripts/rhythm-book.mjs: edit them, not this file -->
+<style>
+:root {
+    --bg: #f9f9fb;
+    --card: #ffffff;
+    --text: #2b2d42;
+    --muted: #5c6075;
+    --accent: #0fbd8c;
+    --accent-dark: #0b9a72;
+    --purple: #855cd6;
+    --border: #e1e3ea;
+    --code-bg: #f1f2f6;
+    --try-bg: #fff6d9;
+    --try-border: #ffcf4d;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #16171d;
+        --card: #1f2029;
+        --text: #eceef5;
+        --muted: #a9adbf;
+        --border: #33354a;
+        --code-bg: #2a2c3a;
+        --try-bg: #3a3320;
+        --try-border: #8a6d1f;
+    }
+}
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Hiragino Sans", "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.8;
+}
+header {
+    background: linear-gradient(135deg, var(--purple), #4c97ff);
+    color: #fff;
+    padding: 32px 16px 28px;
+    text-align: center;
+}
+header h1 { margin: 0; font-size: clamp(26px, 5.5vw, 40px); }
+header p { margin: 8px auto 0; max-width: 640px; font-size: 17px; }
+header a { color: #fff; }
+.lang { max-width: 960px; margin: -24px auto 8px !important; text-align: right; font-size: 15px; }
+.lang a { color: #fff; font-weight: bold; }
+main { max-width: 960px; margin: 0 auto; padding: 24px 16px 48px; }
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+h2 { margin: 0 0 12px; font-size: 22px; line-height: 1.5; }
+h2 .num {
+    display: inline-block;
+    min-width: 36px;
+    margin-right: 8px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    text-align: center;
+}
+h3 { margin: 20px 0 8px; font-size: 18px; }
+p { margin: 8px 0; }
+figure { margin: 12px 0; }
+figure img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #fff;
+}
+figcaption { color: var(--muted); font-size: 14px; margin-top: 4px; }
+.row { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+.row figure { margin: 0; }
+.side { display: grid; grid-template-columns: 240px 1fr; gap: 24px; align-items: start; }
+@media (max-width: 640px) {
+    .side { grid-template-columns: 1fr; }
+    .side figure img { max-width: 240px; }
+    /* wide scripts keep their size and scroll sideways, so that the blocks can be read */
+    figure { overflow-x: auto; }
+    figure img { max-width: none; }
+}
+code {
+    padding: 2px 6px;
+    border-radius: 6px;
+    background: var(--code-bg);
+    font-size: 0.95em;
+}
+.try {
+    margin: 16px 0 0;
+    padding: 12px 16px;
+    border: 2px dashed var(--try-border);
+    border-radius: 12px;
+    background: var(--try-bg);
+}
+.try strong { display: block; }
+.try ul { margin: 4px 0 0; padding-left: 1.4em; }
+.buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+.button {
+    display: inline-block;
+    padding: 8px 18px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+}
+.button:hover { background: var(--accent-dark); }
+.button.secondary { background: transparent; color: var(--text); border: 2px solid var(--border); }
+nav ol { columns: 2; column-gap: 32px; margin: 0; padding-left: 1.4em; }
+@media (max-width: 640px) { nav ol { columns: 1; } }
+nav a { color: inherit; }
+nav li.column-item { list-style: none; }
+.column { border-style: dashed; }
+.column h2 .num { background: var(--purple); }
+table { border-collapse: collapse; width: 100%; margin: 8px 0; }
+th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; vertical-align: top; }
+th { background: var(--code-bg); }
+/* long code in a table cell wraps on phones */
+td code { overflow-wrap: anywhere; }
+.url {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px 12px;
+    background: var(--code-bg);
+    border-radius: 8px;
+}
+pre {
+    margin: 4px 0 12px;
+    padding: 10px 12px;
+    overflow-x: auto;
+    border-radius: 8px;
+    background: var(--code-bg);
+    font-size: 14px;
+    line-height: 1.6;
+}
+pre code { padding: 0; background: none; }
+.label { margin: 8px 0 0; color: var(--muted); font-size: 14px; font-weight: bold; }
+.note { color: var(--muted); font-size: 15px; }
+.try-inline { padding: 8px 12px; border-left: 4px solid var(--try-border); background: var(--try-bg); border-radius: 0 8px 8px 0; }
+.wide { overflow-x: auto; }
+.wide img { max-width: none; }
+footer { text-align: center; color: var(--muted); font-size: 14px; padding: 0 16px 32px; }
+footer a { color: inherit; }
+/* dictionary */
+.toc { display: flex; flex-wrap: wrap; gap: 6px 10px; padding: 0; list-style: none; }
+.toc a { display: inline-block; padding: 2px 8px; border: 1px solid var(--border); border-radius: 999px; text-decoration: none; color: inherit; font-family: ui-monospace, Menlo, monospace; font-size: 14px; }
+.toc a:hover { border-color: var(--accent); }
+.entry { border-top: 1px solid var(--border); padding-top: 12px; margin-top: 18px; scroll-margin-top: 12px; }
+.entry h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin: 0 0 6px; font-family: ui-monospace, Menlo, monospace; overflow-wrap: anywhere; }
+.badge { font-family: system-ui, sans-serif; font-size: 12px; font-weight: bold; padding: 1px 8px; border-radius: 999px; color: #fff; background: var(--accent-dark); }
+.badge.l2 { background: #c77c00; }
+.badge.l3 { background: var(--purple); }
+.blockline { color: var(--muted); font-size: 14px; margin: 0 0 6px; overflow-wrap: anywhere; }
+.history { margin: 8px 0 0; padding: 8px 12px; border-left: 4px solid var(--purple); background: var(--code-bg); border-radius: 0 8px 8px 0; font-size: 15px; }
+.history::before { content: attr(data-label); display: block; font-weight: bold; font-size: 13px; color: var(--purple); }
+.entry pre { margin: 6px 0 0; }
+main a { color: var(--accent); }
+
+/* rhythm book */
+.grid { border-collapse: separate; border-spacing: 2px; width: auto; margin: 8px 0; font-size: 13px; }
+.grid th, .grid td { border: none; padding: 0; background: none; }
+.grid th { padding-right: 8px; font-weight: normal; white-space: nowrap; text-align: right; color: var(--muted); }
+.grid thead th { text-align: center; padding: 0; font-size: 11px; }
+.grid td { width: 18px; height: 18px; border-radius: 4px; background: var(--code-bg); }
+.grid td.beat { background: var(--border); }
+.grid td.on { background: var(--accent); }
+.grid td.on.alt { background: var(--purple); }
+.grid-wrap { overflow-x: auto; }
+.blocks { margin: 6px 0 0; padding: 8px 12px; list-style: none; border-radius: 8px; background: var(--code-bg); font-size: 14px; line-height: 1.7; overflow-wrap: anywhere; }
+.blocks ul { margin: 0; padding-left: 1.4em; list-style: none; border-left: 3px solid var(--border); }
+.slot { display: inline-block; padding: 0 6px; margin: 0 2px; border-radius: 999px; background: var(--card); border: 1px solid var(--border); font-family: ui-monospace, Menlo, monospace; font-size: 13px; }
+.badge.bpm { background: #4c97ff; }
+.badge.key { background: var(--muted); }
+</style>
+</head>
+<body>
+<header>
+    <p class="lang"><a href="../rhythms.html" data-keep-hash>日本語</a></p>
+    <img src="../icon.svg" alt="" width="64" height="64" style="display:block;margin:0 auto 8px">
+    <h1>Rhythm book</h1>
+    <p>Play standard rhythms, remake them, and make them your own songs.<br><a href="./">Strudel for Xcratch</a> ・ <a href="tutorial.html">Tutorial</a> ・ <a href="dictionary.html">Function dictionary</a></p>
+</header>
+<main>
+    <section class="card" id="about">
+        <h2>How to read this book</h2>
+        <p>Every rhythm in this book is <b>one bar (4 beats) in a cycle</b>. A beat is cut into 4, so a bar has <b>16 steps</b>, and the pictures show on which steps the sounds play. The numbers on the top are the step numbers (0-15), and the sounds play on the colored steps.</p>
+        <h3>Two ways to write a rhythm</h3>
+        <p>When a sound <b>repeats at the same distance</b>, write it with <code>*</code> in the s block: <code>bd*4</code> plays on each of the 4 beats, <code>[~ oh]*4</code> plays 4 times between the beats (on the off-beats).</p>
+        <p>When a sound plays <b>here and there</b>, write the step numbers in the beat block: <code>0,7,10</code> plays on steps 0, 7 and 10.</p>
+        <p>Know the difference between a list and <code>*</code> too. <code>sd sd sd sd</code> and <code>sd*4</code> sound the same, but <code>sd*4 hh</code> plays <b>four sd in the first half and hh in the second half</b>. <b>The number of items is the number of parts</b>, and <code>*</code> <b>cuts one part finer</b>.</p>
+        <p class="note">Xcratch shows an input of 13 letters or more as 12 letters and "…". So this book puts each instrument in its own stack and keeps each input to 12 letters.</p>
+        <div class="buttons">
+            <a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/en/rhythms.sb3" target="_blank" rel="noopener">Play the rhythms</a>
+            <a class="button secondary" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/en/techniques.sb3" target="_blank" rel="noopener">Try the techniques</a>
+        </div>
+    </section>
+    <nav class="card" aria-label="Contents">
+        <h2>Contents</h2>
+        <h3><a href="#rhythms">Standard rhythms</a></h3>
+        <ul class="toc"><li><a href="#house">House</a></li><li><a href="#disco">Disco</a></li><li><a href="#rock">Eight beat</a></li><li><a href="#boombap">Boom bap</a></li><li><a href="#trap">Trap</a></li><li><a href="#garage">UK garage</a></li><li><a href="#dnb">Drum and bass</a></li><li><a href="#reggaeton">Reggaeton</a></li></ul>
+        <h3><a href="#techniques">Techniques</a></h3>
+        <ul class="toc"><li><a href="#gain">Loud and soft</a></li><li><a href="#offbeat">Off-beat bass</a></li><li><a href="#ghost">Ghost notes</a></li><li><a href="#euclid">Offset with euclid</a></li><li><a href="#fill">Fills</a></li><li><a href="#filter">Open the filter slowly</a></li><li><a href="#random">Drop at random</a></li><li><a href="#break">Break and drop</a></li></ul>
+    </nav>
+    <section class="card" id="rhythms">
+        <h2>Standard rhythms</h2>
+        <p>Open the project "Play the rhythms" and click the green flag: house plays, and keys 1-8 change the rhythm. A rhythm is one "drums" track, so change the text and the step numbers to remake it.</p>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/en/rhythms.sb3" target="_blank" rel="noopener">Play the rhythms</a></div>
+        <article class="entry" id="house">
+            <h3>House <span class="badge bpm">BPM 124</span> <span class="badge key">Key 1</span></h3>
+            <div class="grid-wrap"><table class="grid"><thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead><tbody><tr><th>kick</th><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td></tr><tr><th>open hat</th><td class="beat"></td><td></td><td class="on alt"></td><td></td><td class="beat"></td><td></td><td class="on alt"></td><td></td><td class="beat"></td><td></td><td class="on alt"></td><td></td><td class="beat"></td><td></td><td class="on alt"></td><td></td></tr><tr><th>clap</th><td class="beat"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td></tr></tbody></table></div>
+            <p>The kick plays on every beat: four on the floor. The open hat between the kicks (on the off-beat) makes it house.</p>
+            <p class="label">Blocks</p>
+            <ul class="blocks"><li>play on track <span class="slot">drums</span><ul><li>s <span class="slot">bd*4</span></li><li>stack<ul><li>s <span class="slot">[~ oh]*4</span></li></ul></li><li>stack<ul><li>s <span class="slot">[~ cp]*2</span></li></ul></li><li>bank <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>stack(s(&quot;bd*4&quot;), s(&quot;[~ oh]*4&quot;), s(&quot;[~ cp]*2&quot;)).bank(&quot;RolandTR909&quot;)</code></pre>
+            <div class="try"><strong>Remake it</strong><ul><li>Change the open hat to <code>hh*16</code> for sixteenth notes</li><li>Make the clap <code>[~ cp]*4</code> for more claps</li><li>Change the drum machine to <code>RolandTR808</code> for a softer sound</li></ul></div>
+            <p class="history" data-label="Name and history">Born in the 1980s at the Warehouse, a club in Chicago. The music which the DJ Frankie Knuckles played there came to be called house. The Roland TR-909 was often used for the kick.</p>
+        </article>
+        <article class="entry" id="disco">
+            <h3>Disco <span class="badge bpm">BPM 118</span> <span class="badge key">Key 2</span></h3>
+            <div class="grid-wrap"><table class="grid"><thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead><tbody><tr><th>kick</th><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td></tr><tr><th>hi-hat</th><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td></tr><tr><th>open hat</th><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td></tr><tr><th>snare</th><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td></tr></tbody></table></div>
+            <p>The hats play closed and open in turns over the four-on-the-floor kick. The snare on beats 2 and 4 makes you move.</p>
+            <p class="label">Blocks</p>
+            <ul class="blocks"><li>play on track <span class="slot">drums</span><ul><li>s <span class="slot">bd*4</span></li><li>stack<ul><li>s <span class="slot">[hh oh]*4</span></li></ul></li><li>stack<ul><li>s <span class="slot">[~ sd]*2</span></li></ul></li><li>bank <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>stack(s(&quot;bd*4&quot;), s(&quot;[hh oh]*4&quot;), s(&quot;[~ sd]*2&quot;)).bank(&quot;RolandTR909&quot;)</code></pre>
+            <div class="try"><strong>Remake it</strong><ul><li>Stack <code>[~ cp]*2</code> on the snare for a fatter sound</li><li>Raise the BPM to 124 and compare it with house</li><li>Make the hats <code>[hh hh oh hh]*2</code> for fewer open hats</li></ul></div>
+            <p class="history" data-label="Name and history">Dance music which was a big hit in New York in the 1970s. The name comes from the French word discothèque, a place where records are played. House remade disco with machines.</p>
+        </article>
+        <article class="entry" id="rock">
+            <h3>Eight beat <span class="badge bpm">BPM 120</span> <span class="badge key">Key 3</span></h3>
+            <div class="grid-wrap"><table class="grid"><thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead><tbody><tr><th>kick</th><td class="beat on"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td></td><td></td></tr><tr><th>snare</th><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td></tr><tr><th>hi-hat</th><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td></tr></tbody></table></div>
+            <p>The hi-hat plays eight eighth notes: the base of rock and pop. The kick plays on beats 1 and 3, the snare on 2 and 4. Moving a kick changes the feel.</p>
+            <p class="label">Blocks</p>
+            <ul class="blocks"><li>play on track <span class="slot">drums</span><ul><li>s <span class="slot">bd</span></li><li>beat <span class="slot">0,8,10</span> <span class="slot">16</span></li><li>stack<ul><li>s <span class="slot">[~ sd]*2</span></li></ul></li><li>stack<ul><li>s <span class="slot">hh*8</span></li></ul></li><li>bank <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>stack(s(&quot;bd&quot;).beat(&quot;0,8,10&quot;, 16), s(&quot;[~ sd]*2&quot;), s(&quot;hh*8&quot;)).bank(&quot;RolandTR909&quot;)</code></pre>
+            <div class="try"><strong>Remake it</strong><ul><li>Make the kick steps <code>0,6,8,10</code> for a stumbling kick</li><li>Make the hats <code>hh*16</code> for a sixteen beat</li><li>Raise the BPM to 160 for punk speed</li></ul></div>
+            <p class="history" data-label="Name and history">It spread from the rock and roll of the 1950s and 60s. The Beatles and the Rolling Stones were built on this rhythm.</p>
+        </article>
+        <article class="entry" id="boombap">
+            <h3>Boom bap <span class="badge bpm">BPM 90</span> <span class="badge key">Key 4</span></h3>
+            <div class="grid-wrap"><table class="grid"><thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead><tbody><tr><th>kick</th><td class="beat on"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td class="on"></td><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td></td><td></td></tr><tr><th>snare</th><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td></tr><tr><th>hi-hat</th><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td></tr></tbody></table></div>
+            <p>Slow hip hop. The kick plays off the beats (steps 7 and 10), which gives it a nodding groove.</p>
+            <p class="label">Blocks</p>
+            <ul class="blocks"><li>play on track <span class="slot">drums</span><ul><li>s <span class="slot">bd</span></li><li>beat <span class="slot">0,7,10</span> <span class="slot">16</span></li><li>stack<ul><li>s <span class="slot">[~ sd]*2</span></li></ul></li><li>stack<ul><li>s <span class="slot">hh*8</span></li></ul></li><li>bank <span class="slot">RolandTR808</span></li></ul></li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>stack(s(&quot;bd&quot;).beat(&quot;0,7,10&quot;, 16), s(&quot;[~ sd]*2&quot;), s(&quot;hh*8&quot;)).bank(&quot;RolandTR808&quot;)</code></pre>
+            <div class="try"><strong>Remake it</strong><ul><li>Make the kick steps <code>0,3,7,10</code> for more kicks</li><li>Add gain <code>[.4 .8]*4</code> to the hats for loud and soft hits</li><li>Use the shuffle of step 11 (<code>[hh ~ hh]*4</code>) to make it swing</li></ul></div>
+            <p class="history" data-label="Name and history">Hip hop of New York in the 1980s and 90s. It is named after the sounds of the kick (boom) and the snare (bap). It was made by sampling: cutting drums out of records and putting them in order.</p>
+        </article>
+        <article class="entry" id="trap">
+            <h3>Trap <span class="badge bpm">BPM 140</span> <span class="badge key">Key 5</span></h3>
+            <div class="grid-wrap"><table class="grid"><thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead><tbody><tr><th>kick</th><td class="beat on"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td></td><td class="on"></td><td class="beat"></td><td></td><td></td><td></td></tr><tr><th>snare</th><td class="beat"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td></tr><tr><th>hi-hat</th><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td></tr></tbody></table></div>
+            <p>The snare plays only once, on beat 3, so it sounds slow even at 140 BPM (half time). Every two cycles the hats get twice as fast and roll.</p>
+            <p class="label">Blocks</p>
+            <ul class="blocks"><li>play on track <span class="slot">drums</span><ul><li>s <span class="slot">bd</span></li><li>beat <span class="slot">0,6,11</span> <span class="slot">16</span></li><li>stack<ul><li>s <span class="slot">sd</span></li><li>beat <span class="slot">8</span> <span class="slot">16</span></li></ul></li><li>stack<ul><li>s <span class="slot">hh*8</span></li><li>every <span class="slot">2</span> <span class="slot">ply 2</span></li></ul></li><li>bank <span class="slot">RolandTR808</span></li></ul></li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>stack(s(&quot;bd&quot;).beat(&quot;0,6,11&quot;, 16), s(&quot;sd&quot;).beat(&quot;8&quot;, 16), s(&quot;hh*8&quot;).every(2, x =&gt; x.ply(2))).bank(&quot;RolandTR808&quot;)</code></pre>
+            <div class="try"><strong>Remake it</strong><ul><li>Set every of the hats to 4 for fewer rolls</li><li>Add speed <code>.8</code> to the kick to make it lower</li><li>Use sometimes (master level) to make the rolls random</li></ul></div>
+            <p class="history" data-label="Name and history">Born from the hip hop of Atlanta in the southern US in the 2000s. The long boom of the Roland TR-808 kick and the rolling hats are its marks.</p>
+        </article>
+        <article class="entry" id="garage">
+            <h3>UK garage <span class="badge bpm">BPM 132</span> <span class="badge key">Key 6</span></h3>
+            <div class="grid-wrap"><table class="grid"><thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead><tbody><tr><th>kick</th><td class="beat on"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td></td><td></td></tr><tr><th>snare</th><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td></tr><tr><th>hi-hat</th><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td></tr></tbody></table></div>
+            <p>The kicks of four on the floor are taken out, except beat 1 and a bit after beat 3 (step 10). The kick walks in two steps, so it is also called 2-step.</p>
+            <p class="label">Blocks</p>
+            <ul class="blocks"><li>play on track <span class="slot">drums</span><ul><li>s <span class="slot">bd</span></li><li>beat <span class="slot">0,10</span> <span class="slot">16</span></li><li>stack<ul><li>s <span class="slot">[~ sd]*2</span></li></ul></li><li>stack<ul><li>s <span class="slot">[~ hh]*4</span></li></ul></li><li>bank <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>stack(s(&quot;bd&quot;).beat(&quot;0,10&quot;, 16), s(&quot;[~ sd]*2&quot;), s(&quot;[~ hh]*4&quot;)).bank(&quot;RolandTR909&quot;)</code></pre>
+            <div class="try"><strong>Remake it</strong><ul><li>Make the kick steps <code>0,10,11</code> so that it stumbles</li><li>Stack <code>hh*16</code> with gain <code>.3</code> on the hats</li><li>Raise the BPM to 172 and compare it with drum and bass, the next rhythm</li></ul></div>
+            <p class="history" data-label="Name and history">Born in London in the late 1990s. It broke up American garage house in a British way, and led to dubstep and grime.</p>
+        </article>
+        <article class="entry" id="dnb">
+            <h3>Drum and bass <span class="badge bpm">BPM 172</span> <span class="badge key">Key 7</span></h3>
+            <div class="grid-wrap"><table class="grid"><thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead><tbody><tr><th>kick</th><td class="beat on"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td class="on"></td><td></td><td class="beat"></td><td></td><td></td><td></td></tr><tr><th>snare</th><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td><td class="beat"></td><td></td><td></td><td></td><td class="beat on alt"></td><td></td><td></td><td></td></tr><tr><th>hi-hat</th><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td></tr></tbody></table></div>
+            <p>A very fast rhythm of about 170 BPM. The kick and the snare are the same 2-step as UK garage: only the speed makes it another genre.</p>
+            <p class="label">Blocks</p>
+            <ul class="blocks"><li>play on track <span class="slot">drums</span><ul><li>s <span class="slot">bd</span></li><li>beat <span class="slot">0,10</span> <span class="slot">16</span></li><li>stack<ul><li>s <span class="slot">[~ sd]*2</span></li></ul></li><li>stack<ul><li>s <span class="slot">hh*8</span></li></ul></li><li>bank <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>stack(s(&quot;bd&quot;).beat(&quot;0,10&quot;, 16), s(&quot;[~ sd]*2&quot;), s(&quot;hh*8&quot;)).bank(&quot;RolandTR909&quot;)</code></pre>
+            <div class="try"><strong>Remake it</strong><ul><li>Add every <code>4</code> <code>ply 2</code> to the hats to make them faster once in four cycles</li><li>Make the kick steps <code>0,10,11</code></li><li>Stack <code>sd</code> on steps <code>7,15</code> with gain <code>.2</code> on the snare for ghost notes</li></ul></div>
+            <p class="history" data-label="Name and history">Born from jungle music in Britain in the 1990s. It started with drums from old soul records (especially the Amen break), played fast and cut up.</p>
+        </article>
+        <article class="entry" id="reggaeton">
+            <h3>Reggaeton <span class="badge bpm">BPM 95</span> <span class="badge key">Key 8</span></h3>
+            <div class="grid-wrap"><table class="grid"><thead><tr><th></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr></thead><tbody><tr><th>kick</th><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td><td class="beat on"></td><td></td><td></td><td></td></tr><tr><th>snare</th><td class="beat"></td><td></td><td></td><td class="on alt"></td><td class="beat"></td><td></td><td class="on alt"></td><td></td><td class="beat"></td><td></td><td></td><td class="on alt"></td><td class="beat"></td><td></td><td class="on alt"></td><td></td></tr><tr><th>hi-hat</th><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td><td class="beat on"></td><td></td><td class="on"></td><td></td></tr></tbody></table></div>
+            <p>Over four-on-the-floor kicks, the snare plays on steps 3 and 6, and 11 and 14. In each half bar (8 steps), the kick on 0 and the snares cut it into 3, 3 and 2 steps. This offset is the Latin groove.</p>
+            <p class="label">Blocks</p>
+            <ul class="blocks"><li>play on track <span class="slot">drums</span><ul><li>s <span class="slot">bd*4</span></li><li>stack<ul><li>s <span class="slot">sd</span></li><li>beat <span class="slot">3,6,11,14</span> <span class="slot">16</span></li></ul></li><li>stack<ul><li>s <span class="slot">hh*8</span></li></ul></li><li>bank <span class="slot">RolandTR808</span></li></ul></li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>stack(s(&quot;bd*4&quot;), s(&quot;sd&quot;).beat(&quot;3,6,11,14&quot;, 16), s(&quot;hh*8&quot;)).bank(&quot;RolandTR808&quot;)</code></pre>
+            <div class="try"><strong>Remake it</strong><ul><li>Change the snare to <code>rim</code> for a lighter sound</li><li>Make the snare steps <code>3,6,11,13,14</code> for more hits</li><li>Take out the kick and hear the 3-3-2 offset of the snare alone</li></ul></div>
+            <p class="history" data-label="Name and history">Born in Puerto Rico in the 1990s. Its rhythm, called dembow, comes from the Jamaican dancehall song "Dem Bow". Cutting a half bar into 3, 3 and 2 is the same as tresillo, an old Cuban rhythm.</p>
+        </article>
+    </section>
+    <section class="card" id="techniques">
+        <h2>Techniques</h2>
+        <p>Open the project "Try the techniques" and click the green flag: the house beat (tracks "kick", "hats" and "clap") plays. Add the techniques one by one with keys 1-7 and hear the difference. Space goes back.</p>
+        <div class="buttons"><a class="button" href="https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/en/techniques.sb3" target="_blank" rel="noopener">Try the techniques</a></div>
+        <article class="entry" id="gain">
+            <h3>Loud and soft <span class="badge l2">Normal</span> <span class="badge key">Key 1</span></h3>
+            <p>A pattern in gain changes the loudness of each sound. All at the same loudness sounds like a machine; soft and loud in turns sounds like a person playing.</p>
+            <p class="label">Blocks(track &quot;ticks&quot;)</p>
+            <ul class="blocks"><li>play on track <span class="slot">ticks</span><ul><li>s <span class="slot">hh*16</span></li><li><span class="slot">gain</span> <span class="slot">[.2 .6]*8</span></li><li>bank <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>s(&quot;hh*16&quot;).gain(&quot;[.2 .6]*8&quot;).bank(&quot;RolandTR909&quot;)</code></pre>
+            <div class="try"><strong>Remake it</strong><ul><li>Change <code>[.2 .6]*8</code> to <code>[.2 .2 .6 .2]*4</code> for fewer loud hits</li></ul></div>
+        </article>
+        <article class="entry" id="offbeat">
+            <h3>Off-beat bass <span class="badge l2">Normal</span> <span class="badge key">Key 2</span></h3>
+            <p>The kick plays on the beats, so the bass goes between them, on the off-beats. The low sounds do not clash, and both are clear.</p>
+            <p class="label">Blocks(track &quot;bass&quot;)</p>
+            <ul class="blocks"><li>play on track <span class="slot">bass</span><ul><li>note <span class="slot">[~ c2]*4</span></li><li>s <span class="slot">sawtooth</span></li><li><span class="slot">lpf</span> <span class="slot">600</span></li></ul></li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>note(&quot;[~ c2]*4&quot;).s(&quot;sawtooth&quot;).lpf(600)</code></pre>
+            <div class="try"><strong>Remake it</strong><ul><li>Change <code>[~ c2]*4</code> to <code>&lt;[~ c2]*4 [~ g1]*4&gt;</code> to change the note every cycle</li></ul></div>
+        </article>
+        <article class="entry" id="ghost">
+            <h3>Ghost notes <span class="badge l2">Normal</span> <span class="badge key">Key 3</span></h3>
+            <p>Very soft snares hide between the usual snares. You hardly hear them, but they add a small swing to the rhythm. They are hidden like ghosts.</p>
+            <p class="label">Blocks(track &quot;snare&quot;)</p>
+            <ul class="blocks"><li>play on track <span class="slot">snare</span><ul><li>s <span class="slot">[~ sd]*2</span></li><li>stack<ul><li>s <span class="slot">sd</span></li><li>beat <span class="slot">7,9,14</span> <span class="slot">16</span></li><li><span class="slot">gain</span> <span class="slot">.2</span></li></ul></li><li>bank <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>stack(s(&quot;[~ sd]*2&quot;), s(&quot;sd&quot;).beat(&quot;7,9,14&quot;, 16).gain(&quot;.2&quot;)).bank(&quot;RolandTR909&quot;)</code></pre>
+            <div class="try"><strong>Remake it</strong><ul><li>Set the gain of the ghosts to <code>.5</code> and hear the difference</li></ul></div>
+        </article>
+        <article class="entry" id="euclid">
+            <h3>Offset with euclid <span class="badge l3">Master</span> <span class="badge key">Key 4</span></h3>
+            <p>Three sounds spread as evenly as possible on eight steps make an offset rhythm of 3, 3, 2. Stacked on four on the floor, it adds a catch to the straight rhythm.</p>
+            <p class="label">Blocks(track &quot;rim&quot;)</p>
+            <ul class="blocks"><li>play on track <span class="slot">rim</span><ul><li>s <span class="slot">rim</span></li><li>euclid <span class="slot">3</span> <span class="slot">8</span></li><li>bank <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>s(&quot;rim&quot;).euclid(3, 8).bank(&quot;RolandTR909&quot;)</code></pre>
+            <div class="try"><strong>Remake it</strong><ul><li>Change <code>3</code> <code>8</code> to <code>5</code> <code>8</code> or <code>7</code> <code>16</code></li></ul></div>
+        </article>
+        <article class="entry" id="fill">
+            <h3>Fills <span class="badge l2">Normal</span> <span class="badge key">Key 5</span></h3>
+            <p>Once in four cycles, each clap plays twice. The ear gets bored when nothing changes; a change now and then marks a section.</p>
+            <p class="label">Blocks(track &quot;clap&quot;)</p>
+            <ul class="blocks"><li>play on track <span class="slot">clap</span><ul><li>s <span class="slot">[~ cp]*2</span></li><li>every <span class="slot">4</span> <span class="slot">ply 2</span></li><li>bank <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>s(&quot;[~ cp]*2&quot;).every(4, x =&gt; x.ply(2)).bank(&quot;RolandTR909&quot;)</code></pre>
+            <div class="try"><strong>Remake it</strong><ul><li>Change "ply 2" to "fast 2" or "rev"</li></ul></div>
+        </article>
+        <article class="entry" id="filter">
+            <h3>Open the filter slowly <span class="badge l3">Master</span> <span class="badge key">Key 6</span></h3>
+            <p>A wave in lpf changes the sound from dull to bright and back over eight cycles. The same loop sounds exciting when the sound moves.</p>
+            <p class="label">Blocks(track &quot;bass&quot;)</p>
+            <ul class="blocks"><li>play on track <span class="slot">bass</span><ul><li>note <span class="slot">[~ c2]*4</span></li><li>s <span class="slot">sawtooth</span></li><li><span class="slot">lpf</span> (<span class="slot">sine</span> range <span class="slot">200</span> <span class="slot">3000</span> slow <span class="slot">8</span>)</li></ul></li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>note(&quot;[~ c2]*4&quot;).s(&quot;sawtooth&quot;).lpf(sine.range(200, 3000).slow(8))</code></pre>
+            <div class="try"><strong>Remake it</strong><ul><li>Change the shape of the wave to <code>saw</code>, which gets brighter and then drops back</li></ul></div>
+        </article>
+        <article class="entry" id="random">
+            <h3>Drop at random <span class="badge l3">Master</span> <span class="badge key">Key 7</span></h3>
+            <p>30% of the sixteenth-note hats are dropped at random. Each cycle is a bit different, so the loop sounds alive.</p>
+            <p class="label">Blocks(track &quot;ticks&quot;)</p>
+            <ul class="blocks"><li>play on track <span class="slot">ticks</span><ul><li>s <span class="slot">hh*16</span></li><li>degradeBy <span class="slot">30</span> %</li><li><span class="slot">gain</span> <span class="slot">.5</span></li><li>bank <span class="slot">RolandTR909</span></li></ul></li></ul>
+            <p class="label">In Strudel</p>
+            <pre><code>s(&quot;hh*16&quot;).degradeBy(0.3).gain(&quot;.5&quot;).bank(&quot;RolandTR909&quot;)</code></pre>
+            <div class="try"><strong>Remake it</strong><ul><li>Change 30 to 60 for more gaps</li></ul></div>
+        </article>
+        <article class="entry" id="break">
+            <h3>Break and drop <span class="badge l2">Normal</span> <span class="badge key">Key 8 9</span></h3>
+            <p>Key 8 stops the kick (break) and key 9 brings it back (drop). While the kick is gone, the ear waits for it, so its return is exciting. The longer the break, the better the drop.</p>
+            <p class="blockline">Keys 8 and 9 (stop track [kick] and play on track [kick])</p>
+            <div class="try"><strong>Remake it</strong><ul><li>Press 8, wait four cycles, then press 9. Next, wait eight cycles and compare</li></ul></div>
+        </article>
+        <p class="note">More tricks: pumping, where the kick pushes the other sounds down, and the build-up are in <a href="tutorial.html#step13">step 13 of the tutorial</a>.</p>
+    </section>
+    <p style="text-align:center"><a href="tutorial.html">Tutorial</a> ・ <a href="dictionary.html">Function dictionary</a> ・ <a href="./">Strudel for Xcratch</a></p>
+</main>
+<footer>
+    <p><a href="./">Strudel for Xcratch</a> — <a href="https://github.com/0x48lab/xcx-strudel/blob/main/LICENSE">AGPL-3.0</a>.
+    This extension bundles <a href="https://strudel.cc/">Strudel</a> (AGPL-3.0).</p>
+</footer>
+<script>
+// keep the hash when switching the language
+document.querySelectorAll('a[data-keep-hash]').forEach(a => a.addEventListener('click', () => { a.href = a.href.split('#')[0] + location.hash; }));
+</script>
+</body>
+</html>

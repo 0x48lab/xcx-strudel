@@ -3,7 +3,10 @@
  * Keys are the Japanese texts as they are written in the scripts.
  * Run a generator with --en to write the English projects into en/.
  */
+import {RHYTHM_WORDS} from './rhythm-book.mjs';
+
 export const WORDS = {
+    ...RHYTHM_WORDS,
     // track, list and message names
     'えんそう': 'play',
     'こえ': 'voice',

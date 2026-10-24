@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 /**
- * Make sample projects: projects/melody.sb3 (standard level) and projects/trance.sb3 (master level).
+ * Make sample projects: projects/melody.sb3 (standard level), projects/trance.sb3 (master level),
+ * and the projects of the rhythm book (rhythms.sb3 and techniques.sb3).
  * Keys change the music at the next cycle, like live coding.
  * Run: npm run demo
  */
 import path from 'path';
 import {Blocks, strudelBlocks, writeProject} from './sb3-builder.mjs';
 import {PIANO_RHYTHM, SOUL} from './soul-song.mjs';
+import {BASE, BREAK, RHYTHMS, TECHNIQUES} from './rhythm-book.mjs';
 
 const out = name => path.resolve(process.cwd(), `projects/${name}.sb3`);
 
@@ -254,9 +256,88 @@ const makeSoulPop = async () => {
     await writeProject(b, out('soulpop'), 'xcx-strudel make-samples');
 };
 
+/**
+ * Blocks of a track of the rhythm book.
+ * @param {object} $ - blocks of the extension
+ * @param {Array} track - [opcode, args, blocks in the C block] from the top
+ * @returns {Array<string>} - block IDs
+ */
+const fromBook = ($, track) => track.map(([opcode, args, inner]) => {
+    switch (opcode) {
+    case 's': return $.s(args.CODE);
+    case 'note': return $.note(args.CODE);
+    case 'beat': return $.beat(args.BEATS, args.STEPS);
+    case 'bank': return $.bank(args.MACHINE);
+    case 'effect': return $.effect(args.EFFECT, args.VALUE.wave ? $.wave(...args.VALUE.wave) : args.VALUE);
+    case 'every': return $.every(args.CYCLES, args.TRANSFORM);
+    case 'euclid': return $.euclid(args.PULSES, args.STEPS);
+    case 'degradeBy': return $.degradeBy(args.PERCENT);
+    case 'stackBranch': return $.stackBranch(fromBook($, inner));
+    default: throw new Error(`no block for ${opcode}`);
+    }
+});
+
+// ---- rhythm book: the standard rhythms on keys (standard level) ----
+const makeRhythms = async () => {
+    const b = new Blocks();
+    const $ = strudelBlocks(b);
+    const play = r => [b.strudel('setBpm', {BPM: ['number', r.bpm]}), $.track('ドラム', fromBook($, r.track))];
+
+    const flag = b.block('event_whenflagclicked', {top: [24, 24]});
+    b.stack([flag, b.strudel('setLevel', {}, {LEVEL: '2'}), ...play(RHYTHMS[0]),
+        b.strudel('showViz', {}, {VIZ: 'punchcard'}), b.say('1〜8 キーで リズムを かえよう。0 で とめる', 6)]);
+    b.comment(flag, '定番の リズムを 1〜8 キーで 切りかえるよ。\n' +
+        'リズムは「ドラム」トラック 1本に、楽器ごとに「重ねる」で 入っているよ。\n' +
+        '欄の 文字や マスの 番号を かえて、改造してみよう。', 1100, 24);
+    RHYTHMS.forEach((r, i) => {
+        const hat = b.whenKey(r.key, [24, 400 + (i * 320)]);
+        b.stack([hat, ...play(r)]);
+        b.comment(hat, `${r.key}: ${r.name.ja}(BPM ${r.bpm})`, 1100, 400 + (i * 320));
+    });
+    onKey(b, '0', [24, 3000], [b.strudel('stopAll')]);
+    danceOnBeat(b, [24, 3200]);
+
+    await writeProject(b, out('rhythms'), 'xcx-strudel make-samples');
+};
+
+// ---- rhythm book: techniques on the house beat (master level) ----
+const makeTechniques = async () => {
+    const b = new Blocks();
+    const $ = strudelBlocks(b);
+
+    const flag = b.block('event_whenflagclicked', {top: [24, 24]});
+    b.stack([flag, b.strudel('setLevel', {}, {LEVEL: '3'}), b.strudel('setBpm', {BPM: ['number', 124]}),
+        b.broadcast('もとの リズム'), b.strudel('showViz', {}, {VIZ: 'punchcard'}),
+        b.say('1〜7 キーで テクニックを 足そう。8 で ブレイク、9 で ドロップ、スペースで もとに もどす。0 で とめる', 8)]);
+    b.comment(flag, 'ハウスの 4つ打ちに、1〜7 キーで テクニックを 1つずつ 足して、ちがいを 聞きくらべよう。\n' +
+        'スペースで もとの リズムに もどるよ。', 1100, 24);
+    b.stack([b.whenReceive('もとの リズム', [24, 300]), b.strudel('stopAll'),
+        ...BASE.map(t => $.track(t.name, fromBook($, t.track)))]);
+    b.stack([b.whenKey('space', [24, 700]), b.broadcast('もとの リズム')]);
+    TECHNIQUES.forEach((t, i) => {
+        const hat = b.whenKey(t.key, [24, 860 + (i * 260)]);
+        b.stack([hat, $.track(t.trackName, fromBook($, t.track))]);
+        b.comment(hat, `${t.key}: ${t.name.ja}`, 1100, 860 + (i * 260));
+    });
+    const kick = BASE.find(t => t.name === 'キック');
+    const breakHat = b.whenKey(BREAK.breakKey, [24, 2800]);
+    b.stack([breakHat, b.strudel('stopTrack', {TRACK: ['text', 'キック']})]);
+    b.comment(breakHat, `${BREAK.breakKey}: ブレイク(キックを 止める)`, 1100, 2800);
+    const dropHat = b.whenKey(BREAK.dropKey, [24, 2920]);
+    b.stack([dropHat, $.track('キック', fromBook($, kick.track))]);
+    b.comment(dropHat, `${BREAK.dropKey}: ドロップ(キックを もどす)`, 1100, 2920);
+    onKey(b, '0', [24, 3120], [b.strudel('stopAll')]);
+    danceOnBeat(b, [24, 3300]);
+
+    await writeProject(b, out('techniques'), 'xcx-strudel make-samples');
+};
+
 await makeMelody();
 await makeTrance();
 await makeAcidGate();
 await makeSoulPop();
 await makeAcidDuck();
-console.log('made projects/melody.sb3, projects/trance.sb3, projects/acidgate.sb3, projects/soulpop.sb3 and projects/acidduck.sb3');
+await makeRhythms();
+await makeTechniques();
+console.log('made projects/melody.sb3, projects/trance.sb3, projects/acidgate.sb3, projects/soulpop.sb3, ' +
+    'projects/acidduck.sb3, projects/rhythms.sb3 and projects/techniques.sb3');

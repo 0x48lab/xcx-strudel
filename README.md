@@ -12,6 +12,7 @@ Available in English, Japanese and Japanese (Hiragana).
 - English: https://0x48lab.github.io/xcx-strudel/en/ (tutorial: https://0x48lab.github.io/xcx-strudel/en/tutorial.html)
 - [新規プロジェクト / New project](https://xcratch.github.io/editor/?extension=https://0x48lab.github.io/xcx-strudel/dist/strudel.mjs) — 拡張機能が入った状態で Xcratch エディターが開きます
 - [チュートリアル / Tutorial](https://0x48lab.github.io/xcx-strudel/tutorial.html) — スクリーンショット付きの 13 ステップ。リストとリズムで曲を書く、自分の声をビートにする、EDM・トランスの音作り、ジャズ・ソウルの和音まで(日本語)
+- [リズム図鑑 / Rhythm book](https://0x48lab.github.io/xcx-strudel/rhythms.html) — ハウス・ディスコ・8ビート・ブーンバップ・トラップ・UKガラージ・ドラムンベース・レゲトンの定番リズムを16マスの図で示し、強弱・裏打ち・ゴーストノート・ユークリッド・フィル・フィルター・ランダム・ブレイクのテクニックを4つ打ちに1つずつ足して聞きくらべる。作品 [rhythms.sb3](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/rhythms.sb3) と [techniques.sb3](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/techniques.sb3) で鳴らせる。ページは `npm run rhythms` で `scripts/rhythm-book.mjs` から作る
 - サンプル作品(エディタでブロックを見る)
   - [ビギナー: ビートと おどる ねこ](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/demo.sb3)
   - [ノーマル: おんかいで メロディ](https://xcratch.github.io/editor/#https://0x48lab.github.io/xcx-strudel/projects/melody.sb3) — スペース・↑・↓・R キーでメロディが変わる
