@@ -10,6 +10,18 @@
 
 const t = (ja, en) => ({ja, en});
 
+/**
+ * Range of the number of each effect, the same as EFFECTS of src/vm/extensions/block/blocks.js (a test checks it).
+ * A number out of the range is made the nearest end of it. Null is an effect which takes letters.
+ */
+export const EFFECT_RANGES = {
+    lpf: [20, 20000], hpf: [20, 20000], room: [0, 10], delay: [0, 1], gain: [0, 4], pan: [0, 1], crush: [1, 16],
+    speed: [-4, 4], attack: [0, 4], release: [0, 8], clip: [0, 4], decay: [0, 4], sustain: [0, 1], delaytime: [0, 2],
+    delayfeedback: [0, 0.95], lpq: [0, 30], lpenv: [-16, 16], lpd: [0, 2], lps: [0, 1], unison: [1, 8], detune: [0, 2],
+    spread: [0, 1], distort: [0, 10], fm: [0, 8], vowel: null, orbit: [1, 8], duck: null, duckattack: [0.002, 2],
+    duckdepth: [0, 1]
+};
+
 /** Name of the track of the examples. */
 export const EXAMPLE_TRACK = 'れい';
 
@@ -408,8 +420,8 @@ export const SECTIONS = [
                 opcode: 'effect',
                 heading: t('効果 [ ▼] [ ]', 'effect [ ▼] [ ]'),
                 level: 2,
-                what: t('▼で えらんだ <b>効果</b>(エフェクト)を かける。数字の 欄には、ミニ記法の パターンや「ゆれる値」も 入れられるよ。',
-                    'Adds the <b>effect</b> chosen in ▼. The number can also be a mini-notation pattern or a wave.'),
+                what: t('▼で えらんだ <b>効果</b>(エフェクト)を かける。数字の 欄には、ミニ記法の パターンや「ゆれる値」も 入れられるよ。数字は 効果ごとに きまった <b>範囲</b>の 中に おさめられる(範囲より 大きい 数は いちばん 大きい 数に なる)。範囲と 目安は 下の 表を 見てね。',
+                    'Adds the <b>effect</b> chosen in ▼. The number can also be a mini-notation pattern or a wave. Each effect keeps its number in a <b>range</b>: a bigger number becomes the biggest of the range. See the table below for the ranges and good values.'),
                 track: [note('c2*4'), s('sawtooth'), ['effect', {EFFECT: 'lpf', VALUE: '600'}]],
                 code: 'note("c2*4").s("sawtooth").lpf(600)',
                 result: t('ギザギザの ベースの 高い 音が けずれて、こもった 太い 音に なる。', 'The high part of the jagged bass is cut, and it becomes a muffled, fat sound.'),
@@ -421,6 +433,7 @@ export const SECTIONS = [
                 items: [
                     {
                         id: 'lpf',
+                        hint: t('200 で こもった 音、1000 で 少し こもる、5000 以上で ほぼ そのまま。hpf は 大きいほど 低い 音が 消える', '200 is muffled, 1000 a little muffled, 5000 or more almost unchanged. With hpf, bigger numbers take away more of the low sound'),
                         name: 'lpf hpf',
                         what: t('<b>lpf</b> は 高い 音を けずって こもらせる。<b>hpf</b> は 低い 音を けずって シャカシャカに する。数字は どこから けずるか(Hz)。',
                             '<b>lpf</b> cuts the high sounds and makes it muffled. <b>hpf</b> cuts the low sounds and makes it thin and tinny. The number is where the cutting starts (Hz).'),
@@ -430,6 +443,7 @@ export const SECTIONS = [
                     },
                     {
                         id: 'lpq',
+                        hint: t('0 で くせなし。10〜20 で「ミョーン」', '0 has no character; 10-20 goes "wowww"'),
                         name: 'lpq',
                         what: t('フィルターの 境目を 強調して、「ミョーン」と <b>くせの ある 音</b>に する(レゾナンス)。',
                             'Boosts the edge of the filter for a "wowww" sound <b>with a strong character</b> (resonance).'),
@@ -439,6 +453,7 @@ export const SECTIONS = [
                     },
                     {
                         id: 'lpenv',
+                        hint: t('0 で 動かない。4〜8 で よく 動く。lpd・lps は 0〜1 くらい', '0 does not move; 4-8 moves a lot. lpd and lps are about 0-1'),
                         name: 'lpenv lpd lps',
                         what: t('音が 鳴るたびに フィルターを <b>開いて 閉じる</b>。lpd は 閉じるまでの 時間、lps は 残る 量。アシッドの「ビヨッ」は これ。',
                             '<b>Opens and closes</b> the filter each time a sound plays. lpd is the time until it closes, lps is how much stays open. The "bwow" of acid music is this.'),
@@ -448,6 +463,7 @@ export const SECTIONS = [
                     },
                     {
                         id: 'adsr',
+                        hint: t('秒で 書く。attack 0 で すぐ 鳴る、release 1〜2 で 長い 余韻。sustain は 0〜1', 'In seconds. attack 0 starts at once, release 1-2 fades out long. sustain is 0-1'),
                         name: 'attack decay sustain release',
                         what: t('音量の <b>形</b>。attack = 鳴りはじめの ゆっくりさ、decay = 下がる 時間、sustain = 残る 大きさ、release = 鳴りおわりの 余韻。',
                             'The <b>shape</b> of the volume. attack = how slowly it starts, decay = time to go down, sustain = how loud it stays, release = how it fades out at the end.'),
@@ -457,6 +473,7 @@ export const SECTIONS = [
                     },
                     {
                         id: 'room',
+                        hint: t('0 で なし、0.3 で 少し、1 で 大きな 部屋', '0 is none, 0.3 a little, 1 a big room'),
                         name: 'room',
                         what: t('<b>ひびき</b>(リバーブ)。広い 部屋で 鳴らした ように なる。',
                             '<b>Echoing space</b> (reverb). It sounds like playing in a big room.'),
@@ -466,6 +483,7 @@ export const SECTIONS = [
                     },
                     {
                         id: 'delay',
+                        hint: t('delay は 0〜1 の 大きさ。delaytime は 秒(0.25 で 1/4 秒)。delayfeedback 0.5 で 何回か くりかえす', 'delay is the amount, 0-1. delaytime is in seconds (0.25 is a quarter second). delayfeedback 0.5 repeats a few times'),
                         name: 'delay delaytime delayfeedback',
                         what: t('<b>やまびこ</b>。少し おくれて 同じ 音が くりかえす。delaytime は 間かく、delayfeedback は くりかえしの 多さ。',
                             'An <b>echo</b>. The same sound repeats a little later. delaytime is the gap, delayfeedback is how many times it repeats.'),
@@ -475,6 +493,7 @@ export const SECTIONS = [
                     },
                     {
                         id: 'gain',
+                        hint: t('1 で ふつう、0.5 で 半分くらい、0 で 鳴らない', '1 is normal, 0.5 about half, 0 silent'),
                         name: 'gain',
                         what: t('<b>音の 大きさ</b>。1 が ふつう。',
                             'How <b>loud</b> the sound is. 1 is normal.'),
@@ -484,6 +503,7 @@ export const SECTIONS = [
                     },
                     {
                         id: 'pan',
+                        hint: t('0 で 左、0.5 で まんなか、1 で 右', '0 is left, 0.5 the middle, 1 right'),
                         name: 'pan',
                         what: t('<b>左右の 位置</b>。0 が 左、0.5 が まんなか、1 が 右。',
                             '<b>Left-right position</b>. 0 is left, 0.5 is the middle, 1 is right.'),
@@ -493,6 +513,7 @@ export const SECTIONS = [
                     },
                     {
                         id: 'crush',
+                        hint: t('16 で ほぼ そのまま、4 で ガリガリ', '16 is almost clean, 4 very crunchy'),
                         name: 'crush',
                         what: t('音を <b>ガリガリ</b> に する(ビットクラッシャー)。数字が 小さいほど あらい。',
                             'Makes the sound <b>crunchy</b> (a bitcrusher). The smaller the number, the rougher it gets.'),
@@ -502,6 +523,7 @@ export const SECTIONS = [
                     },
                     {
                         id: 'distort',
+                        hint: t('0 で なし、1〜3 で ひずむ', '0 is none, 1-3 distorts'),
                         name: 'distort',
                         what: t('<b>ひずみ</b>(ディストーション)。音を 歪ませて 太く、あらく する。',
                             '<b>Distortion</b>. Bends the sound to make it fat and rough.'),
@@ -511,6 +533,7 @@ export const SECTIONS = [
                     },
                     {
                         id: 'speed',
+                        hint: t('1 で ふつう、2 で 2倍 速く 高く、-1 で 逆再生', '1 is normal, 2 twice as fast and high, -1 backwards'),
                         name: 'speed',
                         what: t('録音した 音の <b>再生の 速さ</b>。2 で 2倍 速く 高く、-1 で 逆再生。',
                             'The <b>playback speed</b> of a recorded sound. 2 is twice as fast and higher. -1 plays it backwards.'),
@@ -520,6 +543,7 @@ export const SECTIONS = [
                     },
                     {
                         id: 'clip',
+                        hint: t('1 で 次の 音まで、0.3 で 短く 切る', '1 lasts until the next sound, 0.3 is short'),
                         name: 'clip',
                         what: t('音の <b>長さ</b>。1 で 次の 音まで、0.3 で 短く 切る。',
                             'The <b>length</b> of a sound. 1 lasts until the next sound, 0.3 cuts it short.'),
@@ -529,6 +553,7 @@ export const SECTIONS = [
                     },
                     {
                         id: 'vowel',
+                        hint: t('数字では なく 文字。a e i o u', 'Letters, not numbers: a e i o u'),
                         name: 'vowel',
                         what: t('音を「あ・い・う・え・お」の ような <b>声の 響き</b>に する。',
                             'Makes the sound like a <b>voice</b> saying vowels such as "a, e, i, o, u".'),
@@ -538,6 +563,7 @@ export const SECTIONS = [
                     },
                     {
                         id: 'unison',
+                        hint: t('unison は 本数(1〜8)。detune 0.3〜0.5 で ほどよく 厚い。spread 0〜1', 'unison is the number of waves (1-8). detune 0.3-0.5 is nicely thick. spread is 0-1'),
                         name: 'unison detune spread',
                         what: t('supersaw の <b>厚み</b>。unison は かさねる 本数、detune は 高さの ずれ、spread は 左右の 広がり。',
                             'How <b>thick</b> a supersaw is. unison is the number of stacked waves, detune is how far apart the pitches are, spread is how wide it is left to right.'),
@@ -547,6 +573,7 @@ export const SECTIONS = [
                     },
                     {
                         id: 'fm',
+                        hint: t('0 で なし、1〜4 で 金属っぽい', '0 is none, 1-4 metallic'),
                         name: 'fm',
                         what: t('音を <b>金属っぽく</b>、ベルや エレピの ような 音に する(FM合成)。',
                             'Makes the sound <b>metallic</b>, like a bell or an electric piano (FM synthesis).'),
@@ -556,6 +583,7 @@ export const SECTIONS = [
                     },
                     {
                         id: 'orbit',
+                        hint: t('1〜8 の 整数。ふつうは 1', 'A whole number 1-8. Usually 1'),
                         name: 'orbit',
                         what: t('音が 通る <b>通り道</b>(1〜8)を きめる。ひびきや やまびこ、duck は 通り道ごとに かかる。',
                             'Chooses the <b>path</b> (1-8) the sound goes through. Reverb, echo and duck work separately for each path.'),
@@ -565,6 +593,7 @@ export const SECTIONS = [
                     },
                     {
                         id: 'duck',
+                        hint: t('数字では なく、へこませる orbit の 番号(2、2:3)。duckattack は 戻る 秒(0.1〜0.3)、duckdepth は 深さ(0〜1)', 'Not a number: the orbits to push down (2, 2:3). duckattack is the seconds to come back (0.1-0.3), duckdepth how deep (0-1)'),
                         name: 'duck duckattack duckdepth',
                         what: t('キックが 鳴るたびに、ほかの 通り道(orbit)の 音を <b>しぼませる</b>。音が 息を する ように「ポンプ」する。',
                             'Each time the kick plays, the sounds on other paths (orbits) <b>shrink</b>. The sound "pumps" as if it is breathing.'),
@@ -871,8 +900,8 @@ export const SECTIONS = [
                 result: t('ねこが サイクルの 数を 言う。', 'The cat says the number of the cycle.'),
                 uses: t(['8サイクルごとに 背景を かえる など、曲の 進みに あわせて 画面を かえる'], ['Change the backdrop every 8 cycles: follow the song with the picture']),
                 code: null,
-                history: t('サイクルは Strudel(TidalCycles)の 時間の 単位。この 拡張では ふつう 1サイクル = 1小節 だよ。',
-                    'The cycle is the unit of time of Strudel (TidalCycles). In this extension a cycle is usually a bar.')
+                history: t('サイクルは Strudel(TidalCycles)の 時間の 単位。この 拡張では ふつう 1サイクル = 4拍 = 1小節 だよ(<a href="tutorial.html#cycle">サイクルって なに?</a>)。',
+                    'The cycle is the unit of time of Strudel (TidalCycles). In this extension a cycle is usually 4 beats, a bar (<a href="tutorial.html#cycle">what is a cycle?</a>).')
             }
         ]
     },

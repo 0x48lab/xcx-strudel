@@ -6,7 +6,7 @@
  */
 import path from 'path';
 import fs from 'fs-extra';
-import {SECTIONS} from './dictionary-book.mjs';
+import {EFFECT_RANGES, SECTIONS} from './dictionary-book.mjs';
 import {bookStyle, headerButtons, imageOf} from './page-style.mjs';
 
 const ROOT = process.cwd();
@@ -62,6 +62,7 @@ const TEXT = {
         items: 'えらべる 名前',
         itemName: '名前',
         itemWhat: '何が 起きる?',
+        itemRange: '数字の 範囲と 目安',
         history: 'なまえと れきし',
         open: 'れいを ぜんぶ 開く',
         toc: 'さくいん',
@@ -91,6 +92,7 @@ const TEXT = {
         items: 'Names you can use',
         itemName: 'Name',
         itemWhat: 'What does it do?',
+        itemRange: 'Range and good values',
         history: 'Name and history',
         open: 'Open all the examples',
         toc: 'Index',
@@ -119,7 +121,9 @@ const STYLE = `
 .entry ul.uses { margin: 4px 0 0; padding-left: 1.4em; }
 .items-wrap { overflow-x: auto; }
 table.items { margin: 4px 0 0; font-size: 15px; }
-table.items td:first-child { width: 34%; }
+table.items td:first-child { width: 26%; }
+table.items td:nth-child(3) { width: 26%; font-size: 14px; }
+table.items td .note { font-size: 13px; }
 table.items td code { white-space: nowrap; }
 table.items pre { margin: 6px 0 0; font-size: 13px; }
 @media (max-width: 640px) {
@@ -173,14 +177,20 @@ const itemsHtml = (lang, t, entry) => {
         const names = item.name.split(' ').map(name => `<code>${escape(name)}</code>`).join(' ');
         return labels.length ? `<b>${escape(labels.join(' / '))}</b><br>${names}` : names;
     };
+    const ranged = entry.items.some(item => item.hint);
+    const rangeOf = item => {
+        const ranges = item.name.split(' ').filter(name => EFFECT_RANGES[name])
+            .map(name => `<code>${escape(name)}</code> ${EFFECT_RANGES[name][0]}〜${EFFECT_RANGES[name][1]}`);
+        return `${ranges.join('<br>')}${ranges.length ? '<br>' : ''}<span class="note">${item.hint[lang]}</span>`;
+    };
     const rows = entry.items.map(item => `
                     <tr id="${item.id}"><td>${nameOf(item)}</td><td>${item.what[lang]}` +
-        `<pre><code>${escape(item.code)}</code></pre></td></tr>`)
+        `<pre><code>${escape(item.code)}</code></pre></td>${ranged ? `<td>${rangeOf(item)}</td>` : ''}</tr>`)
         .join('');
     return `
             <p class="label">${t.items}</p>
             <div class="items-wrap"><table class="items">
-                <thead><tr><th>${t.itemName}</th><th>${t.itemWhat}</th></tr></thead>
+                <thead><tr><th>${t.itemName}</th><th>${t.itemWhat}</th>${ranged ? `<th>${t.itemRange}</th>` : ''}</tr></thead>
                 <tbody>${rows}
                 </tbody>
             </table></div>`;

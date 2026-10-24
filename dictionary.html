@@ -59,6 +59,11 @@ header a { color: #fff; }
 header .button { padding: 8px 18px; background: #fff; color: var(--purple); }
 header .button:hover { background: #f1ecff; }
 header .button[aria-current="page"] { background: var(--accent); color: #fff; }
+/* a cycle cut into beats */
+.cycle { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; max-width: 420px; margin: 12px 0; text-align: center; font-size: 14px; }
+.cycle .whole { grid-column: 1 / -1; padding: 6px; border-radius: 8px; background: var(--purple); color: #fff; font-weight: bold; }
+.cycle .beat { padding: 6px 0; border-radius: 8px; background: var(--code-bg); }
+.cycle .beat code { display: block; margin-top: 2px; background: none; font-size: 15px; }
 main { max-width: 960px; margin: 0 auto; padding: 24px 16px 48px; }
 .card {
     background: var(--card);
@@ -189,7 +194,9 @@ main a { color: var(--accent); }
 .entry ul.uses { margin: 4px 0 0; padding-left: 1.4em; }
 .items-wrap { overflow-x: auto; }
 table.items { margin: 4px 0 0; font-size: 15px; }
-table.items td:first-child { width: 34%; }
+table.items td:first-child { width: 26%; }
+table.items td:nth-child(3) { width: 26%; font-size: 14px; }
+table.items td .note { font-size: 13px; }
 table.items td code { white-space: nowrap; }
 table.items pre { margin: 6px 0 0; font-size: 13px; }
 @media (max-width: 640px) {
@@ -650,7 +657,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
                 <figure><img src="dictionary/effect.png?v=f9f51a8e" width="233" height="198" alt="効果 [ ▼] [ ]" loading="lazy"></figure>
                 <div>
                     <p class="label">何が 起きる?</p>
-                    <p>▼で えらんだ <b>効果</b>(エフェクト)を かける。数字の 欄には、ミニ記法の パターンや「ゆれる値」も 入れられるよ。</p>
+                    <p>▼で えらんだ <b>効果</b>(エフェクト)を かける。数字の 欄には、ミニ記法の パターンや「ゆれる値」も 入れられるよ。数字は 効果ごとに きまった <b>範囲</b>の 中に おさめられる(範囲より 大きい 数は いちばん 大きい 数に なる)。範囲と 目安は 下の 表を 見てね。</p>
                     <p class="label">ためしてみよう</p>
                     <p>ギザギザの ベースの 高い 音が けずれて、こもった 太い 音に なる。</p>
                 </div>
@@ -661,25 +668,25 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <pre><code>note(&quot;c2*4&quot;).s(&quot;sawtooth&quot;).lpf(600)</code></pre>
             <p class="label">えらべる 名前</p>
             <div class="items-wrap"><table class="items">
-                <thead><tr><th>名前</th><th>何が 起きる?</th></tr></thead>
+                <thead><tr><th>名前</th><th>何が 起きる?</th><th>数字の 範囲と 目安</th></tr></thead>
                 <tbody>
-                    <tr id="lpf"><td><b>ひくい音だけ通す / たかい音だけ通す</b><br><code>lpf</code> <code>hpf</code></td><td><b>lpf</b> は 高い 音を けずって こもらせる。<b>hpf</b> は 低い 音を けずって シャカシャカに する。数字は どこから けずるか(Hz)。<pre><code>s(&quot;sawtooth&quot;).lpf(600)</code></pre></td></tr>
-                    <tr id="lpq"><td><b>レゾナンス</b><br><code>lpq</code></td><td>フィルターの 境目を 強調して、「ミョーン」と <b>くせの ある 音</b>に する(レゾナンス)。<pre><code>s(&quot;sawtooth&quot;).lpf(400).lpq(12)</code></pre></td></tr>
-                    <tr id="lpenv"><td><b>フィルターの動き / フィルターのディケイ / フィルターのサステイン</b><br><code>lpenv</code> <code>lpd</code> <code>lps</code></td><td>音が 鳴るたびに フィルターを <b>開いて 閉じる</b>。lpd は 閉じるまでの 時間、lps は 残る 量。アシッドの「ビヨッ」は これ。<pre><code>note(&quot;a1*8&quot;).s(&quot;sawtooth&quot;).lpf(200).lpenv(4)</code></pre></td></tr>
-                    <tr id="adsr"><td><b>アタック / ディケイ / サステイン / リリース</b><br><code>attack</code> <code>decay</code> <code>sustain</code> <code>release</code></td><td>音量の <b>形</b>。attack = 鳴りはじめの ゆっくりさ、decay = 下がる 時間、sustain = 残る 大きさ、release = 鳴りおわりの 余韻。<pre><code>note(&quot;c4&quot;).s(&quot;sine&quot;).attack(.5).release(2)</code></pre></td></tr>
-                    <tr id="room"><td><b>ひびき</b><br><code>room</code></td><td><b>ひびき</b>(リバーブ)。広い 部屋で 鳴らした ように なる。<pre><code>s(&quot;sd&quot;).room(.5)</code></pre></td></tr>
-                    <tr id="delay"><td><b>ディレイ / ディレイの間隔 / ディレイの回数</b><br><code>delay</code> <code>delaytime</code> <code>delayfeedback</code></td><td><b>やまびこ</b>。少し おくれて 同じ 音が くりかえす。delaytime は 間かく、delayfeedback は くりかえしの 多さ。<pre><code>note(&quot;c4 e4&quot;).delay(.4).delaytime(.25)</code></pre></td></tr>
-                    <tr id="gain"><td><b>音の大きさ</b><br><code>gain</code></td><td><b>音の 大きさ</b>。1 が ふつう。<pre><code>s(&quot;hh*8&quot;).gain(.6)</code></pre></td></tr>
-                    <tr id="pan"><td><b>パン</b><br><code>pan</code></td><td><b>左右の 位置</b>。0 が 左、0.5 が まんなか、1 が 右。<pre><code>s(&quot;hh*8&quot;).pan(sine.range(0, 1))</code></pre></td></tr>
-                    <tr id="crush"><td><b>クラッシュ</b><br><code>crush</code></td><td>音を <b>ガリガリ</b> に する(ビットクラッシャー)。数字が 小さいほど あらい。<pre><code>s(&quot;bd sd&quot;).crush(4)</code></pre></td></tr>
-                    <tr id="distort"><td><b>ディストーション</b><br><code>distort</code></td><td><b>ひずみ</b>(ディストーション)。音を 歪ませて 太く、あらく する。<pre><code>note(&quot;a1&quot;).s(&quot;sawtooth&quot;).distort(2)</code></pre></td></tr>
-                    <tr id="speed"><td><b>再生の速さ</b><br><code>speed</code></td><td>録音した 音の <b>再生の 速さ</b>。2 で 2倍 速く 高く、-1 で 逆再生。<pre><code>s(&quot;bd&quot;).speed(2)</code></pre></td></tr>
-                    <tr id="clip"><td><b>音の長さ</b><br><code>clip</code></td><td>音の <b>長さ</b>。1 で 次の 音まで、0.3 で 短く 切る。<pre><code>note(&quot;c4 e4&quot;).s(&quot;square&quot;).clip(.3)</code></pre></td></tr>
-                    <tr id="vowel"><td><b>母音</b><br><code>vowel</code></td><td>音を「あ・い・う・え・お」の ような <b>声の 響き</b>に する。<pre><code>s(&quot;sawtooth&quot;).vowel(&quot;&lt;a e i o&gt;&quot;)</code></pre></td></tr>
-                    <tr id="unison"><td><b>ユニゾン / デチューン / 左右の広がり</b><br><code>unison</code> <code>detune</code> <code>spread</code></td><td>supersaw の <b>厚み</b>。unison は かさねる 本数、detune は 高さの ずれ、spread は 左右の 広がり。<pre><code>note(&quot;a3&quot;).s(&quot;supersaw&quot;).unison(7).detune(.4).spread(.8)</code></pre></td></tr>
-                    <tr id="fm"><td><b>FM</b><br><code>fm</code></td><td>音を <b>金属っぽく</b>、ベルや エレピの ような 音に する(FM合成)。<pre><code>note(&quot;c4&quot;).s(&quot;sine&quot;).fm(2)</code></pre></td></tr>
-                    <tr id="orbit"><td><b>オービット</b><br><code>orbit</code></td><td>音が 通る <b>通り道</b>(1〜8)を きめる。ひびきや やまびこ、duck は 通り道ごとに かかる。<pre><code>note(&quot;a1*8&quot;).s(&quot;sawtooth&quot;).orbit(2)</code></pre></td></tr>
-                    <tr id="duck"><td><b>ダック / ダックの戻り / ダックの深さ</b><br><code>duck</code> <code>duckattack</code> <code>duckdepth</code></td><td>キックが 鳴るたびに、ほかの 通り道(orbit)の 音を <b>しぼませる</b>。音が 息を する ように「ポンプ」する。<pre><code>s(&quot;bd*4&quot;).duck(&quot;2:3&quot;).duckattack(.2).duckdepth(.8)</code></pre></td></tr>
+                    <tr id="lpf"><td><b>ひくい音だけ通す / たかい音だけ通す</b><br><code>lpf</code> <code>hpf</code></td><td><b>lpf</b> は 高い 音を けずって こもらせる。<b>hpf</b> は 低い 音を けずって シャカシャカに する。数字は どこから けずるか(Hz)。<pre><code>s(&quot;sawtooth&quot;).lpf(600)</code></pre></td><td><code>lpf</code> 20〜20000<br><code>hpf</code> 20〜20000<br><span class="note">200 で こもった 音、1000 で 少し こもる、5000 以上で ほぼ そのまま。hpf は 大きいほど 低い 音が 消える</span></td></tr>
+                    <tr id="lpq"><td><b>レゾナンス</b><br><code>lpq</code></td><td>フィルターの 境目を 強調して、「ミョーン」と <b>くせの ある 音</b>に する(レゾナンス)。<pre><code>s(&quot;sawtooth&quot;).lpf(400).lpq(12)</code></pre></td><td><code>lpq</code> 0〜30<br><span class="note">0 で くせなし。10〜20 で「ミョーン」</span></td></tr>
+                    <tr id="lpenv"><td><b>フィルターの動き / フィルターのディケイ / フィルターのサステイン</b><br><code>lpenv</code> <code>lpd</code> <code>lps</code></td><td>音が 鳴るたびに フィルターを <b>開いて 閉じる</b>。lpd は 閉じるまでの 時間、lps は 残る 量。アシッドの「ビヨッ」は これ。<pre><code>note(&quot;a1*8&quot;).s(&quot;sawtooth&quot;).lpf(200).lpenv(4)</code></pre></td><td><code>lpenv</code> -16〜16<br><code>lpd</code> 0〜2<br><code>lps</code> 0〜1<br><span class="note">0 で 動かない。4〜8 で よく 動く。lpd・lps は 0〜1 くらい</span></td></tr>
+                    <tr id="adsr"><td><b>アタック / ディケイ / サステイン / リリース</b><br><code>attack</code> <code>decay</code> <code>sustain</code> <code>release</code></td><td>音量の <b>形</b>。attack = 鳴りはじめの ゆっくりさ、decay = 下がる 時間、sustain = 残る 大きさ、release = 鳴りおわりの 余韻。<pre><code>note(&quot;c4&quot;).s(&quot;sine&quot;).attack(.5).release(2)</code></pre></td><td><code>attack</code> 0〜4<br><code>decay</code> 0〜4<br><code>sustain</code> 0〜1<br><code>release</code> 0〜8<br><span class="note">秒で 書く。attack 0 で すぐ 鳴る、release 1〜2 で 長い 余韻。sustain は 0〜1</span></td></tr>
+                    <tr id="room"><td><b>ひびき</b><br><code>room</code></td><td><b>ひびき</b>(リバーブ)。広い 部屋で 鳴らした ように なる。<pre><code>s(&quot;sd&quot;).room(.5)</code></pre></td><td><code>room</code> 0〜10<br><span class="note">0 で なし、0.3 で 少し、1 で 大きな 部屋</span></td></tr>
+                    <tr id="delay"><td><b>ディレイ / ディレイの間隔 / ディレイの回数</b><br><code>delay</code> <code>delaytime</code> <code>delayfeedback</code></td><td><b>やまびこ</b>。少し おくれて 同じ 音が くりかえす。delaytime は 間かく、delayfeedback は くりかえしの 多さ。<pre><code>note(&quot;c4 e4&quot;).delay(.4).delaytime(.25)</code></pre></td><td><code>delay</code> 0〜1<br><code>delaytime</code> 0〜2<br><code>delayfeedback</code> 0〜0.95<br><span class="note">delay は 0〜1 の 大きさ。delaytime は 秒(0.25 で 1/4 秒)。delayfeedback 0.5 で 何回か くりかえす</span></td></tr>
+                    <tr id="gain"><td><b>音の大きさ</b><br><code>gain</code></td><td><b>音の 大きさ</b>。1 が ふつう。<pre><code>s(&quot;hh*8&quot;).gain(.6)</code></pre></td><td><code>gain</code> 0〜4<br><span class="note">1 で ふつう、0.5 で 半分くらい、0 で 鳴らない</span></td></tr>
+                    <tr id="pan"><td><b>パン</b><br><code>pan</code></td><td><b>左右の 位置</b>。0 が 左、0.5 が まんなか、1 が 右。<pre><code>s(&quot;hh*8&quot;).pan(sine.range(0, 1))</code></pre></td><td><code>pan</code> 0〜1<br><span class="note">0 で 左、0.5 で まんなか、1 で 右</span></td></tr>
+                    <tr id="crush"><td><b>クラッシュ</b><br><code>crush</code></td><td>音を <b>ガリガリ</b> に する(ビットクラッシャー)。数字が 小さいほど あらい。<pre><code>s(&quot;bd sd&quot;).crush(4)</code></pre></td><td><code>crush</code> 1〜16<br><span class="note">16 で ほぼ そのまま、4 で ガリガリ</span></td></tr>
+                    <tr id="distort"><td><b>ディストーション</b><br><code>distort</code></td><td><b>ひずみ</b>(ディストーション)。音を 歪ませて 太く、あらく する。<pre><code>note(&quot;a1&quot;).s(&quot;sawtooth&quot;).distort(2)</code></pre></td><td><code>distort</code> 0〜10<br><span class="note">0 で なし、1〜3 で ひずむ</span></td></tr>
+                    <tr id="speed"><td><b>再生の速さ</b><br><code>speed</code></td><td>録音した 音の <b>再生の 速さ</b>。2 で 2倍 速く 高く、-1 で 逆再生。<pre><code>s(&quot;bd&quot;).speed(2)</code></pre></td><td><code>speed</code> -4〜4<br><span class="note">1 で ふつう、2 で 2倍 速く 高く、-1 で 逆再生</span></td></tr>
+                    <tr id="clip"><td><b>音の長さ</b><br><code>clip</code></td><td>音の <b>長さ</b>。1 で 次の 音まで、0.3 で 短く 切る。<pre><code>note(&quot;c4 e4&quot;).s(&quot;square&quot;).clip(.3)</code></pre></td><td><code>clip</code> 0〜4<br><span class="note">1 で 次の 音まで、0.3 で 短く 切る</span></td></tr>
+                    <tr id="vowel"><td><b>母音</b><br><code>vowel</code></td><td>音を「あ・い・う・え・お」の ような <b>声の 響き</b>に する。<pre><code>s(&quot;sawtooth&quot;).vowel(&quot;&lt;a e i o&gt;&quot;)</code></pre></td><td><span class="note">数字では なく 文字。a e i o u</span></td></tr>
+                    <tr id="unison"><td><b>ユニゾン / デチューン / 左右の広がり</b><br><code>unison</code> <code>detune</code> <code>spread</code></td><td>supersaw の <b>厚み</b>。unison は かさねる 本数、detune は 高さの ずれ、spread は 左右の 広がり。<pre><code>note(&quot;a3&quot;).s(&quot;supersaw&quot;).unison(7).detune(.4).spread(.8)</code></pre></td><td><code>unison</code> 1〜8<br><code>detune</code> 0〜2<br><code>spread</code> 0〜1<br><span class="note">unison は 本数(1〜8)。detune 0.3〜0.5 で ほどよく 厚い。spread 0〜1</span></td></tr>
+                    <tr id="fm"><td><b>FM</b><br><code>fm</code></td><td>音を <b>金属っぽく</b>、ベルや エレピの ような 音に する(FM合成)。<pre><code>note(&quot;c4&quot;).s(&quot;sine&quot;).fm(2)</code></pre></td><td><code>fm</code> 0〜8<br><span class="note">0 で なし、1〜4 で 金属っぽい</span></td></tr>
+                    <tr id="orbit"><td><b>オービット</b><br><code>orbit</code></td><td>音が 通る <b>通り道</b>(1〜8)を きめる。ひびきや やまびこ、duck は 通り道ごとに かかる。<pre><code>note(&quot;a1*8&quot;).s(&quot;sawtooth&quot;).orbit(2)</code></pre></td><td><code>orbit</code> 1〜8<br><span class="note">1〜8 の 整数。ふつうは 1</span></td></tr>
+                    <tr id="duck"><td><b>ダック / ダックの戻り / ダックの深さ</b><br><code>duck</code> <code>duckattack</code> <code>duckdepth</code></td><td>キックが 鳴るたびに、ほかの 通り道(orbit)の 音を <b>しぼませる</b>。音が 息を する ように「ポンプ」する。<pre><code>s(&quot;bd*4&quot;).duck(&quot;2:3&quot;).duckattack(.2).duckdepth(.8)</code></pre></td><td><code>duckattack</code> 0.002〜2<br><code>duckdepth</code> 0〜1<br><span class="note">数字では なく、へこませる orbit の 番号(2、2:3)。duckattack は 戻る 秒(0.1〜0.3)、duckdepth は 深さ(0〜1)</span></td></tr>
                 </tbody>
             </table></div>
             <details class="history"><summary>なまえと れきし</summary><p>▼ の 名前は 日本語や カタカナ だけど、1つ 1つが Strudel の 関数に なる。下の 一覧で どの 関数かを しらべよう。</p><p><b>lpf hpf</b>: <b>l</b>ow-<b>p</b>ass <b>f</b>ilter(低い 音を 通す フィルター)、<b>h</b>igh-<b>p</b>ass <b>f</b>ilter。1960年代に ロバート・モーグさんが つくった シンセの フィルターが 有名。</p><p><b>lpq</b>: <b>q</b> は 電気の ことばで「Q値(きれの するどさ)」。</p><p><b>lpenv lpd lps</b>: <b>env</b> = <b>env</b>elope(エンベロープ、音の 形の 変化)。<b>d</b> = decay、<b>s</b> = sustain(下の ADSR を 見てね)。</p><p><b>attack decay sustain release</b>: 4つの 頭文字で「<b>ADSR</b>」。1960年代に、電子音楽の 研究者 ウラジミール・ウサチェフスキーさんが 考えたと いわれ、今の ほとんどの シンセに ある。</p><p><b>room</b>: 英語で「部屋」。部屋の 大きさで ひびきかたが かわる ことから。</p><p><b>delay delaytime delayfeedback</b>: 英語で「おくれ」。むかしは 録音テープを ループさせて やまびこを つくっていた(ローランドの Space Echo、1974年 など)。</p><p><b>gain</b>: 英語で「増やす、もうけ」。電気の 信号を 何倍に するか、という 意味の ことば。</p><p><b>pan</b>: <b>panorama</b>(パノラマ、見わたす けしき)から。音を 左右の けしきの どこに おくか、という 意味。</p><p><b>crush</b>: 音の 細かさ(ビット数)を 「つぶす」 から crush。むかしの ゲーム機の 8ビットの 音に 近く なる。</p><p><b>distort</b>: エレキギターの「ひずみ」と 同じ。1950〜60年代、アンプの 音量を 上げすぎて 音が こわれたのが、かっこいい 音として 広まった。</p><p><b>speed</b>: レコードや テープを 速く まわすと 音が 高く なる のと 同じ しくみ。</p><p><b>clip</b>: 英語で「切りとる」。</p><p><b>vowel</b>: 英語で「母音」。人の 声の 母音を つくる 響き(フォルマント)を まねる フィルター。</p><p><b>unison detune spread</b>: <b>unison</b>(ユニゾン)は ラテン語で「1つの 音」。何人もが 同じ 音を 歌う ことだよ。<b>detune</b> は「チューニングを はずす」。</p><p><b>fm</b>: <b>f</b>requency <b>m</b>odulation(周波数変調。FM ラジオと 同じ ことば)。1967年に スタンフォード大学の ジョン・チャウニングさんが 発見し、1983年の ヤマハ <b>DX7</b> で 世界中に 広まった。</p><p><b>orbit</b>: 英語で「軌道」。TidalCycles の 音源 SuperDirt で、トラックごとの 効果が まざらない ように 分ける しくみの 名前だよ。</p><p><b>duck duckattack duckdepth</b>: 英語で「ひょいと 頭を 下げる」。ラジオで 話す ときに 音楽を 小さく する わざ「ダッキング」から。クラブミュージックでは「サイドチェイン」「ポンピング」とも いい、2000年代の フレンチハウスや EDM で 流行した。</p></details>
@@ -1063,7 +1070,7 @@ $: s(&quot;bd sd sd&quot;)</code></pre>
             <ul class="uses"><li>8サイクルごとに 背景を かえる など、曲の 進みに あわせて 画面を かえる</li></ul>
             <p class="label">Strudel では</p>
             <p class="note">Strudel には ない、この 拡張だけの ブロック だよ。</p>
-            <details class="history"><summary>なまえと れきし</summary><p>サイクルは Strudel(TidalCycles)の 時間の 単位。この 拡張では ふつう 1サイクル = 1小節 だよ。</p></details>
+            <details class="history"><summary>なまえと れきし</summary><p>サイクルは Strudel(TidalCycles)の 時間の 単位。この 拡張では ふつう 1サイクル = 4拍 = 1小節 だよ(<a href="tutorial.html#cycle">サイクルって なに?</a>)。</p></details>
         </article>
     </section>
     <section class="card" id="code">

@@ -1,8 +1,8 @@
 import {blockClass} from '../../src/vm/extensions/block/index.js';
-import {BLOCKS, levelOf} from '../../src/vm/extensions/block/blocks.js';
+import {BLOCKS, EFFECTS, levelOf} from '../../src/vm/extensions/block/blocks.js';
 import {compile} from '../../src/core/ast.js';
 import {build, codeOf} from '../helpers/track.js';
-import {SECTIONS} from '../../scripts/dictionary-book.mjs';
+import {EFFECT_RANGES, SECTIONS} from '../../scripts/dictionary-book.mjs';
 
 const formatMessage = msg => msg.default;
 formatMessage.setup = () => null;
@@ -45,6 +45,17 @@ describe('dictionary book', () => {
         const opcodes = new Set(entries.flatMap(e => [e.opcode, e.label]).filter(Boolean));
         const missing = BLOCKS.filter(b => typeof b === 'object').map(b => b.opcode).filter(op => !opcodes.has(op));
         expect(missing).toEqual([]);
+    });
+
+    test('the ranges of the effects are the ranges of the block', () => {
+        expect(EFFECT_RANGES).toEqual(EFFECTS);
+    });
+
+    test('every effect has a range and a hint in the dictionary', () => {
+        const items = entries.find(e => e.id === 'effect').items;
+        const names = items.flatMap(item => item.name.split(' '));
+        expect(names.sort()).toEqual(Object.keys(EFFECTS).sort());
+        items.forEach(item => expect(item.hint).toBeTruthy());
     });
 
     test('ids are not used twice', () => {
