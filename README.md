@@ -24,7 +24,7 @@ Available in English, Japanese and Japanese (Hiragana).
 
 - C型の「トラック [ ] で鳴らす」ブロックが Strudel の1行(1トラック)。中に積んだブロックを上から順に読むと、そのまま Strudel のメソッドチェーンになる(`s [hh]` の下に `fast [8]` → `s("hh").fast(8)`)
 - ブロックの形ごとに役割が1つ: C型 = トラック、中に積む命令ブロック = 音源と変形・効果、丸いブロック = 値(リストの中身、ゆれる値、乱数)
-- ブロックとメニューには Strudel の関数名を使う(`seq` `stack` `cat` `fast` `lpf` など)。日本語・ひらがな表示では、その前に意味を日本語で書く(「はやくする fast」「ひくい音だけ通す lpf」)。音の名前(`bd` `sine` など)はそのまま
+- 英語表示のブロックとメニューは Strudel の関数名(`seq` `stack` `fast` `lpf` など)。日本語・ひらがな表示は、意味がわかる日本語(「はやくする」「重ねる」「ひくい音だけ通す」)か、音楽で使うカタカナ(「アルペジオ」「ディレイ」)で書く。音の名前(`bd` `sine` など)はそのまま。どの関数になるかは関数じてんと書き出したコードでわかる
 - ビギナーでは `s [bd ▼]` `note [c4 ▼]` `seq` `stack` `cat` の ▼ で音を選び、`fast` で速くする。ノーマルからは `s [ ]` `note [ ]` にミニ記法を書ける
 - エフェクト(lpf, hpf, room, delay, gain, pan, crush, speed, attack, release, distort, fm, vowel など)、変形(rev, ply, every)、音階(n + scale)
 - ミニ記法(`bd*2 [~ sd] <hh oh>`)をそのまま書くこともできる
