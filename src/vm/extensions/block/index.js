@@ -22,6 +22,7 @@ import {Engine} from '../../../core/engine.js';
 import {SpriteSounds} from '../../../core/sprite-sounds.js';
 import {FILL_GAPS_CODE} from '../../../core/fill.js';
 import {banksFor, loadBank} from '../../../core/sample-banks.js';
+import {DRUM_KITS} from '../../../core/drum-kit.js';
 import {LAYER, StageLayer} from '../../../viz/layer.js';
 import {VIEW, pianorollDrawer} from '../../../viz/pianoroll.js';
 import {scopeDrawer} from '../../../viz/scope.js';
@@ -760,6 +761,12 @@ class ExtensionBlocks {
         case 'stack': return items.join(', ');
         default: return `<${items.join(' ')}>`;
         }
+    }
+
+    setDrumKit (args) {
+        const kit = Cast.toString(args.KIT);
+        if (!DRUM_KITS.includes(kit)) return;
+        return this.engine.setDrumKit(kit).catch(e => console.warn('[strudel]', e));
     }
 
     loadSamples (args) {

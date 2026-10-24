@@ -786,6 +786,7 @@ var en$1 = {
 	"strudel.stopTrack": "stop track [TRACK]",
 	"strudel.stopAll": "stop all tracks",
 	"strudel.setBpm": "set tempo to [BPM] BPM",
+	"strudel.setDrumKit": "set drums to [KIT]",
 	"strudel.setBeatsPerCycle": "set beats in a cycle to [BEATS]",
 	"strudel.slow": "slow [CYCLES]",
 	"strudel.whenBeat": "when a beat comes",
@@ -863,6 +864,8 @@ var en$1 = {
 	"strudel.menu.bank.piano": "piano",
 	"strudel.menu.bank.dirt": "Dirt-Samples (casio, jazz ...)",
 	"strudel.menu.bank.vcsl": "VCSL instruments",
+	"strudel.menu.drumKit.uzu": "uzu-drumkit (recorded)",
+	"strudel.menu.drumKit.synth": "synthesized (no network)",
 	"strudel.menu.machine.RolandTR909": "RolandTR909",
 	"strudel.menu.machine.RolandTR808": "RolandTR808",
 	"strudel.menu.machine.RolandTR707": "RolandTR707",
@@ -956,6 +959,7 @@ var ja$1 = {
 	"strudel.stopTrack": "トラック [TRACK] を止める",
 	"strudel.stopAll": "すべてのトラックを止める",
 	"strudel.setBpm": "テンポを [BPM] BPMにする",
+	"strudel.setDrumKit": "ドラムの音を [KIT] にする",
 	"strudel.setBeatsPerCycle": "サイクルの拍の数を [BEATS] にする",
 	"strudel.slow": "slow [CYCLES]",
 	"strudel.whenBeat": "拍がきたとき",
@@ -1033,6 +1037,8 @@ var ja$1 = {
 	"strudel.menu.bank.piano": "ピアノ",
 	"strudel.menu.bank.dirt": "Dirtサンプル (casio, jazz など)",
 	"strudel.menu.bank.vcsl": "いろいろな楽器 (VCSL)",
+	"strudel.menu.drumKit.uzu": "uzu-drumkit (録音)",
+	"strudel.menu.drumKit.synth": "合成 (ネットなしで鳴る)",
 	"strudel.menu.machine.RolandTR909": "RolandTR909",
 	"strudel.menu.machine.RolandTR808": "RolandTR808",
 	"strudel.menu.machine.RolandTR707": "RolandTR707",
@@ -1129,6 +1135,7 @@ var translations = {
 	"strudel.stopTrack": "トラック [TRACK] を とめる",
 	"strudel.stopAll": "すべての トラックを とめる",
 	"strudel.setBpm": "テンポを [BPM] BPMに する",
+	"strudel.setDrumKit": "ドラムの おとを [KIT] にする",
 	"strudel.setBeatsPerCycle": "サイクルの はくの かずを [BEATS] に する",
 	"strudel.slow": "slow [CYCLES]",
 	"strudel.whenBeat": "はくが きたとき",
@@ -1206,6 +1213,8 @@ var translations = {
 	"strudel.menu.bank.piano": "ピアノ",
 	"strudel.menu.bank.dirt": "Dirtサンプル (casio, jazz など)",
 	"strudel.menu.bank.vcsl": "いろいろな がっき (VCSL)",
+	"strudel.menu.drumKit.uzu": "uzu-drumkit (ろくおん)",
+	"strudel.menu.drumKit.synth": "ごうせい (ネットなしで なる)",
 	"strudel.menu.machine.RolandTR909": "RolandTR909",
 	"strudel.menu.machine.RolandTR808": "RolandTR808",
 	"strudel.menu.machine.RolandTR707": "RolandTR707",
@@ -6317,6 +6326,18 @@ var BLOCKS = [{
     }
   }
 }, {
+  opcode: 'setDrumKit',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.STANDARD,
+  text: 'set drums to [KIT]',
+  arguments: {
+    KIT: {
+      type: ArgumentType.STRING,
+      menu: 'drumKit',
+      defaultValue: 'uzu'
+    }
+  }
+}, {
   opcode: 'setBeatsPerCycle',
   blockType: BlockType.COMMAND,
   level: LEVEL.STANDARD,
@@ -6980,6 +7001,7 @@ var EFFECTS = {
 };
 var EFFECT_ITEMS = [['lpf', 'lpf'], ['hpf', 'hpf'], ['room', 'room'], ['delay', 'delay'], ['gain', 'gain'], ['pan', 'pan'], ['crush', 'crush'], ['speed', 'speed'], ['attack', 'attack'], ['release', 'release'], ['clip', 'clip'], ['decay', 'decay'], ['sustain', 'sustain'], ['delaytime', 'delaytime'], ['delayfeedback', 'delayfeedback'], ['lpq', 'lpq'], ['lpenv', 'lpenv'], ['lpd', 'lpd'], ['lps', 'lps'], ['unison', 'unison'], ['detune', 'detune'], ['spread', 'spread'], ['distort', 'distort'], ['fm', 'fm'], ['vowel', 'vowel'], ['orbit', 'orbit'], ['duck', 'duck'], ['duckattack', 'duckattack'], ['duckdepth', 'duckdepth']];
 var BANK_ITEMS = [['drums', 'drum machines'], ['piano', 'piano'], ['dirt', 'Dirt-Samples (casio, jazz ...)'], ['vcsl', 'VCSL instruments']];
+var DRUM_KIT_ITEMS = [['uzu', 'uzu-drumkit (recorded)'], ['synth', 'synthesized (no network)']];
 var MACHINE_ITEMS = ['RolandTR909', 'RolandTR808', 'RolandTR707', 'LinnDrum', 'OberheimDMX', 'KorgMinipops', 'CasioRZ1', 'BossDR55'].map(function (m) {
   return [m, m];
 });
@@ -7092,6 +7114,11 @@ var MENUS = {
     acceptReporters: false,
     group: 'bank',
     items: BANK_ITEMS
+  },
+  drumKit: {
+    acceptReporters: false,
+    group: 'drumKit',
+    items: DRUM_KIT_ITEMS
   },
   machine: {
     acceptReporters: true,
@@ -19365,6 +19392,74 @@ var registerDrumSounds = function registerDrumSounds() {
 };
 
 /**
+ * Recorded drums of uzu-drumkit, which strudel.cc plays for bd, sd, hh and others without a bank.
+ * https://github.com/tidalcycles/uzu-drumkit (Unlicense, public domain)
+ * Pinned to a commit, so that a change of the repository does not change what is loaded.
+ */
+var COMMIT$1 = '2f3e05c70ab4d73ad053a1467adec89bd27377a0';
+var BASE$1 = "https://raw.githubusercontent.com/tidalcycles/uzu-drumkit/".concat(COMMIT$1, "/");
+var CHECK_TIMEOUT = 5000; // ms
+
+/** Sound names and their files, in the order of the sample numbers such as bd:1. */
+var UZU_DRUMS = {
+  bd: ['bd/10_bd_switchangel.wav', 'bd/11_bd_mot4i.wav', 'bd/12_bd_mot4i.wav', 'bd/13_bd_mot4i.wav', 'bd/14_bd_switchangel.wav', 'bd/15_bd_switchangel.wav', 'bd/16_bd_switchangel.wav', 'bd/17_bd_switchangel.wav'],
+  brk: ['brk/10_break_amen_pprocessed.wav'],
+  cb: ['cb/10_perc_switchangel.wav'],
+  cp: ['cp/10_cp_switchangel.wav', 'cp/11_cp_mot4i.wav'],
+  cr: ['cr/10_cr_switchangel.wav', 'cr/11_cr_mot4i.wav'],
+  hh: ['hh/10_hh_switchangel.wav', 'hh/11_hh_mot4i.wav', 'hh/12_hh_switchangel.wav', 'hh/13_hh_switchangel.wav', 'hh/14_hh_mot4i.wav'],
+  ht: ['ht/10_ht_mot4i.wav'],
+  lt: ['lt/10_lt_mot4i.wav'],
+  misc: ['misc/10_misc_switchangel_ludens.wav', 'misc/11_misc_switchangel_ludens.wav', 'misc/12_misc_switchangel_ludens.wav', 'misc/13_misc_switchangel_ludens.wav', 'misc/14_misc_switchangel_ludens.wav'],
+  mt: ['mt/10_mt_mot4i.wav'],
+  oh: ['oh/10_oh_switchangel.wav', 'oh/11_oh_switchangel.wav', 'oh/12_oh_switchangel.wav', 'oh/13_oh_switchangel.wav'],
+  rd: ['rd/10_rd_switchangel.wav'],
+  rim: ['rim/10_rim_switchangel.wav', 'rim/11_rim_switch_angel.wav'],
+  sd: ['sd/10_sd_switchangel-bounce-2.wav', 'sd/11_sd_switchangel_3.wav', 'sd/12_sd_switchangel_2.wav', 'sd/13_sd_switchangel_2.wav', 'sd/14_sd.wav'],
+  sh: ['sh/10_sh_switchangel.wav'],
+  tb: ['tb/10_tb.wav']
+};
+
+/** Drum kits: recorded drums of uzu-drumkit, or drums made with oscillators which need no network. */
+var DRUM_KITS = ['uzu', 'synth'];
+var checking = null;
+
+/**
+ * Check once that the files of uzu-drumkit can be fetched, by fetching the first bass drum.
+ * @returns {Promise} - resolves when they can be fetched
+ */
+var checkUzuDrums = function checkUzuDrums() {
+  if (!checking) {
+    var controller = new AbortController();
+    var timer = setTimeout(function () {
+      return controller.abort();
+    }, CHECK_TIMEOUT);
+    checking = fetch("".concat(BASE$1).concat(UZU_DRUMS.bd[0]), {
+      signal: controller.signal
+    }).then(function (response) {
+      if (!response.ok) throw new Error("uzu-drumkit is not found: ".concat(response.status));
+    }).catch(function (e) {
+      // allow to retry
+      checking = null;
+      throw e;
+    }).finally(function () {
+      return clearTimeout(timer);
+    });
+  }
+  return checking;
+};
+
+/**
+ * Register the drums of uzu-drumkit in place of the drums with the same names.
+ * @returns {Promise} - resolves when they are registered
+ */
+var registerUzuDrums = function registerUzuDrums() {
+  return ao(UZU_DRUMS, BASE$1, {
+    prebake: true
+  });
+};
+
+/**
  * Pattern that plays `before` until cycle `at`, then `after`.
  * @param {Pattern} before - pattern before the switch
  * @param {Pattern} after - pattern after the switch
@@ -19515,6 +19610,8 @@ var Engine = /*#__PURE__*/function () {
     this.soundTimers = new Set();
     /** Increased by stopAll to cancel plays which are waiting for initialization. */
     this.generation = 0;
+    /** Drum kit which plays bd, sd, hh and others: 'synth', which needs no network, or 'uzu' (recorded). */
+    this.drumKit = 'synth';
     /** Sound names which were warned as not found. */
     this.warnedSounds = new Set();
     this.scheduler = new hf({
@@ -19604,14 +19701,22 @@ var Engine = /*#__PURE__*/function () {
               return Ro();
             case 1:
               uc();
+              // the synthesized drums play also when the recorded drums can not be fetched
               registerDrumSounds();
+              if (!(this.drumKit !== 'synth')) {
+                _context.next = 2;
+                break;
+              }
+              _context.next = 2;
+              return this.applyDrumKit();
+            case 2:
               // the orbits which duck can duck, made before the first duck so that they are found.
               // [0, 1] are the default channels of superdough, because initAudio is called without multiChannelOrbits
               for (orbit = 1; orbit <= LIMIT.ORBITS; orbit++) Zt().getOrbit(orbit, [0, 1]);
               this.analyser = this.audioContext.createAnalyser();
               this.analyser.fftSize = 2048;
               Zt().output.destinationGain.connect(this.analyser);
-            case 2:
+            case 3:
             case "end":
               return _context.stop();
           }
@@ -19621,6 +19726,95 @@ var Engine = /*#__PURE__*/function () {
         return _initAudio2.apply(this, arguments);
       }
       return initAudio;
+    }()
+    /**
+     * Register the drums of the drum kit. The synthesized drums stay when the recorded drums can not be fetched.
+     * @returns {Promise} - resolves when the drums are registered
+     */
+    )
+  }, {
+    key: "applyDrumKit",
+    value: (function () {
+      var _applyDrumKit = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime.mark(function _callee2() {
+        var kit, _t;
+        return _regeneratorRuntime.wrap(function (_context2) {
+          while (1) switch (_context2.prev = _context2.next) {
+            case 0:
+              kit = this.drumKit;
+              if (!(kit !== 'uzu')) {
+                _context2.next = 1;
+                break;
+              }
+              registerDrumSounds();
+              return _context2.abrupt("return");
+            case 1:
+              _context2.prev = 1;
+              _context2.next = 2;
+              return checkUzuDrums();
+            case 2:
+              _context2.next = 4;
+              break;
+            case 3:
+              _context2.prev = 3;
+              _t = _context2["catch"](1);
+              console.warn('[strudel] the synthesized drums play, because uzu-drumkit can not be fetched:', _t);
+              registerDrumSounds();
+              return _context2.abrupt("return");
+            case 4:
+              if (!(this.drumKit !== kit)) {
+                _context2.next = 5;
+                break;
+              }
+              return _context2.abrupt("return");
+            case 5:
+              _context2.next = 6;
+              return registerUzuDrums();
+            case 6:
+            case "end":
+              return _context2.stop();
+          }
+        }, _callee2, this, [[1, 3]]);
+      }));
+      function applyDrumKit() {
+        return _applyDrumKit.apply(this, arguments);
+      }
+      return applyDrumKit;
+    }()
+    /**
+     * @param {string} kit - 'uzu' or 'synth'
+     * @returns {Promise} - resolves when the drums are registered, or at once before audio is ready
+     */
+    )
+  }, {
+    key: "setDrumKit",
+    value: (function () {
+      var _setDrumKit = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime.mark(function _callee3(kit) {
+        return _regeneratorRuntime.wrap(function (_context3) {
+          while (1) switch (_context3.prev = _context3.next) {
+            case 0:
+              this.drumKit = kit;
+              // initAudio registers the drums of the kit later
+              if (this.ready) {
+                _context3.next = 1;
+                break;
+              }
+              return _context3.abrupt("return");
+            case 1:
+              _context3.next = 2;
+              return this.ready;
+            case 2:
+              _context3.next = 3;
+              return this.applyDrumKit();
+            case 3:
+            case "end":
+              return _context3.stop();
+          }
+        }, _callee3, this);
+      }));
+      function setDrumKit(_x) {
+        return _setDrumKit.apply(this, arguments);
+      }
+      return setDrumKit;
     }()
     /**
      * Initialize audio once. Call this from a user action.
@@ -19698,32 +19892,32 @@ var Engine = /*#__PURE__*/function () {
   }, {
     key: "play",
     value: (function () {
-      var _play = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime.mark(function _callee2(name, pattern) {
+      var _play = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime.mark(function _callee4(name, pattern) {
         var generation;
-        return _regeneratorRuntime.wrap(function (_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
+        return _regeneratorRuntime.wrap(function (_context4) {
+          while (1) switch (_context4.prev = _context4.next) {
             case 0:
               generation = this.generation;
-              _context2.next = 1;
+              _context4.next = 1;
               return this.init();
             case 1:
               if (!(generation !== this.generation)) {
-                _context2.next = 2;
+                _context4.next = 2;
                 break;
               }
-              return _context2.abrupt("return");
+              return _context4.abrupt("return");
             case 2:
               this.tracks.set(name, pattern, this.queried());
               this.pattern = this.tracks.pattern();
-              _context2.next = 3;
+              _context4.next = 3;
               return this.scheduler.setPattern(this.pattern, true);
             case 3:
             case "end":
-              return _context2.stop();
+              return _context4.stop();
           }
-        }, _callee2, this);
+        }, _callee4, this);
       }));
-      function play(_x, _x2) {
+      function play(_x2, _x3) {
         return _play.apply(this, arguments);
       }
       return play;
@@ -21118,6 +21312,15 @@ var ExtensionBlocks = /*#__PURE__*/function () {
         default:
           return "<".concat(items.join(' '), ">");
       }
+    }
+  }, {
+    key: "setDrumKit",
+    value: function setDrumKit(args) {
+      var kit = Cast.toString(args.KIT);
+      if (!DRUM_KITS.includes(kit)) return;
+      return this.engine.setDrumKit(kit).catch(function (e) {
+        return console.warn('[strudel]', e);
+      });
     }
   }, {
     key: "loadSamples",

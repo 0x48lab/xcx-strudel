@@ -1,5 +1,13 @@
 import {sequence} from '@strudel/core';
 import {Engine, soundKey} from '../../src/core/engine.js';
+import {checkUzuDrums, registerUzuDrums} from '../../src/core/drum-kit.js';
+import {registerDrumSounds} from '../../src/core/drums.js';
+
+vi.mock('../../src/core/drum-kit.js', () => ({
+    checkUzuDrums: vi.fn(() => Promise.resolve()),
+    registerUzuDrums: vi.fn(() => Promise.resolve())
+}));
+vi.mock('../../src/core/drums.js', () => ({registerDrumSounds: vi.fn()}));
 
 /**
  * Engine whose audio and scheduler are replaced by fakes.
@@ -122,5 +130,58 @@ describe('soundKey', () => {
         [{s: 808}, null]
     ])('%j is %j', (value, key) => {
         expect(soundKey(value)).toBe(key);
+    });
+});
+
+describe('drum kit', () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+        vi.spyOn(console, 'warn').mockImplementation(() => null);
+    });
+
+    test('the synthesized drums are used first, and uzu-drumkit after the change', async () => {
+        const engine = new Engine({currentTime: 0});
+        expect(engine.drumKit).toBe('synth');
+        await engine.setDrumKit('uzu');
+        await engine.applyDrumKit();
+        expect(registerUzuDrums).toHaveBeenCalledTimes(1);
+        expect(registerDrumSounds).not.toHaveBeenCalled();
+    });
+
+    test('the synthesized drums play when uzu-drumkit can not be fetched', async () => {
+        checkUzuDrums.mockImplementationOnce(() => Promise.reject(new Error('offline')));
+        const engine = new Engine({currentTime: 0});
+        engine.drumKit = 'uzu';
+        await engine.applyDrumKit();
+        expect(registerUzuDrums).not.toHaveBeenCalled();
+        expect(registerDrumSounds).toHaveBeenCalledTimes(1);
+    });
+
+    test('the kit is changed after audio is ready, and kept for initialization before it', async () => {
+        const engine = new Engine({currentTime: 0});
+        await engine.setDrumKit('synth');
+        expect(engine.drumKit).toBe('synth');
+        expect(registerDrumSounds).not.toHaveBeenCalled();
+        engine.ready = Promise.resolve();
+        await engine.setDrumKit('synth');
+        expect(registerDrumSounds).toHaveBeenCalledTimes(1);
+        await engine.setDrumKit('uzu');
+        expect(registerUzuDrums).toHaveBeenCalledTimes(1);
+    });
+
+    test('a change to synth while fetching uzu-drumkit keeps synth', async () => {
+        let fetched;
+        checkUzuDrums.mockImplementationOnce(() => new Promise(resolve => {
+            fetched = resolve;
+        }));
+        const engine = new Engine({currentTime: 0});
+        engine.drumKit = 'uzu';
+        engine.ready = Promise.resolve();
+        const first = engine.applyDrumKit();
+        await engine.setDrumKit('synth');
+        fetched();
+        await first;
+        expect(registerUzuDrums).not.toHaveBeenCalled();
+        expect(registerDrumSounds).toHaveBeenCalledTimes(1);
     });
 });

@@ -804,6 +804,14 @@ describe('list and rhythm blocks', () => {
         expect(() => compile(build(ext, [['s', {CODE: 'bd'}], ['beat', {BEATS: beats, STEPS: 16}]]))).toThrow();
     });
 
+    test('the drum kit block changes the kit of the engine, and ignores unknown kits', async () => {
+        const e = new blockClass(makeRuntime());
+        e.engine.setDrumKit = vi.fn(() => Promise.resolve());
+        await e.setDrumKit({KIT: 'synth'});
+        e.setDrumKit({KIT: 'evil'});
+        expect(e.engine.setDrumKit.mock.calls).toEqual([['synth']]);
+    });
+
     test('stack plays the chain in it with the chain above, and a method below is on all', () => {
         const n = build(ext, [
             ['s', {CODE: 'bd:1'}], ['beat', {BEATS: '0,7?,10', STEPS: 16}],

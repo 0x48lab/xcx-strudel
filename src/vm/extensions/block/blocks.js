@@ -79,6 +79,15 @@ export const BLOCKS = [
         }
     },
     {
+        opcode: 'setDrumKit',
+        blockType: BlockType.COMMAND,
+        level: LEVEL.STANDARD,
+        text: 'set drums to [KIT]',
+        arguments: {
+            KIT: {type: ArgumentType.STRING, menu: 'drumKit', defaultValue: 'uzu'}
+        }
+    },
+    {
         opcode: 'setBeatsPerCycle',
         blockType: BlockType.COMMAND,
         level: LEVEL.STANDARD,
@@ -683,6 +692,11 @@ const BANK_ITEMS = [
     ['vcsl', 'VCSL instruments']
 ];
 
+const DRUM_KIT_ITEMS = [
+    ['uzu', 'uzu-drumkit (recorded)'],
+    ['synth', 'synthesized (no network)']
+];
+
 const MACHINE_ITEMS = [
     'RolandTR909', 'RolandTR808', 'RolandTR707', 'LinnDrum',
     'OberheimDMX', 'KorgMinipops', 'CasioRZ1', 'BossDR55'
@@ -787,6 +801,7 @@ export const MENUS = {
     scale: {acceptReporters: true, group: 'scale', items: SCALE_ITEMS},
     effect: {acceptReporters: false, group: 'effect', items: EFFECT_ITEMS},
     bank: {acceptReporters: false, group: 'bank', items: BANK_ITEMS},
+    drumKit: {acceptReporters: false, group: 'drumKit', items: DRUM_KIT_ITEMS},
     machine: {acceptReporters: true, group: 'machine', items: MACHINE_ITEMS},
     transform: {acceptReporters: false, group: 'transform', items: TRANSFORM_ITEMS},
     shape: {acceptReporters: false, group: 'shape', items: SHAPE_ITEMS},

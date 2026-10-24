@@ -8,6 +8,7 @@ import {
     superdough
 } from 'superdough';
 import {registerDrumSounds} from './drums.js';
+import {checkUzuDrums, registerUzuDrums} from './drum-kit.js';
 import {Tracks} from './tracks.js';
 import {LIMIT} from './ast.js';
 
@@ -50,6 +51,8 @@ export class Engine {
         this.soundTimers = new Set();
         /** Increased by stopAll to cancel plays which are waiting for initialization. */
         this.generation = 0;
+        /** Drum kit which plays bd, sd, hh and others: 'synth', which needs no network, or 'uzu' (recorded). */
+        this.drumKit = 'synth';
         /** Sound names which were warned as not found. */
         this.warnedSounds = new Set();
         this.scheduler = new Cyclist({
@@ -114,13 +117,49 @@ export class Engine {
     async initAudio () {
         await initAudio();
         registerSynthSounds();
+        // the synthesized drums play also when the recorded drums can not be fetched
         registerDrumSounds();
+        if (this.drumKit !== 'synth') await this.applyDrumKit();
         // the orbits which duck can duck, made before the first duck so that they are found.
         // [0, 1] are the default channels of superdough, because initAudio is called without multiChannelOrbits
         for (let orbit = 1; orbit <= LIMIT.ORBITS; orbit++) getSuperdoughAudioController().getOrbit(orbit, [0, 1]);
         this.analyser = this.audioContext.createAnalyser();
         this.analyser.fftSize = 2048;
         getSuperdoughAudioController().output.destinationGain.connect(this.analyser);
+    }
+
+    /**
+     * Register the drums of the drum kit. The synthesized drums stay when the recorded drums can not be fetched.
+     * @returns {Promise} - resolves when the drums are registered
+     */
+    async applyDrumKit () {
+        const kit = this.drumKit;
+        if (kit !== 'uzu') {
+            registerDrumSounds();
+            return;
+        }
+        try {
+            await checkUzuDrums();
+        } catch (e) {
+            console.warn('[strudel] the synthesized drums play, because uzu-drumkit can not be fetched:', e);
+            registerDrumSounds();
+            return;
+        }
+        // the kit was changed while fetching
+        if (this.drumKit !== kit) return;
+        await registerUzuDrums();
+    }
+
+    /**
+     * @param {string} kit - 'uzu' or 'synth'
+     * @returns {Promise} - resolves when the drums are registered, or at once before audio is ready
+     */
+    async setDrumKit (kit) {
+        this.drumKit = kit;
+        // initAudio registers the drums of the kit later
+        if (!this.ready) return;
+        await this.ready;
+        await this.applyDrumKit();
     }
 
     /**

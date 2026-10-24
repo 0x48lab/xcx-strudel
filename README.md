@@ -59,8 +59,10 @@ https://0x48lab.github.io/xcx-strudel/dist/strudel.mjs
 
 ## 音源について / Sounds
 
-- 内蔵シンセ(sine, square, sawtooth, triangle)と合成ドラム(bd sd hh oh cp rim lt mt ht cr)は、ネットワークなしで鳴ります。
-- 「Strudelの音を読み込む」ブロックを使ったときだけ、次のサンプルを GitHub から読み込みます。読み込み先はこの4つに限られています。
+- ドラム(bd sd hh oh cp rim lt mt ht cr)は、ネットワークなしで鳴る合成ドラムです。
+- 「ドラムの音を [uzu-drumkit (録音)] にする」ブロックを置くと、strudel.cc と同じ [tidalcycles/uzu-drumkit](https://github.com/tidalcycles/uzu-drumkit)(Unlicense)の録音を GitHub から読み込んで鳴らします。`bd:1` のような番号で録音を選べ、rd cb sh tb brk misc も鳴ります。読み込めないときは合成ドラムが鳴ります。
+- 内蔵シンセ(sine, square, sawtooth, triangle など)は、ネットワークなしで鳴ります。
+- ピアノやドラムマシンなどは、使われている音に合わせて次のサンプルを GitHub から読み込みます。読み込み先はここに挙げたものに限られています。
   - [felixroos/dough-samples](https://github.com/felixroos/dough-samples) のサンプルマップ
   - ピアノ: Salamander Grand Piano V3 — Alexander Holm, [CC BY 3.0](http://creativecommons.org/licenses/by/3.0/)
   - VCSL: [sgossner/VCSL](https://github.com/sgossner/VCSL), CC0
