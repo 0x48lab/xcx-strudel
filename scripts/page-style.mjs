@@ -44,3 +44,24 @@ export const imageOf = file => {
         hash: crypto.createHash('md5').update(data).digest('hex').slice(0, 8)
     };
 };
+
+const NAV = {
+    ja: [['./', 'トップ'], ['tutorial.html', 'チュートリアル'], ['dictionary.html', 'ブロックじてん'], ['rhythms.html', 'リズム図鑑']],
+    en: [['./', 'Home'], ['tutorial.html', 'Tutorial'], ['dictionary.html', 'Block dictionary'], ['rhythms.html', 'Rhythm book']]
+};
+const NEW_PROJECT = {ja: '新規プロジェクト', en: 'New project'};
+const EDITOR = 'https://xcratch.github.io/editor/?extension=https://0x48lab.github.io/xcx-strudel/dist/strudel.mjs';
+
+/**
+ * Buttons of the pages in the header, the same as the top page. The button of this page is green.
+ * @param {string} lang - 'ja' or 'en'
+ * @param {string} current - file of this page, such as 'rhythms.html'
+ * @returns {string} - HTML
+ */
+export const headerButtons = (lang, current) => [
+    '    <p class="header-buttons">',
+    ...NAV[lang].map(([href, label]) =>
+        `        <a class="button" href="${href}"${href === current ? ' aria-current="page"' : ''}>${label}</a>`),
+    `        <a class="button" href="${EDITOR}" target="_blank" rel="noopener">${NEW_PROJECT[lang]}</a>`,
+    '    </p>'
+].join('\n');

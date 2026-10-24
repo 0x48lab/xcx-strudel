@@ -53,6 +53,11 @@ header p { margin: 8px auto 0; max-width: 640px; font-size: 17px; }
 header a { color: #fff; }
 .lang { max-width: 960px; margin: -24px auto 8px !important; text-align: right; font-size: 15px; }
 .lang a { color: #fff; font-weight: bold; }
+/* the same buttons as the header of the top page; the button of this page is green */
+.header-buttons { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 16px auto 0 !important; }
+header .button { padding: 8px 18px; background: #fff; color: var(--purple); }
+header .button:hover { background: #f1ecff; }
+header .button[aria-current="page"] { background: var(--accent); color: #fff; }
 main { max-width: 960px; margin: 0 auto; padding: 24px 16px 48px; }
 .card {
     background: var(--card);
@@ -165,7 +170,14 @@ footer a { color: inherit; }
     <img src="icon.svg" alt="" width="64" height="64" style="display:block;margin:0 auto 8px">
     <h1>チュートリアル</h1>
     <p>ブロックを くみたてて、ビートや メロディを つくろう。<br>
-    <a href="./">Strudel for Xcratch</a> の つかいかたを 1つずつ せつめいするよ。</p>
+    Strudel for Xcratch の つかいかたを 1つずつ せつめいするよ。</p>
+    <p class="header-buttons">
+        <a class="button" href="./">トップ</a>
+        <a class="button" href="tutorial.html" aria-current="page">チュートリアル</a>
+        <a class="button" href="dictionary.html">ブロックじてん</a>
+        <a class="button" href="rhythms.html">リズム図鑑</a>
+        <a class="button" href="https://xcratch.github.io/editor/?extension=https://0x48lab.github.io/xcx-strudel/dist/strudel.mjs" target="_blank" rel="noopener">新規プロジェクト</a>
+    </p>
 </header>
 <main>
     <nav class="card" aria-label="もくじ">

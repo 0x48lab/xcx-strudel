@@ -8,7 +8,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import {BREAK, DRUMS, RHYTHMS, STEPS, TECHNIQUES, gridOf} from './rhythm-book.mjs';
 import {WORDS} from './words-en.mjs';
-import {bookStyle, imageOf} from './page-style.mjs';
+import {bookStyle, headerButtons, imageOf} from './page-style.mjs';
 
 const ROOT = process.cwd();
 const SITE = 'https://0x48lab.github.io/xcx-strudel/';
@@ -25,9 +25,6 @@ const TEXT = {
         h1: 'リズム図鑑',
         description: '定番の ドラムの リズムと、リズムを かっこよく する テクニックを、Strudel for Xcratch の ブロックで 鳴らして 改造しよう。',
         lead: '定番の リズムを 鳴らして、改造して、じぶんの 曲に しよう。',
-        home: 'Strudel for Xcratch',
-        tutorial: 'チュートリアル',
-        dictionary: 'ブロックじてん',
         other: {href: 'en/rhythms.html', label: 'English'},
         level: {2: 'ノーマル', 3: 'マスター'},
         key: 'キー',
@@ -61,9 +58,6 @@ const TEXT = {
         h1: 'Rhythm book',
         description: 'Standard drum rhythms and techniques which make rhythms cool. Play them and remake them with the blocks of Strudel for Xcratch.',
         lead: 'Play standard rhythms, remake them, and make them your own songs.',
-        home: 'Strudel for Xcratch',
-        tutorial: 'Tutorial',
-        dictionary: 'Block dictionary',
         other: {href: '../rhythms.html', label: '日本語'},
         level: {2: 'Normal', 3: 'Master'},
         key: 'Key',
@@ -204,7 +198,8 @@ const page = lang => {
     <p class="lang"><a href="${t.other.href}" data-keep-hash>${t.other.label}</a></p>
     <img src="${up}icon.svg" alt="" width="64" height="64" style="display:block;margin:0 auto 8px">
     <h1>${t.h1}</h1>
-    <p>${t.lead}<br><a href="./">${t.home}</a> ・ <a href="tutorial.html">${t.tutorial}</a> ・ <a href="dictionary.html">${t.dictionary}</a></p>
+    <p>${t.lead}</p>
+${headerButtons(lang, 'rhythms.html')}
 </header>
 <main>
     <section class="card" id="about">${t.about}

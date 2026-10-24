@@ -7,7 +7,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import {SECTIONS} from './dictionary-book.mjs';
-import {bookStyle, imageOf} from './page-style.mjs';
+import {bookStyle, headerButtons, imageOf} from './page-style.mjs';
 
 const ROOT = process.cwd();
 const translations = fs.readJsonSync(path.join(ROOT, 'src/vm/extensions/block/translations.json'));
@@ -52,9 +52,6 @@ const TEXT = {
         h1: 'ブロックじてん',
         description: 'Strudel for Xcratch の ブロックの つかいかたと、名前(Strudel の 関数)の いみと ゆらい。',
         lead: 'この ブロック、どういう ときに つかうの? どうやって つかうの? を しらべよう。',
-        home: 'Strudel for Xcratch',
-        tutorial: 'チュートリアル',
-        rhythms: 'リズム図鑑',
         other: {href: 'en/dictionary.html', label: 'English'},
         level: {1: 'ビギナー', 2: 'ノーマル', 3: 'マスター'},
         what: '何が 起きる?',
@@ -84,9 +81,6 @@ const TEXT = {
         h1: 'Block dictionary',
         description: 'How to use the blocks of Strudel for Xcratch, and what their names (Strudel functions) mean and where they come from.',
         lead: 'When do you use this block? How do you use it? Find out here.',
-        home: 'Strudel for Xcratch',
-        tutorial: 'Tutorial',
-        rhythms: 'Rhythm book',
         other: {href: '../dictionary.html', label: '日本語'},
         level: {1: 'Beginner', 2: 'Normal', 3: 'Master'},
         what: 'What does it do?',
@@ -252,7 +246,8 @@ const page = lang => {
     <p class="lang"><a href="${t.other.href}" data-keep-hash>${t.other.label}</a></p>
     <img src="${up}icon.svg" alt="" width="64" height="64" style="display:block;margin:0 auto 8px">
     <h1>${t.h1}</h1>
-    <p>${t.lead}<br><a href="./">${t.home}</a> ・ <a href="tutorial.html">${t.tutorial}</a> ・ <a href="rhythms.html">${t.rhythms}</a></p>
+    <p>${t.lead}</p>
+${headerButtons(lang, 'dictionary.html')}
 </header>
 <main>
     <section class="card" id="about">${t.about}
