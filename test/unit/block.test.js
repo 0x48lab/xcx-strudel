@@ -1,6 +1,7 @@
 import {blockClass} from '../../src/vm/extensions/block/index.js';
 import {BLOCKS, LEVEL, MENUS, levelOf} from '../../src/vm/extensions/block/blocks.js';
 import {compile} from '../../src/core/ast.js';
+import {build, codeOf, makeUtil, playTrack} from '../helpers/track.js';
 import translations from '../../src/vm/extensions/block/translations.json';
 import entryTranslations from '../../src/gui/lib/libraries/extensions/entry/translations.json';
 
@@ -76,7 +77,7 @@ describe('levels', () => {
     test('higher level blocks are hidden at the beginner level', () => {
         const ext = new blockClass(makeRuntime());
         expect(infoOf(ext, 'slow').hideFromPalette).toBe(true);
-        expect(infoOf(ext, 'repeat').hideFromPalette).toBe(false);
+        expect(infoOf(ext, 'fast').hideFromPalette).toBe(false);
     });
 
     test('setLevel shows more blocks and refreshes the toolbox', () => {
@@ -99,9 +100,9 @@ describe('levels', () => {
     test('block texts do not change with the level', () => {
         // the palette reuses rendered blocks, so a changed text would not be shown
         const ext = new blockClass(makeRuntime());
-        const before = infoOf(ext, 'repeat').text;
+        const before = infoOf(ext, 'fast').text;
         ext.setLevel({LEVEL: '3'});
-        expect(infoOf(ext, 'repeat').text).toBe(before);
+        expect(infoOf(ext, 'fast').text).toBe(before);
     });
 
     test('every argument has a non-blank default value', () => {
@@ -117,12 +118,14 @@ describe('levels', () => {
         ext.getInfo().blocks.filter(b => typeof b === 'object')
             .forEach(b => {
                 expect(b).not.toHaveProperty('level');
+                expect(b).not.toHaveProperty('maxLevel');
+                expect(b).not.toHaveProperty('inTrack');
             });
     });
 
     test('loading a project shows the blocks which it uses', () => {
         const target = {blocks: {_blocks: {
-            a: {opcode: 'strudel_playTrack'},
+            a: {opcode: 'strudel_track'},
             b: {opcode: 'strudel_slow'},
             c: {opcode: 'motion_movesteps'}
         }}};
@@ -144,8 +147,113 @@ describe('levels', () => {
     });
 
     test('levelOf', () => {
-        expect(levelOf('playTrack')).toBe(LEVEL.BEGINNER);
+        expect(levelOf('track')).toBe(LEVEL.BEGINNER);
         expect(levelOf('unknown')).toBe(0);
+    });
+});
+
+describe('the track block', () => {
+    const makeExt = () => {
+        const ext = new blockClass(makeRuntime());
+        ext.engine.play = vi.fn(() => Promise.resolve());
+        return ext;
+    };
+
+    test('runs its branch once, then plays what the blocks in it built', async () => {
+        const ext = makeExt();
+        const util = makeUtil();
+        expect(ext.track({TRACK: 'drums'}, util)).toBeUndefined();
+        expect(util.branches).toBe(1);
+        util.thread.stackFrames.push({executionContext: null});
+        ext.sMenu({SOUND: 'bd'}, util);
+        ext.fast({TIMES: 4}, util);
+        util.thread.stackFrames.pop();
+        await ext.track({TRACK: 'drums'}, util);
+        expect(util.branches).toBe(1);
+        expect(ext.engine.play).toHaveBeenCalledWith('drums', expect.anything());
+        expect(ext.strudelCode()).toContain('$: s("bd").fast(4)');
+    });
+
+    test('the blocks are the method chain from the top', () => {
+        const ext = makeExt();
+        expect(codeOf(ext, [
+            ['noteMenu', {NOTE: 'c4'}],
+            ['sMenu', {SOUND: 'sawtooth'}],
+            ['effect', {EFFECT: 'lpf', VALUE: '500'}],
+            ['fast', {TIMES: 2}]
+        ])).toBe('note("c4").s("sawtooth").lpf(500).fast(2)');
+    });
+
+    test('an empty track plays silence', async () => {
+        const ext = makeExt();
+        await playTrack(ext, '1', []);
+        expect(ext.strudelCode()).toContain('$: silence');
+    });
+
+    test('a later sound takes the place of the earlier one', () => {
+        const ext = makeExt();
+        expect(codeOf(ext, [['noteMenu', {NOTE: 'c4'}], ['seq', {A: 'bd', B: 'sd', C: '', D: ''}]]))
+            .toBe('seq(s("bd"), s("sd"))');
+    });
+
+    test('a method before any sound is put on silence', () => {
+        expect(codeOf(makeExt(), [['fast', {TIMES: 2}]])).toBe('silence.fast(2)');
+    });
+
+    test('blocks outside a track do nothing', () => {
+        const ext = makeExt();
+        expect(() => ext.fast({TIMES: 2}, makeUtil())).not.toThrow();
+        expect(() => ext.sMenu({SOUND: 'bd'})).not.toThrow();
+        expect(() => ext.spriteSound({SOUND: 'meow'}, makeUtil())).not.toThrow();
+        expect(ext.spriteSounds.urls).toHaveLength(0);
+    });
+
+    test('blocks in a custom block which is used in the track also work', () => {
+        const ext = makeExt();
+        const util = makeUtil();
+        util.stackFrame.strudelTrack = {node: null};
+        // the frames of the branch and of the custom block
+        util.thread.stackFrames.push({executionContext: {}}, {executionContext: null});
+        ext.sMenu({SOUND: 'hh'}, util);
+        ext.fast({TIMES: 8}, util);
+        expect(String(util.thread.stackFrames[0].executionContext.strudelTrack.node)).toBe('s("hh").fast(8)');
+    });
+
+    test('a track in a track is a track of its own', async () => {
+        const ext = makeExt();
+        const util = makeUtil();
+        ext.track({TRACK: 'outer'}, util);
+        util.thread.stackFrames.push({executionContext: null});
+        ext.sMenu({SOUND: 'bd'}, util);
+        ext.track({TRACK: 'inner'}, util);
+        util.thread.stackFrames.push({executionContext: null});
+        ext.sMenu({SOUND: 'hh'}, util);
+        util.thread.stackFrames.pop();
+        await ext.track({TRACK: 'inner'}, util);
+        ext.fast({TIMES: 2}, util);
+        util.thread.stackFrames.pop();
+        await ext.track({TRACK: 'outer'}, util);
+        expect(ext.strudelCode().split('\n').filter(line => line.startsWith('$:')))
+            .toEqual(['$: s("hh")', '$: s("bd").fast(2)']);
+    });
+
+    test('blocks in the track are commands and only values are reporters', () => {
+        blockDefs.forEach(b => {
+            if (b.inTrack) expect(b.blockType).toBe('command');
+            if (b.blockType === 'reporter') expect(Object.keys(b.arguments || {})).not.toContain('PATTERN');
+        });
+        expect(blockDefs.find(b => b.opcode === 'track').blockType).toBe('conditional');
+    });
+
+    test('the dropdown s and note are shown only at the beginner level', () => {
+        const ext = new blockClass(makeRuntime());
+        expect(infoOf(ext, 'sMenu').hideFromPalette).toBe(false);
+        expect(infoOf(ext, 's').hideFromPalette).toBe(true);
+        ext.setLevel({LEVEL: '2'});
+        expect(infoOf(ext, 'sMenu').hideFromPalette).toBe(true);
+        expect(infoOf(ext, 'noteMenu').hideFromPalette).toBe(true);
+        expect(infoOf(ext, 's').hideFromPalette).toBe(false);
+        expect(infoOf(ext, 'note').hideFromPalette).toBe(false);
     });
 });
 
@@ -153,21 +261,22 @@ describe('pattern blocks', () => {
     const ext = new blockClass(makeRuntime());
 
     test.each([
-        ['sequence', {A: 'bd', B: 'sd', C: '', D: 'hh'}, 'seq(s("bd"), s("sd"), s("hh"))'],
-        ['together', {A: 'bd sd', B: 'hh*4'}, 'stack(s("bd sd"), s("hh*4"))'],
-        ['alternate', {A: 'c4', B: 'e4'}, 'cat(note("c4"), note("e4"))'],
-        ['repeat', {PATTERN: 'hh', TIMES: '4'}, 's("hh").fast(4)'],
-        ['slow', {PATTERN: 'c e', CYCLES: 2}, 'note("c e").slow(2)'],
-        ['tone', {PATTERN: 'c e', SYNTH: 'square'}, 'note("c e").s("square")']
+        ['seq', {A: 'bd', B: 'sd', C: '', D: 'hh'}, 'seq(s("bd"), s("sd"), s("hh"))'],
+        ['stack', {A: 'bd sd', B: 'hh*4'}, 'stack(s("bd sd"), s("hh*4"))'],
+        ['cat', {A: 'c4', B: 'e4'}, 'cat(note("c4"), note("e4"))'],
+        ['sMenu', {SOUND: 'hh'}, 's("hh")'],
+        ['sMenu', {SOUND: '~'}, 'silence'],
+        ['noteMenu', {NOTE: 'c4'}, 'note("c4")']
     ])('%s', (opcode, args, code) => {
-        expect(String(ext[opcode](args))).toBe(code);
+        expect(codeOf(ext, [[opcode, args]])).toBe(code);
     });
 
-    test('blocks can be nested', () => {
-        const kick = ext.repeat({PATTERN: 'bd', TIMES: 4});
-        const melody = ext.tone({PATTERN: 'c4', SYNTH: 'sine'});
-        expect(String(ext.together({A: kick, B: melody})))
-            .toBe('stack(s("bd").fast(4), note("c4").s("sine"))');
+    test.each([
+        ['fast', {TIMES: '4'}, 's("hh").fast(4)'],
+        ['slow', {CYCLES: 2}, 's("hh").slow(2)'],
+        ['sMenu', {SOUND: 'square'}, 's("hh").s("square")']
+    ])('%s after s', (opcode, args, code) => {
+        expect(codeOf(ext, [['sMenu', {SOUND: 'hh'}], [opcode, args]])).toBe(code);
     });
 
     test('there is no block which executes code', () => {
@@ -206,12 +315,12 @@ describe('input limits', () => {
     const ext = new blockClass(makeRuntime());
 
     test.each([
-        ['repeat', {PATTERN: 'hh', TIMES: 1e9}, 's("hh").fast(64)'],
-        ['repeat', {PATTERN: 'hh', TIMES: -3}, 's("hh").fast(0)'],
-        ['slow', {PATTERN: 'c', CYCLES: 0}, 'note("c").slow(0.01)'],
-        ['slow', {PATTERN: 'c', CYCLES: 'Infinity'}, 'note("c").slow(1024)']
+        ['fast', {TIMES: 1e9}, 's("hh").fast(64)'],
+        ['fast', {TIMES: -3}, 's("hh").fast(0)'],
+        ['slow', {CYCLES: 0}, 's("hh").slow(0.01)'],
+        ['slow', {CYCLES: 'Infinity'}, 's("hh").slow(1024)']
     ])('%s %j', (opcode, args, code) => {
-        expect(String(ext[opcode](args))).toBe(code);
+        expect(codeOf(ext, [['sMenu', {SOUND: 'hh'}], [opcode, args]])).toBe(code);
     });
 
     test('BPM is kept in a range', () => {
@@ -239,48 +348,50 @@ describe('input limits', () => {
 
 describe('P2 blocks', () => {
     const ext = new blockClass(makeRuntime());
+    const notes = ['note', {CODE: 'c e'}];
 
     test.each([
-        ['miniSound', {CODE: 'bd*2 c4'}, 's("bd*2 c4")'],
-        ['miniNote', {CODE: 'c3 e3'}, 'note("c3 e3")'],
-        ['scaleNotes', {STEPS: '0 2 4', ROOT: 'D4', SCALE: 'minor:pentatonic'}, 'n("0 2 4").scale("D4:minor:pentatonic")'],
-        ['effect', {PATTERN: 'c e', EFFECT: 'lpf', VALUE: '800'}, 'note("c e").lpf(800)'],
-        ['effect', {PATTERN: 'c e', EFFECT: 'lpf', VALUE: '5'}, 'note("c e").lpf(20)'],
-        ['effect', {PATTERN: 'c e', EFFECT: 'room', VALUE: '800'}, 'note("c e").room(10)'],
-        ['effect', {PATTERN: 'c e', EFFECT: 'pan', VALUE: '0 1'}, 'note("c e").pan("0 1")'],
-        ['reverse', {PATTERN: 'c e'}, 'note("c e").rev()'],
-        ['ply', {PATTERN: 'bd', TIMES: 100}, 's("bd").ply(8)'],
-        ['every', {CYCLES: 4, TRANSFORM: 'fast', PATTERN: 'c e'}, 'note("c e").every(4, x => x.fast(2))'],
-        ['every', {CYCLES: 0, TRANSFORM: 'evil', PATTERN: 'c e'}, 'note("c e").every(1, x => x.rev())'],
-        ['every', {CYCLES: 2, TRANSFORM: 'constructor', PATTERN: 'c e'}, 'note("c e").every(2, x => x.rev())'],
-        ['effect', {PATTERN: 'c e', EFFECT: 'vowel', VALUE: '<a o>'}, 'note("c e").vowel("<a o>")'],
-        ['effect', {PATTERN: 'bd', EFFECT: 'speed', VALUE: '-9'}, 's("bd").speed(-4)'],
-        ['drumMachine', {PATTERN: 'bd sd', MACHINE: 'RolandTR808'}, 's("bd sd").bank("RolandTR808")']
-    ])('%s %j', (opcode, args, code) => {
-        expect(String(ext[opcode](args))).toBe(code);
+        [[['s', {CODE: 'bd*2 c4'}]], 's("bd*2 c4")'],
+        [[['note', {CODE: 'c3 e3'}]], 'note("c3 e3")'],
+        [[['n', {CODE: '0 2 4'}], ['scale', {ROOT: 'D4', SCALE: 'minor:pentatonic'}]], 'n("0 2 4").scale("D4:minor:pentatonic")'],
+        [[notes, ['effect', {EFFECT: 'lpf', VALUE: '800'}]], 'note("c e").lpf(800)'],
+        [[notes, ['effect', {EFFECT: 'lpf', VALUE: '5'}]], 'note("c e").lpf(20)'],
+        [[notes, ['effect', {EFFECT: 'room', VALUE: '800'}]], 'note("c e").room(10)'],
+        [[notes, ['effect', {EFFECT: 'pan', VALUE: '0 1'}]], 'note("c e").pan("0 1")'],
+        [[notes, ['rev']], 'note("c e").rev()'],
+        [[['s', {CODE: 'bd'}], ['ply', {TIMES: 100}]], 's("bd").ply(8)'],
+        [[notes, ['every', {CYCLES: 4, TRANSFORM: 'fast'}]], 'note("c e").every(4, x => x.fast(2))'],
+        [[notes, ['every', {CYCLES: 0, TRANSFORM: 'evil'}]], 'note("c e").every(1, x => x.rev())'],
+        [[notes, ['every', {CYCLES: 2, TRANSFORM: 'constructor'}]], 'note("c e").every(2, x => x.rev())'],
+        [[notes, ['effect', {EFFECT: 'vowel', VALUE: '<a o>'}]], 'note("c e").vowel("<a o>")'],
+        [[['s', {CODE: 'bd'}], ['effect', {EFFECT: 'speed', VALUE: '-9'}]], 's("bd").speed(-4)'],
+        [[['s', {CODE: 'bd sd'}], ['bank', {MACHINE: 'RolandTR808'}]], 's("bd sd").bank("RolandTR808")'],
+        [[notes, ['s', {CODE: 'piano'}]], 'note("c e").s("piano")']
+    ])('%j', (steps, code) => {
+        expect(codeOf(ext, steps)).toBe(code);
     });
 
     test('an unknown effect keeps the pattern', () => {
-        expect(String(ext.effect({PATTERN: 'c e', EFFECT: 'constructor', VALUE: '1'}))).toBe('note("c e")');
+        expect(codeOf(ext, [notes, ['effect', {EFFECT: 'constructor', VALUE: '1'}]])).toBe('note("c e")');
     });
 
     test.each(MENUS.scale.items.map(([v]) => v))('scale %s makes notes', scale => {
-        const pattern = compile(ext.scaleNotes({STEPS: '0 1 2', ROOT: 'C4', SCALE: scale}));
-        const notes = pattern.queryArc(0, 1).map(hap => hap.value.note);
-        expect(notes.every(n => typeof n !== 'undefined')).toBe(true);
+        const pattern = compile(build(ext, [['n', {CODE: '0 1 2'}], ['scale', {ROOT: 'C4', SCALE: scale}]]));
+        const values = pattern.queryArc(0, 1).map(hap => hap.value.note);
+        expect(values.every(n => typeof n !== 'undefined')).toBe(true);
     });
 
     test('a sprite sound becomes a sample', () => {
         const sound = {name: 'meow', assetId: 'abc123def456789', dataFormat: 'wav', asset: {data: new Uint8Array(4)}};
-        const util = {target: {sprite: {sounds: [sound]}}};
-        expect(String(ext.spriteSound({SOUND: 'meow'}, util))).toBe('s("scratch_abc123def456")');
+        const target = {sprite: {sounds: [sound]}};
+        expect(codeOf(ext, [['spriteSound', {SOUND: 'meow'}]], target)).toBe('s("scratch_abc123def456")');
         expect(ext.spriteSounds.urls).toHaveLength(1);
-        ext.spriteSound({SOUND: 'meow'}, util);
+        build(ext, [['spriteSound', {SOUND: 'meow'}]], target);
         expect(ext.spriteSounds.urls).toHaveLength(1);
     });
 
     test('a missing sprite sound is silence', () => {
-        expect(String(ext.spriteSound({SOUND: 'none'}, {target: {sprite: {sounds: []}}}))).toBe('silence');
+        expect(codeOf(ext, [['spriteSound', {SOUND: 'none'}]], {sprite: {sounds: []}})).toBe('silence');
     });
 
     test('the sprite sound menu lists the sounds of the editing sprite', () => {
@@ -299,16 +410,18 @@ describe('sample banks', () => {
 });
 
 describe('sound dropdowns', () => {
-    test('pattern slots of the beginner level are dropdowns, not text', () => {
-        const patternSlots = blockDefs.filter(b => b.level === LEVEL.BEGINNER)
-            .flatMap(b => Object.entries(b.arguments || {}))
-            .filter(([name]) => ['PATTERN', 'A', 'B', 'C', 'D'].includes(name));
-        expect(patternSlots.length).toBeGreaterThan(0);
-        patternSlots.forEach(([, arg]) => expect(arg.menu).toBe('sound'));
+    test('sounds of the beginner level are dropdowns, not text', () => {
+        const slots = blockDefs.filter(b => b.level === LEVEL.BEGINNER && b.inTrack)
+            .flatMap(b => Object.values(b.arguments || {}))
+            .filter(arg => arg.type === 'string');
+        expect(slots.length).toBeGreaterThan(0);
+        slots.forEach(arg => expect(arg.menu).toBeTruthy());
     });
 
-    test('the sound menu accepts pattern blocks', () => {
+    test('the sound menus accept value blocks', () => {
         expect(MENUS.sound.acceptReporters).toBe(true);
+        expect(MENUS.sName.acceptReporters).toBe(true);
+        expect(MENUS.note.acceptReporters).toBe(true);
     });
 
     test('the sound menu has drums, notes and a rest', () => {
@@ -316,11 +429,17 @@ describe('sound dropdowns', () => {
         expect(values).toEqual(expect.arrayContaining(['bd', 'sd', 'hh', 'c4', 'g4', '~']));
     });
 
+    test('the menu of s has drums, synths and a rest, but no notes', () => {
+        const values = MENUS.sName.items.map(([value]) => value);
+        expect(values).toEqual(expect.arrayContaining(['bd', 'hh', 'sawtooth', 'supersaw', '~', 'white']));
+        expect(values).not.toContain('c4');
+    });
+
     test('items of the sound menu become sounds, notes and a rest', () => {
         const ext = new blockClass(makeRuntime());
-        expect(String(ext.sequence({A: 'bd', B: 'c4', C: '~', D: 'hh'})))
+        expect(codeOf(ext, [['seq', {A: 'bd', B: 'c4', C: '~', D: 'hh'}]]))
             .toBe('seq(s("bd"), note("c4"), silence, s("hh"))');
-        const events = compile(ext.sequence({A: 'bd', B: '~', C: '~', D: 'hh'})).queryArc(0, 1);
+        const events = compile(build(ext, [['seq', {A: 'bd', B: '~', C: '~', D: 'hh'}]])).queryArc(0, 1);
         expect(events.map(hap => hap.value.s)).toEqual(['bd', 'hh']);
     });
 
@@ -334,55 +453,59 @@ describe('sound dropdowns', () => {
 
 describe('P3 blocks', () => {
     const ext = new blockClass(makeRuntime());
+    const hh = ['s', {CODE: 'hh'}];
+    const c4 = ['note', {CODE: 'c4'}];
+    const bd = ['s', {CODE: 'bd'}];
 
     test.each([
-        ['degrade', {PATTERN: 'hh', PERCENT: 30}, 's("hh").degradeBy(0.3)'],
-        ['degrade', {PATTERN: 'hh', PERCENT: 300}, 's("hh").degradeBy(1)'],
-        ['sometimes', {PATTERN: 'c4', TRANSFORM: 'up12'}, 'note("c4").sometimes(x => x.transpose(12))'],
-        ['euclid', {PATTERN: 'bd', PULSES: 3, STEPS: 8}, 's("bd").euclid(3, 8)'],
-        ['euclid', {PATTERN: 'bd', PULSES: 20, STEPS: 8}, 's("bd").euclid(8, 8)'],
-        ['jux', {PATTERN: 'c4', TRANSFORM: 'rev'}, 'note("c4").jux(x => x.rev())'],
-        ['off', {PATTERN: 'c4', TRANSFORM: 'up7', TIME: '0.125'}, 'note("c4").off(0.125, x => x.transpose(7))'],
-        ['chop', {PATTERN: 'bd', PIECES: 99}, 's("bd").chop(16)'],
-        ['transpose', {PATTERN: 'c4', SEMITONES: -50}, 'note("c4").transpose(-24)'],
-        ['chord', {ROOT: 'C4', CHORD: 'major'}, 'note("[c4,e4,g4]")'],
-        ['chord', {ROOT: 'A3', CHORD: 'minor7'}, 'note("[a3,c4,e4,g4]")'],
-        ['chord', {ROOT: 'D4', CHORD: 'constructor'}, 'note("[d4,f#4,a4]")'],
-        ['arp', {PATTERN: 'c4', ORDER: '0 1 2'}, 'note("c4").arp("0 1 2")']
-    ])('%s %j', (opcode, args, code) => {
-        expect(String(ext[opcode](args))).toBe(code);
+        [[hh, ['degradeBy', {PERCENT: 30}]], 's("hh").degradeBy(0.3)'],
+        [[hh, ['degradeBy', {PERCENT: 300}]], 's("hh").degradeBy(1)'],
+        [[c4, ['sometimes', {TRANSFORM: 'up12'}]], 'note("c4").sometimes(x => x.transpose(12))'],
+        [[bd, ['euclid', {PULSES: 3, STEPS: 8}]], 's("bd").euclid(3, 8)'],
+        [[bd, ['euclid', {PULSES: 20, STEPS: 8}]], 's("bd").euclid(8, 8)'],
+        [[c4, ['jux', {TRANSFORM: 'rev'}]], 'note("c4").jux(x => x.rev())'],
+        [[c4, ['off', {TRANSFORM: 'up7', TIME: '0.125'}]], 'note("c4").off(0.125, x => x.transpose(7))'],
+        [[bd, ['chop', {PIECES: 99}]], 's("bd").chop(16)'],
+        [[c4, ['transpose', {SEMITONES: -50}]], 'note("c4").transpose(-24)'],
+        [[['chord', {ROOT: 'C4', CHORD: 'major'}]], 'note("[c4,e4,g4]")'],
+        [[['chord', {ROOT: 'A3', CHORD: 'minor7'}]], 'note("[a3,c4,e4,g4]")'],
+        [[['chord', {ROOT: 'D4', CHORD: 'constructor'}]], 'note("[d4,f#4,a4]")'],
+        [[c4, ['arp', {ORDER: '0 1 2'}]], 'note("c4").arp("0 1 2")']
+    ])('%j', (steps, code) => {
+        expect(codeOf(ext, steps)).toBe(code);
     });
 
     test('a wave goes into an effect', () => {
         const wave = ext.wave({SHAPE: 'sine', MIN: 200, MAX: 2000, CYCLES: 4});
-        expect(String(ext.effect({PATTERN: 'c4', EFFECT: 'lpf', VALUE: wave})))
+        expect(codeOf(ext, [c4, ['effect', {EFFECT: 'lpf', VALUE: wave}]]))
             .toBe('note("c4").lpf(sine.range(200, 2000).slow(4))');
     });
 
     test('a wave is kept in the range of the effect', () => {
         const wave = ext.wave({SHAPE: 'saw', MIN: -5, MAX: 99, CYCLES: 1});
-        expect(String(ext.effect({PATTERN: 'c4', EFFECT: 'pan', VALUE: wave})))
+        expect(codeOf(ext, [c4, ['effect', {EFFECT: 'pan', VALUE: wave}]]))
             .toBe('note("c4").pan(saw.range(0, 1).slow(1))');
     });
 
     test('a wave in vowel is ignored', () => {
         const wave = ext.wave({SHAPE: 'sine', MIN: 0, MAX: 1, CYCLES: 1});
-        expect(String(ext.effect({PATTERN: 'c4', EFFECT: 'vowel', VALUE: wave}))).toBe('note("c4")');
+        expect(codeOf(ext, [c4, ['effect', {EFFECT: 'vowel', VALUE: wave}]])).toBe('note("c4")');
     });
 
     test('P3 blocks compile', () => {
-        const blocks = [
+        const tracks = [
             // a single sound can be rested by chance, so use many
-            ext.degrade({PATTERN: ext.repeat({PATTERN: 'hh', TIMES: 16}), PERCENT: 50}),
-            ext.sometimes({PATTERN: 'c4', TRANSFORM: 'fast'}),
-            ext.euclid({PATTERN: 'bd', PULSES: 5, STEPS: 8}),
-            ext.jux({PATTERN: 'c4', TRANSFORM: 'up12'}),
-            ext.off({PATTERN: 'c4', TRANSFORM: 'up7', TIME: '0.25'}),
-            ext.chop({PATTERN: 'bd', PIECES: 4}),
-            ext.arp({PATTERN: ext.chord({ROOT: 'C4', CHORD: 'major'}), ORDER: '0 1 2 1'}),
-            ext.effect({PATTERN: 'c4', EFFECT: 'gain', VALUE: ext.wave({SHAPE: 'perlin', MIN: 0, MAX: 1, CYCLES: 2})})
+            [hh, ['fast', {TIMES: 16}], ['degradeBy', {PERCENT: 50}]],
+            [c4, ['sometimes', {TRANSFORM: 'fast'}]],
+            [bd, ['euclid', {PULSES: 5, STEPS: 8}]],
+            [c4, ['jux', {TRANSFORM: 'up12'}]],
+            [c4, ['off', {TRANSFORM: 'up7', TIME: '0.25'}]],
+            [bd, ['chop', {PIECES: 4}]],
+            [['chord', {ROOT: 'C4', CHORD: 'major'}], ['arp', {ORDER: '0 1 2 1'}]],
+            [c4, ['effect', {EFFECT: 'gain', VALUE: ext.wave({SHAPE: 'perlin', MIN: 0, MAX: 1, CYCLES: 2})}]]
         ];
-        blocks.forEach(n => expect([String(n), compile(n).queryArc(0, 1).length]).not.toEqual([String(n), 0]));
+        tracks.map(steps => build(ext, steps))
+            .forEach(n => expect([String(n), compile(n).queryArc(0, 1).length]).not.toEqual([String(n), 0]));
     });
 });
 
@@ -394,8 +517,8 @@ describe('Strudel code of tracks', () => {
         ext.engine.play = vi.fn(() => Promise.resolve());
         ext.engine.init = vi.fn(() => Promise.resolve());
         ext.setBpm({BPM: 120});
-        await ext.playTrack({PATTERN: ext.sequence({A: 'bd', B: 'hh', C: 'sd', D: 'hh'}), TRACK: 'drums'});
-        await ext.playTrack({PATTERN: 'c4', TRACK: 'melody'});
+        await playTrack(ext, 'drums', [['seq', {A: 'bd', B: 'hh', C: 'sd', D: 'hh'}]]);
+        await playTrack(ext, 'melody', [['noteMenu', {NOTE: 'c4'}]]);
         expect(ext.strudelCode()).toBe([
             'setcpm(30)',
             '// track drums',
@@ -414,7 +537,7 @@ describe('Strudel code of tracks', () => {
         const ext = new blockClass(runtime);
         ext.engine.play = vi.fn(() => Promise.resolve());
         ext.engine.stopAll = vi.fn();
-        await ext.playTrack({PATTERN: 'c4', TRACK: 'melody'});
+        await playTrack(ext, 'melody', [['noteMenu', {NOTE: 'c4'}]]);
         runtime.emit('PROJECT_STOP_ALL');
         expect(ext.engine.stopAll).toHaveBeenCalled();
         expect(ext.strudelCode()).toContain('$: note("c4")');
@@ -427,38 +550,38 @@ describe('Strudel code of tracks', () => {
     test('a track which ducks the others is written last', async () => {
         const ext = new blockClass(makeRuntime());
         ext.engine.play = vi.fn(() => Promise.resolve());
-        await ext.playTrack({PATTERN: ext.duck({PATTERN: 'bd', DEPTH: 0.8}), TRACK: 'kick'});
-        await ext.playTrack({PATTERN: 'c4', TRACK: 'pad'});
+        await playTrack(ext, 'kick', [['sMenu', {SOUND: 'bd'}], ['effect', {EFFECT: 'duck', VALUE: '2'}]]);
+        await playTrack(ext, 'pad', [['noteMenu', {NOTE: 'c4'}]]);
         expect(ext.strudelCode().split('\n').filter(line => line.startsWith('$:'))).toEqual([
             '$: note("c4")',
-            '$: s("bd").orbit(2).duckorbit(1).duckattack(0.2).duckdepth(0.8)'
+            '$: s("bd").duck("2")'
         ]);
     });
 
     test('a track name can not break the code', async () => {
         const ext = new blockClass(makeRuntime());
         ext.engine.play = vi.fn(() => Promise.resolve());
-        await ext.playTrack({PATTERN: 'bd', TRACK: 'a\n$: evil()'});
+        await playTrack(ext, 'a\n$: evil()', [['sMenu', {SOUND: 'bd'}]]);
         expect(ext.strudelCode().split('\n').filter(line => line.startsWith('$:'))).toEqual(['$: s("bd")']);
     });
 
     test('sprite sounds are noted', async () => {
         const ext = new blockClass(makeRuntime());
         ext.engine.play = vi.fn(() => Promise.resolve());
-        await ext.playTrack({PATTERN: 'scratch_abc', TRACK: '1'});
+        await playTrack(ext, '1', [['s', {CODE: 'scratch_abc'}]]);
         expect(ext.strudelCode()).toMatch(/^\/\/ sounds of sprites/);
     });
 
     test('a pattern which fails to compile is not written', async () => {
         const ext = new blockClass(makeRuntime());
-        await ext.playTrack({PATTERN: 'bd*99999', TRACK: '1'});
+        await playTrack(ext, '1', [['s', {CODE: 'bd*99999'}]]);
         expect(ext.strudelCode()).toBe(['setcpm(30)', NO_TRACK].join('\n'));
     });
 
     test('strudel.cc is opened with the code in the hash', async () => {
         const ext = new blockClass(makeRuntime());
         ext.engine.play = vi.fn(() => Promise.resolve());
-        await ext.playTrack({PATTERN: 'bd', TRACK: '1'});
+        await playTrack(ext, '1', [['sMenu', {SOUND: 'bd'}]]);
         const open = vi.fn();
         globalThis.window = {open};
         ext.openStrudel();
@@ -478,6 +601,7 @@ describe('exported code can not be injected', () => {
         return ext;
     };
     const liveLines = code => code.split(/\r\n|[\n\r\u2028\u2029]/).filter(line => !line.trim().startsWith('//'));
+    const bd = [['sMenu', {SOUND: 'bd'}]];
 
     test.each([
         ['line separator', 'x\u2028fetch("//evil")//'],
@@ -487,7 +611,7 @@ describe('exported code can not be injected', () => {
         ['block comment end', 'x */ fetch("//evil") /*']
     ])('a track name with %s stays in the comment', async (_, track) => {
         const ext = makeExt();
-        await ext.playTrack({PATTERN: 'bd', TRACK: track});
+        await playTrack(ext, track, bd);
         const code = ext.strudelCode();
         expect(liveLines(code)).toEqual(['setcpm(30)', '$: s("bd")']);
         expect(code).not.toMatch(/[\u2028\u2029\r\u0085]/);
@@ -495,85 +619,94 @@ describe('exported code can not be injected', () => {
 
     test('a long track name is cut', async () => {
         const ext = makeExt();
-        await ext.playTrack({PATTERN: 'bd', TRACK: 'a'.repeat(500)});
+        await playTrack(ext, 'a'.repeat(500), bd);
         expect(ext.strudelCode().split('\n')[1].length).toBeLessThan(60);
     });
 
     test('a track which fails to play is not written', async () => {
         const ext = new blockClass(makeRuntime());
         ext.engine.play = vi.fn(() => Promise.reject(new Error('no audio')));
-        await ext.playTrack({PATTERN: 'bd', TRACK: '1'});
+        await playTrack(ext, '1', bd);
         expect(ext.strudelCode()).not.toContain('$:');
     });
 });
 
 describe('add, superimpose, acid and trance gate blocks', () => {
     const ext = new blockClass(makeRuntime());
+    const c4 = ['note', {CODE: 'c4'}];
 
     test.each([
-        ['addNotes', {PATTERN: 'c4', VALUE: '<0 3>'}, 'note("c4").add(note("<0 3>"))'],
-        ['addNotes', {PATTERN: 'c4', VALUE: '99'}, 'note("c4").add(note(48))'],
-        ['superimpose', {PATTERN: 'c4', TRANSFORM: 'up7'}, 'note("c4").superimpose(x => x.transpose(7))'],
-        ['acid', {PATTERN: 'c4', AMOUNT: 0.5}, 'note("c4").s("sawtooth").lpf(100).lpenv(4.5).lps(0.2).lpd(0.12).lpq(2)'],
-        ['effect', {PATTERN: 'c4', EFFECT: 'lpq', VALUE: '99'}, 'note("c4").lpq(30)'],
-        ['trancegate', {PATTERN: 'c4', DENSITY: 2, SEED: 3.4, LENGTH: 0}, 'note("c4").struct(rand.mul(1.5).round().seg(16).rib(3, 1)).fillGaps().clip(0.7)'],
-        ['effect', {PATTERN: 'c4', EFFECT: 'delayfeedback', VALUE: '3'}, 'note("c4").delayfeedback(0.95)'],
-        ['effect', {PATTERN: 'c4', EFFECT: 'clip', VALUE: '.5'}, 'note("c4").clip(".5")']
-    ])('%s %j', (opcode, args, code) => {
-        expect(String(ext[opcode](args))).toBe(code);
+        [[c4, ['add', {VALUE: '<0 3>'}]], 'note("c4").add(note("<0 3>"))'],
+        [[c4, ['add', {VALUE: '99'}]], 'note("c4").add(note(48))'],
+        [[c4, ['superimpose', {TRANSFORM: 'up7'}]], 'note("c4").superimpose(x => x.transpose(7))'],
+        [[c4, ['acidenv', {AMOUNT: 0.5}]], 'note("c4").s("sawtooth").lpf(100).lpenv(4.5).lps(0.2).lpd(0.12).lpq(2)'],
+        [[c4, ['effect', {EFFECT: 'lpq', VALUE: '99'}]], 'note("c4").lpq(30)'],
+        [[c4, ['trancegate', {DENSITY: 2, SEED: 3.4, LENGTH: 0}]], 'note("c4").struct(rand.mul(1.5).round().seg(16).rib(3, 1)).fillGaps().clip(0.7)'],
+        [[c4, ['effect', {EFFECT: 'delayfeedback', VALUE: '3'}]], 'note("c4").delayfeedback(0.95)'],
+        [[c4, ['effect', {EFFECT: 'clip', VALUE: '.5'}]], 'note("c4").clip(".5")']
+    ])('%j', (steps, code) => {
+        expect(codeOf(ext, steps)).toBe(code);
     });
 
-    test('the add block in the scale block adds steps', () => {
-        const steps = ext.addNotes({PATTERN: ext.miniNote({CODE: '0 2 4'}), VALUE: '<0 1>'});
-        expect(String(ext.scaleNotes({STEPS: steps, ROOT: 'C', SCALE: 'minor'})))
-            .toBe('n("0 2 4").add(n("<0 1>")).scale("C:minor")');
+    test('add before scale adds steps', () => {
+        expect(codeOf(ext, [
+            ['n', {CODE: '0 2 4'}],
+            ['add', {VALUE: '<0 1>'}],
+            ['scale', {ROOT: 'C', SCALE: 'minor'}]
+        ])).toBe('n("0 2 4").add(n("<0 1>")).scale("C:minor")');
     });
 
     test('new blocks compile', () => {
         [
-            ext.addNotes({PATTERN: 'c4', VALUE: '0,7'}),
-            ext.superimpose({PATTERN: 'c4', TRANSFORM: 'fast'}),
-            ext.acid({PATTERN: ext.miniNote({CODE: 'c2*8'}), AMOUNT: 1}),
-            ext.trancegate({PATTERN: ext.tone({PATTERN: 'c4', SYNTH: 'supersaw'}), DENSITY: 0.5, SEED: 1, LENGTH: 2})
-        ].forEach(n => expect(compile(n).queryArc(0, 1).length).toBeGreaterThan(0));
+            [c4, ['add', {VALUE: '0,7'}]],
+            [c4, ['superimpose', {TRANSFORM: 'fast'}]],
+            [['note', {CODE: 'c2*8'}], ['acidenv', {AMOUNT: 1}]],
+            [c4, ['s', {CODE: 'supersaw'}], ['trancegate', {DENSITY: 0.5, SEED: 1, LENGTH: 2}]]
+        ].forEach(steps => expect(compile(build(ext, steps)).queryArc(0, 1).length).toBeGreaterThan(0));
     });
 
     test('adding to drums is not played', async () => {
         const e = new blockClass(makeRuntime());
         e.engine.play = vi.fn(() => Promise.resolve());
-        await e.playTrack({PATTERN: e.addNotes({PATTERN: 'bd', VALUE: '1'}), TRACK: '1'});
+        await playTrack(e, '1', [['sMenu', {SOUND: 'bd'}], ['add', {VALUE: '1'}]]);
         expect(e.engine.play).not.toHaveBeenCalled();
     });
 });
 
 describe('ducking, noise and thickness blocks', () => {
     const ext = new blockClass(makeRuntime());
+    const c4 = ['note', {CODE: 'c4'}];
+    const c2 = ['note', {CODE: 'c2'}];
 
     test.each([
-        ['duck', {PATTERN: 'bd', DEPTH: 0.8}, 's("bd").orbit(2).duckorbit(1).duckattack(0.2).duckdepth(0.8)'],
-        ['duck', {PATTERN: 'bd', DEPTH: 5}, 's("bd").orbit(2).duckorbit(1).duckattack(0.2).duckdepth(1)'],
-        ['effect', {PATTERN: 'c4', EFFECT: 'unison', VALUE: '20'}, 'note("c4").unison(8)'],
-        ['effect', {PATTERN: 'c4', EFFECT: 'detune', VALUE: '.4'}, 'note("c4").detune(".4")'],
-        ['effect', {PATTERN: 'c4', EFFECT: 'spread', VALUE: '2'}, 'note("c4").spread(1)'],
-        ['repeat', {PATTERN: 'white', TIMES: 16}, 's("white").fast(16)'],
-        ['effect', {PATTERN: 'c2', EFFECT: 'distort', VALUE: '2.2'}, 'note("c2").distort(2.2).distortvol(0.3)'],
-        ['effect', {PATTERN: 'c2', EFFECT: 'distort', VALUE: '50'}, 'note("c2").distort(10).distortvol(0.3)'],
-        ['effect', {PATTERN: 'c2', EFFECT: 'fm', VALUE: '2'}, 'note("c2").fm(2)'],
-        ['randomSteps', {MIN: -7, MAX: 2, STEPS: 16, SEED: 46, LENGTH: 1}, 'n(irand(10).add(-7).seg(16).rib(46, 1))'],
-        ['randomSteps', {MIN: 5, MAX: -1.4, STEPS: 999, SEED: -3, LENGTH: 0}, 'n(irand(7).add(-1).seg(64).rib(0, 1))'],
-        ['repeat', {PATTERN: 'sbd', TIMES: 4}, 's("sbd").fast(4)']
-    ])('%s %j', (opcode, args, code) => {
-        expect(String(ext[opcode](args))).toBe(code);
+        [[c4, ['effect', {EFFECT: 'unison', VALUE: '20'}]], 'note("c4").unison(8)'],
+        [[c4, ['effect', {EFFECT: 'detune', VALUE: '.4'}]], 'note("c4").detune(".4")'],
+        [[c4, ['effect', {EFFECT: 'spread', VALUE: '2'}]], 'note("c4").spread(1)'],
+        [[['sMenu', {SOUND: 'white'}], ['fast', {TIMES: 16}]], 's("white").fast(16)'],
+        [[c2, ['effect', {EFFECT: 'distort', VALUE: '2.2'}]], 'note("c2").distort(2.2).distortvol(0.3)'],
+        [[c2, ['effect', {EFFECT: 'distort', VALUE: '50'}]], 'note("c2").distort(10).distortvol(0.3)'],
+        [[c2, ['effect', {EFFECT: 'fm', VALUE: '2'}]], 'note("c2").fm(2)'],
+        [[['sMenu', {SOUND: 'sbd'}], ['fast', {TIMES: 4}]], 's("sbd").fast(4)']
+    ])('%j', (steps, code) => {
+        expect(codeOf(ext, steps)).toBe(code);
     });
 
-    test('random steps are steps of the scale block', () => {
+    test.each([
+        [{MIN: -7, MAX: 2, STEPS: 16, SEED: 46, LENGTH: 1}, 'n(irand(10).add(-7).seg(16).rib(46, 1))'],
+        [{MIN: 5, MAX: -1.4, STEPS: 999, SEED: -3, LENGTH: 0}, 'n(irand(7).add(-1).seg(64).rib(0, 1))']
+    ])('random steps %j', (args, code) => {
+        expect(String(ext.randomSteps(args))).toBe(code);
+    });
+
+    test('random steps are steps of n', () => {
         const steps = ext.randomSteps({MIN: -7, MAX: 2, STEPS: 16, SEED: 46, LENGTH: 1});
-        expect(String(ext.scaleNotes({STEPS: steps, ROOT: 'C4', SCALE: 'minor'})))
+        expect(codeOf(ext, [['n', {CODE: steps}], ['scale', {ROOT: 'C4', SCALE: 'minor'}]]))
             .toBe('n(irand(10).add(-7).seg(16).rib(46, 1)).scale("C4:minor")');
     });
 
-    test('noise is in the sound dropdown', () => {
+    test('noise is in the sound dropdowns', () => {
         expect(MENUS.sound.items.some(item => item[0] === 'white')).toBe(true);
+        expect(MENUS.sName.items.some(item => item[0] === 'white')).toBe(true);
     });
 
     test.each([
@@ -584,26 +717,16 @@ describe('ducking, noise and thickness blocks', () => {
         [{EFFECT: 'orbit', VALUE: '2.6'}, 's("bd").orbit(3)'],
         [{EFFECT: 'orbit', VALUE: '99'}, 's("bd").orbit(8)']
     ])('the duck effects %j', (args, code) => {
-        expect(String(ext.effect(Object.assign({PATTERN: 'bd'}, args)))).toBe(code);
+        expect(codeOf(ext, [['s', {CODE: 'bd'}], ['effect', args]])).toBe(code);
     });
 
     test('the duck effects compile as in Strudel', () => {
-        const n = ext.effect({PATTERN: ext.effect({PATTERN: 'bd', EFFECT: 'duck', VALUE: '2:3'}),
-            EFFECT: 'duckdepth', VALUE: '.8'});
+        const n = build(ext, [
+            ['s', {CODE: 'bd'}],
+            ['effect', {EFFECT: 'duck', VALUE: '2:3'}],
+            ['effect', {EFFECT: 'duckdepth', VALUE: '.8'}]
+        ]);
         expect(compile(n).queryArc(0, 1)[0].value).toMatchObject({s: 'bd', duckorbit: [2, 3], duckdepth: 0.8});
-    });
-
-    test('the old ducking block is hidden but still plays', () => {
-        const info = ext.getInfo().blocks.find(b => b.opcode === 'duck');
-        expect(info.hideFromPalette).toBe(true);
-        expect(info).not.toHaveProperty('hidden');
-    });
-
-    test('the ducking block compiles', () => {
-        const n = ext.duck({PATTERN: ext.miniSound({CODE: 'bd*4'}), DEPTH: 0.8});
-        const values = compile(n).queryArc(0, 1).map(hap => hap.value);
-        expect(values).toHaveLength(4);
-        expect(values[0]).toMatchObject({s: 'bd', orbit: 2, duckorbit: 1, duckattack: 0.2, duckdepth: 0.8});
     });
 });
 
@@ -633,17 +756,23 @@ describe('list and rhythm blocks', () => {
     });
 
     test('an empty text of mini-notation is a rest', () => {
-        expect(String(ext.miniNote({CODE: ''}))).toBe('silence');
-        expect(String(ext.miniSound({CODE: '  '}))).toBe('silence');
+        expect(codeOf(ext, [['note', {CODE: ''}]])).toBe('silence');
+        expect(codeOf(ext, [['s', {CODE: '  '}]])).toBe('silence');
+        expect(codeOf(ext, [['n', {CODE: ''}]])).toBe('silence');
+    });
+
+    test('an empty s or a rest below notes keeps the notes', () => {
+        expect(codeOf(ext, [['note', {CODE: 'c4'}], ['s', {CODE: ''}]])).toBe('note("c4")');
+        expect(codeOf(ext, [['note', {CODE: 'c4'}], ['sMenu', {SOUND: '~'}]])).toBe('note("c4")');
     });
 
     test('a list is played as notes', () => {
-        const n = ext.miniNote({CODE: ext.listMini({LISTNAME: 'chords', HOW: 'cycle'}, util)});
+        const n = build(ext, [['note', {CODE: ext.listMini({LISTNAME: 'chords', HOW: 'cycle'}, util)}]]);
         expect(compile(n).queryArc(0, 1).map(hap => hap.value.note)).toEqual(['f3', 'a3', 'c4', 'e4']);
     });
 
-    test('the rhythm block plays the pattern on the rhythm', () => {
-        const n = ext.rhythm({PATTERN: ext.miniNote({CODE: '[c3,e3]'}), RHYTHM: '[x ~ ~] [~ ~ x]'});
+    test('struct plays the pattern on the rhythm', () => {
+        const n = build(ext, [['note', {CODE: '[c3,e3]'}], ['struct', {RHYTHM: '[x ~ ~] [~ ~ x]'}]]);
         expect(String(n)).toBe('note("[c3,e3]").struct("[x ~ ~] [~ ~ x]")');
         const haps = compile(n).queryArc(0, 1);
         expect(haps).toHaveLength(4);
@@ -651,7 +780,7 @@ describe('list and rhythm blocks', () => {
     });
 
     test.each(['x evil()', 'note("a")', 'x; alert(1)'])('a rhythm %j is not played', rhythm => {
-        expect(() => compile(ext.rhythm({PATTERN: 'c4', RHYTHM: rhythm}))).toThrow();
+        expect(() => compile(build(ext, [['note', {CODE: 'c4'}], ['struct', {RHYTHM: rhythm}]]))).toThrow();
     });
 
     test('lists of the sprite and the stage are in the menu', () => {
@@ -671,17 +800,18 @@ describe('sample maps are loaded when a pattern needs them', () => {
         ext.loadBank = vi.fn(() => Promise.resolve());
         return ext;
     };
+    const piano = [['noteMenu', {NOTE: 'c4'}], ['s', {CODE: 'piano'}]];
 
     test.each([
-        ['a drum machine', e => e.drumMachine({PATTERN: 'bd sd', MACHINE: 'RolandTR909'}), ['drums']],
-        ['the piano tone', e => e.tone({PATTERN: 'c4', SYNTH: 'piano'}), ['piano']],
-        ['Dirt-Samples', e => e.miniSound({CODE: 'casio:1 jazz'}), ['dirt']],
-        ['VCSL', e => e.miniSound({CODE: 'marimba kalimba'}), ['vcsl']],
-        ['built-in sounds only', e => e.tone({PATTERN: e.miniSound({CODE: 'bd hh'}), SYNTH: 'sawtooth'}), []],
-        ['notes', e => e.miniNote({CODE: 'c4 e4'}), []]
-    ])('%s', async (_, make1, banks) => {
+        ['a drum machine', [['s', {CODE: 'bd sd'}], ['bank', {MACHINE: 'RolandTR909'}]], ['drums']],
+        ['the piano', piano, ['piano']],
+        ['Dirt-Samples', [['s', {CODE: 'casio:1 jazz'}]], ['dirt']],
+        ['VCSL', [['s', {CODE: 'marimba kalimba'}]], ['vcsl']],
+        ['built-in sounds only', [['s', {CODE: 'bd hh'}], ['sMenu', {SOUND: 'sawtooth'}]], []],
+        ['notes', [['note', {CODE: 'c4 e4'}]], []]
+    ])('%s', async (_, steps, banks) => {
         const ext = make();
-        await ext.playTrack({PATTERN: make1(ext), TRACK: '1'});
+        await playTrack(ext, '1', steps);
         expect(ext.loadBank.mock.calls.map(c => c[0]).sort()).toEqual(banks);
         expect(ext.engine.play).toHaveBeenCalled();
     });
@@ -689,7 +819,7 @@ describe('sample maps are loaded when a pattern needs them', () => {
     test('a failed load still plays', async () => {
         const ext = make();
         ext.loadBank = vi.fn(() => Promise.reject(new Error('offline')));
-        await ext.playTrack({PATTERN: ext.tone({PATTERN: 'c4', SYNTH: 'piano'}), TRACK: '1'});
+        await playTrack(ext, '1', piano);
         expect(ext.engine.play).toHaveBeenCalled();
     });
 
@@ -699,7 +829,7 @@ describe('sample maps are loaded when a pattern needs them', () => {
         ext.loadBank = vi.fn(() => new Promise(resolve => {
             finish = resolve;
         }));
-        const playing = ext.playTrack({PATTERN: ext.tone({PATTERN: 'c4', SYNTH: 'piano'}), TRACK: '1'});
+        const playing = playTrack(ext, '1', piano);
         ext.stopAll();
         finish();
         await playing;
@@ -712,7 +842,7 @@ describe('exported code with the trance gate', () => {
         const ext = new blockClass(makeRuntime());
         ext.engine.play = vi.fn(() => Promise.resolve());
         ext.loadBank = vi.fn(() => Promise.resolve());
-        await ext.playTrack({PATTERN: ext.trancegate({PATTERN: 'c4', DENSITY: 0.5, SEED: 1, LENGTH: 1}), TRACK: 'pad'});
+        await playTrack(ext, 'pad', [['noteMenu', {NOTE: 'c4'}], ['trancegate', {DENSITY: 0.5, SEED: 1, LENGTH: 1}]]);
         const lines = ext.strudelCode().split('\n');
         expect(lines[2].startsWith("register('fillGaps'")).toBe(true);
         expect(lines[lines.length - 1]).toContain('.fillGaps().clip(0.7)');
@@ -721,7 +851,7 @@ describe('exported code with the trance gate', () => {
     test('does not define fillGaps without the trance gate', async () => {
         const ext = new blockClass(makeRuntime());
         ext.engine.play = vi.fn(() => Promise.resolve());
-        await ext.playTrack({PATTERN: 'bd', TRACK: '1'});
+        await playTrack(ext, '1', [['sMenu', {SOUND: 'bd'}]]);
         expect(ext.strudelCode()).not.toContain('fillGaps');
     });
 });
@@ -732,6 +862,7 @@ describe('races while loading samples', () => {
         ext.engine.play = vi.fn(() => Promise.resolve());
         return ext;
     };
+    const piano = [['noteMenu', {NOTE: 'c4'}], ['s', {CODE: 'piano'}]];
 
     test('stopping the track while loading cancels the play', async () => {
         const ext = make();
@@ -739,7 +870,7 @@ describe('races while loading samples', () => {
         ext.loadBank = vi.fn(() => new Promise(resolve => {
             finish = resolve;
         }));
-        const playing = ext.playTrack({PATTERN: ext.tone({PATTERN: 'c4', SYNTH: 'piano'}), TRACK: 'p'});
+        const playing = playTrack(ext, 'p', piano);
         ext.stopTrack({TRACK: 'p'});
         finish();
         await playing;
@@ -752,9 +883,9 @@ describe('races while loading samples', () => {
         ext.loadBank = vi.fn(() => new Promise(resolve => {
             finishSlow = resolve;
         }));
-        const slow = ext.playTrack({PATTERN: ext.tone({PATTERN: 'c4', SYNTH: 'piano'}), TRACK: 'p'});
+        const slow = playTrack(ext, 'p', piano);
         ext.loadBank = vi.fn(() => Promise.resolve());
-        await ext.playTrack({PATTERN: 'bd', TRACK: 'p'});
+        await playTrack(ext, 'p', [['sMenu', {SOUND: 'bd'}]]);
         finishSlow();
         await slow;
         expect(ext.engine.play).toHaveBeenCalledTimes(1);
@@ -763,8 +894,8 @@ describe('races while loading samples', () => {
 
     test('the definition of fillGaps is added only for the trance gate', async () => {
         const ext = make();
-        await ext.playTrack({PATTERN: ext.miniNote({CODE: 'c4'}), TRACK: '1'});
-        await ext.playTrack({PATTERN: ext.miniSound({CODE: 'a).fillGaps()'}), TRACK: '2'});
+        await playTrack(ext, '1', [['note', {CODE: 'c4'}]]);
+        await playTrack(ext, '2', [['s', {CODE: 'a).fillGaps()'}]]);
         expect(ext.strudelCode()).not.toContain("register('fillGaps'");
     });
 });

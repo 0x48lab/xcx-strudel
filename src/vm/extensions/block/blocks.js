@@ -14,6 +14,13 @@ export const LEVEL = {
 /**
  * Block definitions.
  * `text` is the default English message. The message id is `strudel.<opcode>`.
+ *
+ * Shapes have one role each:
+ * - the C block "play on track" is a track, which is a line of Strudel code
+ * - command blocks in it are the parts of the method chain, from the top to the bottom
+ * - reporter blocks are values, which are put in the inputs
+ * A block with `inTrack` works only in the C block.
+ * A block with `maxLevel` is hidden above that level, where another block takes its place.
  * @type {Array<object|string>}
  */
 export const BLOCKS = [
@@ -28,12 +35,12 @@ export const BLOCKS = [
     },
     '---',
     {
-        opcode: 'playTrack',
-        blockType: BlockType.COMMAND,
+        opcode: 'track',
+        blockType: BlockType.CONDITIONAL,
+        branchCount: 1,
         level: LEVEL.BEGINNER,
-        text: 'play [PATTERN] on track [TRACK]',
+        text: 'play on track [TRACK]',
         arguments: {
-            PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'bd'},
             TRACK: {type: ArgumentType.STRING, defaultValue: '1'}
         }
     },
@@ -80,10 +87,64 @@ export const BLOCKS = [
         }
     },
     '---',
+    // the first sound of a track
     {
-        opcode: 'sequence',
-        blockType: BlockType.REPORTER,
+        opcode: 'sMenu',
+        blockType: BlockType.COMMAND,
         level: LEVEL.BEGINNER,
+        maxLevel: LEVEL.BEGINNER,
+        inTrack: true,
+        text: 's [SOUND]',
+        arguments: {
+            SOUND: {type: ArgumentType.STRING, menu: 'sName', defaultValue: 'bd'}
+        }
+    },
+    {
+        opcode: 'noteMenu',
+        blockType: BlockType.COMMAND,
+        level: LEVEL.BEGINNER,
+        maxLevel: LEVEL.BEGINNER,
+        inTrack: true,
+        text: 'note [NOTE]',
+        arguments: {
+            NOTE: {type: ArgumentType.STRING, menu: 'note', defaultValue: 'c4'}
+        }
+    },
+    {
+        opcode: 's',
+        blockType: BlockType.COMMAND,
+        level: LEVEL.STANDARD,
+        inTrack: true,
+        text: 's [CODE]',
+        arguments: {
+            CODE: {type: ArgumentType.STRING, defaultValue: 'bd*2 [~ sd] <hh oh>'}
+        }
+    },
+    {
+        opcode: 'note',
+        blockType: BlockType.COMMAND,
+        level: LEVEL.STANDARD,
+        inTrack: true,
+        text: 'note [CODE]',
+        arguments: {
+            CODE: {type: ArgumentType.STRING, defaultValue: 'c3 [e3 g3] <a3 b3>'}
+        }
+    },
+    {
+        opcode: 'n',
+        blockType: BlockType.COMMAND,
+        level: LEVEL.STANDARD,
+        inTrack: true,
+        text: 'n [CODE]',
+        arguments: {
+            CODE: {type: ArgumentType.STRING, defaultValue: '0 2 4 <5 7>'}
+        }
+    },
+    {
+        opcode: 'seq',
+        blockType: BlockType.COMMAND,
+        level: LEVEL.BEGINNER,
+        inTrack: true,
         text: 'seq [A] [B] [C] [D]',
         arguments: {
             A: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'bd'},
@@ -93,9 +154,10 @@ export const BLOCKS = [
         }
     },
     {
-        opcode: 'together',
-        blockType: BlockType.REPORTER,
+        opcode: 'stack',
+        blockType: BlockType.COMMAND,
         level: LEVEL.BEGINNER,
+        inTrack: true,
         text: 'stack [A] [B]',
         arguments: {
             A: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'bd'},
@@ -103,9 +165,10 @@ export const BLOCKS = [
         }
     },
     {
-        opcode: 'alternate',
-        blockType: BlockType.REPORTER,
+        opcode: 'cat',
+        blockType: BlockType.COMMAND,
         level: LEVEL.BEGINNER,
+        inTrack: true,
         text: 'cat [A] [B]',
         arguments: {
             A: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'},
@@ -113,157 +176,254 @@ export const BLOCKS = [
         }
     },
     {
-        opcode: 'repeat',
-        blockType: BlockType.REPORTER,
-        level: LEVEL.BEGINNER,
-        text: 'fast [TIMES] [PATTERN]',
-        arguments: {
-            PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'hh'},
-            TIMES: {type: ArgumentType.NUMBER, defaultValue: 4}
-        }
-    },
-    {
-        opcode: 'slow',
-        blockType: BlockType.REPORTER,
-        level: LEVEL.STANDARD,
-        text: 'slow [CYCLES] [PATTERN]',
-        arguments: {
-            PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'},
-            CYCLES: {type: ArgumentType.NUMBER, defaultValue: 2}
-        }
-    },
-    {
-        opcode: 'tone',
-        blockType: BlockType.REPORTER,
-        level: LEVEL.BEGINNER,
-        text: 's [SYNTH] [PATTERN]',
-        arguments: {
-            PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'},
-            SYNTH: {type: ArgumentType.STRING, menu: 'synth', defaultValue: 'sawtooth'}
-        }
-    },
-    {
-        opcode: 'miniSound',
-        blockType: BlockType.REPORTER,
-        level: LEVEL.STANDARD,
-        text: 's [CODE]',
-        arguments: {
-            CODE: {type: ArgumentType.STRING, defaultValue: 'bd*2 [~ sd] <hh oh>'}
-        }
-    },
-    {
-        opcode: 'miniNote',
-        blockType: BlockType.REPORTER,
-        level: LEVEL.STANDARD,
-        text: 'note [CODE]',
-        arguments: {
-            CODE: {type: ArgumentType.STRING, defaultValue: 'c3 [e3 g3] <a3 b3>'}
-        }
-    },
-    {
-        opcode: 'scaleNotes',
-        blockType: BlockType.REPORTER,
-        level: LEVEL.STANDARD,
-        text: 'n [STEPS] scale [ROOT] [SCALE]',
-        arguments: {
-            STEPS: {type: ArgumentType.STRING, defaultValue: '0 2 4 <6 7>'},
-            ROOT: {type: ArgumentType.STRING, menu: 'root', defaultValue: 'C4'},
-            SCALE: {type: ArgumentType.STRING, menu: 'scale', defaultValue: 'major'}
-        }
-    },
-    {
-        opcode: 'listMini',
-        blockType: BlockType.REPORTER,
-        level: LEVEL.STANDARD,
-        text: 'items of list [LISTNAME] [HOW]',
-        // not "LIST": scratch-vm passes a field named LIST as a variable reference {id, name}
-        arguments: {
-            LISTNAME: {type: ArgumentType.STRING, menu: 'list'},
-            HOW: {type: ArgumentType.STRING, menu: 'listHow', defaultValue: 'cycle'}
-        }
-    },
-    {
-        opcode: 'rhythm',
-        blockType: BlockType.REPORTER,
-        level: LEVEL.STANDARD,
-        text: 'struct [RHYTHM] [PATTERN]',
-        arguments: {
-            PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'},
-            RHYTHM: {type: ArgumentType.STRING, defaultValue: 'x ~ x x'}
-        }
-    },
-    {
-        opcode: 'drumMachine',
-        blockType: BlockType.REPORTER,
-        level: LEVEL.STANDARD,
-        text: 'bank [MACHINE] [PATTERN]',
-        arguments: {
-            PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'bd'},
-            MACHINE: {type: ArgumentType.STRING, menu: 'machine', defaultValue: 'RolandTR909'}
-        }
-    },
-    {
         opcode: 'spriteSound',
-        blockType: BlockType.REPORTER,
+        blockType: BlockType.COMMAND,
         level: LEVEL.STANDARD,
+        inTrack: true,
         text: 'sprite sound [SOUND]',
         arguments: {
             SOUND: {type: ArgumentType.STRING, menu: 'spriteSound'}
         }
     },
+    {
+        opcode: 'chord',
+        blockType: BlockType.COMMAND,
+        level: LEVEL.MASTER,
+        inTrack: true,
+        text: 'chord [ROOT] [CHORD]',
+        arguments: {
+            ROOT: {type: ArgumentType.STRING, menu: 'root', defaultValue: 'C4'},
+            CHORD: {type: ArgumentType.STRING, menu: 'chord', defaultValue: 'major'}
+        }
+    },
     '---',
+    // methods which change the sound of a track
+    {
+        opcode: 'fast',
+        blockType: BlockType.COMMAND,
+        level: LEVEL.BEGINNER,
+        inTrack: true,
+        text: 'fast [TIMES]',
+        arguments: {
+            TIMES: {type: ArgumentType.NUMBER, defaultValue: 2}
+        }
+    },
+    {
+        opcode: 'slow',
+        blockType: BlockType.COMMAND,
+        level: LEVEL.STANDARD,
+        inTrack: true,
+        text: 'slow [CYCLES]',
+        arguments: {
+            CYCLES: {type: ArgumentType.NUMBER, defaultValue: 2}
+        }
+    },
+    {
+        opcode: 'scale',
+        blockType: BlockType.COMMAND,
+        level: LEVEL.STANDARD,
+        inTrack: true,
+        text: 'scale [ROOT] [SCALE]',
+        arguments: {
+            ROOT: {type: ArgumentType.STRING, menu: 'root', defaultValue: 'C4'},
+            SCALE: {type: ArgumentType.STRING, menu: 'scale', defaultValue: 'major'}
+        }
+    },
+    {
+        opcode: 'struct',
+        blockType: BlockType.COMMAND,
+        level: LEVEL.STANDARD,
+        inTrack: true,
+        text: 'struct [RHYTHM]',
+        arguments: {
+            RHYTHM: {type: ArgumentType.STRING, defaultValue: 'x ~ x x'}
+        }
+    },
+    {
+        opcode: 'bank',
+        blockType: BlockType.COMMAND,
+        level: LEVEL.STANDARD,
+        inTrack: true,
+        text: 'bank [MACHINE]',
+        arguments: {
+            MACHINE: {type: ArgumentType.STRING, menu: 'machine', defaultValue: 'RolandTR909'}
+        }
+    },
     {
         opcode: 'effect',
-        blockType: BlockType.REPORTER,
+        blockType: BlockType.COMMAND,
         level: LEVEL.STANDARD,
-        text: '[EFFECT] [VALUE] [PATTERN]',
+        inTrack: true,
+        text: '[EFFECT] [VALUE]',
         arguments: {
-            PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'},
             EFFECT: {type: ArgumentType.STRING, menu: 'effect', defaultValue: 'lpf'},
             VALUE: {type: ArgumentType.STRING, defaultValue: '800'}
         }
     },
     {
-        opcode: 'addNotes',
-        blockType: BlockType.REPORTER,
+        opcode: 'add',
+        blockType: BlockType.COMMAND,
         level: LEVEL.STANDARD,
-        text: 'add [VALUE] [PATTERN]',
+        inTrack: true,
+        text: 'add [VALUE]',
         arguments: {
-            VALUE: {type: ArgumentType.STRING, defaultValue: '<0 3 5 3>'},
-            PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'}
+            VALUE: {type: ArgumentType.STRING, defaultValue: '<0 3 5>'}
         }
     },
     {
-        opcode: 'reverse',
-        blockType: BlockType.REPORTER,
+        opcode: 'rev',
+        blockType: BlockType.COMMAND,
         level: LEVEL.STANDARD,
-        text: 'rev [PATTERN]',
-        arguments: {
-            PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'}
-        }
+        inTrack: true,
+        text: 'rev'
     },
     {
         opcode: 'ply',
-        blockType: BlockType.REPORTER,
+        blockType: BlockType.COMMAND,
         level: LEVEL.STANDARD,
-        text: 'ply [TIMES] [PATTERN]',
+        inTrack: true,
+        text: 'ply [TIMES]',
         arguments: {
-            PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'bd'},
             TIMES: {type: ArgumentType.NUMBER, defaultValue: 2}
         }
     },
     {
         opcode: 'every',
-        blockType: BlockType.REPORTER,
+        blockType: BlockType.COMMAND,
         level: LEVEL.STANDARD,
-        text: 'every [CYCLES] [TRANSFORM] [PATTERN]',
+        inTrack: true,
+        text: 'every [CYCLES] [TRANSFORM]',
         arguments: {
             CYCLES: {type: ArgumentType.NUMBER, defaultValue: 4},
-            TRANSFORM: {type: ArgumentType.STRING, menu: 'transform', defaultValue: 'rev'},
-            PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'}
+            TRANSFORM: {type: ArgumentType.STRING, menu: 'transform', defaultValue: 'rev'}
+        }
+    },
+    {
+        opcode: 'degradeBy',
+        blockType: BlockType.COMMAND,
+        level: LEVEL.MASTER,
+        inTrack: true,
+        text: 'degradeBy [PERCENT] %',
+        arguments: {
+            PERCENT: {type: ArgumentType.NUMBER, defaultValue: 50}
+        }
+    },
+    {
+        opcode: 'sometimes',
+        blockType: BlockType.COMMAND,
+        level: LEVEL.MASTER,
+        inTrack: true,
+        text: 'sometimes [TRANSFORM]',
+        arguments: {
+            TRANSFORM: {type: ArgumentType.STRING, menu: 'transform', defaultValue: 'up12'}
+        }
+    },
+    {
+        opcode: 'euclid',
+        blockType: BlockType.COMMAND,
+        level: LEVEL.MASTER,
+        inTrack: true,
+        text: 'euclid [PULSES] [STEPS]',
+        arguments: {
+            PULSES: {type: ArgumentType.NUMBER, defaultValue: 3},
+            STEPS: {type: ArgumentType.NUMBER, defaultValue: 8}
+        }
+    },
+    {
+        opcode: 'jux',
+        blockType: BlockType.COMMAND,
+        level: LEVEL.MASTER,
+        inTrack: true,
+        text: 'jux [TRANSFORM]',
+        arguments: {
+            TRANSFORM: {type: ArgumentType.STRING, menu: 'transform', defaultValue: 'rev'}
+        }
+    },
+    {
+        opcode: 'off',
+        blockType: BlockType.COMMAND,
+        level: LEVEL.MASTER,
+        inTrack: true,
+        text: 'off [TIME] [TRANSFORM]',
+        arguments: {
+            TIME: {type: ArgumentType.STRING, menu: 'offTime', defaultValue: '0.125'},
+            TRANSFORM: {type: ArgumentType.STRING, menu: 'transform', defaultValue: 'up12'}
+        }
+    },
+    {
+        opcode: 'superimpose',
+        blockType: BlockType.COMMAND,
+        level: LEVEL.MASTER,
+        inTrack: true,
+        text: 'superimpose [TRANSFORM]',
+        arguments: {
+            TRANSFORM: {type: ArgumentType.STRING, menu: 'transform', defaultValue: 'up12'}
+        }
+    },
+    {
+        opcode: 'chop',
+        blockType: BlockType.COMMAND,
+        level: LEVEL.MASTER,
+        inTrack: true,
+        text: 'chop [PIECES]',
+        arguments: {
+            PIECES: {type: ArgumentType.NUMBER, defaultValue: 4}
+        }
+    },
+    {
+        opcode: 'transpose',
+        blockType: BlockType.COMMAND,
+        level: LEVEL.MASTER,
+        inTrack: true,
+        text: 'transpose [SEMITONES]',
+        arguments: {
+            SEMITONES: {type: ArgumentType.NUMBER, defaultValue: 7}
+        }
+    },
+    {
+        opcode: 'arp',
+        blockType: BlockType.COMMAND,
+        level: LEVEL.MASTER,
+        inTrack: true,
+        text: 'arp [ORDER]',
+        arguments: {
+            ORDER: {type: ArgumentType.STRING, defaultValue: '0 1 2 1'}
+        }
+    },
+    {
+        opcode: 'acidenv',
+        blockType: BlockType.COMMAND,
+        level: LEVEL.MASTER,
+        inTrack: true,
+        text: 'acidenv [AMOUNT]',
+        arguments: {
+            AMOUNT: {type: ArgumentType.NUMBER, defaultValue: 0.5}
+        }
+    },
+    {
+        opcode: 'trancegate',
+        blockType: BlockType.COMMAND,
+        level: LEVEL.MASTER,
+        inTrack: true,
+        text: 'trancegate [DENSITY] [SEED] [LENGTH]',
+        arguments: {
+            DENSITY: {type: ArgumentType.NUMBER, defaultValue: 0.5},
+            SEED: {type: ArgumentType.NUMBER, defaultValue: 0},
+            LENGTH: {type: ArgumentType.NUMBER, defaultValue: 1}
         }
     },
     '---',
+    // values to put in the inputs
+    {
+        opcode: 'listMini',
+        blockType: BlockType.REPORTER,
+        level: LEVEL.STANDARD,
+        text: 'items of list [LISTNAME] [HOW]',
+        arguments: {
+            LISTNAME: {type: ArgumentType.STRING, menu: 'list'},
+            HOW: {type: ArgumentType.STRING, menu: 'listHow', defaultValue: 'cycle'}
+        }
+    },
     {
         opcode: 'wave',
         blockType: BlockType.REPORTER,
@@ -287,142 +447,6 @@ export const BLOCKS = [
             STEPS: {type: ArgumentType.NUMBER, defaultValue: 16},
             SEED: {type: ArgumentType.NUMBER, defaultValue: 0},
             LENGTH: {type: ArgumentType.NUMBER, defaultValue: 1}
-        }
-    },
-    {
-        opcode: 'degrade',
-        blockType: BlockType.REPORTER,
-        level: LEVEL.MASTER,
-        text: 'degradeBy [PERCENT] % [PATTERN]',
-        arguments: {
-            PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'hh'},
-            PERCENT: {type: ArgumentType.NUMBER, defaultValue: 50}
-        }
-    },
-    {
-        opcode: 'sometimes',
-        blockType: BlockType.REPORTER,
-        level: LEVEL.MASTER,
-        text: 'sometimes [TRANSFORM] [PATTERN]',
-        arguments: {
-            TRANSFORM: {type: ArgumentType.STRING, menu: 'transform', defaultValue: 'up12'},
-            PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'}
-        }
-    },
-    {
-        opcode: 'euclid',
-        blockType: BlockType.REPORTER,
-        level: LEVEL.MASTER,
-        text: 'euclid [PULSES] [STEPS] [PATTERN]',
-        arguments: {
-            PULSES: {type: ArgumentType.NUMBER, defaultValue: 3},
-            PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'bd'},
-            STEPS: {type: ArgumentType.NUMBER, defaultValue: 8}
-        }
-    },
-    {
-        opcode: 'jux',
-        blockType: BlockType.REPORTER,
-        level: LEVEL.MASTER,
-        text: 'jux [TRANSFORM] [PATTERN]',
-        arguments: {
-            PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'},
-            TRANSFORM: {type: ArgumentType.STRING, menu: 'transform', defaultValue: 'rev'}
-        }
-    },
-    {
-        opcode: 'off',
-        blockType: BlockType.REPORTER,
-        level: LEVEL.MASTER,
-        text: 'off [TIME] [TRANSFORM] [PATTERN]',
-        arguments: {
-            PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'},
-            TRANSFORM: {type: ArgumentType.STRING, menu: 'transform', defaultValue: 'up12'},
-            TIME: {type: ArgumentType.STRING, menu: 'offTime', defaultValue: '0.125'}
-        }
-    },
-    {
-        opcode: 'superimpose',
-        blockType: BlockType.REPORTER,
-        level: LEVEL.MASTER,
-        text: 'superimpose [TRANSFORM] [PATTERN]',
-        arguments: {
-            PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'},
-            TRANSFORM: {type: ArgumentType.STRING, menu: 'transform', defaultValue: 'up12'}
-        }
-    },
-    {
-        opcode: 'acid',
-        blockType: BlockType.REPORTER,
-        level: LEVEL.MASTER,
-        text: 'acidenv [AMOUNT] [PATTERN]',
-        arguments: {
-            PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'},
-            AMOUNT: {type: ArgumentType.NUMBER, defaultValue: 0.5}
-        }
-    },
-    {
-        opcode: 'trancegate',
-        blockType: BlockType.REPORTER,
-        level: LEVEL.MASTER,
-        text: 'trancegate [DENSITY] [SEED] [LENGTH] [PATTERN]',
-        arguments: {
-            PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'},
-            DENSITY: {type: ArgumentType.NUMBER, defaultValue: 0.5},
-            SEED: {type: ArgumentType.NUMBER, defaultValue: 0},
-            LENGTH: {type: ArgumentType.NUMBER, defaultValue: 1}
-        }
-    },
-    {
-        opcode: 'duck',
-        blockType: BlockType.REPORTER,
-        level: LEVEL.MASTER,
-        // replaced by the duck effects, kept so that saved projects still play
-        hidden: true,
-        text: 'duck the other tracks on each sound of [PATTERN] depth [DEPTH]',
-        arguments: {
-            PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'bd'},
-            DEPTH: {type: ArgumentType.NUMBER, defaultValue: 0.8}
-        }
-    },
-    {
-        opcode: 'chop',
-        blockType: BlockType.REPORTER,
-        level: LEVEL.MASTER,
-        text: 'chop [PIECES] [PATTERN]',
-        arguments: {
-            PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'bd'},
-            PIECES: {type: ArgumentType.NUMBER, defaultValue: 4}
-        }
-    },
-    {
-        opcode: 'transpose',
-        blockType: BlockType.REPORTER,
-        level: LEVEL.MASTER,
-        text: 'transpose [SEMITONES] [PATTERN]',
-        arguments: {
-            PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'},
-            SEMITONES: {type: ArgumentType.NUMBER, defaultValue: 7}
-        }
-    },
-    {
-        opcode: 'chord',
-        blockType: BlockType.REPORTER,
-        level: LEVEL.MASTER,
-        text: 'chord [ROOT] [CHORD]',
-        arguments: {
-            ROOT: {type: ArgumentType.STRING, menu: 'root', defaultValue: 'C4'},
-            CHORD: {type: ArgumentType.STRING, menu: 'chord', defaultValue: 'major'}
-        }
-    },
-    {
-        opcode: 'arp',
-        blockType: BlockType.REPORTER,
-        level: LEVEL.MASTER,
-        text: 'arp [ORDER] [PATTERN]',
-        arguments: {
-            PATTERN: {type: ArgumentType.STRING, menu: 'sound', defaultValue: 'c4'},
-            ORDER: {type: ArgumentType.STRING, defaultValue: '0 1 2 1'}
         }
     },
     '---',
@@ -718,7 +742,7 @@ const LAYER_ITEMS = [
  * @type {object}
  */
 export const MENUS = {
-    // a slot of a pattern: a sound can be chosen, and a pattern block can be put in
+    // a sound of seq, stack and cat: a drum, a note or a rest, or a value block such as the items of a list
     sound: {
         acceptReporters: true,
         items: [
@@ -727,8 +751,17 @@ export const MENUS = {
             ...REST_ITEMS.map(item => item.concat('sound'))
         ]
     },
+    // the first sound of a track, or the sound of notes
+    sName: {
+        acceptReporters: true,
+        items: [
+            ...DRUM_ITEMS.map(item => item.concat('drum')),
+            ...SYNTH_ITEMS.map(item => item.concat('synth')),
+            ...REST_ITEMS.map(item => item.concat('sound'))
+        ]
+    },
+    note: {acceptReporters: true, group: 'note', items: NOTE_ITEMS},
     drumField: {acceptReporters: false, group: 'drum', items: DRUM_ITEMS},
-    synth: {acceptReporters: true, group: 'synth', items: SYNTH_ITEMS},
     level: {acceptReporters: false, group: 'level', items: LEVEL_ITEMS},
     root: {acceptReporters: true, group: 'root', items: ROOT_ITEMS},
     scale: {acceptReporters: true, group: 'scale', items: SCALE_ITEMS},

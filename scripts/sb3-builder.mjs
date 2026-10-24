@@ -142,6 +142,30 @@ export class Blocks {
     }
 
     /**
+     * Put blocks in the branch of a C block.
+     * @param {string} parent - block ID of the C block
+     * @param {Array<string>} ids - blocks in the branch, from the top
+     */
+    substack (parent, ids) {
+        if (!ids.length) return;
+        this.stack(ids);
+        this.blocks[parent].inputs.SUBSTACK = [2, ids[0]];
+        this.blocks[ids[0]].parent = parent;
+    }
+
+    /**
+     * The C block of a track with the blocks in it.
+     * @param {string} track - track name
+     * @param {Array<string>} ids - blocks in the C block, from the top
+     * @returns {string} - block ID of the C block
+     */
+    track (track, ids) {
+        const id = this.strudel('track', {TRACK: ['text', track]});
+        this.substack(id, ids);
+        return id;
+    }
+
+    /**
      * A reporter or command of the extension with its inputs.
      * @param {string} opcode - opcode without the extension ID
      * @param {object} [inputs] - {name: [kind, value]}; kind is 'text', 'number' or a menu name.
@@ -328,15 +352,111 @@ export class Blocks {
 }
 
 /**
- * "in order" block with four sounds.
+ * Makers of the blocks of the extension, with the inputs in the order of the block text.
+ * A text input takes a text, or a block ID to put that reporter on it.
  * @param {Blocks} b - builder
- * @param {Array<string>} sounds - four values of the sound menu
- * @returns {string} - block ID
+ * @returns {object} - makers which return block IDs
  */
-export const inOrder = (b, sounds) => {
-    const id = b.block('strudel_sequence');
-    ['A', 'B', 'C', 'D'].forEach((input, i) => b.menu(id, input, 'sound', sounds[i]));
-    return id;
+export const strudelBlocks = b => {
+    const text = value => (b.blocks[value] ? ['blockOnText', value] : ['text', String(value)]);
+    const number = value => ['number', value];
+    const sounds = (opcode, names, inputs) => b.strudel(opcode,
+        Object.fromEntries(inputs.map((input, i) => [input, ['sound', names[i] || '~']])));
+    return {
+        track: (name, ids) => b.track(name, ids),
+        sMenu: sound => b.strudel('sMenu', {SOUND: ['sName', sound]}),
+        noteMenu: note => b.strudel('noteMenu', {NOTE: ['note', note]}),
+        s: code => b.strudel('s', {CODE: text(code)}),
+        note: code => b.strudel('note', {CODE: text(code)}),
+        n: code => b.strudel('n', {CODE: text(code)}),
+        seq: (...names) => sounds('seq', names, ['A', 'B', 'C', 'D']),
+        stack: (...names) => sounds('stack', names, ['A', 'B']),
+        cat: (...names) => sounds('cat', names, ['A', 'B']),
+        spriteSound: name => b.strudel('spriteSound', {SOUND: ['spriteSound', name]}),
+        chord: (root, chord) => b.strudel('chord', {ROOT: ['root', root], CHORD: ['chord', chord]}),
+        fast: times => b.strudel('fast', {TIMES: number(times)}),
+        slow: cycles => b.strudel('slow', {CYCLES: number(cycles)}),
+        scale: (root, scale) => b.strudel('scale', {ROOT: ['root', root], SCALE: ['scale', scale]}),
+        struct: rhythm => b.strudel('struct', {RHYTHM: text(rhythm)}),
+        bank: machine => b.strudel('bank', {MACHINE: ['machine', machine]}),
+        effect: (name, value) => b.strudel('effect', {VALUE: text(value)}, {EFFECT: name}),
+        add: value => b.strudel('add', {VALUE: text(value)}),
+        rev: () => b.strudel('rev'),
+        ply: times => b.strudel('ply', {TIMES: number(times)}),
+        every: (cycles, transform) => b.strudel('every', {CYCLES: number(cycles)}, {TRANSFORM: transform}),
+        degradeBy: percent => b.strudel('degradeBy', {PERCENT: number(percent)}),
+        sometimes: transform => b.strudel('sometimes', {}, {TRANSFORM: transform}),
+        euclid: (pulses, steps) => b.strudel('euclid', {PULSES: number(pulses), STEPS: number(steps)}),
+        jux: transform => b.strudel('jux', {}, {TRANSFORM: transform}),
+        off: (time, transform) => b.strudel('off', {}, {TIME: time, TRANSFORM: transform}),
+        superimpose: transform => b.strudel('superimpose', {}, {TRANSFORM: transform}),
+        chop: pieces => b.strudel('chop', {PIECES: number(pieces)}),
+        transpose: semitones => b.strudel('transpose', {SEMITONES: number(semitones)}),
+        arp: order => b.strudel('arp', {ORDER: text(order)}),
+        acidenv: amount => b.strudel('acidenv', {AMOUNT: number(amount)}),
+        trancegate: (density, seed, length) => b.strudel('trancegate', {
+            DENSITY: number(density), SEED: number(seed), LENGTH: number(length)
+        }),
+        listMini: (name, how = 'cycle') => b.strudel('listMini', {}, {LISTNAME: name, HOW: how}),
+        wave: (shape, min, max, cycles) => b.strudel('wave', {
+            MIN: number(min), MAX: number(max), CYCLES: number(cycles)
+        }, {SHAPE: shape}),
+        randomSteps: (min, max, steps, seed, length) => b.strudel('randomSteps', {
+            MIN: number(min), MAX: number(max), STEPS: number(steps), SEED: number(seed), LENGTH: number(length)
+        })
+    };
+};
+
+/** Rough heights of blocks in the workspace, to keep scripts apart. */
+const HEIGHT = {hat: 80, command: 56, branchTop: 56, branchBottom: 32, gap: 48};
+
+/**
+ * @param {Blocks} b - builder
+ * @param {?string} id - first block of a stack
+ * @returns {number} - rough height of the stack
+ */
+const stackHeight = (b, id) => {
+    let height = 0;
+    for (let next = id; next; next = b.blocks[next].next) {
+        const block = b.blocks[next];
+        const branch = block.inputs.SUBSTACK && block.inputs.SUBSTACK[1];
+        if (block.topLevel && !block.parent && /^event_when|_when/.test(block.opcode)) height += HEIGHT.hat;
+        else if (block.inputs.SUBSTACK) height += HEIGHT.branchTop + stackHeight(b, branch) + HEIGHT.branchBottom;
+        else height += HEIGHT.command;
+    }
+    return height;
+};
+
+/**
+ * Move scripts down so that a script does not cover the one below it in the same column.
+ * Comments on a script move with it.
+ * @param {Blocks} b - builder
+ */
+const layout = b => {
+    const tops = Object.keys(b.blocks).filter(id => b.blocks[id].topLevel && !b.blocks[id].shadow)
+        .sort((x, y) => (b.blocks[x].x - b.blocks[y].x) || (b.blocks[x].y - b.blocks[y].y));
+    const topOf = id => {
+        let top = id;
+        while (b.blocks[top].parent) top = b.blocks[top].parent;
+        return top;
+    };
+    let column = null;
+    let bottom = 0;
+    tops.forEach(id => {
+        const block = b.blocks[id];
+        if (column !== block.x) {
+            column = block.x;
+            bottom = -Infinity;
+        }
+        const shift = Math.max(0, bottom + HEIGHT.gap - block.y);
+        if (shift) {
+            block.y += shift;
+            Object.values(b.comments).forEach(c => {
+                if (c.blockId && topOf(c.blockId) === id) c.y += shift;
+            });
+        }
+        bottom = block.y + stackHeight(b, id);
+    });
 };
 
 /**
@@ -346,6 +466,7 @@ export const inOrder = (b, sounds) => {
  * @param {string} [agent] - name of the maker
  */
 export const writeProject = async (cat, output, agent = 'xcx-strudel') => {
+    layout(cat);
     const project = {
         targets: [
             {

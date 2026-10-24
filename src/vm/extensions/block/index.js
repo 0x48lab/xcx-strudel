@@ -16,8 +16,7 @@ import {
     silenceNode,
     soundsOf,
     toCode,
-    usesMethod,
-    toNode
+    usesMethod
 } from '../../../core/ast.js';
 import {Engine} from '../../../core/engine.js';
 import {SpriteSounds} from '../../../core/sprite-sounds.js';
@@ -248,9 +247,12 @@ class ExtensionBlocks {
                 default: block.text,
                 description: `text of the block "${block.opcode}"`
             }),
-            hideFromPalette: !!block.hidden || block.level > this.level
+            hideFromPalette: !!block.hidden || block.level > this.level ||
+                (typeof block.maxLevel === 'number' && this.level > block.maxLevel)
         });
         delete info.level;
+        delete info.maxLevel;
+        delete info.inTrack;
         delete info.hidden;
         return info;
     }
@@ -299,8 +301,31 @@ class ExtensionBlocks {
         if (level >= LEVEL.BEGINNER && level <= LEVEL.MASTER) this.changeLevel(level);
     }
 
-    playTrack (args) {
-        const n = toNode(args.PATTERN) || silenceNode();
+    /**
+     * The C block of a track. The blocks in it build the pattern from the top, then the track plays it.
+     * The branch runs as a loop of one time, so that this block runs again after the branch.
+     * @param {object} args - TRACK
+     * @param {object} util - utility of the block
+     * @returns {?Promise} - a promise which is resolved when the track starts
+     */
+    track (args, util) {
+        const frame = util.stackFrame;
+        if (!frame.strudelTrack) {
+            frame.strudelTrack = {node: null};
+            util.startBranch(1, true);
+            return;
+        }
+        const n = frame.strudelTrack.node || silenceNode();
+        delete frame.strudelTrack;
+        return this.playNode(Cast.toString(args.TRACK), n);
+    }
+
+    /**
+     * @param {string} track - track name
+     * @param {object} n - pattern node
+     * @returns {?Promise} - a promise which is resolved when the track starts
+     */
+    playNode (track, n) {
         let pattern;
         try {
             pattern = compile(n);
@@ -308,7 +333,6 @@ class ExtensionBlocks {
             console.warn('[strudel]', e);
             return;
         }
-        const track = Cast.toString(args.TRACK);
         const code = toCode(n);
         this.trackCodes.set(track, code);
         if (usesMethod(n, 'trancegate')) this.trackFills.add(track);
@@ -369,28 +393,264 @@ class ExtensionBlocks {
     }
 
 
-    sequence (args) {
-        return callNode('seq', [args.A, args.B, args.C, args.D]);
+    /**
+     * The track which a block is in. Frames of the thread are searched from the innermost,
+     * so that the blocks in a custom block which is used in the C block also work.
+     * @param {object} util - utility of the block
+     * @returns {?object} - {node} of the track, or null outside the C block
+     */
+    trackOf (util) {
+        const frames = util && util.thread && util.thread.stackFrames;
+        if (!frames) return null;
+        for (let i = frames.length - 1; i >= 0; i--) {
+            const context = frames[i].executionContext;
+            if (context && context.strudelTrack) return context.strudelTrack;
+        }
+        return null;
     }
 
-    together (args) {
-        return callNode('stack', [args.A, args.B]);
+    /**
+     * Start the pattern of the track. A later start takes the place of the earlier one.
+     * @param {object} util - utility of the block
+     * @param {Function} make - function which returns the first node
+     */
+    startWith (util, make) {
+        const track = this.trackOf(util);
+        if (track) track.node = make();
     }
 
-    alternate (args) {
-        return callNode('cat', [args.A, args.B]);
+    /**
+     * Add a method to the pattern of the track, as `.fast(2)` in Strudel.
+     * @param {object} util - utility of the block
+     * @param {Function} make - function which takes the node so far and returns the new node
+     */
+    chain (util, make) {
+        const track = this.trackOf(util);
+        if (track) track.node = make(track.node || silenceNode());
     }
 
-    repeat (args) {
-        return methodNode(args.PATTERN, 'fast', [clamp(args.TIMES, 0, LIMIT.MODIFIER)]);
+    /**
+     * s() at the top of a track starts the pattern with sounds, and .s() below sets the sound of notes.
+     * @param {*} value - sounds
+     * @param {object} util - utility of the block
+     */
+    sound (value, util) {
+        const track = this.trackOf(util);
+        if (!track) return;
+        const code = Cast.toString(value).trim();
+        if (track.node) {
+            // a rest or an empty text, such as an empty list, does not change the sound of notes
+            if (code && code !== '~') track.node = methodNode(track.node, 's', [code]);
+            return;
+        }
+        // an empty text, such as an empty list, is a rest
+        track.node = code && code !== '~' ? miniNode(code, 's') : silenceNode();
     }
 
-    slow (args) {
-        return methodNode(args.PATTERN, 'slow', [clamp(args.CYCLES, 0.01, LIMIT.SLOW)]);
+    sMenu (args, util) {
+        this.sound(args.SOUND, util);
     }
 
-    tone (args) {
-        return methodNode(args.PATTERN, 's', [Cast.toString(args.SYNTH)]);
+    s (args, util) {
+        this.sound(args.CODE, util);
+    }
+
+    /**
+     * @param {*} value - notes
+     * @param {object} util - utility of the block
+     */
+    notes (value, util) {
+        const code = Cast.toString(value).trim();
+        this.startWith(util, () => (code && code !== '~' ? miniNode(code, 'note') : silenceNode()));
+    }
+
+    noteMenu (args, util) {
+        this.notes(args.NOTE, util);
+    }
+
+    note (args, util) {
+        this.notes(args.CODE, util);
+    }
+
+    n (args, util) {
+        // the random steps block is put in as steps
+        if (isNode(args.CODE)) {
+            this.startWith(util, () => asSteps(args.CODE));
+            return;
+        }
+        const code = Cast.toString(args.CODE).trim();
+        this.startWith(util, () => (code ? miniNode(code, 'n') : silenceNode()));
+    }
+
+    seq (args, util) {
+        this.startWith(util, () => callNode('seq', [args.A, args.B, args.C, args.D]));
+    }
+
+    stack (args, util) {
+        this.startWith(util, () => callNode('stack', [args.A, args.B]));
+    }
+
+    cat (args, util) {
+        this.startWith(util, () => callNode('cat', [args.A, args.B]));
+    }
+
+    spriteSound (args, util) {
+        if (!this.trackOf(util)) return;
+        const name = Cast.toString(args.SOUND);
+        const sprite = util.target && util.target.sprite;
+        const sound = sprite && sprite.sounds.find(s => s.name === name);
+        const sample = this.spriteSounds.register(sound);
+        if (!sample) {
+            // the block keeps the old name when the sound is renamed
+            console.warn(`[strudel] the sprite has no sound "${name}"`);
+        }
+        this.startWith(util, () => (sample ? miniNode(sample, 's') : silenceNode()));
+    }
+
+    chord (args, util) {
+        const intervals = own(CHORDS, Cast.toString(args.CHORD)) || CHORDS.major;
+        let root;
+        try {
+            root = noteToMidi(Cast.toString(args.ROOT));
+        } catch (e) {
+            root = 60;
+        }
+        this.startWith(util, () => miniNode(`[${intervals.map(i => midiToName(root + i)).join(',')}]`, 'note'));
+    }
+
+    fast (args, util) {
+        this.chain(util, n => methodNode(n, 'fast', [clamp(args.TIMES, 0, LIMIT.MODIFIER)]));
+    }
+
+    slow (args, util) {
+        this.chain(util, n => methodNode(n, 'slow', [clamp(args.CYCLES, 0.01, LIMIT.SLOW)]));
+    }
+
+    scale (args, util) {
+        this.chain(util, n => methodNode(n, 'scale', [`${Cast.toString(args.ROOT)}:${Cast.toString(args.SCALE)}`]));
+    }
+
+    struct (args, util) {
+        this.chain(util, n => methodNode(n, 'struct', [Cast.toString(args.RHYTHM).trim()]));
+    }
+
+    bank (args, util) {
+        this.chain(util, n => methodNode(n, 'bank', [Cast.toString(args.MACHINE)]));
+    }
+
+    effect (args, util) {
+        this.chain(util, n => this.effectOf(n, Cast.toString(args.EFFECT), args.VALUE));
+    }
+
+    /**
+     * @param {object} n - node so far
+     * @param {string} fn - effect name
+     * @param {*} value - value, or a signal from the wave block
+     * @returns {object} - node with the effect, or the same node for an unknown effect
+     */
+    effectOf (n, fn, value) {
+        if (!Object.prototype.hasOwnProperty.call(EFFECTS, fn)) return n;
+        const range = EFFECTS[fn];
+        if (isSignal(value)) {
+            if (!range) return n;
+            const min = clamp(value.min, range[0], range[1]);
+            const max = clamp(value.max, range[0], range[1]);
+            return methodNode(n, fn, [signalArg(value.signal, min, max, value.cycles)]);
+        }
+        const raw = Cast.toString(value).trim();
+        // a plain number is kept in the range, a pattern such as "<300 2000>" is checked when it plays
+        let v = range && /^-?\d+(\.\d+)?$/.test(raw) ? clamp(raw, range[0], range[1]) : raw;
+        if (fn === 'orbit' && typeof v === 'number') v = Math.round(v);
+        // distortion makes a sound much louder, so it is turned down
+        if (fn === 'distort') return methodNode(methodNode(n, fn, [v]), 'distortvol', [0.3]);
+        return methodNode(n, fn, [v]);
+    }
+
+    add (args, util) {
+        const raw = Cast.toString(args.VALUE).trim();
+        const value = /^-?\d+(\.\d+)?$/.test(raw) ? clamp(raw, -48, 48) : raw;
+        this.chain(util, n => methodNode(n, 'add', [value]));
+    }
+
+    rev (args, util) {
+        this.chain(util, n => methodNode(n, 'rev', []));
+    }
+
+    ply (args, util) {
+        this.chain(util, n => methodNode(n, 'ply', [Math.round(clamp(args.TIMES, 1, 8))]));
+    }
+
+    every (args, util) {
+        const transform = this.transformOf(args.TRANSFORM);
+        this.chain(util, n => methodNode(n, 'every', [Math.round(clamp(args.CYCLES, 1, 16)), transform]));
+    }
+
+    degradeBy (args, util) {
+        this.chain(util, n => methodNode(n, 'degradeBy', [clamp(args.PERCENT, 0, 100) / 100]));
+    }
+
+    /**
+     * @param {*} value - menu value of a transform
+     * @returns {object} - transform
+     */
+    transformOf (value) {
+        return own(TRANSFORMS, Cast.toString(value)) || TRANSFORMS.rev;
+    }
+
+    sometimes (args, util) {
+        this.chain(util, n => methodNode(n, 'sometimes', [this.transformOf(args.TRANSFORM)]));
+    }
+
+    euclid (args, util) {
+        const steps = Math.round(clamp(args.STEPS, 1, LIMIT.MODIFIER));
+        const pulses = Math.round(clamp(args.PULSES, 1, steps));
+        this.chain(util, n => methodNode(n, 'euclid', [pulses, steps]));
+    }
+
+    jux (args, util) {
+        this.chain(util, n => methodNode(n, 'jux', [this.transformOf(args.TRANSFORM)]));
+    }
+
+    off (args, util) {
+        this.chain(util, n => methodNode(n, 'off', [clamp(args.TIME, 0, 1), this.transformOf(args.TRANSFORM)]));
+    }
+
+    superimpose (args, util) {
+        this.chain(util, n => methodNode(n, 'superimpose', [this.transformOf(args.TRANSFORM)]));
+    }
+
+    chop (args, util) {
+        this.chain(util, n => methodNode(n, 'chop', [Math.round(clamp(args.PIECES, 1, 16))]));
+    }
+
+    transpose (args, util) {
+        this.chain(util, n => methodNode(n, 'transpose', [Math.round(clamp(args.SEMITONES, -24, 24))]));
+    }
+
+    arp (args, util) {
+        this.chain(util, n => methodNode(n, 'arp', [Cast.toString(args.ORDER).trim() || '0']));
+    }
+
+    acidenv (args, util) {
+        // a TB-303 like sound: a sawtooth through a low pass filter which opens and closes on each note
+        const amount = clamp(args.AMOUNT, 0, 1);
+        this.chain(util, n => {
+            n = methodNode(n, 's', ['sawtooth']);
+            n = methodNode(n, 'lpf', [100]);
+            n = methodNode(n, 'lpenv', [Math.round(amount * 9 * 1000) / 1000]);
+            n = methodNode(n, 'lps', [0.2]);
+            n = methodNode(n, 'lpd', [0.12]);
+            return methodNode(n, 'lpq', [2]);
+        });
+    }
+
+    trancegate (args, util) {
+        const gate = [
+            clamp(args.DENSITY, 0, 1),
+            Math.round(clamp(args.SEED, 0, 1000)),
+            Math.round(clamp(args.LENGTH, 1, 16))
+        ];
+        this.chain(util, n => methodNode(n, 'trancegate', gate));
     }
 
     /**
@@ -468,118 +728,8 @@ class ExtensionBlocks {
         }
     }
 
-    rhythm (args) {
-        return methodNode(args.PATTERN, 'struct', [Cast.toString(args.RHYTHM).trim()]);
-    }
-
-    miniSound (args) {
-        const code = Cast.toString(args.CODE);
-        // an empty text, such as an empty list, is a rest
-        return code.trim() ? miniNode(code, 's') : silenceNode();
-    }
-
-    miniNote (args) {
-        const code = Cast.toString(args.CODE);
-        return code.trim() ? miniNode(code, 'note') : silenceNode();
-    }
-
-    scaleNotes (args) {
-        // a pattern block in the steps, such as the add block, is read as steps
-        const steps = isNode(args.STEPS) ? asSteps(args.STEPS) : miniNode(Cast.toString(args.STEPS), 'n');
-        return methodNode(steps, 'scale', [`${Cast.toString(args.ROOT)}:${Cast.toString(args.SCALE)}`]);
-    }
-
-    addNotes (args) {
-        const raw = Cast.toString(args.VALUE).trim();
-        const value = /^-?\d+(\.\d+)?$/.test(raw) ? clamp(raw, -48, 48) : raw;
-        return methodNode(args.PATTERN, 'add', [value]);
-    }
-
-    superimpose (args) {
-        return methodNode(args.PATTERN, 'superimpose', [this.transformOf(args.TRANSFORM)]);
-    }
-
-    acid (args) {
-        // a TB-303 like sound: a sawtooth through a low pass filter which opens and closes on each note
-        const amount = clamp(args.AMOUNT, 0, 1);
-        let n = methodNode(args.PATTERN, 's', ['sawtooth']);
-        n = methodNode(n, 'lpf', [100]);
-        n = methodNode(n, 'lpenv', [Math.round(amount * 9 * 1000) / 1000]);
-        n = methodNode(n, 'lps', [0.2]);
-        n = methodNode(n, 'lpd', [0.12]);
-        return methodNode(n, 'lpq', [2]);
-    }
-
-    duck (args) {
-        // the pattern plays on orbit 2 and ducks orbit 1, where the other tracks play by default
-        let n = methodNode(args.PATTERN, 'orbit', [2]);
-        n = methodNode(n, 'duckorbit', [1]);
-        n = methodNode(n, 'duckattack', [0.2]);
-        return methodNode(n, 'duckdepth', [clamp(args.DEPTH, 0, 1)]);
-    }
-
-    trancegate (args) {
-        return methodNode(args.PATTERN, 'trancegate', [
-            clamp(args.DENSITY, 0, 1),
-            Math.round(clamp(args.SEED, 0, 1000)),
-            Math.round(clamp(args.LENGTH, 1, 16))
-        ]);
-    }
-
-    spriteSound (args, util) {
-        const name = Cast.toString(args.SOUND);
-        const sprite = util && util.target && util.target.sprite;
-        const sound = sprite && sprite.sounds.find(s => s.name === name);
-        const sample = this.spriteSounds.register(sound);
-        if (!sample) {
-            // the block keeps the old name when the sound is renamed
-            console.warn(`[strudel] the sprite has no sound "${name}"`);
-            return silenceNode();
-        }
-        return miniNode(sample, 's');
-    }
-
-    effect (args) {
-        const fn = Cast.toString(args.EFFECT);
-        if (!Object.prototype.hasOwnProperty.call(EFFECTS, fn)) {
-            return toNode(args.PATTERN) || silenceNode();
-        }
-        const range = EFFECTS[fn];
-        if (isSignal(args.VALUE)) {
-            if (!range) return toNode(args.PATTERN) || silenceNode();
-            const v = args.VALUE;
-            const min = clamp(v.min, range[0], range[1]);
-            const max = clamp(v.max, range[0], range[1]);
-            return methodNode(args.PATTERN, fn, [signalArg(v.signal, min, max, v.cycles)]);
-        }
-        const raw = Cast.toString(args.VALUE).trim();
-        // a plain number is kept in the range, a pattern such as "<300 2000>" is checked when it plays
-        let value = range && /^-?\d+(\.\d+)?$/.test(raw) ? clamp(raw, range[0], range[1]) : raw;
-        if (fn === 'orbit' && typeof value === 'number') value = Math.round(value);
-        // distortion makes a sound much louder, so it is turned down
-        if (fn === 'distort') return methodNode(methodNode(args.PATTERN, fn, [value]), 'distortvol', [0.3]);
-        return methodNode(args.PATTERN, fn, [value]);
-    }
-
-    drumMachine (args) {
-        return methodNode(args.PATTERN, 'bank', [Cast.toString(args.MACHINE)]);
-    }
-
     loadSamples (args) {
         return this.loadBank(Cast.toString(args.BANK)).catch(e => console.warn('[strudel]', e));
-    }
-
-    reverse (args) {
-        return methodNode(args.PATTERN, 'rev', []);
-    }
-
-    ply (args) {
-        return methodNode(args.PATTERN, 'ply', [Math.round(clamp(args.TIMES, 1, 8))]);
-    }
-
-    every (args) {
-        const transform = this.transformOf(args.TRANSFORM);
-        return methodNode(args.PATTERN, 'every', [Math.round(clamp(args.CYCLES, 1, 16)), transform]);
     }
 
     wave (args) {
@@ -595,59 +745,6 @@ class ExtensionBlocks {
             Math.round(clamp(args.STEPS, 1, LIMIT.MODIFIER)),
             Math.round(clamp(args.SEED, 0, 1000)),
             Math.round(clamp(args.LENGTH, 1, 16)));
-    }
-
-    degrade (args) {
-        return methodNode(args.PATTERN, 'degradeBy', [clamp(args.PERCENT, 0, 100) / 100]);
-    }
-
-    /**
-     * @param {*} value - menu value of a transform
-     * @returns {object} - transform
-     */
-    transformOf (value) {
-        return own(TRANSFORMS, Cast.toString(value)) || TRANSFORMS.rev;
-    }
-
-    sometimes (args) {
-        return methodNode(args.PATTERN, 'sometimes', [this.transformOf(args.TRANSFORM)]);
-    }
-
-    euclid (args) {
-        const steps = Math.round(clamp(args.STEPS, 1, LIMIT.MODIFIER));
-        const pulses = Math.round(clamp(args.PULSES, 1, steps));
-        return methodNode(args.PATTERN, 'euclid', [pulses, steps]);
-    }
-
-    jux (args) {
-        return methodNode(args.PATTERN, 'jux', [this.transformOf(args.TRANSFORM)]);
-    }
-
-    off (args) {
-        return methodNode(args.PATTERN, 'off', [clamp(args.TIME, 0, 1), this.transformOf(args.TRANSFORM)]);
-    }
-
-    chop (args) {
-        return methodNode(args.PATTERN, 'chop', [Math.round(clamp(args.PIECES, 1, 16))]);
-    }
-
-    transpose (args) {
-        return methodNode(args.PATTERN, 'transpose', [Math.round(clamp(args.SEMITONES, -24, 24))]);
-    }
-
-    chord (args) {
-        const intervals = own(CHORDS, Cast.toString(args.CHORD)) || CHORDS.major;
-        let root;
-        try {
-            root = noteToMidi(Cast.toString(args.ROOT));
-        } catch (e) {
-            root = 60;
-        }
-        return miniNode(`[${intervals.map(i => midiToName(root + i)).join(',')}]`, 'note');
-    }
-
-    arp (args) {
-        return methodNode(args.PATTERN, 'arp', [Cast.toString(args.ORDER).trim() || '0']);
     }
 
     /**

@@ -5,18 +5,11 @@
  * Run: npm run demo
  */
 import path from 'path';
-import {Blocks, writeProject} from './sb3-builder.mjs';
+import {Blocks, strudelBlocks, writeProject} from './sb3-builder.mjs';
 import {PIANO_RHYTHM, SOUL} from './soul-song.mjs';
 
 const out = name => path.resolve(process.cwd(), `projects/${name}.sb3`);
 
-/**
- * @param {Blocks} b - builder
- * @param {string} track - track name
- * @param {string} pattern - block ID of the pattern
- * @returns {string} - block ID of "play on track"
- */
-const play = (b, track, pattern) => b.strudel('playTrack', {PATTERN: ['block', pattern], TRACK: ['text', track]});
 
 /**
  * Hat block of a key with blocks under it.
@@ -45,48 +38,28 @@ const danceOnBeat = (b, top) => b.stack([b.strudel('whenBeat'), b.block('looks_n
 // ---- melody: scales, the piano, effects (standard level) ----
 const makeMelody = async () => {
     const b = new Blocks();
-    const melody = steps => b.strudel('tone', {
-        PATTERN: ['block', b.strudel('scaleNotes', {
-            STEPS: ['text', steps], ROOT: ['root', 'C4'], SCALE: ['scale', 'major:pentatonic']
-        })],
-        SYNTH: ['synth', 'piano']
-    });
+    const $ = strudelBlocks(b);
+    const melody = (steps, ...after) => $.track('メロディ',
+        [$.n(steps), $.scale('C4', 'major:pentatonic'), $.s('piano'), ...after]);
 
     const flag = b.block('event_whenflagclicked', {top: [24, 24]});
     const tempo = b.strudel('setBpm', {BPM: ['number', 100]});
-    const drums = play(b, 'ドラム', b.strudel('miniSound', {CODE: ['text', 'bd [~ bd] sd ~, [~ hh]*4']}));
-    const bass = play(b, 'ベース', b.strudel('effect', {
-        PATTERN: ['block', b.strudel('tone', {
-            PATTERN: ['block', b.strudel('miniNote', {CODE: ['text', '<c2 a1 f1 g1>']})],
-            SYNTH: ['synth', 'sawtooth']
-        })],
-        VALUE: ['text', '700']
-    }, {EFFECT: 'lpf'}));
-    const first = play(b, 'メロディ', melody('0 2 4 <5 7>'));
+    const drums = $.track('ドラム', [$.s('bd [~ bd] sd ~, [~ hh]*4')]);
+    const bass = $.track('ベース', [$.note('<c2 a1 f1 g1>'), $.s('sawtooth'), $.effect('lpf', '700')]);
+    const first = melody('0 2 4 <5 7>');
     const roll = b.strudel('showViz', {}, {VIZ: 'pianoroll'});
     const hint = b.say('スペース・↑・↓ キーで メロディが かわるよ。R キーで ひびきが つくよ。', 6);
     b.stack([flag, tempo, drums, bass, first, roll, hint]);
     b.comment(flag, 'おんかい(ヨナぬき)の ばんごうで メロディを つくるよ。\nピアノの おとは じどうで よみこまれるよ。', 1000, 24);
 
-    onKey(b, 'space', [24, 520], [play(b, 'メロディ', melody('<[0 2 4 2] [4 5 7 5]>'))]);
-    onKey(b, 'up arrow', [24, 640], [play(b, 'メロディ', b.strudel('tone', {
-        PATTERN: ['block', b.strudel('scaleNotes', {
-            STEPS: ['blockOnText', b.strudel('addNotes', {
-                PATTERN: ['block', b.strudel('miniNote', {CODE: ['text', '0 2 4 <5 7>']})],
-                VALUE: ['text', '<0 2 4>']
-            })],
-            ROOT: ['root', 'C4'],
-            SCALE: ['scale', 'major:pentatonic']
-        })],
-        SYNTH: ['synth', 'piano']
-    }))]);
-    onKey(b, 'down arrow', [24, 760], [play(b, 'メロディ', melody('0 2 4 <5 7>'))]);
-    onKey(b, 'r', [24, 880], [play(b, 'メロディ', b.strudel('effect', {
-        PATTERN: ['block', melody('0 2 4 <5 7>')], VALUE: ['text', '0.8']
-    }, {EFFECT: 'room'}))]);
+    onKey(b, 'space', [24, 640], [melody('<[0 2 4 2] [4 5 7 5]>')]);
+    onKey(b, 'up arrow', [24, 860], [$.track('メロディ',
+        [$.n('0 2 4 <5 7>'), $.add('<0 2 4>'), $.scale('C4', 'major:pentatonic'), $.s('piano')])]);
+    onKey(b, 'down arrow', [24, 1100], [melody('0 2 4 <5 7>')]);
+    onKey(b, 'r', [24, 1320], [melody('0 2 4 <5 7>', $.effect('room', '0.8'))]);
     b.comment(b.blocks && Object.keys(b.blocks).find(id => b.blocks[id].opcode === 'event_whenkeypressed'),
-        'キーを おすと、つぎの サイクルの はじめで メロディが いれかわるよ。', 1000, 520);
-    danceOnBeat(b, [24, 1000]);
+        'キーを おすと、つぎの サイクルの はじめで メロディが いれかわるよ。', 1000, 640);
+    danceOnBeat(b, [24, 1560]);
 
     await writeProject(b, out('melody'), 'xcx-strudel make-samples');
 };
@@ -94,47 +67,20 @@ const makeMelody = async () => {
 // ---- trance: drum machine, acid, trance gate, layers by keys (master level) ----
 const makeTrance = async () => {
     const b = new Blocks();
-    const kick = () => play(b, 'キック', b.strudel('drumMachine', {
-        PATTERN: ['block', b.strudel('miniSound', {CODE: ['text', 'bd*4']})], MACHINE: ['machine', 'RolandTR909']
-    }));
+    const $ = strudelBlocks(b);
+    const kick = () => $.track('キック', [$.s('bd*4'), $.bank('RolandTR909')]);
     const parts = [
         ['1', 'q', 'キック', kick],
-        ['2', 'w', 'ハイハット', () => play(b, 'ハイハット', b.strudel('drumMachine', {
-            PATTERN: ['block', b.strudel('miniSound', {CODE: ['text', '[~ hh]*4, [~ cp]*2']})],
-            MACHINE: ['machine', 'RolandTR909']
-        }))],
-        ['3', 'e', 'ベース', () => play(b, 'ベース', b.strudel('acid', {
-            PATTERN: ['block', b.strudel('addNotes', {
-                PATTERN: ['block', b.strudel('miniNote', {CODE: ['text', 'a1*16']})],
-                VALUE: ['text', '<0 0 -4 -2>']
-            })],
-            AMOUNT: ['number', 0.6]
-        }))],
-        ['4', 'r', 'パッド', () => play(b, 'パッド', b.strudel('effect', {
-            PATTERN: ['block', b.strudel('trancegate', {
-                PATTERN: ['block', b.strudel('tone', {
-                    PATTERN: ['block', b.strudel('miniNote', {
-                        CODE: ['text', '<[a3,c4,e4] [f3,a3,c4] [c4,e4,g4] [g3,b3,d4]>']
-                    })],
-                    SYNTH: ['synth', 'supersaw']
-                })],
-                DENSITY: ['number', 0.7],
-                SEED: ['number', 12],
-                LENGTH: ['number', 1]
-            })],
-            VALUE: ['text', '2000']
-        }, {EFFECT: 'lpf'}))],
-        ['5', 't', 'リード', () => play(b, 'リード', b.strudel('effect', {
-            PATTERN: ['block', b.strudel('superimpose', {
-                PATTERN: ['block', b.strudel('tone', {
-                    PATTERN: ['block', b.strudel('scaleNotes', {
-                        STEPS: ['text', '<0 2 4 7 4 2 1 -1>*8'], ROOT: ['root', 'A3'], SCALE: ['scale', 'minor']
-                    })],
-                    SYNTH: ['synth', 'triangle']
-                })]
-            }, {TRANSFORM: 'up12'})],
-            VALUE: ['text', '.3']
-        }, {EFFECT: 'delay'}))]
+        ['2', 'w', 'ハイハット', () => $.track('ハイハット', [$.s('[~ hh]*4, [~ cp]*2'), $.bank('RolandTR909')])],
+        ['3', 'e', 'ベース', () => $.track('ベース', [$.note('a1*16'), $.add('<0 0 -4 -2>'), $.acidenv(0.6)])],
+        ['4', 'r', 'パッド', () => $.track('パッド', [
+            $.note('<[a3,c4,e4] [f3,a3,c4] [c4,e4,g4] [g3,b3,d4]>'), $.s('supersaw'),
+            $.trancegate(0.7, 12, 1), $.effect('lpf', '2000')
+        ])],
+        ['5', 't', 'リード', () => $.track('リード', [
+            $.n('<0 2 4 7 4 2 1 -1>*8'), $.scale('A3', 'minor'), $.s('triangle'),
+            $.superimpose('up12'), $.effect('delay', '.3')
+        ])]
     ];
 
     const flag = b.block('event_whenflagclicked', {top: [24, 24]});
@@ -145,16 +91,16 @@ const makeTrance = async () => {
     b.comment(flag, 'キーで パートを かさねていく DJ あそび。\nアシッドベースと トランスゲートの パッドを つかっているよ。', 1100, 24);
 
     parts.forEach(([startKey, stopKey, track, start], i) => {
-        onKey(b, startKey, [24, 300 + (i * 170)], [start()]);
-        onKey(b, stopKey, [760, 300 + (i * 170)], [b.strudel('stopTrack', {TRACK: ['text', track]})]);
+        onKey(b, startKey, [24, 300 + (i * 240)], [start()]);
+        onKey(b, stopKey, [760, 300 + (i * 240)], [b.strudel('stopTrack', {TRACK: ['text', track]})]);
     });
-    onKey(b, '0', [760, 1150], [b.strudel('stopAll')]);
+    onKey(b, '0', [760, 1500], [b.strudel('stopAll')]);
 
     // jump on the kick, change color on every beat
     const kickHat = b.strudel('whenSound', {}, {DRUM: 'bd'});
     b.blocks[kickHat].topLevel = true;
     b.blocks[kickHat].x = 24;
-    b.blocks[kickHat].y = 1180;
+    b.blocks[kickHat].y = 1560;
     const big = b.block('looks_setsizeto');
     b.number(big, 'SIZE', 125);
     const wait = b.block('control_wait');
@@ -165,7 +111,7 @@ const makeTrance = async () => {
     const beatHat = b.strudel('whenBeat');
     b.blocks[beatHat].topLevel = true;
     b.blocks[beatHat].x = 24;
-    b.blocks[beatHat].y = 1360;
+    b.blocks[beatHat].y = 1740;
     const color = b.block('looks_changeeffectby', {fields: {EFFECT: ['COLOR', null]}});
     b.number(color, 'CHANGE', 25);
     b.stack([beatHat, color]);
@@ -176,43 +122,28 @@ const makeTrance = async () => {
 // ---- acid and trance gate: one song with the acid and trance gate blocks (master level) ----
 const makeAcidGate = async () => {
     const b = new Blocks();
-    const drums = code => b.strudel('drumMachine', {
-        PATTERN: ['block', b.strudel('miniSound', {CODE: ['text', code]})], MACHINE: ['machine', 'RolandTR909']
-    });
-    const tone = (pattern, synth) => b.strudel('tone', {PATTERN: ['block', pattern], SYNTH: ['synth', synth]});
-    const effect = (pattern, name, value) => b.strudel('effect', {
-        PATTERN: ['block', pattern], VALUE: ['text', value]
-    }, {EFFECT: name});
+    const $ = strudelBlocks(b);
 
     const flag = b.block('event_whenflagclicked', {top: [24, 24]});
     const level = b.strudel('setLevel', {}, {LEVEL: '3'});
     const tempo = b.strudel('setBpm', {BPM: ['number', 138]});
-    const kick = play(b, 'キック', drums('bd*4'));
-    const hats = play(b, 'ハイハット', drums('[~ hh]*4, [~ cp]*2'));
-    const acid = play(b, 'アシッド', b.strudel('acid', {
-        PATTERN: ['block', b.strudel('miniNote', {CODE: ['text', '<a1*16 a1*16 f1*16 g1*16>']})],
-        AMOUNT: ['number', 0.6]
-    }));
-    const pad = play(b, 'パッド', effect(b.strudel('trancegate', {
-        PATTERN: ['block', tone(b.strudel('miniNote', {
-            CODE: ['text', '<[a3,c4,e4] [f3,a3,c4] [c4,e4,g4] [g3,b3,d4]>']
-        }), 'supersaw')],
-        DENSITY: ['number', 0.8],
-        SEED: ['number', 45],
-        LENGTH: ['number', 1]
-    }), 'lpf', '1897'));
-    const lead = play(b, 'リード', effect(effect(b.strudel('transpose', {
-        PATTERN: ['block', tone(b.strudel('scaleNotes', {
-            STEPS: ['text', '<0 2 4 7 4 2 1 -1>*8'], ROOT: ['root', 'A'], SCALE: ['scale', 'minor']
-        }), 'triangle')],
-        SEMITONES: ['number', 24]
-    }), 'delay', '.4'), 'delayfeedback', '.25'));
+    const kick = $.track('キック', [$.s('bd*4'), $.bank('RolandTR909')]);
+    const hats = $.track('ハイハット', [$.s('[~ hh]*4, [~ cp]*2'), $.bank('RolandTR909')]);
+    const acid = $.track('アシッド', [$.note('<a1*16 a1*16 f1*16 g1*16>'), $.acidenv(0.6)]);
+    const pad = $.track('パッド', [
+        $.note('<[a3,c4,e4] [f3,a3,c4] [c4,e4,g4] [g3,b3,d4]>'), $.s('supersaw'),
+        $.trancegate(0.8, 45, 1), $.effect('lpf', '1897')
+    ]);
+    const lead = $.track('リード', [
+        $.n('<0 2 4 7 4 2 1 -1>*8'), $.scale('A', 'minor'), $.s('triangle'), $.transpose(24),
+        $.effect('delay', '.4'), $.effect('delayfeedback', '.25')
+    ]);
     const roll = b.strudel('showViz', {}, {VIZ: 'pianoroll'});
     b.stack([flag, level, tempo, kick, hats, acid, pad, lead, roll]);
     b.comment(flag, 'アシッドと トランスゲートの きょく。\n' +
         'Switch Angel さんの strudel-scripts の おとづくりを さんこうにした、ひこうしきの さくひんです' +
         '(ほんにんとは かんけいありません)。', 1100, 24);
-    danceOnBeat(b, [24, 760]);
+    danceOnBeat(b, [24, 1200]);
 
     await writeProject(b, out('acidgate'), 'xcx-strudel make-samples');
 };
@@ -220,14 +151,7 @@ const makeAcidGate = async () => {
 // ---- acid with ducking: a random bass in a scale, a filter on a slider (master level) ----
 const makeAcidDuck = async () => {
     const b = new Blocks();
-    const effect = (pattern, name, value) => b.strudel('effect', {
-        // a block ID as the value puts that reporter into the value
-        PATTERN: ['block', pattern], VALUE: [b.blocks[value] ? 'blockOnText' : 'text', value]
-    }, {EFFECT: name});
-    const tone = (pattern, synth) => b.strudel('tone', {PATTERN: ['block', pattern], SYNTH: ['synth', synth]});
-    const transpose = (pattern, semitones) => b.strudel('transpose', {
-        PATTERN: ['block', pattern], SEMITONES: ['number', semitones]
-    });
+    const $ = strudelBlocks(b);
     const filter = b.variable('フィルター', 2);
     const last = b.variable('前のフィルター', 2);
     b.sliderMonitor(filter, [5, 5], [0, 8]);
@@ -236,12 +160,13 @@ const makeAcidDuck = async () => {
     const level = b.strudel('setLevel', {}, {LEVEL: '3'});
     const tempo = b.strudel('setBpm', {BPM: ['number', 140]});
     // the kick ducks orbits 2 and 3, where the bass and the pad play
-    const kick = play(b, 'キック', effect(effect(effect(b.strudel('repeat', {
-        PATTERN: ['sound', 'sbd'], TIMES: ['number', 4]
-    }), 'duck', '2:3'), 'duckattack', '.2'), 'duckdepth', '.8'));
-    const pad = play(b, 'パッド', effect(effect(effect(effect(tone(transpose(b.strudel('slow', {
-        PATTERN: ['sound', 'c4'], CYCLES: ['number', 2]
-    }), -24), 'supersaw'), 'detune', '1'), 'release', '5'), 'fm', '2'), 'orbit', '3'));
+    const kick = $.track('キック', [
+        $.sMenu('sbd'), $.fast(4), $.effect('duck', '2:3'), $.effect('duckattack', '.2'), $.effect('duckdepth', '.8')
+    ]);
+    const pad = $.track('パッド', [
+        $.noteMenu('c4'), $.slow(2), $.transpose(-24), $.s('supersaw'),
+        $.effect('detune', '1'), $.effect('release', '5'), $.effect('fm', '2'), $.effect('orbit', '3')
+    ]);
     const scope = b.strudel('showViz', {}, {VIZ: 'scope'});
     const hint = b.say('スライダーで ベースの フィルターを うごかそう。', 6);
     // the filter and its note are set before anything plays, so that the watcher below finds them the same
@@ -254,17 +179,14 @@ const makeAcidDuck = async () => {
         '(ほんにんとは かんけいありません)。', 1100, 24);
 
     // the bass is played again with the new filter when the slider moves
-    const bass = play(b, 'ベース', effect(effect(effect(effect(tone(transpose(b.strudel('scaleNotes', {
-        STEPS: ['blockOnText', b.strudel('randomSteps', {
-            MIN: ['number', -7], MAX: ['number', 2], STEPS: ['number', 16], SEED: ['number', 46], LENGTH: ['number', 1]
-        })],
-        ROOT: ['root', 'C4'],
-        SCALE: ['scale', 'minor']
-    }), -12), 'sawtooth'), 'lpf', '200'), 'lpenv', b.getVariable(filter)), 'lpq', '12'), 'orbit', '2'));
-    b.stack([b.whenReceive('ベース', [24, 760]), bass]);
-    b.comment(bass, 'らんすうを スケールの ばんごうに すると、\nいつも スケールの なかの おとに なるよ。', 1100, 760);
+    const bass = $.track('ベース', [
+        $.n($.randomSteps(-7, 2, 16, 46, 1)), $.scale('C4', 'minor'), $.transpose(-12), $.s('sawtooth'),
+        $.effect('lpf', '200'), $.effect('lpenv', b.getVariable(filter)), $.effect('lpq', '12'), $.effect('orbit', '2')
+    ]);
+    b.stack([b.whenReceive('ベース', [24, 1000]), bass]);
+    b.comment(bass, 'らんすうを スケールの ばんごうに すると、\nいつも スケールの なかの おとに なるよ。', 1100, 1000);
 
-    const watch = b.block('event_whenflagclicked', {top: [24, 1000]});
+    const watch = b.block('event_whenflagclicked', {top: [24, 1400]});
     const remember = () => b.setVariable(last, b.getVariable(filter));
     const same = b.block('operator_equals');
     b.text(same, 'OPERAND1', '');
@@ -287,8 +209,8 @@ const makeAcidDuck = async () => {
     b.stack([watch, forever]);
     b.comment(watch, 'スライダーが うごいたかを しらべるよ。\n' +
         '「前のフィルター」は、まえに しらべた ときの「フィルター」の メモ。\n' +
-        'メモと ちがったら、メモを なおして ベースを ならしなおすよ。', 1100, 1000);
-    danceOnBeat(b, [24, 1380]);
+        'メモと ちがったら、メモを なおして ベースを ならしなおすよ。', 1100, 1400);
+    danceOnBeat(b, [24, 1780]);
 
     await writeProject(b, out('acidduck'), 'xcx-strudel make-samples');
 };
@@ -297,28 +219,19 @@ const makeAcidDuck = async () => {
 
 const makeSoulPop = async () => {
     const b = new Blocks();
-    const effect = (pattern, name, value) => b.strudel('effect', {
-        PATTERN: ['block', pattern], VALUE: ['text', value]
-    }, {EFFECT: name});
-    const tone = (pattern, synth) => b.strudel('tone', {PATTERN: ['block', pattern], SYNTH: ['synth', synth]});
-    const listMini = (name, how) => b.strudel('listMini', {}, {LISTNAME: name, HOW: how});
+    const $ = strudelBlocks(b);
     // notes from a list, a bar in each cycle
-    const listNotes = name => b.strudel('miniNote', {CODE: ['blockOnText', listMini(name, 'cycle')]});
+    const listNotes = name => $.note($.listMini(name, 'cycle'));
     const piano = b.list('ピアノのコード', SOUL.piano);
     const rhythm = b.list('ピアノのリズム', PIANO_RHYTHM);
     const bass = b.list('ベース', SOUL.bass);
     const melody = b.list('メロディ', SOUL.melody);
     const drums = b.list('ドラム', SOUL.drums);
     const tracks = [
-        ['1', 'ピアノ', () => tone(b.strudel('rhythm', {
-            PATTERN: ['block', listNotes(piano)], RHYTHM: ['blockOnText', listMini(rhythm, 'seq')]
-        }), 'piano')],
-        ['2', 'ベース', () => effect(tone(listNotes(bass), 'sawtooth'), 'lpf', '350')],
-        ['3', 'ドラム', () => effect(b.strudel('drumMachine', {
-            PATTERN: ['block', b.strudel('miniSound', {CODE: ['blockOnText', listMini(drums, 'stack')]})],
-            MACHINE: ['machine', 'RolandTR808']
-        }), 'gain', '.8')],
-        ['4', 'メロディ', () => effect(effect(tone(listNotes(melody), 'triangle'), 'room', '.4'), 'delay', '.2')]
+        ['1', 'ピアノ', () => [listNotes(piano), $.struct($.listMini(rhythm, 'seq')), $.s('piano')]],
+        ['2', 'ベース', () => [listNotes(bass), $.s('sawtooth'), $.effect('lpf', '350')]],
+        ['3', 'ドラム', () => [$.s($.listMini(drums, 'stack')), $.bank('RolandTR808'), $.effect('gain', '.8')]],
+        ['4', 'メロディ', () => [listNotes(melody), $.s('triangle'), $.effect('room', '.4'), $.effect('delay', '.2')]]
     ];
 
     const flag = b.block('event_whenflagclicked', {top: [24, 24]});
@@ -331,12 +244,12 @@ const makeSoulPop = async () => {
         '1拍を 3つに わけた「シャッフル」の リズムで はねているよ。\n' +
         '和音・ベース・メロディは「変数」の リストに 1小節ずつ、\n' +
         'ピアノの リズムは 1拍ずつ、ドラムは 楽器ごとに 1行ずつ 入っているよ。', 1100, 24);
-    b.stack([b.whenReceive('えんそう', [24, 280]), ...tracks.map(([, track, make]) => play(b, track, make()))]);
-    b.stack([b.whenKey('space', [24, 760]), b.broadcast('えんそう')]);
+    b.stack([b.whenReceive('えんそう', [24, 280]), ...tracks.map(([, track, make]) => $.track(track, make()))]);
+    b.stack([b.whenKey('space', [24, 1100]), b.broadcast('えんそう')]);
     tracks.forEach(([key, track], i) => {
-        onKey(b, key, [24, 880 + (i * 110)], [b.strudel('stopTrack', {TRACK: ['text', track]})]);
+        onKey(b, key, [24, 1220 + (i * 110)], [b.strudel('stopTrack', {TRACK: ['text', track]})]);
     });
-    danceOnBeat(b, [24, 1460]);
+    danceOnBeat(b, [24, 1800]);
 
     await writeProject(b, out('soulpop'), 'xcx-strudel make-samples');
 };

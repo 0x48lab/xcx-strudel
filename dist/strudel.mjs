@@ -19,7 +19,7 @@ var translations$1 = {
 }
 };
 
-var version$1 = "0.3.0";
+var version$1 = "0.4.0";
 
 /**
  * This is an extension for Xcratch.
@@ -767,17 +767,11 @@ var Cast = /*@__PURE__*/getDefaultExportFromCjs(castExports);
 var en$1 = {
 	"strudel.name": "Strudel",
 	"strudel.setLevel": "show blocks for [LEVEL]",
-	"strudel.playTrack": "play [PATTERN] on track [TRACK]",
 	"strudel.stopTrack": "stop track [TRACK]",
 	"strudel.stopAll": "stop all tracks",
 	"strudel.setBpm": "set tempo to [BPM] BPM",
 	"strudel.setBeatsPerCycle": "set beats in a cycle to [BEATS]",
-	"strudel.sequence": "seq [A] [B] [C] [D]",
-	"strudel.together": "stack [A] [B]",
-	"strudel.alternate": "cat [A] [B]",
-	"strudel.repeat": "fast [TIMES] [PATTERN]",
-	"strudel.slow": "slow [CYCLES] [PATTERN]",
-	"strudel.tone": "s [SYNTH] [PATTERN]",
+	"strudel.slow": "slow [CYCLES]",
 	"strudel.whenBeat": "when a beat comes",
 	"strudel.whenSound": "when [DRUM] sounds",
 	"strudel.beatInCycle": "beat",
@@ -808,14 +802,10 @@ var en$1 = {
 	"strudel.menu.level.1": "beginner",
 	"strudel.menu.level.2": "normal",
 	"strudel.menu.level.3": "master",
-	"strudel.miniSound": "s [CODE]",
-	"strudel.miniNote": "note [CODE]",
-	"strudel.scaleNotes": "n [STEPS] scale [ROOT] [SCALE]",
 	"strudel.spriteSound": "sprite sound [SOUND]",
-	"strudel.effect": "[EFFECT] [VALUE] [PATTERN]",
-	"strudel.reverse": "rev [PATTERN]",
-	"strudel.ply": "ply [TIMES] [PATTERN]",
-	"strudel.every": "every [CYCLES] [TRANSFORM] [PATTERN]",
+	"strudel.effect": "[EFFECT] [VALUE]",
+	"strudel.ply": "ply [TIMES]",
+	"strudel.every": "every [CYCLES] [TRANSFORM]",
 	"strudel.showViz": "show [VIZ]",
 	"strudel.hideViz": "hide the picture of sound",
 	"strudel.vizLayer": "put the picture of sound [LAYER] the sprites",
@@ -849,7 +839,6 @@ var en$1 = {
 	"strudel.menu.layer.back": "behind",
 	"strudel.menu.layer.front": "in front of",
 	"strudel.loadSamples": "load Strudel sounds [BANK]",
-	"strudel.drumMachine": "bank [MACHINE] [PATTERN]",
 	"strudel.menu.effect.speed": "speed",
 	"strudel.menu.effect.attack": "attack",
 	"strudel.menu.effect.release": "release",
@@ -869,15 +858,14 @@ var en$1 = {
 	"strudel.menu.sound.~": "~",
 	"strudel.wave": "[SHAPE] range [MIN] [MAX] slow [CYCLES]",
 	"strudel.randomSteps": "irand [MIN] .. [MAX] seg [STEPS] rib [SEED] [LENGTH]",
-	"strudel.degrade": "degradeBy [PERCENT] % [PATTERN]",
-	"strudel.sometimes": "sometimes [TRANSFORM] [PATTERN]",
-	"strudel.euclid": "euclid [PULSES] [STEPS] [PATTERN]",
-	"strudel.jux": "jux [TRANSFORM] [PATTERN]",
-	"strudel.off": "off [TIME] [TRANSFORM] [PATTERN]",
-	"strudel.chop": "chop [PIECES] [PATTERN]",
-	"strudel.transpose": "transpose [SEMITONES] [PATTERN]",
+	"strudel.sometimes": "sometimes [TRANSFORM]",
+	"strudel.euclid": "euclid [PULSES] [STEPS]",
+	"strudel.jux": "jux [TRANSFORM]",
+	"strudel.off": "off [TIME] [TRANSFORM]",
+	"strudel.chop": "chop [PIECES]",
+	"strudel.transpose": "transpose [SEMITONES]",
 	"strudel.chord": "chord [ROOT] [CHORD]",
-	"strudel.arp": "arp [ORDER] [PATTERN]",
+	"strudel.arp": "arp [ORDER]",
 	"strudel.strudelCode": "Strudel code of all tracks",
 	"strudel.openStrudel": "open all tracks in strudel.cc",
 	"strudel.menu.transform.up12": "transpose 12",
@@ -900,10 +888,8 @@ var en$1 = {
 	"strudel.menu.chord.sus4": "sus4",
 	"strudel.menu.viz.spectrum": "spectrum",
 	"strudel.menu.viz.punchcard": "punchcard",
-	"strudel.addNotes": "add [VALUE] [PATTERN]",
-	"strudel.superimpose": "superimpose [TRANSFORM] [PATTERN]",
-	"strudel.acid": "acidenv [AMOUNT] [PATTERN]",
-	"strudel.trancegate": "trancegate [DENSITY] [SEED] [LENGTH] [PATTERN]",
+	"strudel.superimpose": "superimpose [TRANSFORM]",
+	"strudel.trancegate": "trancegate [DENSITY] [SEED] [LENGTH]",
 	"strudel.menu.effect.clip": "clip",
 	"strudel.menu.effect.decay": "decay",
 	"strudel.menu.effect.sustain": "sustain",
@@ -914,7 +900,6 @@ var en$1 = {
 	"strudel.menu.effect.lpenv": "lpenv",
 	"strudel.menu.effect.lpd": "lpd",
 	"strudel.menu.effect.lps": "lps",
-	"strudel.duck": "duck the other tracks on each sound of [PATTERN] depth [DEPTH]",
 	"strudel.menu.sound.white": "white",
 	"strudel.menu.effect.unison": "unison",
 	"strudel.menu.effect.detune": "detune",
@@ -926,25 +911,35 @@ var en$1 = {
 	"strudel.menu.effect.duckattack": "duckattack",
 	"strudel.menu.effect.duckdepth": "duckdepth",
 	"strudel.listMini": "items of list [LISTNAME] [HOW]",
-	"strudel.rhythm": "struct [RHYTHM] [PATTERN]",
 	"strudel.menu.listHow.cycle": "one in each cycle",
 	"strudel.menu.listHow.seq": "in order in a cycle",
-	"strudel.menu.listHow.stack": "all together"
+	"strudel.menu.listHow.stack": "all together",
+	"strudel.track": "play on track [TRACK]",
+	"strudel.sMenu": "s [SOUND]",
+	"strudel.noteMenu": "note [NOTE]",
+	"strudel.s": "s [CODE]",
+	"strudel.note": "note [CODE]",
+	"strudel.n": "n [CODE]",
+	"strudel.seq": "seq [A] [B] [C] [D]",
+	"strudel.stack": "stack [A] [B]",
+	"strudel.cat": "cat [A] [B]",
+	"strudel.fast": "fast [TIMES]",
+	"strudel.scale": "scale [ROOT] [SCALE]",
+	"strudel.struct": "struct [RHYTHM]",
+	"strudel.bank": "bank [MACHINE]",
+	"strudel.add": "add [VALUE]",
+	"strudel.rev": "rev",
+	"strudel.degradeBy": "degradeBy [PERCENT] %",
+	"strudel.acidenv": "acidenv [AMOUNT]"
 };
 var ja$1 = {
 	"strudel.name": "ストゥルーデル",
 	"strudel.setLevel": "[LEVEL] のブロックを表示する",
-	"strudel.playTrack": "[PATTERN] をトラック [TRACK] で鳴らす",
 	"strudel.stopTrack": "トラック [TRACK] を止める",
 	"strudel.stopAll": "すべてのトラックを止める",
 	"strudel.setBpm": "テンポを [BPM] BPMにする",
 	"strudel.setBeatsPerCycle": "サイクルの拍の数を [BEATS] にする",
-	"strudel.sequence": "seq [A] [B] [C] [D]",
-	"strudel.together": "stack [A] [B]",
-	"strudel.alternate": "cat [A] [B]",
-	"strudel.repeat": "fast [TIMES] [PATTERN]",
-	"strudel.slow": "slow [CYCLES] [PATTERN]",
-	"strudel.tone": "s [SYNTH] [PATTERN]",
+	"strudel.slow": "slow [CYCLES]",
 	"strudel.whenBeat": "拍がきたとき",
 	"strudel.whenSound": "[DRUM] が鳴ったとき",
 	"strudel.beatInCycle": "拍",
@@ -975,14 +970,10 @@ var ja$1 = {
 	"strudel.menu.level.1": "ビギナー",
 	"strudel.menu.level.2": "ノーマル",
 	"strudel.menu.level.3": "マスター",
-	"strudel.miniSound": "s [CODE]",
-	"strudel.miniNote": "note [CODE]",
-	"strudel.scaleNotes": "n [STEPS] scale [ROOT] [SCALE]",
 	"strudel.spriteSound": "スプライトの音 [SOUND]",
-	"strudel.effect": "[EFFECT] [VALUE] [PATTERN]",
-	"strudel.reverse": "rev [PATTERN]",
-	"strudel.ply": "ply [TIMES] [PATTERN]",
-	"strudel.every": "every [CYCLES] [TRANSFORM] [PATTERN]",
+	"strudel.effect": "[EFFECT] [VALUE]",
+	"strudel.ply": "ply [TIMES]",
+	"strudel.every": "every [CYCLES] [TRANSFORM]",
 	"strudel.showViz": "[VIZ] を表示する",
 	"strudel.hideViz": "音の絵を隠す",
 	"strudel.vizLayer": "音の絵をスプライトの [LAYER] にする",
@@ -1016,7 +1007,6 @@ var ja$1 = {
 	"strudel.menu.layer.back": "後ろ",
 	"strudel.menu.layer.front": "前",
 	"strudel.loadSamples": "Strudelの音 [BANK] を読み込む",
-	"strudel.drumMachine": "bank [MACHINE] [PATTERN]",
 	"strudel.menu.effect.speed": "speed",
 	"strudel.menu.effect.attack": "attack",
 	"strudel.menu.effect.release": "release",
@@ -1036,15 +1026,14 @@ var ja$1 = {
 	"strudel.menu.sound.~": "~",
 	"strudel.wave": "[SHAPE] range [MIN] [MAX] slow [CYCLES]",
 	"strudel.randomSteps": "irand [MIN] .. [MAX] seg [STEPS] rib [SEED] [LENGTH]",
-	"strudel.degrade": "degradeBy [PERCENT] % [PATTERN]",
-	"strudel.sometimes": "sometimes [TRANSFORM] [PATTERN]",
-	"strudel.euclid": "euclid [PULSES] [STEPS] [PATTERN]",
-	"strudel.jux": "jux [TRANSFORM] [PATTERN]",
-	"strudel.off": "off [TIME] [TRANSFORM] [PATTERN]",
-	"strudel.chop": "chop [PIECES] [PATTERN]",
-	"strudel.transpose": "transpose [SEMITONES] [PATTERN]",
+	"strudel.sometimes": "sometimes [TRANSFORM]",
+	"strudel.euclid": "euclid [PULSES] [STEPS]",
+	"strudel.jux": "jux [TRANSFORM]",
+	"strudel.off": "off [TIME] [TRANSFORM]",
+	"strudel.chop": "chop [PIECES]",
+	"strudel.transpose": "transpose [SEMITONES]",
 	"strudel.chord": "和音 [ROOT] [CHORD]",
-	"strudel.arp": "arp [ORDER] [PATTERN]",
+	"strudel.arp": "arp [ORDER]",
 	"strudel.strudelCode": "全部のトラックのStrudelコード",
 	"strudel.openStrudel": "全部のトラックを strudel.cc で開く",
 	"strudel.menu.transform.up12": "transpose 12",
@@ -1067,10 +1056,8 @@ var ja$1 = {
 	"strudel.menu.chord.sus4": "sus4",
 	"strudel.menu.viz.spectrum": "spectrum",
 	"strudel.menu.viz.punchcard": "punchcard",
-	"strudel.addNotes": "add [VALUE] [PATTERN]",
-	"strudel.superimpose": "superimpose [TRANSFORM] [PATTERN]",
-	"strudel.acid": "acidenv [AMOUNT] [PATTERN]",
-	"strudel.trancegate": "trancegate [DENSITY] [SEED] [LENGTH] [PATTERN]",
+	"strudel.superimpose": "superimpose [TRANSFORM]",
+	"strudel.trancegate": "trancegate [DENSITY] [SEED] [LENGTH]",
 	"strudel.menu.effect.clip": "clip",
 	"strudel.menu.effect.decay": "decay",
 	"strudel.menu.effect.sustain": "sustain",
@@ -1081,7 +1068,6 @@ var ja$1 = {
 	"strudel.menu.effect.lpenv": "lpenv",
 	"strudel.menu.effect.lpd": "lpd",
 	"strudel.menu.effect.lps": "lps",
-	"strudel.duck": "[PATTERN] が鳴るたびに ほかのトラックを しぼませる 深さ [DEPTH]",
 	"strudel.menu.sound.white": "white",
 	"strudel.menu.effect.unison": "unison",
 	"strudel.menu.effect.detune": "detune",
@@ -1093,10 +1079,26 @@ var ja$1 = {
 	"strudel.menu.effect.duckattack": "duckattack",
 	"strudel.menu.effect.duckdepth": "duckdepth",
 	"strudel.listMini": "リスト [LISTNAME] の中身を [HOW] ならべる",
-	"strudel.rhythm": "struct [RHYTHM] [PATTERN]",
 	"strudel.menu.listHow.cycle": "1サイクルに1つずつ",
 	"strudel.menu.listHow.seq": "1サイクルの中に順番に",
-	"strudel.menu.listHow.stack": "ぜんぶ同時に"
+	"strudel.menu.listHow.stack": "ぜんぶ同時に",
+	"strudel.track": "トラック [TRACK] で鳴らす",
+	"strudel.sMenu": "s [SOUND]",
+	"strudel.noteMenu": "note [NOTE]",
+	"strudel.s": "s [CODE]",
+	"strudel.note": "note [CODE]",
+	"strudel.n": "n [CODE]",
+	"strudel.seq": "seq [A] [B] [C] [D]",
+	"strudel.stack": "stack [A] [B]",
+	"strudel.cat": "cat [A] [B]",
+	"strudel.fast": "fast [TIMES]",
+	"strudel.scale": "scale [ROOT] [SCALE]",
+	"strudel.struct": "struct [RHYTHM]",
+	"strudel.bank": "bank [MACHINE]",
+	"strudel.add": "add [VALUE]",
+	"strudel.rev": "rev",
+	"strudel.degradeBy": "degradeBy [PERCENT] %",
+	"strudel.acidenv": "acidenv [AMOUNT]"
 };
 var translations = {
 	en: en$1,
@@ -1104,17 +1106,11 @@ var translations = {
 	"ja-Hira": {
 	"strudel.name": "すとぅるーでる",
 	"strudel.setLevel": "[LEVEL] の ブロックを ひょうじする",
-	"strudel.playTrack": "[PATTERN] を トラック [TRACK] で ならす",
 	"strudel.stopTrack": "トラック [TRACK] を とめる",
 	"strudel.stopAll": "すべての トラックを とめる",
 	"strudel.setBpm": "テンポを [BPM] BPMに する",
 	"strudel.setBeatsPerCycle": "サイクルの はくの かずを [BEATS] に する",
-	"strudel.sequence": "seq [A] [B] [C] [D]",
-	"strudel.together": "stack [A] [B]",
-	"strudel.alternate": "cat [A] [B]",
-	"strudel.repeat": "fast [TIMES] [PATTERN]",
-	"strudel.slow": "slow [CYCLES] [PATTERN]",
-	"strudel.tone": "s [SYNTH] [PATTERN]",
+	"strudel.slow": "slow [CYCLES]",
 	"strudel.whenBeat": "はくが きたとき",
 	"strudel.whenSound": "[DRUM] が なったとき",
 	"strudel.beatInCycle": "はく",
@@ -1145,14 +1141,10 @@ var translations = {
 	"strudel.menu.level.1": "ビギナー",
 	"strudel.menu.level.2": "ノーマル",
 	"strudel.menu.level.3": "マスター",
-	"strudel.miniSound": "s [CODE]",
-	"strudel.miniNote": "note [CODE]",
-	"strudel.scaleNotes": "n [STEPS] scale [ROOT] [SCALE]",
 	"strudel.spriteSound": "スプライトの おと [SOUND]",
-	"strudel.effect": "[EFFECT] [VALUE] [PATTERN]",
-	"strudel.reverse": "rev [PATTERN]",
-	"strudel.ply": "ply [TIMES] [PATTERN]",
-	"strudel.every": "every [CYCLES] [TRANSFORM] [PATTERN]",
+	"strudel.effect": "[EFFECT] [VALUE]",
+	"strudel.ply": "ply [TIMES]",
+	"strudel.every": "every [CYCLES] [TRANSFORM]",
 	"strudel.showViz": "[VIZ] を ひょうじする",
 	"strudel.hideViz": "おとの えを かくす",
 	"strudel.vizLayer": "おとの えを スプライトの [LAYER] に する",
@@ -1186,7 +1178,6 @@ var translations = {
 	"strudel.menu.layer.back": "うしろ",
 	"strudel.menu.layer.front": "まえ",
 	"strudel.loadSamples": "Strudelの おと [BANK] を よみこむ",
-	"strudel.drumMachine": "bank [MACHINE] [PATTERN]",
 	"strudel.menu.effect.speed": "speed",
 	"strudel.menu.effect.attack": "attack",
 	"strudel.menu.effect.release": "release",
@@ -1206,15 +1197,14 @@ var translations = {
 	"strudel.menu.sound.~": "~",
 	"strudel.wave": "[SHAPE] range [MIN] [MAX] slow [CYCLES]",
 	"strudel.randomSteps": "irand [MIN] .. [MAX] seg [STEPS] rib [SEED] [LENGTH]",
-	"strudel.degrade": "degradeBy [PERCENT] % [PATTERN]",
-	"strudel.sometimes": "sometimes [TRANSFORM] [PATTERN]",
-	"strudel.euclid": "euclid [PULSES] [STEPS] [PATTERN]",
-	"strudel.jux": "jux [TRANSFORM] [PATTERN]",
-	"strudel.off": "off [TIME] [TRANSFORM] [PATTERN]",
-	"strudel.chop": "chop [PIECES] [PATTERN]",
-	"strudel.transpose": "transpose [SEMITONES] [PATTERN]",
+	"strudel.sometimes": "sometimes [TRANSFORM]",
+	"strudel.euclid": "euclid [PULSES] [STEPS]",
+	"strudel.jux": "jux [TRANSFORM]",
+	"strudel.off": "off [TIME] [TRANSFORM]",
+	"strudel.chop": "chop [PIECES]",
+	"strudel.transpose": "transpose [SEMITONES]",
 	"strudel.chord": "わおん [ROOT] [CHORD]",
-	"strudel.arp": "arp [ORDER] [PATTERN]",
+	"strudel.arp": "arp [ORDER]",
 	"strudel.strudelCode": "ぜんぶの トラックの Strudelコード",
 	"strudel.openStrudel": "ぜんぶの トラックを strudel.cc で ひらく",
 	"strudel.menu.transform.up12": "transpose 12",
@@ -1237,10 +1227,8 @@ var translations = {
 	"strudel.menu.chord.sus4": "sus4",
 	"strudel.menu.viz.spectrum": "spectrum",
 	"strudel.menu.viz.punchcard": "punchcard",
-	"strudel.addNotes": "add [VALUE] [PATTERN]",
-	"strudel.superimpose": "superimpose [TRANSFORM] [PATTERN]",
-	"strudel.acid": "acidenv [AMOUNT] [PATTERN]",
-	"strudel.trancegate": "trancegate [DENSITY] [SEED] [LENGTH] [PATTERN]",
+	"strudel.superimpose": "superimpose [TRANSFORM]",
+	"strudel.trancegate": "trancegate [DENSITY] [SEED] [LENGTH]",
 	"strudel.menu.effect.clip": "clip",
 	"strudel.menu.effect.decay": "decay",
 	"strudel.menu.effect.sustain": "sustain",
@@ -1251,7 +1239,6 @@ var translations = {
 	"strudel.menu.effect.lpenv": "lpenv",
 	"strudel.menu.effect.lpd": "lpd",
 	"strudel.menu.effect.lps": "lps",
-	"strudel.duck": "[PATTERN] が なるたびに ほかの トラックを しぼませる ふかさ [DEPTH]",
 	"strudel.menu.sound.white": "white",
 	"strudel.menu.effect.unison": "unison",
 	"strudel.menu.effect.detune": "detune",
@@ -1263,10 +1250,26 @@ var translations = {
 	"strudel.menu.effect.duckattack": "duckattack",
 	"strudel.menu.effect.duckdepth": "duckdepth",
 	"strudel.listMini": "リスト [LISTNAME] の なかみを [HOW] ならべる",
-	"strudel.rhythm": "struct [RHYTHM] [PATTERN]",
 	"strudel.menu.listHow.cycle": "1サイクルに 1つずつ",
 	"strudel.menu.listHow.seq": "1サイクルの なかに じゅんばんに",
-	"strudel.menu.listHow.stack": "ぜんぶ いっしょに"
+	"strudel.menu.listHow.stack": "ぜんぶ いっしょに",
+	"strudel.track": "トラック [TRACK] で ならす",
+	"strudel.sMenu": "s [SOUND]",
+	"strudel.noteMenu": "note [NOTE]",
+	"strudel.s": "s [CODE]",
+	"strudel.note": "note [CODE]",
+	"strudel.n": "n [CODE]",
+	"strudel.seq": "seq [A] [B] [C] [D]",
+	"strudel.stack": "stack [A] [B]",
+	"strudel.cat": "cat [A] [B]",
+	"strudel.fast": "fast [TIMES]",
+	"strudel.scale": "scale [ROOT] [SCALE]",
+	"strudel.struct": "struct [RHYTHM]",
+	"strudel.bank": "bank [MACHINE]",
+	"strudel.add": "add [VALUE]",
+	"strudel.rev": "rev",
+	"strudel.degradeBy": "degradeBy [PERCENT] %",
+	"strudel.acidenv": "acidenv [AMOUNT]"
 }
 };
 
@@ -6234,6 +6237,13 @@ var LEVEL = {
 /**
  * Block definitions.
  * `text` is the default English message. The message id is `strudel.<opcode>`.
+ *
+ * Shapes have one role each:
+ * - the C block "play on track" is a track, which is a line of Strudel code
+ * - command blocks in it are the parts of the method chain, from the top to the bottom
+ * - reporter blocks are values, which are put in the inputs
+ * A block with `inTrack` works only in the C block.
+ * A block with `maxLevel` is hidden above that level, where another block takes its place.
  * @type {Array<object|string>}
  */
 var BLOCKS = [{
@@ -6249,16 +6259,12 @@ var BLOCKS = [{
     }
   }
 }, '---', {
-  opcode: 'playTrack',
-  blockType: BlockType.COMMAND,
+  opcode: 'track',
+  blockType: BlockType.CONDITIONAL,
+  branchCount: 1,
   level: LEVEL.BEGINNER,
-  text: 'play [PATTERN] on track [TRACK]',
+  text: 'play on track [TRACK]',
   arguments: {
-    PATTERN: {
-      type: ArgumentType.STRING,
-      menu: 'sound',
-      defaultValue: 'bd'
-    },
     TRACK: {
       type: ArgumentType.STRING,
       defaultValue: '1'
@@ -6314,10 +6320,77 @@ var BLOCKS = [{
       defaultValue: 4
     }
   }
-}, '---', {
-  opcode: 'sequence',
-  blockType: BlockType.REPORTER,
+}, '---',
+// the first sound of a track
+{
+  opcode: 'sMenu',
+  blockType: BlockType.COMMAND,
   level: LEVEL.BEGINNER,
+  maxLevel: LEVEL.BEGINNER,
+  inTrack: true,
+  text: 's [SOUND]',
+  arguments: {
+    SOUND: {
+      type: ArgumentType.STRING,
+      menu: 'sName',
+      defaultValue: 'bd'
+    }
+  }
+}, {
+  opcode: 'noteMenu',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.BEGINNER,
+  maxLevel: LEVEL.BEGINNER,
+  inTrack: true,
+  text: 'note [NOTE]',
+  arguments: {
+    NOTE: {
+      type: ArgumentType.STRING,
+      menu: 'note',
+      defaultValue: 'c4'
+    }
+  }
+}, {
+  opcode: 's',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.STANDARD,
+  inTrack: true,
+  text: 's [CODE]',
+  arguments: {
+    CODE: {
+      type: ArgumentType.STRING,
+      defaultValue: 'bd*2 [~ sd] <hh oh>'
+    }
+  }
+}, {
+  opcode: 'note',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.STANDARD,
+  inTrack: true,
+  text: 'note [CODE]',
+  arguments: {
+    CODE: {
+      type: ArgumentType.STRING,
+      defaultValue: 'c3 [e3 g3] <a3 b3>'
+    }
+  }
+}, {
+  opcode: 'n',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.STANDARD,
+  inTrack: true,
+  text: 'n [CODE]',
+  arguments: {
+    CODE: {
+      type: ArgumentType.STRING,
+      defaultValue: '0 2 4 <5 7>'
+    }
+  }
+}, {
+  opcode: 'seq',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.BEGINNER,
+  inTrack: true,
   text: 'seq [A] [B] [C] [D]',
   arguments: {
     A: {
@@ -6342,9 +6415,10 @@ var BLOCKS = [{
     }
   }
 }, {
-  opcode: 'together',
-  blockType: BlockType.REPORTER,
+  opcode: 'stack',
+  blockType: BlockType.COMMAND,
   level: LEVEL.BEGINNER,
+  inTrack: true,
   text: 'stack [A] [B]',
   arguments: {
     A: {
@@ -6359,9 +6433,10 @@ var BLOCKS = [{
     }
   }
 }, {
-  opcode: 'alternate',
-  blockType: BlockType.REPORTER,
+  opcode: 'cat',
+  blockType: BlockType.COMMAND,
   level: LEVEL.BEGINNER,
+  inTrack: true,
   text: 'cat [A] [B]',
   arguments: {
     A: {
@@ -6376,86 +6451,68 @@ var BLOCKS = [{
     }
   }
 }, {
-  opcode: 'repeat',
-  blockType: BlockType.REPORTER,
-  level: LEVEL.BEGINNER,
-  text: 'fast [TIMES] [PATTERN]',
+  opcode: 'spriteSound',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.STANDARD,
+  inTrack: true,
+  text: 'sprite sound [SOUND]',
   arguments: {
-    PATTERN: {
+    SOUND: {
       type: ArgumentType.STRING,
-      menu: 'sound',
-      defaultValue: 'hh'
+      menu: 'spriteSound'
+    }
+  }
+}, {
+  opcode: 'chord',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.MASTER,
+  inTrack: true,
+  text: 'chord [ROOT] [CHORD]',
+  arguments: {
+    ROOT: {
+      type: ArgumentType.STRING,
+      menu: 'root',
+      defaultValue: 'C4'
     },
+    CHORD: {
+      type: ArgumentType.STRING,
+      menu: 'chord',
+      defaultValue: 'major'
+    }
+  }
+}, '---',
+// methods which change the sound of a track
+{
+  opcode: 'fast',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.BEGINNER,
+  inTrack: true,
+  text: 'fast [TIMES]',
+  arguments: {
     TIMES: {
       type: ArgumentType.NUMBER,
-      defaultValue: 4
+      defaultValue: 2
     }
   }
 }, {
   opcode: 'slow',
-  blockType: BlockType.REPORTER,
+  blockType: BlockType.COMMAND,
   level: LEVEL.STANDARD,
-  text: 'slow [CYCLES] [PATTERN]',
+  inTrack: true,
+  text: 'slow [CYCLES]',
   arguments: {
-    PATTERN: {
-      type: ArgumentType.STRING,
-      menu: 'sound',
-      defaultValue: 'c4'
-    },
     CYCLES: {
       type: ArgumentType.NUMBER,
       defaultValue: 2
     }
   }
 }, {
-  opcode: 'tone',
-  blockType: BlockType.REPORTER,
-  level: LEVEL.BEGINNER,
-  text: 's [SYNTH] [PATTERN]',
-  arguments: {
-    PATTERN: {
-      type: ArgumentType.STRING,
-      menu: 'sound',
-      defaultValue: 'c4'
-    },
-    SYNTH: {
-      type: ArgumentType.STRING,
-      menu: 'synth',
-      defaultValue: 'sawtooth'
-    }
-  }
-}, {
-  opcode: 'miniSound',
-  blockType: BlockType.REPORTER,
+  opcode: 'scale',
+  blockType: BlockType.COMMAND,
   level: LEVEL.STANDARD,
-  text: 's [CODE]',
+  inTrack: true,
+  text: 'scale [ROOT] [SCALE]',
   arguments: {
-    CODE: {
-      type: ArgumentType.STRING,
-      defaultValue: 'bd*2 [~ sd] <hh oh>'
-    }
-  }
-}, {
-  opcode: 'miniNote',
-  blockType: BlockType.REPORTER,
-  level: LEVEL.STANDARD,
-  text: 'note [CODE]',
-  arguments: {
-    CODE: {
-      type: ArgumentType.STRING,
-      defaultValue: 'c3 [e3 g3] <a3 b3>'
-    }
-  }
-}, {
-  opcode: 'scaleNotes',
-  blockType: BlockType.REPORTER,
-  level: LEVEL.STANDARD,
-  text: 'n [STEPS] scale [ROOT] [SCALE]',
-  arguments: {
-    STEPS: {
-      type: ArgumentType.STRING,
-      defaultValue: '0 2 4 <6 7>'
-    },
     ROOT: {
       type: ArgumentType.STRING,
       menu: 'root',
@@ -6468,11 +6525,254 @@ var BLOCKS = [{
     }
   }
 }, {
+  opcode: 'struct',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.STANDARD,
+  inTrack: true,
+  text: 'struct [RHYTHM]',
+  arguments: {
+    RHYTHM: {
+      type: ArgumentType.STRING,
+      defaultValue: 'x ~ x x'
+    }
+  }
+}, {
+  opcode: 'bank',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.STANDARD,
+  inTrack: true,
+  text: 'bank [MACHINE]',
+  arguments: {
+    MACHINE: {
+      type: ArgumentType.STRING,
+      menu: 'machine',
+      defaultValue: 'RolandTR909'
+    }
+  }
+}, {
+  opcode: 'effect',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.STANDARD,
+  inTrack: true,
+  text: '[EFFECT] [VALUE]',
+  arguments: {
+    EFFECT: {
+      type: ArgumentType.STRING,
+      menu: 'effect',
+      defaultValue: 'lpf'
+    },
+    VALUE: {
+      type: ArgumentType.STRING,
+      defaultValue: '800'
+    }
+  }
+}, {
+  opcode: 'add',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.STANDARD,
+  inTrack: true,
+  text: 'add [VALUE]',
+  arguments: {
+    VALUE: {
+      type: ArgumentType.STRING,
+      defaultValue: '<0 3 5>'
+    }
+  }
+}, {
+  opcode: 'rev',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.STANDARD,
+  inTrack: true,
+  text: 'rev'
+}, {
+  opcode: 'ply',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.STANDARD,
+  inTrack: true,
+  text: 'ply [TIMES]',
+  arguments: {
+    TIMES: {
+      type: ArgumentType.NUMBER,
+      defaultValue: 2
+    }
+  }
+}, {
+  opcode: 'every',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.STANDARD,
+  inTrack: true,
+  text: 'every [CYCLES] [TRANSFORM]',
+  arguments: {
+    CYCLES: {
+      type: ArgumentType.NUMBER,
+      defaultValue: 4
+    },
+    TRANSFORM: {
+      type: ArgumentType.STRING,
+      menu: 'transform',
+      defaultValue: 'rev'
+    }
+  }
+}, {
+  opcode: 'degradeBy',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.MASTER,
+  inTrack: true,
+  text: 'degradeBy [PERCENT] %',
+  arguments: {
+    PERCENT: {
+      type: ArgumentType.NUMBER,
+      defaultValue: 50
+    }
+  }
+}, {
+  opcode: 'sometimes',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.MASTER,
+  inTrack: true,
+  text: 'sometimes [TRANSFORM]',
+  arguments: {
+    TRANSFORM: {
+      type: ArgumentType.STRING,
+      menu: 'transform',
+      defaultValue: 'up12'
+    }
+  }
+}, {
+  opcode: 'euclid',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.MASTER,
+  inTrack: true,
+  text: 'euclid [PULSES] [STEPS]',
+  arguments: {
+    PULSES: {
+      type: ArgumentType.NUMBER,
+      defaultValue: 3
+    },
+    STEPS: {
+      type: ArgumentType.NUMBER,
+      defaultValue: 8
+    }
+  }
+}, {
+  opcode: 'jux',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.MASTER,
+  inTrack: true,
+  text: 'jux [TRANSFORM]',
+  arguments: {
+    TRANSFORM: {
+      type: ArgumentType.STRING,
+      menu: 'transform',
+      defaultValue: 'rev'
+    }
+  }
+}, {
+  opcode: 'off',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.MASTER,
+  inTrack: true,
+  text: 'off [TIME] [TRANSFORM]',
+  arguments: {
+    TIME: {
+      type: ArgumentType.STRING,
+      menu: 'offTime',
+      defaultValue: '0.125'
+    },
+    TRANSFORM: {
+      type: ArgumentType.STRING,
+      menu: 'transform',
+      defaultValue: 'up12'
+    }
+  }
+}, {
+  opcode: 'superimpose',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.MASTER,
+  inTrack: true,
+  text: 'superimpose [TRANSFORM]',
+  arguments: {
+    TRANSFORM: {
+      type: ArgumentType.STRING,
+      menu: 'transform',
+      defaultValue: 'up12'
+    }
+  }
+}, {
+  opcode: 'chop',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.MASTER,
+  inTrack: true,
+  text: 'chop [PIECES]',
+  arguments: {
+    PIECES: {
+      type: ArgumentType.NUMBER,
+      defaultValue: 4
+    }
+  }
+}, {
+  opcode: 'transpose',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.MASTER,
+  inTrack: true,
+  text: 'transpose [SEMITONES]',
+  arguments: {
+    SEMITONES: {
+      type: ArgumentType.NUMBER,
+      defaultValue: 7
+    }
+  }
+}, {
+  opcode: 'arp',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.MASTER,
+  inTrack: true,
+  text: 'arp [ORDER]',
+  arguments: {
+    ORDER: {
+      type: ArgumentType.STRING,
+      defaultValue: '0 1 2 1'
+    }
+  }
+}, {
+  opcode: 'acidenv',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.MASTER,
+  inTrack: true,
+  text: 'acidenv [AMOUNT]',
+  arguments: {
+    AMOUNT: {
+      type: ArgumentType.NUMBER,
+      defaultValue: 0.5
+    }
+  }
+}, {
+  opcode: 'trancegate',
+  blockType: BlockType.COMMAND,
+  level: LEVEL.MASTER,
+  inTrack: true,
+  text: 'trancegate [DENSITY] [SEED] [LENGTH]',
+  arguments: {
+    DENSITY: {
+      type: ArgumentType.NUMBER,
+      defaultValue: 0.5
+    },
+    SEED: {
+      type: ArgumentType.NUMBER,
+      defaultValue: 0
+    },
+    LENGTH: {
+      type: ArgumentType.NUMBER,
+      defaultValue: 1
+    }
+  }
+}, '---',
+// values to put in the inputs
+{
   opcode: 'listMini',
   blockType: BlockType.REPORTER,
   level: LEVEL.STANDARD,
   text: 'items of list [LISTNAME] [HOW]',
-  // not "LIST": scratch-vm passes a field named LIST as a variable reference {id, name}
   arguments: {
     LISTNAME: {
       type: ArgumentType.STRING,
@@ -6485,136 +6785,6 @@ var BLOCKS = [{
     }
   }
 }, {
-  opcode: 'rhythm',
-  blockType: BlockType.REPORTER,
-  level: LEVEL.STANDARD,
-  text: 'struct [RHYTHM] [PATTERN]',
-  arguments: {
-    PATTERN: {
-      type: ArgumentType.STRING,
-      menu: 'sound',
-      defaultValue: 'c4'
-    },
-    RHYTHM: {
-      type: ArgumentType.STRING,
-      defaultValue: 'x ~ x x'
-    }
-  }
-}, {
-  opcode: 'drumMachine',
-  blockType: BlockType.REPORTER,
-  level: LEVEL.STANDARD,
-  text: 'bank [MACHINE] [PATTERN]',
-  arguments: {
-    PATTERN: {
-      type: ArgumentType.STRING,
-      menu: 'sound',
-      defaultValue: 'bd'
-    },
-    MACHINE: {
-      type: ArgumentType.STRING,
-      menu: 'machine',
-      defaultValue: 'RolandTR909'
-    }
-  }
-}, {
-  opcode: 'spriteSound',
-  blockType: BlockType.REPORTER,
-  level: LEVEL.STANDARD,
-  text: 'sprite sound [SOUND]',
-  arguments: {
-    SOUND: {
-      type: ArgumentType.STRING,
-      menu: 'spriteSound'
-    }
-  }
-}, '---', {
-  opcode: 'effect',
-  blockType: BlockType.REPORTER,
-  level: LEVEL.STANDARD,
-  text: '[EFFECT] [VALUE] [PATTERN]',
-  arguments: {
-    PATTERN: {
-      type: ArgumentType.STRING,
-      menu: 'sound',
-      defaultValue: 'c4'
-    },
-    EFFECT: {
-      type: ArgumentType.STRING,
-      menu: 'effect',
-      defaultValue: 'lpf'
-    },
-    VALUE: {
-      type: ArgumentType.STRING,
-      defaultValue: '800'
-    }
-  }
-}, {
-  opcode: 'addNotes',
-  blockType: BlockType.REPORTER,
-  level: LEVEL.STANDARD,
-  text: 'add [VALUE] [PATTERN]',
-  arguments: {
-    VALUE: {
-      type: ArgumentType.STRING,
-      defaultValue: '<0 3 5 3>'
-    },
-    PATTERN: {
-      type: ArgumentType.STRING,
-      menu: 'sound',
-      defaultValue: 'c4'
-    }
-  }
-}, {
-  opcode: 'reverse',
-  blockType: BlockType.REPORTER,
-  level: LEVEL.STANDARD,
-  text: 'rev [PATTERN]',
-  arguments: {
-    PATTERN: {
-      type: ArgumentType.STRING,
-      menu: 'sound',
-      defaultValue: 'c4'
-    }
-  }
-}, {
-  opcode: 'ply',
-  blockType: BlockType.REPORTER,
-  level: LEVEL.STANDARD,
-  text: 'ply [TIMES] [PATTERN]',
-  arguments: {
-    PATTERN: {
-      type: ArgumentType.STRING,
-      menu: 'sound',
-      defaultValue: 'bd'
-    },
-    TIMES: {
-      type: ArgumentType.NUMBER,
-      defaultValue: 2
-    }
-  }
-}, {
-  opcode: 'every',
-  blockType: BlockType.REPORTER,
-  level: LEVEL.STANDARD,
-  text: 'every [CYCLES] [TRANSFORM] [PATTERN]',
-  arguments: {
-    CYCLES: {
-      type: ArgumentType.NUMBER,
-      defaultValue: 4
-    },
-    TRANSFORM: {
-      type: ArgumentType.STRING,
-      menu: 'transform',
-      defaultValue: 'rev'
-    },
-    PATTERN: {
-      type: ArgumentType.STRING,
-      menu: 'sound',
-      defaultValue: 'c4'
-    }
-  }
-}, '---', {
   opcode: 'wave',
   blockType: BlockType.REPORTER,
   level: LEVEL.MASTER,
@@ -6663,238 +6833,6 @@ var BLOCKS = [{
     LENGTH: {
       type: ArgumentType.NUMBER,
       defaultValue: 1
-    }
-  }
-}, {
-  opcode: 'degrade',
-  blockType: BlockType.REPORTER,
-  level: LEVEL.MASTER,
-  text: 'degradeBy [PERCENT] % [PATTERN]',
-  arguments: {
-    PATTERN: {
-      type: ArgumentType.STRING,
-      menu: 'sound',
-      defaultValue: 'hh'
-    },
-    PERCENT: {
-      type: ArgumentType.NUMBER,
-      defaultValue: 50
-    }
-  }
-}, {
-  opcode: 'sometimes',
-  blockType: BlockType.REPORTER,
-  level: LEVEL.MASTER,
-  text: 'sometimes [TRANSFORM] [PATTERN]',
-  arguments: {
-    TRANSFORM: {
-      type: ArgumentType.STRING,
-      menu: 'transform',
-      defaultValue: 'up12'
-    },
-    PATTERN: {
-      type: ArgumentType.STRING,
-      menu: 'sound',
-      defaultValue: 'c4'
-    }
-  }
-}, {
-  opcode: 'euclid',
-  blockType: BlockType.REPORTER,
-  level: LEVEL.MASTER,
-  text: 'euclid [PULSES] [STEPS] [PATTERN]',
-  arguments: {
-    PULSES: {
-      type: ArgumentType.NUMBER,
-      defaultValue: 3
-    },
-    PATTERN: {
-      type: ArgumentType.STRING,
-      menu: 'sound',
-      defaultValue: 'bd'
-    },
-    STEPS: {
-      type: ArgumentType.NUMBER,
-      defaultValue: 8
-    }
-  }
-}, {
-  opcode: 'jux',
-  blockType: BlockType.REPORTER,
-  level: LEVEL.MASTER,
-  text: 'jux [TRANSFORM] [PATTERN]',
-  arguments: {
-    PATTERN: {
-      type: ArgumentType.STRING,
-      menu: 'sound',
-      defaultValue: 'c4'
-    },
-    TRANSFORM: {
-      type: ArgumentType.STRING,
-      menu: 'transform',
-      defaultValue: 'rev'
-    }
-  }
-}, {
-  opcode: 'off',
-  blockType: BlockType.REPORTER,
-  level: LEVEL.MASTER,
-  text: 'off [TIME] [TRANSFORM] [PATTERN]',
-  arguments: {
-    PATTERN: {
-      type: ArgumentType.STRING,
-      menu: 'sound',
-      defaultValue: 'c4'
-    },
-    TRANSFORM: {
-      type: ArgumentType.STRING,
-      menu: 'transform',
-      defaultValue: 'up12'
-    },
-    TIME: {
-      type: ArgumentType.STRING,
-      menu: 'offTime',
-      defaultValue: '0.125'
-    }
-  }
-}, {
-  opcode: 'superimpose',
-  blockType: BlockType.REPORTER,
-  level: LEVEL.MASTER,
-  text: 'superimpose [TRANSFORM] [PATTERN]',
-  arguments: {
-    PATTERN: {
-      type: ArgumentType.STRING,
-      menu: 'sound',
-      defaultValue: 'c4'
-    },
-    TRANSFORM: {
-      type: ArgumentType.STRING,
-      menu: 'transform',
-      defaultValue: 'up12'
-    }
-  }
-}, {
-  opcode: 'acid',
-  blockType: BlockType.REPORTER,
-  level: LEVEL.MASTER,
-  text: 'acidenv [AMOUNT] [PATTERN]',
-  arguments: {
-    PATTERN: {
-      type: ArgumentType.STRING,
-      menu: 'sound',
-      defaultValue: 'c4'
-    },
-    AMOUNT: {
-      type: ArgumentType.NUMBER,
-      defaultValue: 0.5
-    }
-  }
-}, {
-  opcode: 'trancegate',
-  blockType: BlockType.REPORTER,
-  level: LEVEL.MASTER,
-  text: 'trancegate [DENSITY] [SEED] [LENGTH] [PATTERN]',
-  arguments: {
-    PATTERN: {
-      type: ArgumentType.STRING,
-      menu: 'sound',
-      defaultValue: 'c4'
-    },
-    DENSITY: {
-      type: ArgumentType.NUMBER,
-      defaultValue: 0.5
-    },
-    SEED: {
-      type: ArgumentType.NUMBER,
-      defaultValue: 0
-    },
-    LENGTH: {
-      type: ArgumentType.NUMBER,
-      defaultValue: 1
-    }
-  }
-}, {
-  opcode: 'duck',
-  blockType: BlockType.REPORTER,
-  level: LEVEL.MASTER,
-  // replaced by the duck effects, kept so that saved projects still play
-  hidden: true,
-  text: 'duck the other tracks on each sound of [PATTERN] depth [DEPTH]',
-  arguments: {
-    PATTERN: {
-      type: ArgumentType.STRING,
-      menu: 'sound',
-      defaultValue: 'bd'
-    },
-    DEPTH: {
-      type: ArgumentType.NUMBER,
-      defaultValue: 0.8
-    }
-  }
-}, {
-  opcode: 'chop',
-  blockType: BlockType.REPORTER,
-  level: LEVEL.MASTER,
-  text: 'chop [PIECES] [PATTERN]',
-  arguments: {
-    PATTERN: {
-      type: ArgumentType.STRING,
-      menu: 'sound',
-      defaultValue: 'bd'
-    },
-    PIECES: {
-      type: ArgumentType.NUMBER,
-      defaultValue: 4
-    }
-  }
-}, {
-  opcode: 'transpose',
-  blockType: BlockType.REPORTER,
-  level: LEVEL.MASTER,
-  text: 'transpose [SEMITONES] [PATTERN]',
-  arguments: {
-    PATTERN: {
-      type: ArgumentType.STRING,
-      menu: 'sound',
-      defaultValue: 'c4'
-    },
-    SEMITONES: {
-      type: ArgumentType.NUMBER,
-      defaultValue: 7
-    }
-  }
-}, {
-  opcode: 'chord',
-  blockType: BlockType.REPORTER,
-  level: LEVEL.MASTER,
-  text: 'chord [ROOT] [CHORD]',
-  arguments: {
-    ROOT: {
-      type: ArgumentType.STRING,
-      menu: 'root',
-      defaultValue: 'C4'
-    },
-    CHORD: {
-      type: ArgumentType.STRING,
-      menu: 'chord',
-      defaultValue: 'major'
-    }
-  }
-}, {
-  opcode: 'arp',
-  blockType: BlockType.REPORTER,
-  level: LEVEL.MASTER,
-  text: 'arp [ORDER] [PATTERN]',
-  arguments: {
-    PATTERN: {
-      type: ArgumentType.STRING,
-      menu: 'sound',
-      defaultValue: 'c4'
-    },
-    ORDER: {
-      type: ArgumentType.STRING,
-      defaultValue: '0 1 2 1'
     }
   }
 }, '---', {
@@ -7068,7 +7006,7 @@ var LAYER_ITEMS = [['back', 'behind'], ['front', 'in front of']];
  * @type {object}
  */
 var MENUS = {
-  // a slot of a pattern: a sound can be chosen, and a pattern block can be put in
+  // a sound of seq, stack and cat: a drum, a note or a rest, or a value block such as the items of a list
   sound: {
     acceptReporters: true,
     items: [].concat(_toConsumableArray(DRUM_ITEMS.map(function (item) {
@@ -7079,15 +7017,26 @@ var MENUS = {
       return item.concat('sound');
     })))
   },
+  // the first sound of a track, or the sound of notes
+  sName: {
+    acceptReporters: true,
+    items: [].concat(_toConsumableArray(DRUM_ITEMS.map(function (item) {
+      return item.concat('drum');
+    })), _toConsumableArray(SYNTH_ITEMS.map(function (item) {
+      return item.concat('synth');
+    })), _toConsumableArray(REST_ITEMS.map(function (item) {
+      return item.concat('sound');
+    })))
+  },
+  note: {
+    acceptReporters: true,
+    group: 'note',
+    items: NOTE_ITEMS
+  },
   drumField: {
     acceptReporters: false,
     group: 'drum',
     items: DRUM_ITEMS
-  },
-  synth: {
-    acceptReporters: true,
-    group: 'synth',
-    items: SYNTH_ITEMS
   },
   level: {
     acceptReporters: false,
@@ -20444,9 +20393,11 @@ var ExtensionBlocks = /*#__PURE__*/function () {
           default: block.text,
           description: "text of the block \"".concat(block.opcode, "\"")
         }),
-        hideFromPalette: !!block.hidden || block.level > this.level
+        hideFromPalette: !!block.hidden || block.level > this.level || typeof block.maxLevel === 'number' && this.level > block.maxLevel
       });
       delete info.level;
+      delete info.maxLevel;
+      delete info.inTrack;
       delete info.hidden;
       return info;
     }
@@ -20518,11 +20469,39 @@ var ExtensionBlocks = /*#__PURE__*/function () {
       var level = Math.round(Cast.toNumber(args.LEVEL));
       if (level >= LEVEL.BEGINNER && level <= LEVEL.MASTER) this.changeLevel(level);
     }
+
+    /**
+     * The C block of a track. The blocks in it build the pattern from the top, then the track plays it.
+     * The branch runs as a loop of one time, so that this block runs again after the branch.
+     * @param {object} args - TRACK
+     * @param {object} util - utility of the block
+     * @returns {?Promise} - a promise which is resolved when the track starts
+     */
   }, {
-    key: "playTrack",
-    value: function playTrack(args) {
+    key: "track",
+    value: function track(args, util) {
+      var frame = util.stackFrame;
+      if (!frame.strudelTrack) {
+        frame.strudelTrack = {
+          node: null
+        };
+        util.startBranch(1, true);
+        return;
+      }
+      var n = frame.strudelTrack.node || silenceNode();
+      delete frame.strudelTrack;
+      return this.playNode(Cast.toString(args.TRACK), n);
+    }
+
+    /**
+     * @param {string} track - track name
+     * @param {object} n - pattern node
+     * @returns {?Promise} - a promise which is resolved when the track starts
+     */
+  }, {
+    key: "playNode",
+    value: function playNode(track, n) {
       var _this3 = this;
-      var n = toNode(args.PATTERN) || silenceNode();
       var pattern;
       try {
         pattern = compile(n);
@@ -20530,7 +20509,6 @@ var ExtensionBlocks = /*#__PURE__*/function () {
         console.warn('[strudel]', e);
         return;
       }
-      var track = Cast.toString(args.TRACK);
       var code = _toCode(n);
       this.trackCodes.set(track, code);
       if (_usesMethod(n, 'trancegate')) this.trackFills.add(track);else this.trackFills.delete(track);
@@ -20600,35 +20578,371 @@ var ExtensionBlocks = /*#__PURE__*/function () {
     value: function setBeatsPerCycle(args) {
       this.engine.setBeatsPerCycle(Math.round(clamp(args.BEATS, 1, 16)));
     }
+
+    /**
+     * The track which a block is in. Frames of the thread are searched from the innermost,
+     * so that the blocks in a custom block which is used in the C block also work.
+     * @param {object} util - utility of the block
+     * @returns {?object} - {node} of the track, or null outside the C block
+     */
   }, {
-    key: "sequence",
-    value: function sequence(args) {
-      return callNode('seq', [args.A, args.B, args.C, args.D]);
+    key: "trackOf",
+    value: function trackOf(util) {
+      var frames = util && util.thread && util.thread.stackFrames;
+      if (!frames) return null;
+      for (var i = frames.length - 1; i >= 0; i--) {
+        var context = frames[i].executionContext;
+        if (context && context.strudelTrack) return context.strudelTrack;
+      }
+      return null;
+    }
+
+    /**
+     * Start the pattern of the track. A later start takes the place of the earlier one.
+     * @param {object} util - utility of the block
+     * @param {Function} make - function which returns the first node
+     */
+  }, {
+    key: "startWith",
+    value: function startWith(util, make) {
+      var track = this.trackOf(util);
+      if (track) track.node = make();
+    }
+
+    /**
+     * Add a method to the pattern of the track, as `.fast(2)` in Strudel.
+     * @param {object} util - utility of the block
+     * @param {Function} make - function which takes the node so far and returns the new node
+     */
+  }, {
+    key: "chain",
+    value: function chain(util, make) {
+      var track = this.trackOf(util);
+      if (track) track.node = make(track.node || silenceNode());
+    }
+
+    /**
+     * s() at the top of a track starts the pattern with sounds, and .s() below sets the sound of notes.
+     * @param {*} value - sounds
+     * @param {object} util - utility of the block
+     */
+  }, {
+    key: "sound",
+    value: function sound(value, util) {
+      var track = this.trackOf(util);
+      if (!track) return;
+      var code = Cast.toString(value).trim();
+      if (track.node) {
+        // a rest or an empty text, such as an empty list, does not change the sound of notes
+        if (code && code !== '~') track.node = methodNode(track.node, 's', [code]);
+        return;
+      }
+      // an empty text, such as an empty list, is a rest
+      track.node = code && code !== '~' ? miniNode(code, 's') : silenceNode();
     }
   }, {
-    key: "together",
-    value: function together(args) {
-      return callNode('stack', [args.A, args.B]);
+    key: "sMenu",
+    value: function sMenu(args, util) {
+      this.sound(args.SOUND, util);
     }
   }, {
-    key: "alternate",
-    value: function alternate(args) {
-      return callNode('cat', [args.A, args.B]);
+    key: "s",
+    value: function s(args, util) {
+      this.sound(args.CODE, util);
+    }
+
+    /**
+     * @param {*} value - notes
+     * @param {object} util - utility of the block
+     */
+  }, {
+    key: "notes",
+    value: function notes(value, util) {
+      var code = Cast.toString(value).trim();
+      this.startWith(util, function () {
+        return code && code !== '~' ? miniNode(code, 'note') : silenceNode();
+      });
     }
   }, {
-    key: "repeat",
-    value: function repeat(args) {
-      return methodNode(args.PATTERN, 'fast', [clamp(args.TIMES, 0, LIMIT.MODIFIER)]);
+    key: "noteMenu",
+    value: function noteMenu(args, util) {
+      this.notes(args.NOTE, util);
+    }
+  }, {
+    key: "note",
+    value: function note(args, util) {
+      this.notes(args.CODE, util);
+    }
+  }, {
+    key: "n",
+    value: function n(args, util) {
+      // the random steps block is put in as steps
+      if (isNode(args.CODE)) {
+        this.startWith(util, function () {
+          return _asSteps(args.CODE);
+        });
+        return;
+      }
+      var code = Cast.toString(args.CODE).trim();
+      this.startWith(util, function () {
+        return code ? miniNode(code, 'n') : silenceNode();
+      });
+    }
+  }, {
+    key: "seq",
+    value: function seq(args, util) {
+      this.startWith(util, function () {
+        return callNode('seq', [args.A, args.B, args.C, args.D]);
+      });
+    }
+  }, {
+    key: "stack",
+    value: function stack(args, util) {
+      this.startWith(util, function () {
+        return callNode('stack', [args.A, args.B]);
+      });
+    }
+  }, {
+    key: "cat",
+    value: function cat(args, util) {
+      this.startWith(util, function () {
+        return callNode('cat', [args.A, args.B]);
+      });
+    }
+  }, {
+    key: "spriteSound",
+    value: function spriteSound(args, util) {
+      if (!this.trackOf(util)) return;
+      var name = Cast.toString(args.SOUND);
+      var sprite = util.target && util.target.sprite;
+      var sound = sprite && sprite.sounds.find(function (s) {
+        return s.name === name;
+      });
+      var sample = this.spriteSounds.register(sound);
+      if (!sample) {
+        // the block keeps the old name when the sound is renamed
+        console.warn("[strudel] the sprite has no sound \"".concat(name, "\""));
+      }
+      this.startWith(util, function () {
+        return sample ? miniNode(sample, 's') : silenceNode();
+      });
+    }
+  }, {
+    key: "chord",
+    value: function chord(args, util) {
+      var intervals = own(CHORDS$4, Cast.toString(args.CHORD)) || CHORDS$4.major;
+      var root;
+      try {
+        root = gt$1(Cast.toString(args.ROOT));
+      } catch (e) {
+        root = 60;
+      }
+      this.startWith(util, function () {
+        return miniNode("[".concat(intervals.map(function (i) {
+          return midiToName(root + i);
+        }).join(','), "]"), 'note');
+      });
+    }
+  }, {
+    key: "fast",
+    value: function fast(args, util) {
+      this.chain(util, function (n) {
+        return methodNode(n, 'fast', [clamp(args.TIMES, 0, LIMIT.MODIFIER)]);
+      });
     }
   }, {
     key: "slow",
-    value: function slow(args) {
-      return methodNode(args.PATTERN, 'slow', [clamp(args.CYCLES, 0.01, LIMIT.SLOW)]);
+    value: function slow(args, util) {
+      this.chain(util, function (n) {
+        return methodNode(n, 'slow', [clamp(args.CYCLES, 0.01, LIMIT.SLOW)]);
+      });
     }
   }, {
-    key: "tone",
-    value: function tone(args) {
-      return methodNode(args.PATTERN, 's', [Cast.toString(args.SYNTH)]);
+    key: "scale",
+    value: function scale(args, util) {
+      this.chain(util, function (n) {
+        return methodNode(n, 'scale', ["".concat(Cast.toString(args.ROOT), ":").concat(Cast.toString(args.SCALE))]);
+      });
+    }
+  }, {
+    key: "struct",
+    value: function struct(args, util) {
+      this.chain(util, function (n) {
+        return methodNode(n, 'struct', [Cast.toString(args.RHYTHM).trim()]);
+      });
+    }
+  }, {
+    key: "bank",
+    value: function bank(args, util) {
+      this.chain(util, function (n) {
+        return methodNode(n, 'bank', [Cast.toString(args.MACHINE)]);
+      });
+    }
+  }, {
+    key: "effect",
+    value: function effect(args, util) {
+      var _this4 = this;
+      this.chain(util, function (n) {
+        return _this4.effectOf(n, Cast.toString(args.EFFECT), args.VALUE);
+      });
+    }
+
+    /**
+     * @param {object} n - node so far
+     * @param {string} fn - effect name
+     * @param {*} value - value, or a signal from the wave block
+     * @returns {object} - node with the effect, or the same node for an unknown effect
+     */
+  }, {
+    key: "effectOf",
+    value: function effectOf(n, fn, value) {
+      if (!Object.prototype.hasOwnProperty.call(EFFECTS, fn)) return n;
+      var range = EFFECTS[fn];
+      if (isSignal(value)) {
+        if (!range) return n;
+        var min = clamp(value.min, range[0], range[1]);
+        var max = clamp(value.max, range[0], range[1]);
+        return methodNode(n, fn, [signalArg(value.signal, min, max, value.cycles)]);
+      }
+      var raw = Cast.toString(value).trim();
+      // a plain number is kept in the range, a pattern such as "<300 2000>" is checked when it plays
+      var v = range && /^-?\d+(\.\d+)?$/.test(raw) ? clamp(raw, range[0], range[1]) : raw;
+      if (fn === 'orbit' && typeof v === 'number') v = Math.round(v);
+      // distortion makes a sound much louder, so it is turned down
+      if (fn === 'distort') return methodNode(methodNode(n, fn, [v]), 'distortvol', [0.3]);
+      return methodNode(n, fn, [v]);
+    }
+  }, {
+    key: "add",
+    value: function add(args, util) {
+      var raw = Cast.toString(args.VALUE).trim();
+      var value = /^-?\d+(\.\d+)?$/.test(raw) ? clamp(raw, -48, 48) : raw;
+      this.chain(util, function (n) {
+        return methodNode(n, 'add', [value]);
+      });
+    }
+  }, {
+    key: "rev",
+    value: function rev(args, util) {
+      this.chain(util, function (n) {
+        return methodNode(n, 'rev', []);
+      });
+    }
+  }, {
+    key: "ply",
+    value: function ply(args, util) {
+      this.chain(util, function (n) {
+        return methodNode(n, 'ply', [Math.round(clamp(args.TIMES, 1, 8))]);
+      });
+    }
+  }, {
+    key: "every",
+    value: function every(args, util) {
+      var transform = this.transformOf(args.TRANSFORM);
+      this.chain(util, function (n) {
+        return methodNode(n, 'every', [Math.round(clamp(args.CYCLES, 1, 16)), transform]);
+      });
+    }
+  }, {
+    key: "degradeBy",
+    value: function degradeBy(args, util) {
+      this.chain(util, function (n) {
+        return methodNode(n, 'degradeBy', [clamp(args.PERCENT, 0, 100) / 100]);
+      });
+    }
+
+    /**
+     * @param {*} value - menu value of a transform
+     * @returns {object} - transform
+     */
+  }, {
+    key: "transformOf",
+    value: function transformOf(value) {
+      return own(TRANSFORMS$1, Cast.toString(value)) || TRANSFORMS$1.rev;
+    }
+  }, {
+    key: "sometimes",
+    value: function sometimes(args, util) {
+      var _this5 = this;
+      this.chain(util, function (n) {
+        return methodNode(n, 'sometimes', [_this5.transformOf(args.TRANSFORM)]);
+      });
+    }
+  }, {
+    key: "euclid",
+    value: function euclid(args, util) {
+      var steps = Math.round(clamp(args.STEPS, 1, LIMIT.MODIFIER));
+      var pulses = Math.round(clamp(args.PULSES, 1, steps));
+      this.chain(util, function (n) {
+        return methodNode(n, 'euclid', [pulses, steps]);
+      });
+    }
+  }, {
+    key: "jux",
+    value: function jux(args, util) {
+      var _this6 = this;
+      this.chain(util, function (n) {
+        return methodNode(n, 'jux', [_this6.transformOf(args.TRANSFORM)]);
+      });
+    }
+  }, {
+    key: "off",
+    value: function off(args, util) {
+      var _this7 = this;
+      this.chain(util, function (n) {
+        return methodNode(n, 'off', [clamp(args.TIME, 0, 1), _this7.transformOf(args.TRANSFORM)]);
+      });
+    }
+  }, {
+    key: "superimpose",
+    value: function superimpose(args, util) {
+      var _this8 = this;
+      this.chain(util, function (n) {
+        return methodNode(n, 'superimpose', [_this8.transformOf(args.TRANSFORM)]);
+      });
+    }
+  }, {
+    key: "chop",
+    value: function chop(args, util) {
+      this.chain(util, function (n) {
+        return methodNode(n, 'chop', [Math.round(clamp(args.PIECES, 1, 16))]);
+      });
+    }
+  }, {
+    key: "transpose",
+    value: function transpose(args, util) {
+      this.chain(util, function (n) {
+        return methodNode(n, 'transpose', [Math.round(clamp(args.SEMITONES, -24, 24))]);
+      });
+    }
+  }, {
+    key: "arp",
+    value: function arp(args, util) {
+      this.chain(util, function (n) {
+        return methodNode(n, 'arp', [Cast.toString(args.ORDER).trim() || '0']);
+      });
+    }
+  }, {
+    key: "acidenv",
+    value: function acidenv(args, util) {
+      // a TB-303 like sound: a sawtooth through a low pass filter which opens and closes on each note
+      var amount = clamp(args.AMOUNT, 0, 1);
+      this.chain(util, function (n) {
+        n = methodNode(n, 's', ['sawtooth']);
+        n = methodNode(n, 'lpf', [100]);
+        n = methodNode(n, 'lpenv', [Math.round(amount * 9 * 1000) / 1000]);
+        n = methodNode(n, 'lps', [0.2]);
+        n = methodNode(n, 'lpd', [0.12]);
+        return methodNode(n, 'lpq', [2]);
+      });
+    }
+  }, {
+    key: "trancegate",
+    value: function trancegate(args, util) {
+      var gate = [clamp(args.DENSITY, 0, 1), Math.round(clamp(args.SEED, 0, 1000)), Math.round(clamp(args.LENGTH, 1, 16))];
+      this.chain(util, function (n) {
+        return methodNode(n, 'trancegate', gate);
+      });
     }
 
     /**
@@ -20637,14 +20951,14 @@ var ExtensionBlocks = /*#__PURE__*/function () {
   }, {
     key: "connectHats",
     value: function connectHats() {
-      var _this4 = this;
+      var _this9 = this;
       var engine = this.engine;
       if (engine.onBeat) return;
       engine.onBeat = function () {
-        return _this4.runtime.startHats("".concat(EXTENSION_ID, "_whenBeat"));
+        return _this9.runtime.startHats("".concat(EXTENSION_ID, "_whenBeat"));
       };
       engine.onSound = function (value) {
-        if (value && value.s) _this4.runtime.startHats("".concat(EXTENSION_ID, "_whenSound"), {
+        if (value && value.s) _this9.runtime.startHats("".concat(EXTENSION_ID, "_whenSound"), {
           DRUM: String(value.s)
         });
       };
@@ -20732,134 +21046,11 @@ var ExtensionBlocks = /*#__PURE__*/function () {
       }
     }
   }, {
-    key: "rhythm",
-    value: function rhythm(args) {
-      return methodNode(args.PATTERN, 'struct', [Cast.toString(args.RHYTHM).trim()]);
-    }
-  }, {
-    key: "miniSound",
-    value: function miniSound(args) {
-      var code = Cast.toString(args.CODE);
-      // an empty text, such as an empty list, is a rest
-      return code.trim() ? miniNode(code, 's') : silenceNode();
-    }
-  }, {
-    key: "miniNote",
-    value: function miniNote(args) {
-      var code = Cast.toString(args.CODE);
-      return code.trim() ? miniNode(code, 'note') : silenceNode();
-    }
-  }, {
-    key: "scaleNotes",
-    value: function scaleNotes(args) {
-      // a pattern block in the steps, such as the add block, is read as steps
-      var steps = isNode(args.STEPS) ? _asSteps(args.STEPS) : miniNode(Cast.toString(args.STEPS), 'n');
-      return methodNode(steps, 'scale', ["".concat(Cast.toString(args.ROOT), ":").concat(Cast.toString(args.SCALE))]);
-    }
-  }, {
-    key: "addNotes",
-    value: function addNotes(args) {
-      var raw = Cast.toString(args.VALUE).trim();
-      var value = /^-?\d+(\.\d+)?$/.test(raw) ? clamp(raw, -48, 48) : raw;
-      return methodNode(args.PATTERN, 'add', [value]);
-    }
-  }, {
-    key: "superimpose",
-    value: function superimpose(args) {
-      return methodNode(args.PATTERN, 'superimpose', [this.transformOf(args.TRANSFORM)]);
-    }
-  }, {
-    key: "acid",
-    value: function acid(args) {
-      // a TB-303 like sound: a sawtooth through a low pass filter which opens and closes on each note
-      var amount = clamp(args.AMOUNT, 0, 1);
-      var n = methodNode(args.PATTERN, 's', ['sawtooth']);
-      n = methodNode(n, 'lpf', [100]);
-      n = methodNode(n, 'lpenv', [Math.round(amount * 9 * 1000) / 1000]);
-      n = methodNode(n, 'lps', [0.2]);
-      n = methodNode(n, 'lpd', [0.12]);
-      return methodNode(n, 'lpq', [2]);
-    }
-  }, {
-    key: "duck",
-    value: function duck(args) {
-      // the pattern plays on orbit 2 and ducks orbit 1, where the other tracks play by default
-      var n = methodNode(args.PATTERN, 'orbit', [2]);
-      n = methodNode(n, 'duckorbit', [1]);
-      n = methodNode(n, 'duckattack', [0.2]);
-      return methodNode(n, 'duckdepth', [clamp(args.DEPTH, 0, 1)]);
-    }
-  }, {
-    key: "trancegate",
-    value: function trancegate(args) {
-      return methodNode(args.PATTERN, 'trancegate', [clamp(args.DENSITY, 0, 1), Math.round(clamp(args.SEED, 0, 1000)), Math.round(clamp(args.LENGTH, 1, 16))]);
-    }
-  }, {
-    key: "spriteSound",
-    value: function spriteSound(args, util) {
-      var name = Cast.toString(args.SOUND);
-      var sprite = util && util.target && util.target.sprite;
-      var sound = sprite && sprite.sounds.find(function (s) {
-        return s.name === name;
-      });
-      var sample = this.spriteSounds.register(sound);
-      if (!sample) {
-        // the block keeps the old name when the sound is renamed
-        console.warn("[strudel] the sprite has no sound \"".concat(name, "\""));
-        return silenceNode();
-      }
-      return miniNode(sample, 's');
-    }
-  }, {
-    key: "effect",
-    value: function effect(args) {
-      var fn = Cast.toString(args.EFFECT);
-      if (!Object.prototype.hasOwnProperty.call(EFFECTS, fn)) {
-        return toNode(args.PATTERN) || silenceNode();
-      }
-      var range = EFFECTS[fn];
-      if (isSignal(args.VALUE)) {
-        if (!range) return toNode(args.PATTERN) || silenceNode();
-        var v = args.VALUE;
-        var min = clamp(v.min, range[0], range[1]);
-        var max = clamp(v.max, range[0], range[1]);
-        return methodNode(args.PATTERN, fn, [signalArg(v.signal, min, max, v.cycles)]);
-      }
-      var raw = Cast.toString(args.VALUE).trim();
-      // a plain number is kept in the range, a pattern such as "<300 2000>" is checked when it plays
-      var value = range && /^-?\d+(\.\d+)?$/.test(raw) ? clamp(raw, range[0], range[1]) : raw;
-      if (fn === 'orbit' && typeof value === 'number') value = Math.round(value);
-      // distortion makes a sound much louder, so it is turned down
-      if (fn === 'distort') return methodNode(methodNode(args.PATTERN, fn, [value]), 'distortvol', [0.3]);
-      return methodNode(args.PATTERN, fn, [value]);
-    }
-  }, {
-    key: "drumMachine",
-    value: function drumMachine(args) {
-      return methodNode(args.PATTERN, 'bank', [Cast.toString(args.MACHINE)]);
-    }
-  }, {
     key: "loadSamples",
     value: function loadSamples(args) {
       return this.loadBank(Cast.toString(args.BANK)).catch(function (e) {
         return console.warn('[strudel]', e);
       });
-    }
-  }, {
-    key: "reverse",
-    value: function reverse(args) {
-      return methodNode(args.PATTERN, 'rev', []);
-    }
-  }, {
-    key: "ply",
-    value: function ply(args) {
-      return methodNode(args.PATTERN, 'ply', [Math.round(clamp(args.TIMES, 1, 8))]);
-    }
-  }, {
-    key: "every",
-    value: function every(args) {
-      var transform = this.transformOf(args.TRANSFORM);
-      return methodNode(args.PATTERN, 'every', [Math.round(clamp(args.CYCLES, 1, 16)), transform]);
     }
   }, {
     key: "wave",
@@ -20874,72 +21065,6 @@ var ExtensionBlocks = /*#__PURE__*/function () {
       var max = Math.round(clamp(args.MAX, -48, 48));
       return randomNode(Math.min(min, max), Math.max(min, max), Math.round(clamp(args.STEPS, 1, LIMIT.MODIFIER)), Math.round(clamp(args.SEED, 0, 1000)), Math.round(clamp(args.LENGTH, 1, 16)));
     }
-  }, {
-    key: "degrade",
-    value: function degrade(args) {
-      return methodNode(args.PATTERN, 'degradeBy', [clamp(args.PERCENT, 0, 100) / 100]);
-    }
-
-    /**
-     * @param {*} value - menu value of a transform
-     * @returns {object} - transform
-     */
-  }, {
-    key: "transformOf",
-    value: function transformOf(value) {
-      return own(TRANSFORMS$1, Cast.toString(value)) || TRANSFORMS$1.rev;
-    }
-  }, {
-    key: "sometimes",
-    value: function sometimes(args) {
-      return methodNode(args.PATTERN, 'sometimes', [this.transformOf(args.TRANSFORM)]);
-    }
-  }, {
-    key: "euclid",
-    value: function euclid(args) {
-      var steps = Math.round(clamp(args.STEPS, 1, LIMIT.MODIFIER));
-      var pulses = Math.round(clamp(args.PULSES, 1, steps));
-      return methodNode(args.PATTERN, 'euclid', [pulses, steps]);
-    }
-  }, {
-    key: "jux",
-    value: function jux(args) {
-      return methodNode(args.PATTERN, 'jux', [this.transformOf(args.TRANSFORM)]);
-    }
-  }, {
-    key: "off",
-    value: function off(args) {
-      return methodNode(args.PATTERN, 'off', [clamp(args.TIME, 0, 1), this.transformOf(args.TRANSFORM)]);
-    }
-  }, {
-    key: "chop",
-    value: function chop(args) {
-      return methodNode(args.PATTERN, 'chop', [Math.round(clamp(args.PIECES, 1, 16))]);
-    }
-  }, {
-    key: "transpose",
-    value: function transpose(args) {
-      return methodNode(args.PATTERN, 'transpose', [Math.round(clamp(args.SEMITONES, -24, 24))]);
-    }
-  }, {
-    key: "chord",
-    value: function chord(args) {
-      var intervals = own(CHORDS$4, Cast.toString(args.CHORD)) || CHORDS$4.major;
-      var root;
-      try {
-        root = gt$1(Cast.toString(args.ROOT));
-      } catch (e) {
-        root = 60;
-      }
-      return miniNode("[".concat(intervals.map(function (i) {
-        return midiToName(root + i);
-      }).join(','), "]"), 'note');
-    }
-  }, {
-    key: "arp",
-    value: function arp(args) {
-      return methodNode(args.PATTERN, 'arp', [Cast.toString(args.ORDER).trim() || '0']);
-    }
 
     /**
      * @returns {string} - Strudel code which plays all tracks
@@ -20947,7 +21072,7 @@ var ExtensionBlocks = /*#__PURE__*/function () {
   }, {
     key: "strudelCode",
     value: function strudelCode() {
-      var _this5 = this;
+      var _this0 = this;
       var engine = this._engine;
       var cpm = engine ? engine.bpm / engine.beatsPerCycle : 30;
       var lines = ["setcpm(".concat(Math.round(cpm * 1000) / 1000, ")")];
@@ -20967,7 +21092,7 @@ var ExtensionBlocks = /*#__PURE__*/function () {
       });
       if (!this.trackCodes.size) lines.push(NO_TRACK_COMMENT);
       if (Array.from(this.trackCodes.keys()).some(function (track) {
-        return _this5.trackFills.has(track);
+        return _this0.trackFills.has(track);
       })) {
         // the trance gate block uses this function, which is not in Strudel
         lines.splice(1, 0, '// fillGaps: stretch each sound to the next one (for the trance gate)', FILL_GAPS_CODE);
@@ -20993,19 +21118,19 @@ var ExtensionBlocks = /*#__PURE__*/function () {
   }, {
     key: "makeDrawer",
     value: function makeDrawer(kind) {
-      var _this6 = this;
+      var _this1 = this;
       if (kind === 'pianoroll' || kind === 'punchcard') {
         return pianorollDrawer(function () {
-          return _this6._engine && _this6._engine.scheduler.started ? _this6._engine.pattern : null;
+          return _this1._engine && _this1._engine.scheduler.started ? _this1._engine.pattern : null;
         }, function () {
-          return _this6._engine.now();
+          return _this1._engine.now();
         }, kind === 'punchcard' ? VIEW.PUNCHCARD : VIEW.PIANOROLL);
       }
       var makeDraw = kind === 'spectrum' ? spectrumDrawer : scopeDrawer;
       var analyser = null;
       var draw = null;
       return function (ctx, width, height) {
-        var current = _this6._engine && _this6._engine.analyser;
+        var current = _this1._engine && _this1._engine.analyser;
         if (!current) return;
         if (current !== analyser) {
           analyser = current;

@@ -39,8 +39,8 @@ export const WORDS = {
         'Add parts with keys 1-5. Q-T stop them, 0 stops everything.',
     '1〜6 キーで パートを ふやそう。7 で ポンピング、1 で もとの キック。スペースで ドロップ、0 で とめる':
         'Add parts with keys 1-6. 7 pumps, 1 is the plain kick. Space drops, 0 stops.',
-    '「音」タブで 声を 録音して、▼ で えらんでね。1〜5 キーで ためそう、0 で とめる':
-        'Record your voice in the Sounds tab and choose it with ▼. Try keys 1-5, 0 stops.',
+    '「音」タブで 声を 録音して、▼ で えらんでね。1〜4 キーで ためそう、0 で とめる':
+        'Record your voice in the Sounds tab and choose it with ▼. Try keys 1-4, 0 stops.',
     'スペース・↑・↓ キーで メロディが かわるよ。R キーで ひびきが つくよ。':
         'Space, up and down change the melody. R adds reverb.',
     'スライダーで ベースの フィルターを うごかそう。':
@@ -59,8 +59,8 @@ export const WORDS = {
         'When they are different, it updates the note and plays the bass again.',
     'らんすうを スケールの ばんごうに すると、\nいつも スケールの なかの おとに なるよ。':
         'Random numbers as steps of a scale\nalways make notes in the scale.',
-    'みどりの はたを おすと、ドラムと メロディが なるよ。\n「じゅんばんに」の ▼ で おとを かえてみよう。':
-        'Click the green flag to play the drums and the melody.\nChange the sounds with ▼ of "in order".',
+    'みどりの はたを おすと、ドラムと メロディが なるよ。\n「seq」の ▼ で おとを かえてみよう。':
+        'Click the green flag to play the drums and the melody.\nChange the sounds with ▼ of "seq".',
     'はくが くるたびに コスチュームを かえて おどるよ。':
         'The cat dances by changing its costume on every beat.',
     'バスドラムが なると すこし おおきくなるよ。':
